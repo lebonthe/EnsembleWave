@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--What's New-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="EnsembleWave" customModuleProvider="target" sceneMemberID="viewController">
@@ -19,11 +19,11 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="nen-Hl-88E"/>
+                    <navigationItem key="navigationItem" title="What's New" id="nen-Hl-88E"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1961" y="-992"/>
+            <point key="canvasLocation" x="1960" y="-1265"/>
         </scene>
         <!--What's New-->
         <scene sceneID="RIy-lv-nrx">
@@ -42,9 +42,9 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QyR-1D-kBW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1034" y="-992"/>
+            <point key="canvasLocation" x="1033" y="-1265"/>
         </scene>
-        <!--View Controller-->
+        <!--EnsembleWave-->
         <scene sceneID="73j-EX-HXA">
             <objects>
                 <viewController id="7sg-2u-88a" sceneMemberID="viewController">
@@ -54,7 +54,7 @@
                         <viewLayoutGuide key="safeArea" id="MSc-ti-cw2"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="ykK-Sj-9SH"/>
+                    <navigationItem key="navigationItem" title="EnsembleWave" id="ykK-Sj-9SH"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rhH-e0-qmO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -66,6 +66,7 @@
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="OkQ-zr-1m8" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="HRE-Ed-ZpL">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
@@ -98,7 +99,7 @@
             </objects>
             <point key="canvasLocation" x="1033" y="-27"/>
         </scene>
-        <!--View Controller-->
+        <!--Profile-->
         <scene sceneID="d5M-hT-SvR">
             <objects>
                 <viewController id="jvn-CK-f7R" sceneMemberID="viewController">
@@ -108,11 +109,11 @@
                         <viewLayoutGuide key="safeArea" id="oWT-TE-v8z"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="XWP-ml-Xll"/>
+                    <navigationItem key="navigationItem" title="Profile" id="XWP-ml-Xll"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BXK-ay-bx2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1962.5954198473282" y="778.87323943661977"/>
+            <point key="canvasLocation" x="1960" y="1101"/>
         </scene>
         <!--Profile-->
         <scene sceneID="RPP-N4-Aye">
@@ -131,7 +132,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u2F-Ue-0eT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1035.8778625954199" y="778.87323943661977"/>
+            <point key="canvasLocation" x="1033" y="1101"/>
         </scene>
     </scenes>
     <resources>
