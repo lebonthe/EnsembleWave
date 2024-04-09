@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		9F007E672BC5107C00C22E5E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F007E662BC5107C00C22E5E /* AppDelegate.swift */; };
 		9F007E692BC5107C00C22E5E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F007E682BC5107C00C22E5E /* SceneDelegate.swift */; };
-		9F007E6B2BC5107C00C22E5E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F007E6A2BC5107C00C22E5E /* ViewController.swift */; };
 		9F007E6E2BC5107C00C22E5E /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 9F007E6D2BC5107C00C22E5E /* Base */; };
 		9F007E712BC5107C00C22E5E /* EnsembleWave.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9F007E6F2BC5107C00C22E5E /* EnsembleWave.xcdatamodeld */; };
 		9F007E732BC5107E00C22E5E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9F007E722BC5107E00C22E5E /* Assets.xcassets */; };
@@ -17,6 +16,11 @@
 		9F007E812BC5107E00C22E5E /* EnsembleWaveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F007E802BC5107E00C22E5E /* EnsembleWaveTests.swift */; };
 		9F007E8B2BC5107E00C22E5E /* EnsembleWaveUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F007E8A2BC5107E00C22E5E /* EnsembleWaveUITests.swift */; };
 		9F007E8D2BC5107E00C22E5E /* EnsembleWaveUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F007E8C2BC5107E00C22E5E /* EnsembleWaveUITestsLaunchTests.swift */; };
+		9F007E9A2BC519D100C22E5E /* ChooseStyleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F007E992BC519D100C22E5E /* ChooseStyleViewController.swift */; };
+		9F007E9F2BC51AAD00C22E5E /* ChooseLengthTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F007E9E2BC51AAD00C22E5E /* ChooseLengthTableViewController.swift */; };
+		9F007EA22BC51BFC00C22E5E /* RecordingStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F007EA12BC51BFC00C22E5E /* RecordingStoryboard.storyboard */; };
+		9F007EA42BC51F7600C22E5E /* CreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F007EA32BC51F7500C22E5E /* CreateViewController.swift */; };
+		9F007EA72BC520DA00C22E5E /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F007EA62BC520DA00C22E5E /* Style.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,7 +44,6 @@
 		9F007E632BC5107C00C22E5E /* EnsembleWave.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EnsembleWave.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F007E662BC5107C00C22E5E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9F007E682BC5107C00C22E5E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		9F007E6A2BC5107C00C22E5E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		9F007E6D2BC5107C00C22E5E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9F007E702BC5107C00C22E5E /* EnsembleWave.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = EnsembleWave.xcdatamodel; sourceTree = "<group>"; };
 		9F007E722BC5107E00C22E5E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -51,6 +54,11 @@
 		9F007E862BC5107E00C22E5E /* EnsembleWaveUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EnsembleWaveUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F007E8A2BC5107E00C22E5E /* EnsembleWaveUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnsembleWaveUITests.swift; sourceTree = "<group>"; };
 		9F007E8C2BC5107E00C22E5E /* EnsembleWaveUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnsembleWaveUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		9F007E992BC519D100C22E5E /* ChooseStyleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseStyleViewController.swift; sourceTree = "<group>"; };
+		9F007E9E2BC51AAD00C22E5E /* ChooseLengthTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseLengthTableViewController.swift; sourceTree = "<group>"; };
+		9F007EA12BC51BFC00C22E5E /* RecordingStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = RecordingStoryboard.storyboard; sourceTree = "<group>"; };
+		9F007EA32BC51F7500C22E5E /* CreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateViewController.swift; sourceTree = "<group>"; };
+		9F007EA62BC520DA00C22E5E /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,8 +111,9 @@
 			children = (
 				9F007E662BC5107C00C22E5E /* AppDelegate.swift */,
 				9F007E682BC5107C00C22E5E /* SceneDelegate.swift */,
-				9F007E6A2BC5107C00C22E5E /* ViewController.swift */,
-				9F007E6C2BC5107C00C22E5E /* Main.storyboard */,
+				9F007EA52BC5205400C22E5E /* Model */,
+				9F007E9B2BC51A6200C22E5E /* Recording Page */,
+				9F007EA02BC51BB500C22E5E /* View */,
 				9F007E722BC5107E00C22E5E /* Assets.xcassets */,
 				9F007E742BC5107E00C22E5E /* LaunchScreen.storyboard */,
 				9F007E772BC5107E00C22E5E /* Info.plist */,
@@ -128,6 +137,33 @@
 				9F007E8C2BC5107E00C22E5E /* EnsembleWaveUITestsLaunchTests.swift */,
 			);
 			path = EnsembleWaveUITests;
+			sourceTree = "<group>";
+		};
+		9F007E9B2BC51A6200C22E5E /* Recording Page */ = {
+			isa = PBXGroup;
+			children = (
+				9F007E992BC519D100C22E5E /* ChooseStyleViewController.swift */,
+				9F007E9E2BC51AAD00C22E5E /* ChooseLengthTableViewController.swift */,
+				9F007EA32BC51F7500C22E5E /* CreateViewController.swift */,
+			);
+			path = "Recording Page";
+			sourceTree = "<group>";
+		};
+		9F007EA02BC51BB500C22E5E /* View */ = {
+			isa = PBXGroup;
+			children = (
+				9F007E6C2BC5107C00C22E5E /* Main.storyboard */,
+				9F007EA12BC51BFC00C22E5E /* RecordingStoryboard.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		9F007EA52BC5205400C22E5E /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				9F007EA62BC520DA00C22E5E /* Style.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -237,6 +273,7 @@
 				9F007E732BC5107E00C22E5E /* Assets.xcassets in Resources */,
 				9F007E762BC5107E00C22E5E /* Base in Resources */,
 				9F007E6E2BC5107C00C22E5E /* Base in Resources */,
+				9F007EA22BC51BFC00C22E5E /* RecordingStoryboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,9 +298,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9F007E6B2BC5107C00C22E5E /* ViewController.swift in Sources */,
+				9F007E9A2BC519D100C22E5E /* ChooseStyleViewController.swift in Sources */,
 				9F007E672BC5107C00C22E5E /* AppDelegate.swift in Sources */,
+				9F007EA42BC51F7600C22E5E /* CreateViewController.swift in Sources */,
 				9F007E692BC5107C00C22E5E /* SceneDelegate.swift in Sources */,
+				9F007E9F2BC51AAD00C22E5E /* ChooseLengthTableViewController.swift in Sources */,
+				9F007EA72BC520DA00C22E5E /* Style.swift in Sources */,
 				9F007E712BC5107C00C22E5E /* EnsembleWave.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

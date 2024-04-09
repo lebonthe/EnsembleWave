@@ -91,7 +91,7 @@
         <!--Choose Style-->
         <scene sceneID="TMv-Cs-mPC">
             <objects>
-                <viewController id="lem-M3-6Ma" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ChooseStyleViewController" id="lem-M3-6Ma" customClass="ChooseStyleViewController" customModule="EnsembleWave" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="HEP-Y1-ker">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -101,9 +101,11 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" systemColor="systemGray4Color"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled"/>
+                                <buttonConfiguration key="configuration" style="filled">
+                                    <color key="baseBackgroundColor" systemColor="systemGray4Color"/>
+                                </buttonConfiguration>
                                 <connections>
-                                    <segue destination="4KP-Xt-B6c" kind="show" id="mtm-ej-WZe"/>
+                                    <segue destination="4KP-Xt-B6c" kind="show" identifier="Style00" id="mtm-ej-WZe"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -193,7 +195,7 @@
         <!--Choose Length-->
         <scene sceneID="Ots-aF-MSe">
             <objects>
-                <tableViewController id="4KP-Xt-B6c" sceneMemberID="viewController">
+                <tableViewController id="4KP-Xt-B6c" customClass="ChooseLengthTableViewController" customModule="EnsembleWave" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="Q0Y-l6-H75">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -329,12 +331,34 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Choose Length" id="B3K-rU-t8R">
-                        <barButtonItem key="rightBarButtonItem" title="Next" id="JJq-H8-KKV"/>
+                        <barButtonItem key="rightBarButtonItem" title="Next" id="JJq-H8-KKV">
+                            <connections>
+                                <segue destination="tyf-YL-DGF" kind="show" identifier="LengthChosen" id="cRI-ce-kk1"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nfe-rS-3py" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3642" y="-27"/>
+        </scene>
+        <!--Create-->
+        <scene sceneID="cvA-LH-hhc">
+            <objects>
+                <viewController storyboardIdentifier="CreateViewController" id="tyf-YL-DGF" customClass="CreateViewController" customModule="EnsembleWave" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="qPn-bZ-lcU">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="qcK-jF-eKu"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Create" id="x7p-CF-uCW">
+                        <barButtonItem key="rightBarButtonItem" title="Share" id="nue-Eq-FsC"/>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nIe-dP-pLZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4418" y="-22"/>
         </scene>
     </scenes>
     <resources>
@@ -342,7 +366,7 @@
         <image name="music.note.list" catalog="system" width="128" height="115"/>
         <image name="person.fill" catalog="system" width="128" height="120"/>
         <namedColor name="AccentColor">
-            <color red="0.27450980392156865" green="0.45882352941176469" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
