@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -51,14 +52,57 @@
                     <view key="view" contentMode="scaleToFill" id="Nin-QJ-1Z4">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KM4-60-FKo">
+                                <rect key="frame" x="141" y="408.66666666666669" width="111" height="35"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" systemColor="systemRedColor"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="錄製新作品">
+                                    <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="baseBackgroundColor" systemColor="systemRedColor"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <segue destination="lem-M3-6Ma" kind="show" id="jav-HC-r7G"/>
+                                </connections>
+                            </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="USr-NR-ioj">
+                                <rect key="frame" x="149.66666666666666" y="338.66666666666669" width="94" height="35"/>
+                                <color key="tintColor" name="AccentColor"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="加入合奏"/>
+                            </button>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="MSc-ti-cw2"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="KM4-60-FKo" firstAttribute="top" secondItem="USr-NR-ioj" secondAttribute="bottom" constant="35" id="Jgn-dk-vVO"/>
+                            <constraint firstItem="KM4-60-FKo" firstAttribute="centerX" secondItem="Nin-QJ-1Z4" secondAttribute="centerX" id="SVT-8A-oSd"/>
+                            <constraint firstItem="KM4-60-FKo" firstAttribute="centerY" secondItem="Nin-QJ-1Z4" secondAttribute="centerY" id="Sqw-s1-3o3"/>
+                            <constraint firstItem="USr-NR-ioj" firstAttribute="centerX" secondItem="Nin-QJ-1Z4" secondAttribute="centerX" id="boM-bv-swn"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="EnsembleWave" id="ykK-Sj-9SH"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rhH-e0-qmO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2025" y="-27"/>
+        </scene>
+        <!--Choose Style-->
+        <scene sceneID="TMv-Cs-mPC">
+            <objects>
+                <viewController id="lem-M3-6Ma" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="HEP-Y1-ker">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="d12-K9-2Jr"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Choose Style" id="7Oz-h4-IiS"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5HK-KW-l65" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2830" y="-27"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="tkO-FP-Sj1">
@@ -139,8 +183,14 @@
         <image name="mic.fill" catalog="system" width="110" height="128"/>
         <image name="music.note.list" catalog="system" width="128" height="115"/>
         <image name="person.fill" catalog="system" width="128" height="120"/>
+        <namedColor name="AccentColor">
+            <color red="0.27450980392156865" green="0.45882352941176469" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
