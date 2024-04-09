@@ -95,7 +95,7 @@ class ChooseLengthTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        var row = indexPath.row
+        let row = indexPath.row
         length = lengths[row]
     }
 }

@@ -13,7 +13,7 @@
         <!--What's New-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="EnsembleWave" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -349,19 +349,56 @@
                     <view key="view" contentMode="scaleToFill" id="qPn-bZ-lcU">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Gm-ff-X0P">
+                                <rect key="frame" x="0.0" y="103" width="393" height="393"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                            </containerView>
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Hd-ny-0OA">
+                                <rect key="frame" x="0.0" y="772" width="393" height="80"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bla-Hp-QJw">
+                                        <rect key="frame" x="166.66666666666666" y="10" width="60" height="60"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="60" id="62Y-WH-1Pa"/>
+                                            <constraint firstAttribute="height" constant="60" id="Dg7-fP-ril"/>
+                                        </constraints>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="Button" image="VideoCam"/>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="Bla-Hp-QJw" firstAttribute="centerY" secondItem="8Hd-ny-0OA" secondAttribute="centerY" id="4vq-Pf-Taz"/>
+                                    <constraint firstItem="Bla-Hp-QJw" firstAttribute="centerX" secondItem="8Hd-ny-0OA" secondAttribute="centerX" id="7Un-JI-JT2"/>
+                                    <constraint firstAttribute="height" constant="80" id="UUd-Kc-5eG"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="qcK-jF-eKu"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" title="Create" id="x7p-CF-uCW">
-                        <barButtonItem key="rightBarButtonItem" title="Share" id="nue-Eq-FsC"/>
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="arrow.triangle.2.circlepath.camera" catalog="system" id="nue-Eq-FsC">
+                            <connections>
+                                <action selector="toggleCameraPosition:" destination="tyf-YL-DGF" id="Qzw-2q-p34"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="cameraButton" destination="Bla-Hp-QJw" id="qe4-5G-2S5"/>
+                        <outlet property="cameraPositionButton" destination="nue-Eq-FsC" id="N75-es-Pcv"/>
+                        <outlet property="containerView" destination="1Gm-ff-X0P" id="Z8d-X5-Dco"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nIe-dP-pLZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4418" y="-22"/>
+            <point key="canvasLocation" x="4417.5572519083971" y="-22.535211267605636"/>
         </scene>
     </scenes>
     <resources>
+        <image name="VideoCam" width="114" height="114"/>
+        <image name="arrow.triangle.2.circlepath.camera" catalog="system" width="128" height="93"/>
         <image name="mic.fill" catalog="system" width="110" height="128"/>
         <image name="music.note.list" catalog="system" width="128" height="115"/>
         <image name="person.fill" catalog="system" width="128" height="120"/>

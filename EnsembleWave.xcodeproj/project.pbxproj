@@ -203,7 +203,6 @@
 				7B04106B4663FD2EC59FFD3A /* Pods-EnsembleWaveTests.debug.xcconfig */,
 				C368520B942DA87E09E009B4 /* Pods-EnsembleWaveTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -603,6 +602,7 @@
 				DEVELOPMENT_TEAM = T4VR973TMF;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = EnsembleWave/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "請授權使用相機以開始創作";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -633,6 +633,7 @@
 				DEVELOPMENT_TEAM = T4VR973TMF;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = EnsembleWave/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "請授權使用相機以開始創作";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
