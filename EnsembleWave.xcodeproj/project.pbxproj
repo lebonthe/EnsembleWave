@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		48E0B7F14B5CBCE140A8510B /* Pods_EnsembleWaveTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5151ECB7FEFFE1A5221565F0 /* Pods_EnsembleWaveTests.framework */; };
 		9F007E672BC5107C00C22E5E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F007E662BC5107C00C22E5E /* AppDelegate.swift */; };
 		9F007E692BC5107C00C22E5E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F007E682BC5107C00C22E5E /* SceneDelegate.swift */; };
 		9F007E6E2BC5107C00C22E5E /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 9F007E6D2BC5107C00C22E5E /* Base */; };
@@ -21,6 +22,8 @@
 		9F007EA22BC51BFC00C22E5E /* RecordingStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F007EA12BC51BFC00C22E5E /* RecordingStoryboard.storyboard */; };
 		9F007EA42BC51F7600C22E5E /* CreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F007EA32BC51F7500C22E5E /* CreateViewController.swift */; };
 		9F007EA72BC520DA00C22E5E /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F007EA62BC520DA00C22E5E /* Style.swift */; };
+		B8472009B49679B5671FB722 /* Pods_EnsembleWave.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF8A4210E4C6EB1AE602BBB5 /* Pods_EnsembleWave.framework */; };
+		E05B02D0B93EF9664C522C10 /* Pods_EnsembleWave_EnsembleWaveUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D955A00B2C7036CEEACF668 /* Pods_EnsembleWave_EnsembleWaveUITests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +44,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		063D12577E3963929A1EE67B /* Pods-EnsembleWave-EnsembleWaveUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EnsembleWave-EnsembleWaveUITests.release.xcconfig"; path = "Target Support Files/Pods-EnsembleWave-EnsembleWaveUITests/Pods-EnsembleWave-EnsembleWaveUITests.release.xcconfig"; sourceTree = "<group>"; };
+		30790F7871CC76FA7424CD1C /* Pods-EnsembleWave.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EnsembleWave.debug.xcconfig"; path = "Target Support Files/Pods-EnsembleWave/Pods-EnsembleWave.debug.xcconfig"; sourceTree = "<group>"; };
+		4C818374A5D02083E8C79A73 /* Pods-EnsembleWave-EnsembleWaveUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EnsembleWave-EnsembleWaveUITests.debug.xcconfig"; path = "Target Support Files/Pods-EnsembleWave-EnsembleWaveUITests/Pods-EnsembleWave-EnsembleWaveUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		4D955A00B2C7036CEEACF668 /* Pods_EnsembleWave_EnsembleWaveUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EnsembleWave_EnsembleWaveUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5151ECB7FEFFE1A5221565F0 /* Pods_EnsembleWaveTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EnsembleWaveTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7B04106B4663FD2EC59FFD3A /* Pods-EnsembleWaveTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EnsembleWaveTests.debug.xcconfig"; path = "Target Support Files/Pods-EnsembleWaveTests/Pods-EnsembleWaveTests.debug.xcconfig"; sourceTree = "<group>"; };
+		9AFD58F0277B014F9130A7D9 /* Pods-EnsembleWave.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EnsembleWave.release.xcconfig"; path = "Target Support Files/Pods-EnsembleWave/Pods-EnsembleWave.release.xcconfig"; sourceTree = "<group>"; };
 		9F007E632BC5107C00C22E5E /* EnsembleWave.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EnsembleWave.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F007E662BC5107C00C22E5E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9F007E682BC5107C00C22E5E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -59,6 +69,8 @@
 		9F007EA12BC51BFC00C22E5E /* RecordingStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = RecordingStoryboard.storyboard; sourceTree = "<group>"; };
 		9F007EA32BC51F7500C22E5E /* CreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateViewController.swift; sourceTree = "<group>"; };
 		9F007EA62BC520DA00C22E5E /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
+		AF8A4210E4C6EB1AE602BBB5 /* Pods_EnsembleWave.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EnsembleWave.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C368520B942DA87E09E009B4 /* Pods-EnsembleWaveTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EnsembleWaveTests.release.xcconfig"; path = "Target Support Files/Pods-EnsembleWaveTests/Pods-EnsembleWaveTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +78,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8472009B49679B5671FB722 /* Pods_EnsembleWave.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -73,6 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48E0B7F14B5CBCE140A8510B /* Pods_EnsembleWaveTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,12 +94,23 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E05B02D0B93EF9664C522C10 /* Pods_EnsembleWave_EnsembleWaveUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		07EEF3A6AAD2C4B849B882B5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AF8A4210E4C6EB1AE602BBB5 /* Pods_EnsembleWave.framework */,
+				4D955A00B2C7036CEEACF668 /* Pods_EnsembleWave_EnsembleWaveUITests.framework */,
+				5151ECB7FEFFE1A5221565F0 /* Pods_EnsembleWaveTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		9F007E5A2BC5107C00C22E5E = {
 			isa = PBXGroup;
 			children = (
@@ -93,6 +118,8 @@
 				9F007E7F2BC5107E00C22E5E /* EnsembleWaveTests */,
 				9F007E892BC5107E00C22E5E /* EnsembleWaveUITests */,
 				9F007E642BC5107C00C22E5E /* Products */,
+				B0EBC735E7BBF093FF054D28 /* Pods */,
+				07EEF3A6AAD2C4B849B882B5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -166,6 +193,20 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		B0EBC735E7BBF093FF054D28 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				30790F7871CC76FA7424CD1C /* Pods-EnsembleWave.debug.xcconfig */,
+				9AFD58F0277B014F9130A7D9 /* Pods-EnsembleWave.release.xcconfig */,
+				4C818374A5D02083E8C79A73 /* Pods-EnsembleWave-EnsembleWaveUITests.debug.xcconfig */,
+				063D12577E3963929A1EE67B /* Pods-EnsembleWave-EnsembleWaveUITests.release.xcconfig */,
+				7B04106B4663FD2EC59FFD3A /* Pods-EnsembleWaveTests.debug.xcconfig */,
+				C368520B942DA87E09E009B4 /* Pods-EnsembleWaveTests.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -173,6 +214,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9F007E902BC5107E00C22E5E /* Build configuration list for PBXNativeTarget "EnsembleWave" */;
 			buildPhases = (
+				7F484ECF492E23F1106517DF /* [CP] Check Pods Manifest.lock */,
 				9F007E5F2BC5107C00C22E5E /* Sources */,
 				9F007E602BC5107C00C22E5E /* Frameworks */,
 				9F007E612BC5107C00C22E5E /* Resources */,
@@ -190,6 +232,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9F007E932BC5107E00C22E5E /* Build configuration list for PBXNativeTarget "EnsembleWaveTests" */;
 			buildPhases = (
+				DAB793F67E55C56859083547 /* [CP] Check Pods Manifest.lock */,
 				9F007E782BC5107E00C22E5E /* Sources */,
 				9F007E792BC5107E00C22E5E /* Frameworks */,
 				9F007E7A2BC5107E00C22E5E /* Resources */,
@@ -208,6 +251,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9F007E962BC5107E00C22E5E /* Build configuration list for PBXNativeTarget "EnsembleWaveUITests" */;
 			buildPhases = (
+				DD91731E5078D389426F35E2 /* [CP] Check Pods Manifest.lock */,
 				9F007E822BC5107E00C22E5E /* Sources */,
 				9F007E832BC5107E00C22E5E /* Frameworks */,
 				9F007E842BC5107E00C22E5E /* Resources */,
@@ -292,6 +336,75 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		7F484ECF492E23F1106517DF /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-EnsembleWave-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DAB793F67E55C56859083547 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-EnsembleWaveTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DD91731E5078D389426F35E2 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-EnsembleWave-EnsembleWaveUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		9F007E5F2BC5107C00C22E5E /* Sources */ = {
@@ -481,6 +594,7 @@
 		};
 		9F007E912BC5107E00C22E5E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 30790F7871CC76FA7424CD1C /* Pods-EnsembleWave.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -510,6 +624,7 @@
 		};
 		9F007E922BC5107E00C22E5E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9AFD58F0277B014F9130A7D9 /* Pods-EnsembleWave.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -539,6 +654,7 @@
 		};
 		9F007E942BC5107E00C22E5E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7B04106B4663FD2EC59FFD3A /* Pods-EnsembleWaveTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -559,6 +675,7 @@
 		};
 		9F007E952BC5107E00C22E5E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C368520B942DA87E09E009B4 /* Pods-EnsembleWaveTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -579,6 +696,7 @@
 		};
 		9F007E972BC5107E00C22E5E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4C818374A5D02083E8C79A73 /* Pods-EnsembleWave-EnsembleWaveUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -597,6 +715,7 @@
 		};
 		9F007E982BC5107E00C22E5E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 063D12577E3963929A1EE67B /* Pods-EnsembleWave-EnsembleWaveUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;

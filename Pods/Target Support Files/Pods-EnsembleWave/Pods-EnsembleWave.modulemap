@@ -1,0 +1,6 @@
+framework module Pods_EnsembleWave {
+  umbrella header "Pods-EnsembleWave-umbrella.h"
+
+  export *
+  module * { export * }
+}
