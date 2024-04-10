@@ -6,8 +6,8 @@
 //
 
 import UIKit
-import AVFoundation
-import AVKit
+import AVFoundation // 錄影
+import AVKit // 播放影像
 
 class CreateViewController: UIViewController {
 
@@ -30,6 +30,8 @@ class CreateViewController: UIViewController {
     var currentDevice: AVCaptureDevice!
     var videoFileOutput: AVCaptureMovieFileOutput!
     var cameraPreviewLayer: AVCaptureVideoPreviewLayer?
+    var isRecording = false
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -113,14 +115,45 @@ class CreateViewController: UIViewController {
     }
     
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @IBAction func capture(sender: AnyObject) {
+        if !isRecording {
+            isRecording = true
+            UIView.animate(withDuration: 0.5, delay: 0.0, options: [.repeat, .autoreverse, .allowUserInteraction], animations: { () -> Void
+                in
+                self.cameraButton.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
+            },
+                           completion: nil
+            )
+            let outputPath = NSTemporaryDirectory() + "output.mov"
+            let outputFileURL = URL(fileURLWithPath: outputPath)
+            videoFileOutput?.startRecording(to: outputFileURL, recordingDelegate: self)
+        } else {
+            isRecording = false
+            UIView.animate(withDuration: 0.5, delay: 1.0, options: [], animations: { () -> Void
+            in
+                self.cameraButton.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+            }, completion: nil)
+            cameraButton.layer.removeAllAnimations()
+            videoFileOutput?.stopRecording()
+        }
     }
-    */
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "playVideo" {
+            let videoPlayerViewController = segue.destination as! AVPlayerViewController
+            let videoFileURL = sender as! URL
+            videoPlayerViewController.player = AVPlayer(url: videoFileURL)
+        }
+    }
+}
 
+extension CreateViewController: AVCaptureFileOutputRecordingDelegate {
+    func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
+        guard error == nil else {
+            print(error ?? "")
+            return
+        }
+        
+        performSegue(withIdentifier: "playVideo", sender: outputFileURL)
+    }
 }
