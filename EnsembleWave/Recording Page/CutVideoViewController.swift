@@ -6,9 +6,8 @@
 //
 
 import UIKit
-import AVKit
 
-class CutVideoViewController: AVPlayerViewController {
+class CutVideoViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
