@@ -32,18 +32,24 @@ class CreateViewController: UIViewController {
     var cameraPreviewLayer: AVCaptureVideoPreviewLayer?
     var isRecording = false
     
+    var player: AVPlayer?
+    var playerLayer: AVPlayerLayer?
+    var replayButton = UIButton()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI(style, length)
-        
+        setupReplayButton()
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         print("view width:\(UIScreen.main.bounds.width)")
         print("containerView.frame:\(containerView.frame)")
     }
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         configure(position: .front)
     }
     func setupUI(_ style: Int, _ length: Int) {
@@ -138,12 +144,30 @@ class CreateViewController: UIViewController {
         }
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "playVideo" {
-            let videoPlayerViewController = segue.destination as! AVPlayerViewController
-            let videoFileURL = sender as! URL
-            videoPlayerViewController.player = AVPlayer(url: videoFileURL)
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "playVideo" {
+//            let videoPlayerViewController = segue.destination as! AVPlayerViewController
+//            let videoFileURL = sender as! URL
+//            videoPlayerViewController.player = AVPlayer(url: videoFileURL)
+//        }
+//    }
+    
+    func playVideo(url: URL) {
+        player = AVPlayer(url: url)
+        playerLayer = AVPlayerLayer(player: player)
+        playerLayer?.frame = containerView.bounds
+        playerLayer?.videoGravity = .resizeAspectFill
+        if let playerLayer = self.playerLayer {
+            containerView.layer.addSublayer(playerLayer)
         }
+        replayButton.isHidden = true
+        NotificationCenter.default.addObserver(self, selector: #selector(videoDidEnd), name: .AVPlayerItemDidPlayToEndTime, object: player?.currentItem)
+        player?.play()
+    }
+    
+    @objc func videoDidEnd(notification: NSNotification) {
+        replayButton.isHidden = false
+        containerView.bringSubviewToFront(replayButton)
     }
 }
 
@@ -153,7 +177,39 @@ extension CreateViewController: AVCaptureFileOutputRecordingDelegate {
             print(error ?? "")
             return
         }
+        let alertViewController = UIAlertController(title: "影片錄製成功？", message: "", preferredStyle: .alert)
+        let successAction = UIAlertAction(title: "OK", style: .default) { _ in
+//            self.performSegue(withIdentifier: "playVideo", sender: outputFileURL)
+            self.playVideo(url: outputFileURL)
+            self.setupCutting()
+        }
+        let againAction = UIAlertAction(title: "重來", style: .cancel)
+        alertViewController.addAction(successAction)
+        alertViewController.addAction(againAction)
+        present(alertViewController, animated: true)
+    }
+}
+
+extension CreateViewController {
+    func setupReplayButton() {
+        replayButton.setImage(UIImage(systemName: "play.circle"), for: .normal)
+        replayButton.addTarget(self, action: #selector(replayVideo), for: .touchUpInside)
+        containerView.addSubview(replayButton)
+        replayButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            replayButton.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+            replayButton.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
+        ])
+        replayButton.isHidden = true
+    }
+        @objc func replayVideo() {
+            if let player = player {
+                    player.seek(to: .zero)
+                    player.play()
+                    replayButton.isHidden = true
+                }
+        }
+    func setupCutting() {
         
-        performSegue(withIdentifier: "playVideo", sender: outputFileURL)
     }
 }
