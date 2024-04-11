@@ -24,6 +24,10 @@
 		9F007EA72BC520DA00C22E5E /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F007EA62BC520DA00C22E5E /* Style.swift */; };
 		9F007EA92BC5978700C22E5E /* RecordingHomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F007EA82BC5978700C22E5E /* RecordingHomePageViewController.swift */; };
 		9F007EAB2BC66E4500C22E5E /* CutVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F007EAA2BC66E4500C22E5E /* CutVideoViewController.swift */; };
+		9F99AFAF2BC796DB003671BF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9F99AFAE2BC796DB003671BF /* GoogleService-Info.plist */; };
+		9F99AFB22BC79857003671BF /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 9F99AFB12BC79857003671BF /* FirebaseAuth */; };
+		9F99AFB42BC79857003671BF /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9F99AFB32BC79857003671BF /* FirebaseFirestoreSwift */; };
+		9F99AFB62BC79857003671BF /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 9F99AFB52BC79857003671BF /* FirebaseStorage */; };
 		B8472009B49679B5671FB722 /* Pods_EnsembleWave.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF8A4210E4C6EB1AE602BBB5 /* Pods_EnsembleWave.framework */; };
 		E05B02D0B93EF9664C522C10 /* Pods_EnsembleWave_EnsembleWaveUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D955A00B2C7036CEEACF668 /* Pods_EnsembleWave_EnsembleWaveUITests.framework */; };
 /* End PBXBuildFile section */
@@ -73,6 +77,7 @@
 		9F007EA62BC520DA00C22E5E /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		9F007EA82BC5978700C22E5E /* RecordingHomePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingHomePageViewController.swift; sourceTree = "<group>"; };
 		9F007EAA2BC66E4500C22E5E /* CutVideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CutVideoViewController.swift; sourceTree = "<group>"; };
+		9F99AFAE2BC796DB003671BF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		AF8A4210E4C6EB1AE602BBB5 /* Pods_EnsembleWave.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EnsembleWave.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C368520B942DA87E09E009B4 /* Pods-EnsembleWaveTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EnsembleWaveTests.release.xcconfig"; path = "Target Support Files/Pods-EnsembleWaveTests/Pods-EnsembleWaveTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -83,6 +88,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				B8472009B49679B5671FB722 /* Pods_EnsembleWave.framework in Frameworks */,
+				9F99AFB62BC79857003671BF /* FirebaseStorage in Frameworks */,
+				9F99AFB22BC79857003671BF /* FirebaseAuth in Frameworks */,
+				9F99AFB42BC79857003671BF /* FirebaseFirestoreSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -148,6 +156,7 @@
 				9F007E722BC5107E00C22E5E /* Assets.xcassets */,
 				9F007E742BC5107E00C22E5E /* LaunchScreen.storyboard */,
 				9F007E772BC5107E00C22E5E /* Info.plist */,
+				9F99AFAE2BC796DB003671BF /* GoogleService-Info.plist */,
 				9F007E6F2BC5107C00C22E5E /* EnsembleWave.xcdatamodeld */,
 			);
 			path = EnsembleWave;
@@ -230,6 +239,11 @@
 			dependencies = (
 			);
 			name = EnsembleWave;
+			packageProductDependencies = (
+				9F99AFB12BC79857003671BF /* FirebaseAuth */,
+				9F99AFB32BC79857003671BF /* FirebaseFirestoreSwift */,
+				9F99AFB52BC79857003671BF /* FirebaseStorage */,
+			);
 			productName = EnsembleWave;
 			productReference = 9F007E632BC5107C00C22E5E /* EnsembleWave.app */;
 			productType = "com.apple.product-type.application";
@@ -304,6 +318,9 @@
 				Base,
 			);
 			mainGroup = 9F007E5A2BC5107C00C22E5E;
+			packageReferences = (
+				9F99AFB02BC79857003671BF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = 9F007E642BC5107C00C22E5E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -322,6 +339,7 @@
 			files = (
 				9F007E732BC5107E00C22E5E /* Assets.xcassets in Resources */,
 				9F007E762BC5107E00C22E5E /* Base in Resources */,
+				9F99AFAF2BC796DB003671BF /* GoogleService-Info.plist in Resources */,
 				9F007E6E2BC5107C00C22E5E /* Base in Resources */,
 				9F007EA22BC51BFC00C22E5E /* RecordingStoryboard.storyboard in Resources */,
 			);
@@ -800,6 +818,35 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9F99AFB02BC79857003671BF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.24.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9F99AFB12BC79857003671BF /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9F99AFB02BC79857003671BF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		9F99AFB32BC79857003671BF /* FirebaseFirestoreSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9F99AFB02BC79857003671BF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestoreSwift;
+		};
+		9F99AFB52BC79857003671BF /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9F99AFB02BC79857003671BF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		9F007E6F2BC5107C00C22E5E /* EnsembleWave.xcdatamodeld */ = {
