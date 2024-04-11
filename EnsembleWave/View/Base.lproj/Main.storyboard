@@ -448,16 +448,9 @@
                             <constraint firstItem="1Gm-ff-X0P" firstAttribute="trailing" secondItem="8Hd-ny-0OA" secondAttribute="trailing" constant="16" id="uru-7I-o29"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Create" id="x7p-CF-uCW">
-                        <barButtonItem key="rightBarButtonItem" title="Item" image="arrow.triangle.2.circlepath.camera" catalog="system" id="nue-Eq-FsC">
-                            <connections>
-                                <action selector="toggleCameraPosition:" destination="tyf-YL-DGF" id="Qzw-2q-p34"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Create" id="x7p-CF-uCW"/>
                     <connections>
                         <outlet property="cameraButton" destination="Bla-Hp-QJw" id="qe4-5G-2S5"/>
-                        <outlet property="cameraPositionButton" destination="nue-Eq-FsC" id="N75-es-Pcv"/>
                         <outlet property="containerView" destination="1Gm-ff-X0P" id="Z8d-X5-Dco"/>
                         <outlet property="containerViewLeadingConstraint" destination="sUu-0f-8rR" id="Pae-wo-h4Q"/>
                         <outlet property="containerViewRatio" destination="M50-sN-2ms" id="Qlq-mT-cYC"/>
@@ -466,27 +459,11 @@
                         <outlet property="postProductionView" destination="OMG-sP-MWp" id="3dX-Dp-RkM"/>
                         <outlet property="shrinkScreenButton" destination="fXX-Nn-CrJ" id="qSY-ZX-3fh"/>
                         <outlet property="stretchScreenButton" destination="BGx-Uc-Yan" id="I1f-8w-pcR"/>
-                        <segue destination="wXq-BW-M2T" kind="presentation" identifier="playVideo" id="Fe1-0q-Atk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nIe-dP-pLZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4417.5572519083971" y="-22.535211267605636"/>
-        </scene>
-        <!--Cut Video View Controller-->
-        <scene sceneID="Wqw-mS-KnQ">
-            <objects>
-                <viewController storyboardIdentifier="CutVideoViewController" id="wXq-BW-M2T" customClass="CutVideoViewController" customModule="EnsembleWave" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Wi4-eY-Xxn">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="0LW-mo-dKk"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="tyC-e8-qLv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="5164" y="-23"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
@@ -495,7 +472,6 @@
     <resources>
         <image name="VideoCam" width="114" height="114"/>
         <image name="arrow.down.forward.and.arrow.up.backward" catalog="system" width="128" height="117"/>
-        <image name="arrow.triangle.2.circlepath.camera" catalog="system" width="128" height="93"/>
         <image name="arrow.up.backward.and.arrow.down.forward" catalog="system" width="128" height="115"/>
         <image name="mic.fill" catalog="system" width="110" height="128"/>
         <image name="music.note.list" catalog="system" width="128" height="115"/>

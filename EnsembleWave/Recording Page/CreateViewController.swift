@@ -8,12 +8,12 @@
 import UIKit
 import AVFoundation // 錄影
 import AVKit // 播放影像
+import Photos // 儲存影像
 
 class CreateViewController: UIViewController {
 
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var cameraButton: UIButton!
-    @IBOutlet weak var cameraPositionButton: UIBarButtonItem!
     @IBOutlet weak var stretchScreenButton: UIButton!
     
     @IBOutlet weak var shrinkScreenButton: UIButton!
@@ -51,6 +51,7 @@ class CreateViewController: UIViewController {
     
     
     @IBOutlet weak var postProductionView: UIView!
+    var outputFileURL: URL?
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI(style, length)
@@ -77,6 +78,13 @@ class CreateViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: AVAudioSession.routeChangeNotification, object: nil)
     }
     func setupUI(_ style: Int, _ length: Int) {
+        let cameraPositionButton = UIBarButtonItem(image: UIImage(systemName: "arrow.triangle.2.circlepath.camera"), style: .plain, target: self, action: #selector(toggleCameraPosition(_:)))
+//        cameraPositionButton.image = UIImage(systemName: "arrow.triangle.2.circlepath.camera")
+//        cameraPositionButton.target = self
+//        cameraPositionButton.action = #selector(toggleCameraPosition(_:))
+        
+        self.navigationItem.rightBarButtonItem = cameraPositionButton
+        
         print("style in setupUI: \(style)")
         containerView.layer.borderColor = UIColor.black.cgColor
         containerView.layer.borderWidth = 2
@@ -203,7 +211,7 @@ class CreateViewController: UIViewController {
             self.captureSession.startRunning()
         }
     }
-    @IBAction func toggleCameraPosition(_ sender: UIBarButtonItem) {
+    @objc func toggleCameraPosition(_ sender: UIBarButtonItem) {
         isFrontCamera.toggle()
     }
     @IBAction func capture(sender: AnyObject) {
@@ -216,8 +224,10 @@ class CreateViewController: UIViewController {
                            completion: nil
             )
             let outputPath = NSTemporaryDirectory() + "output.mov"
-            let outputFileURL = URL(fileURLWithPath: outputPath)
-            videoFileOutput?.startRecording(to: outputFileURL, recordingDelegate: self)
+            outputFileURL = URL(fileURLWithPath: outputPath)
+            if let outputFileURL = outputFileURL {
+                videoFileOutput?.startRecording(to: outputFileURL, recordingDelegate: self)
+            }
         } else {
             isRecording = false
             UIView.animate(withDuration: 0.5, delay: 1.0, options: [], animations: { () -> Void
@@ -269,7 +279,6 @@ extension CreateViewController {
     func setupReplayButton() {
 //        replayButton.setImage(UIImage(systemName: "play.circle"), for: .normal)
         replayButton.setBackgroundImage(UIImage(systemName: "play.circle"), for: .normal)
-        replayButton.setImage(UIImage(systemName: "play.circle"), for: .normal)
         replayButton.addTarget(self, action: #selector(replayVideo), for: .touchUpInside)
         containerView.addSubview(replayButton)
         replayButton.translatesAutoresizingMaskIntoConstraints = false
@@ -309,7 +318,8 @@ extension CreateViewController {
         }
     }
     func setupCutting() {
-        
+        let shareButton = UIBarButtonItem(title: "分享", style: .plain, target: self, action: #selector(pushSharePage(_:)))
+        self.navigationItem.rightBarButtonItem = shareButton
     }
     func bookEarphoneState() {
         headphoneAlertLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -365,5 +375,10 @@ extension CreateViewController {
             chooseViewButtons[0].isHidden = false
             chooseViewButtons[1].isHidden = true
         }
+    }
+    @objc func pushSharePage(_ sender: UIBarButtonItem) {
+        let shareVC = ShareViewController()
+        shareVC.url = outputFileURL
+        navigationController?.pushViewController(shareVC, animated: true)
     }
 }
