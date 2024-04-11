@@ -77,7 +77,7 @@
 		9F007EA62BC520DA00C22E5E /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		9F007EA82BC5978700C22E5E /* RecordingHomePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingHomePageViewController.swift; sourceTree = "<group>"; };
 		9F007EAA2BC66E4500C22E5E /* CutVideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CutVideoViewController.swift; sourceTree = "<group>"; };
-		9F99AFB72BC7B160003671BF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		9F99AFAE2BC796DB003671BF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		AF8A4210E4C6EB1AE602BBB5 /* Pods_EnsembleWave.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EnsembleWave.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C368520B942DA87E09E009B4 /* Pods-EnsembleWaveTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EnsembleWaveTests.release.xcconfig"; path = "Target Support Files/Pods-EnsembleWaveTests/Pods-EnsembleWaveTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
