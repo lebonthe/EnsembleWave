@@ -398,6 +398,13 @@
                                     <constraint firstAttribute="height" constant="80" id="UUd-Kc-5eG"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="！未偵測到耳機，錄製期間不建議使用喇叭！" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ceN-cC-TYM">
+                                <rect key="frame" x="16" y="504" width="361" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" systemColor="systemRedColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="qcK-jF-eKu"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -423,6 +430,7 @@
                         <outlet property="containerViewLeadingConstraint" destination="sUu-0f-8rR" id="Pae-wo-h4Q"/>
                         <outlet property="containerViewRatio" destination="M50-sN-2ms" id="Qlq-mT-cYC"/>
                         <outlet property="containerViewTrailingConstraint" destination="uru-7I-o29" id="8OA-Gt-lTY"/>
+                        <outlet property="headphoneAlertLabel" destination="ceN-cC-TYM" id="z8H-qw-vxF"/>
                         <outlet property="shrinkScreenButton" destination="fXX-Nn-CrJ" id="qSY-ZX-3fh"/>
                         <outlet property="stretchScreenButton" destination="BGx-Uc-Yan" id="I1f-8w-pcR"/>
                         <segue destination="wXq-BW-M2T" kind="presentation" identifier="playVideo" id="Fe1-0q-Atk"/>
@@ -457,7 +465,7 @@
         <image name="music.note.list" catalog="system" width="128" height="115"/>
         <image name="person.fill" catalog="system" width="128" height="120"/>
         <namedColor name="AccentColor">
-            <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.79199999570846558" blue="0.15700000524520874" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

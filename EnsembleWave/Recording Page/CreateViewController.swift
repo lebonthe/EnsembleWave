@@ -39,38 +39,39 @@ class CreateViewController: UIViewController {
     var replayButton = UIButton()
     @IBOutlet private var containerViewLeadingConstraint: NSLayoutConstraint!
     @IBOutlet private var containerViewTrailingConstraint: NSLayoutConstraint!
-//    @IBOutlet private var containerViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var containerViewRatio: NSLayoutConstraint!
+    
+   
+    @IBOutlet weak var headphoneAlertLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI(style, length)
         setupReplayButton()
-        print("length: \(length)")
+        bookEarphoneState()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        print("viewDidLayoutSubviews cameraPreviewLayer?.frame,\(cameraPreviewLayer?.frame)")
+     
 }
     
     override func viewWillAppear(_ animated: Bool) {
-        print("view width:\(UIScreen.main.bounds.width)")
-        print("containerView.frame:\(containerView.frame)")
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         configure(position: .front)
-        print("viewDidAppear view width:\(UIScreen.main.bounds.width)")
-        print("viewDidAppear containerView.frame:\(containerView.frame)")
         
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: AVAudioSession.routeChangeNotification, object: nil)
     }
     func setupUI(_ style: Int, _ length: Int) {
         print("style in setupUI: \(style)")
         containerView.translatesAutoresizingMaskIntoConstraints = false
-        
-//        containerViewHeightConstraint.constant = view.bounds.width - 32
         
         if style == 0 {
             containerViewLeadingConstraint.constant = 16
@@ -128,7 +129,6 @@ class CreateViewController: UIViewController {
         containerView.layer.addSublayer(cameraPreviewLayer!)
         cameraPreviewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
         cameraPreviewLayer?.frame = containerView.layer.bounds
-        print("初始 layer:\(cameraPreviewLayer?.frame)")
         containerView.clipsToBounds = true
         DispatchQueue.global(qos: .background).async {
             self.captureSession.startRunning()
@@ -136,8 +136,6 @@ class CreateViewController: UIViewController {
     }
     @IBAction func toggleCameraPosition(_ sender: UIBarButtonItem) {
         isFrontCamera.toggle()
-        print("Camera Position Toggled!")
-        print("containerView.frame:\(containerView.frame)")
     }
     @IBAction func capture(sender: AnyObject) {
         if !isRecording {
@@ -161,14 +159,6 @@ class CreateViewController: UIViewController {
             videoFileOutput?.stopRecording()
         }
     }
-
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "playVideo" {
-//            let videoPlayerViewController = segue.destination as! AVPlayerViewController
-//            let videoFileURL = sender as! URL
-//            videoPlayerViewController.player = AVPlayer(url: videoFileURL)
-//        }
-//    }
 
     func playVideo(url: URL) {
         player = AVPlayer(url: url)
@@ -196,7 +186,6 @@ extension CreateViewController: AVCaptureFileOutputRecordingDelegate {
         }
         let alertViewController = UIAlertController(title: "影片錄製成功？", message: "", preferredStyle: .alert)
         let successAction = UIAlertAction(title: "OK", style: .default) { _ in
-//            self.performSegue(withIdentifier: "playVideo", sender: outputFileURL)
             self.playVideo(url: outputFileURL)
             self.setupCutting()
         }
@@ -237,11 +226,9 @@ extension CreateViewController {
             self.containerViewLeadingConstraint.constant = 0
             self.containerViewTrailingConstraint.constant = 0
             UIView.animate(withDuration: 0.5) {
-//                self.containerView.layoutIfNeeded()
                 self.view.layoutIfNeeded()
                 self.cameraPreviewLayer?.frame = self.containerView.layer.bounds
             }
-            print("放大 cameraPreviewLayer?.frame,\(cameraPreviewLayer?.frame)")
         } else {
             stretchScreenButton.isHidden = false
             shrinkScreenButton.isHidden = true
@@ -249,12 +236,53 @@ extension CreateViewController {
             self.containerViewTrailingConstraint.constant = -16
             UIView.animate(withDuration: 0.5) {
                 self.view.layoutIfNeeded()
-//                self.containerView.layoutIfNeeded()
             }
-            print("一般 cameraPreviewLayer?.frame,\(cameraPreviewLayer?.frame)")
         }
     }
     func setupCutting() {
         
+    }
+    func bookEarphoneState() {
+        headphoneAlertLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            headphoneAlertLabel.topAnchor.constraint(equalTo: containerView.bottomAnchor, constant: 20),
+            headphoneAlertLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor)
+        ])
+        let route = AVAudioSession.sharedInstance().currentRoute
+        for output in route.outputs {
+            if output.portType == .headphones {
+                print("耳機已連接")
+                headphoneAlertLabel.isHidden = true
+            } else {
+                print("使用外放")
+                headphoneAlertLabel.isHidden = false
+            }
+        }
+        NotificationCenter.default.addObserver(self, selector: #selector(handleRouteChange), name: AVAudioSession.routeChangeNotification, object: nil)
+    }
+    @objc func handleRouteChange(notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let reasonValue = userInfo[AVAudioSessionRouteChangeReasonKey] as? UInt,
+              let reason = AVAudioSession.RouteChangeReason(rawValue: reasonValue) else {
+            return
+        }
+        switch reason {
+        case .newDeviceAvailable:
+            print("新增了耳機")
+            headphoneAlertLabel.isHidden = true
+        case .oldDeviceUnavailable:
+            if let previousRoute = userInfo[AVAudioSessionRouteChangeReasonKey] as? AVAudioSessionRouteDescription {
+                let wasUsingHeadPhones = previousRoute.outputs.contains {
+                    $0.portType == .headphones
+                }
+                if wasUsingHeadPhones {
+                    print("耳機已移除")
+                    headphoneAlertLabel.isHidden = false
+                }
+            }
+            print("無耳機")
+            headphoneAlertLabel.isHidden = false
+        default: break
+        }
     }
 }
