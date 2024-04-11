@@ -649,6 +649,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = EnsembleWave/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "請授權使用相機以開始創作";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "請授權使用麥克風以收音";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "請授權將影片儲存到相簿";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -682,6 +683,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = EnsembleWave/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "請授權使用相機以開始創作";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "請授權使用麥克風以收音";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "請授權將影片儲存到相簿";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;

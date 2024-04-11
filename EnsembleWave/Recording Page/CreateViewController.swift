@@ -190,6 +190,21 @@ class CreateViewController: UIViewController {
         if captureSession.canAddInput(captureDeviceInput) {
             captureSession.addInput(captureDeviceInput)
         }
+        
+        guard let audioDevice = AVCaptureDevice.default(for: .audio) else {
+                print("Failed to get the audio device")
+                return
+            }
+        
+        guard let audioInput = try? AVCaptureDeviceInput(device: audioDevice) else {
+                print("Failed to create audio input")
+                return
+            }
+        
+        if captureSession.canAddInput(audioInput) {
+                captureSession.addInput(audioInput)
+            }
+        
         if videoFileOutput == nil {
                 videoFileOutput = AVCaptureMovieFileOutput()
                 if captureSession.canAddOutput(videoFileOutput) {
@@ -223,6 +238,7 @@ class CreateViewController: UIViewController {
             },
                            completion: nil
             )
+            
             let outputPath = NSTemporaryDirectory() + "output.mov"
             outputFileURL = URL(fileURLWithPath: outputPath)
             if let outputFileURL = outputFileURL {
@@ -242,11 +258,27 @@ class CreateViewController: UIViewController {
     func playVideo(url: URL) {
         player = AVPlayer(url: url)
         playerLayer = AVPlayerLayer(player: player)
-        playerLayer?.frame = containerView.bounds
+        
         playerLayer?.videoGravity = .resizeAspectFill
-        if let playerLayer = self.playerLayer {
-            containerView.layer.addSublayer(playerLayer)
+        if style == 0 {
+                playerLayer?.frame = containerView.bounds
+                if let playerLayer = self.playerLayer {
+                    containerView.layer.addSublayer(playerLayer)
+                }
+        } else if style == 1 {
+            if chooseViewButtons[0].isHidden {
+                       playerLayer?.frame = leftView.bounds
+                       if let playerLayer = self.playerLayer {
+                           leftView.layer.addSublayer(playerLayer)
+                       }
+                   } else if chooseViewButtons[1].isHidden {
+                       playerLayer?.frame = rightView.bounds
+                       if let playerLayer = self.playerLayer {
+                           rightView.layer.addSublayer(playerLayer)
+                       }
+                   }
         }
+
         replayButton.isHidden = true
         NotificationCenter.default.addObserver(self, selector: #selector(videoDidEnd), name: .AVPlayerItemDidPlayToEndTime, object: player?.currentItem)
         player?.play()
