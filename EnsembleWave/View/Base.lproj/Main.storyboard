@@ -350,9 +350,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Gm-ff-X0P">
-                                <rect key="frame" x="0.0" y="103" width="393" height="393"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                            <containerView opaque="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Gm-ff-X0P">
+                                <rect key="frame" x="16" y="103" width="393" height="393"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="1Gm-ff-X0P" secondAttribute="height" multiplier="1:1" id="M50-sN-2ms"/>
+                                </constraints>
                             </containerView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Hd-ny-0OA">
                                 <rect key="frame" x="0.0" y="772" width="393" height="80"/>
@@ -364,6 +366,30 @@
                                         <state key="normal" title="Button" image="VideoCam"/>
                                         <connections>
                                             <action selector="captureWithSender:" destination="tyf-YL-DGF" eventType="touchUpInside" id="QBy-Rj-pFg"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BGx-Uc-Yan">
+                                        <rect key="frame" x="320" y="15" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" systemColor="systemGray4Color"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain">
+                                            <backgroundConfiguration key="background" image="arrow.up.backward.and.arrow.down.forward" catalog="system"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="toggleScreenSizeWithSender:" destination="tyf-YL-DGF" eventType="touchUpInside" id="uqH-9E-k6k"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fXX-Nn-CrJ">
+                                        <rect key="frame" x="320" y="15" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" systemColor="systemGray4Color"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain">
+                                            <backgroundConfiguration key="background" image="arrow.down.forward.and.arrow.up.backward" catalog="system"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="toggleScreenSizeWithSender:" destination="tyf-YL-DGF" eventType="touchUpInside" id="PAz-Xh-Bfh"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -379,6 +405,8 @@
                             <constraint firstAttribute="bottom" secondItem="8Hd-ny-0OA" secondAttribute="bottom" id="SUA-Me-mAO"/>
                             <constraint firstItem="8Hd-ny-0OA" firstAttribute="leading" secondItem="qPn-bZ-lcU" secondAttribute="leading" id="aii-k2-JId"/>
                             <constraint firstAttribute="trailing" secondItem="8Hd-ny-0OA" secondAttribute="trailing" id="fYD-fJ-qq4"/>
+                            <constraint firstItem="1Gm-ff-X0P" firstAttribute="leading" secondItem="8Hd-ny-0OA" secondAttribute="leading" constant="16" id="sUu-0f-8rR"/>
+                            <constraint firstItem="1Gm-ff-X0P" firstAttribute="trailing" secondItem="8Hd-ny-0OA" secondAttribute="trailing" constant="16" id="uru-7I-o29"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Create" id="x7p-CF-uCW">
@@ -392,6 +420,11 @@
                         <outlet property="cameraButton" destination="Bla-Hp-QJw" id="qe4-5G-2S5"/>
                         <outlet property="cameraPositionButton" destination="nue-Eq-FsC" id="N75-es-Pcv"/>
                         <outlet property="containerView" destination="1Gm-ff-X0P" id="Z8d-X5-Dco"/>
+                        <outlet property="containerViewLeadingConstraint" destination="sUu-0f-8rR" id="Pae-wo-h4Q"/>
+                        <outlet property="containerViewRatio" destination="M50-sN-2ms" id="Qlq-mT-cYC"/>
+                        <outlet property="containerViewTrailingConstraint" destination="uru-7I-o29" id="8OA-Gt-lTY"/>
+                        <outlet property="shrinkScreenButton" destination="fXX-Nn-CrJ" id="qSY-ZX-3fh"/>
+                        <outlet property="stretchScreenButton" destination="BGx-Uc-Yan" id="I1f-8w-pcR"/>
                         <segue destination="wXq-BW-M2T" kind="presentation" identifier="playVideo" id="Fe1-0q-Atk"/>
                     </connections>
                 </viewController>
@@ -417,7 +450,9 @@
     </scenes>
     <resources>
         <image name="VideoCam" width="114" height="114"/>
+        <image name="arrow.down.forward.and.arrow.up.backward" catalog="system" width="128" height="117"/>
         <image name="arrow.triangle.2.circlepath.camera" catalog="system" width="128" height="93"/>
+        <image name="arrow.up.backward.and.arrow.down.forward" catalog="system" width="128" height="115"/>
         <image name="mic.fill" catalog="system" width="110" height="128"/>
         <image name="music.note.list" catalog="system" width="128" height="115"/>
         <image name="person.fill" catalog="system" width="128" height="120"/>

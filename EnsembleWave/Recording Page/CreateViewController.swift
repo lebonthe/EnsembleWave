@@ -14,7 +14,9 @@ class CreateViewController: UIViewController {
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var cameraButton: UIButton!
     @IBOutlet weak var cameraPositionButton: UIBarButtonItem!
+    @IBOutlet weak var stretchScreenButton: UIButton!
     
+    @IBOutlet weak var shrinkScreenButton: UIButton!
     var style = 0
     var length = 15
     var isFrontCamera: Bool = true {
@@ -36,91 +38,103 @@ class CreateViewController: UIViewController {
     var playerLayer: AVPlayerLayer?
     var replayButton = UIButton()
     
+    @IBOutlet private var containerViewLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet private var containerViewTrailingConstraint: NSLayoutConstraint!
+//    @IBOutlet private var containerViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var containerViewRatio: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI(style, length)
         setupReplayButton()
+        print("length: \(length)")
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        print("view width:\(UIScreen.main.bounds.width)")
-        print("containerView.frame:\(containerView.frame)")
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        print("viewDidLayoutSubviews cameraPreviewLayer?.frame,\(cameraPreviewLayer?.frame)")
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         configure(position: .front)
+        print("viewDidAppear view width:\(UIScreen.main.bounds.width)")
+        print("viewDidAppear containerView.frame:\(containerView.frame)")
+        
     }
     func setupUI(_ style: Int, _ length: Int) {
         print("style in setupUI: \(style)")
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        
+//        containerViewHeightConstraint.constant = view.bounds.width - 32
+        
         if style == 0 {
-            containerView.translatesAutoresizingMaskIntoConstraints = false
+            containerViewLeadingConstraint.constant = 16
+            containerViewTrailingConstraint.constant = -16
             NSLayoutConstraint.activate([
-                containerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-                containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-                containerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-                containerView.heightAnchor.constraint(equalToConstant: view.bounds.width - 32)
+                containerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
             ])
         }
         cameraButton.translatesAutoresizingMaskIntoConstraints = false
+        stretchScreenButton.translatesAutoresizingMaskIntoConstraints = false
+        shrinkScreenButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             cameraButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             cameraButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
             cameraButton.heightAnchor.constraint(equalToConstant: 60),
-            cameraButton.widthAnchor.constraint(equalToConstant: 60)
+            cameraButton.widthAnchor.constraint(equalToConstant: 60),
+            stretchScreenButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            stretchScreenButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
+            stretchScreenButton.heightAnchor.constraint(equalToConstant: 60),
+            stretchScreenButton.widthAnchor.constraint(equalToConstant: 60),
+            shrinkScreenButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            shrinkScreenButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
+            shrinkScreenButton.heightAnchor.constraint(equalToConstant: 60),
+            shrinkScreenButton.widthAnchor.constraint(equalToConstant: 60),
         ])
+        shrinkScreenButton.isHidden = true
     }
-    
     func configure(position: AVCaptureDevice.Position) {
         if captureSession.isRunning {
                 captureSession.stopRunning()
             }
-        
         captureSession.sessionPreset = AVCaptureSession.Preset.high
-        
         guard let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: position) else {
             print("Failed to get the camera device")
             return
         }
         currentDevice = device
-        
         guard let captureDeviceInput = try? AVCaptureDeviceInput(device: currentDevice) else {
             print("Failed to set the camera input")
             return
         }
-        
         for input in captureSession.inputs {
             captureSession.removeInput(input)
         }
         if captureSession.canAddInput(captureDeviceInput) {
             captureSession.addInput(captureDeviceInput)
         }
-        
         if videoFileOutput == nil {
                 videoFileOutput = AVCaptureMovieFileOutput()
                 if captureSession.canAddOutput(videoFileOutput) {
                     captureSession.addOutput(videoFileOutput)
                 }
             }
-        
         cameraPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         containerView.layer.addSublayer(cameraPreviewLayer!)
         cameraPreviewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
         cameraPreviewLayer?.frame = containerView.layer.bounds
+        print("初始 layer:\(cameraPreviewLayer?.frame)")
         containerView.clipsToBounds = true
         DispatchQueue.global(qos: .background).async {
             self.captureSession.startRunning()
         }
     }
-    
     @IBAction func toggleCameraPosition(_ sender: UIBarButtonItem) {
         isFrontCamera.toggle()
         print("Camera Position Toggled!")
         print("containerView.frame:\(containerView.frame)")
     }
-    
-    
     @IBAction func capture(sender: AnyObject) {
         if !isRecording {
             isRecording = true
@@ -143,7 +157,6 @@ class CreateViewController: UIViewController {
             videoFileOutput?.stopRecording()
         }
     }
-    
 //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 //        if segue.identifier == "playVideo" {
 //            let videoPlayerViewController = segue.destination as! AVPlayerViewController
@@ -151,7 +164,6 @@ class CreateViewController: UIViewController {
 //            videoPlayerViewController.player = AVPlayer(url: videoFileURL)
 //        }
 //    }
-    
     func playVideo(url: URL) {
         player = AVPlayer(url: url)
         playerLayer = AVPlayerLayer(player: player)
@@ -164,7 +176,6 @@ class CreateViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(videoDidEnd), name: .AVPlayerItemDidPlayToEndTime, object: player?.currentItem)
         player?.play()
     }
-    
     @objc func videoDidEnd(notification: NSNotification) {
         replayButton.isHidden = false
         containerView.bringSubviewToFront(replayButton)
@@ -212,6 +223,30 @@ extension CreateViewController {
                     replayButton.isHidden = true
                 }
         }
+    @IBAction func toggleScreenSize(sender: UIButton) {
+        if sender == stretchScreenButton {
+            stretchScreenButton.isHidden = true
+            shrinkScreenButton.isHidden = false
+            self.containerViewLeadingConstraint.constant = 0
+            self.containerViewTrailingConstraint.constant = 0
+            UIView.animate(withDuration: 0.5) {
+//                self.containerView.layoutIfNeeded()
+                self.view.layoutIfNeeded()
+                self.cameraPreviewLayer?.frame = self.containerView.layer.bounds
+            }
+            print("放大 cameraPreviewLayer?.frame,\(cameraPreviewLayer?.frame)")
+        } else {
+            stretchScreenButton.isHidden = false
+            shrinkScreenButton.isHidden = true
+            self.containerViewLeadingConstraint.constant = 16
+            self.containerViewTrailingConstraint.constant = -16
+            UIView.animate(withDuration: 0.5) {
+                self.view.layoutIfNeeded()
+//                self.containerView.layoutIfNeeded()
+            }
+            print("一般 cameraPreviewLayer?.frame,\(cameraPreviewLayer?.frame)")
+        }
+    }
     func setupCutting() {
         
     }
