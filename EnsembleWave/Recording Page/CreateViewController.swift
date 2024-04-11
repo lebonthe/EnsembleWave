@@ -37,7 +37,6 @@ class CreateViewController: UIViewController {
     var player: AVPlayer?
     var playerLayer: AVPlayerLayer?
     var replayButton = UIButton()
-    
     @IBOutlet private var containerViewLeadingConstraint: NSLayoutConstraint!
     @IBOutlet private var containerViewTrailingConstraint: NSLayoutConstraint!
 //    @IBOutlet private var containerViewHeightConstraint: NSLayoutConstraint!
@@ -53,6 +52,11 @@ class CreateViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         print("viewDidLayoutSubviews cameraPreviewLayer?.frame,\(cameraPreviewLayer?.frame)")
+}
+    
+    override func viewWillAppear(_ animated: Bool) {
+        print("view width:\(UIScreen.main.bounds.width)")
+        print("containerView.frame:\(containerView.frame)")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -157,6 +161,7 @@ class CreateViewController: UIViewController {
             videoFileOutput?.stopRecording()
         }
     }
+
 //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 //        if segue.identifier == "playVideo" {
 //            let videoPlayerViewController = segue.destination as! AVPlayerViewController
@@ -164,6 +169,7 @@ class CreateViewController: UIViewController {
 //            videoPlayerViewController.player = AVPlayer(url: videoFileURL)
 //        }
 //    }
+
     func playVideo(url: URL) {
         player = AVPlayer(url: url)
         playerLayer = AVPlayerLayer(player: player)
@@ -205,6 +211,7 @@ extension CreateViewController {
     func setupReplayButton() {
 //        replayButton.setImage(UIImage(systemName: "play.circle"), for: .normal)
         replayButton.setBackgroundImage(UIImage(systemName: "play.circle"), for: .normal)
+        replayButton.setImage(UIImage(systemName: "play.circle"), for: .normal)
         replayButton.addTarget(self, action: #selector(replayVideo), for: .touchUpInside)
         containerView.addSubview(replayButton)
         replayButton.translatesAutoresizingMaskIntoConstraints = false
