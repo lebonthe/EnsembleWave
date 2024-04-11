@@ -43,7 +43,14 @@ class CreateViewController: UIViewController {
     
    
     @IBOutlet weak var headphoneAlertLabel: UILabel!
+    let leftView = UIView()
+    let rightView = UIView()
+    let line = UIView()
+    var chooseViewButtons = [UIButton]()
     
+    
+    
+    @IBOutlet weak var postProductionView: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI(style, length)
@@ -71,18 +78,69 @@ class CreateViewController: UIViewController {
     }
     func setupUI(_ style: Int, _ length: Int) {
         print("style in setupUI: \(style)")
+        containerView.layer.borderColor = UIColor.black.cgColor
+        containerView.layer.borderWidth = 2
         containerView.translatesAutoresizingMaskIntoConstraints = false
-        
+        containerViewLeadingConstraint.constant = 16
+        containerViewTrailingConstraint.constant = -16
+        NSLayoutConstraint.activate([
+            containerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+        ])
         if style == 0 {
-            containerViewLeadingConstraint.constant = 16
-            containerViewTrailingConstraint.constant = -16
+
+        } else if style == 1 {
+            leftView.backgroundColor = .systemGray4
+            rightView.backgroundColor = .systemGray4
+            line.backgroundColor = .black
+            containerView.addSubview(leftView)
+            containerView.addSubview(rightView)
+            containerView.addSubview(line)
+            let button1 = UIButton()
+            let button2 = UIButton()
+            chooseViewButtons.append(button1)
+            chooseViewButtons.append(button2)
+            containerView.addSubview(chooseViewButtons[0])
+            containerView.addSubview(chooseViewButtons[1])
+            chooseViewButtons[0].setBackgroundImage(UIImage(systemName: "plus"), for: .normal)
+            chooseViewButtons[1].setBackgroundImage(UIImage(systemName: "plus"), for: .normal)
+            chooseViewButtons[0].translatesAutoresizingMaskIntoConstraints = false
+            chooseViewButtons[1].translatesAutoresizingMaskIntoConstraints = false
+            chooseViewButtons[0].tintColor = .black
+            chooseViewButtons[1].tintColor = .black
+            leftView.translatesAutoresizingMaskIntoConstraints = false
+            rightView.translatesAutoresizingMaskIntoConstraints = false
+            line.translatesAutoresizingMaskIntoConstraints = false
             NSLayoutConstraint.activate([
-                containerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+                line.widthAnchor.constraint(equalToConstant: 2),
+                line.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+                line.topAnchor.constraint(equalTo: containerView.topAnchor),
+                line.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+                leftView.topAnchor.constraint(equalTo: containerView.topAnchor),
+                leftView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+                leftView.trailingAnchor.constraint(equalTo: line.leadingAnchor),
+                leftView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+                rightView.topAnchor.constraint(equalTo: containerView.topAnchor),
+                rightView.leadingAnchor.constraint(equalTo: line.trailingAnchor),
+                rightView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+                rightView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+                chooseViewButtons[0].centerXAnchor.constraint(equalTo: leftView.centerXAnchor),
+                chooseViewButtons[0].centerYAnchor.constraint(equalTo: leftView.centerYAnchor),
+                chooseViewButtons[0].widthAnchor.constraint(equalToConstant: 40),
+                chooseViewButtons[0].heightAnchor.constraint(equalToConstant: 40),
+                chooseViewButtons[1].centerXAnchor.constraint(equalTo: rightView.centerXAnchor),
+                chooseViewButtons[1].centerYAnchor.constraint(equalTo: rightView.centerYAnchor),
+                chooseViewButtons[1].widthAnchor.constraint(equalToConstant: 40),
+                chooseViewButtons[1].heightAnchor.constraint(equalToConstant: 40),
             ])
+            for chooseViewButton in chooseViewButtons {
+                chooseViewButton.addTarget(self, action: #selector(chooseView(_:)), for: .touchUpInside)
+            }
         }
         cameraButton.translatesAutoresizingMaskIntoConstraints = false
         stretchScreenButton.translatesAutoresizingMaskIntoConstraints = false
         shrinkScreenButton.translatesAutoresizingMaskIntoConstraints = false
+        postProductionView.translatesAutoresizingMaskIntoConstraints = false
+        postProductionView.backgroundColor = .white
         NSLayoutConstraint.activate([
             cameraButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             cameraButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
@@ -96,8 +154,13 @@ class CreateViewController: UIViewController {
             shrinkScreenButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
             shrinkScreenButton.heightAnchor.constraint(equalToConstant: 60),
             shrinkScreenButton.widthAnchor.constraint(equalToConstant: 60),
+            postProductionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
+            postProductionView.heightAnchor.constraint(equalToConstant: 60),
+            postProductionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            postProductionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
         shrinkScreenButton.isHidden = true
+        
     }
     func configure(position: AVCaptureDevice.Position) {
         if captureSession.isRunning {
@@ -126,7 +189,13 @@ class CreateViewController: UIViewController {
                 }
             }
         cameraPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-        containerView.layer.addSublayer(cameraPreviewLayer!)
+        if style == 0 {
+            postProductionView.isHidden = true
+            containerView.layer.addSublayer(cameraPreviewLayer!)
+        } else if style == 1 {
+            postProductionView.isHidden = false
+        }
+        
         cameraPreviewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
         cameraPreviewLayer?.frame = containerView.layer.bounds
         containerView.clipsToBounds = true
@@ -283,6 +352,18 @@ extension CreateViewController {
             print("無耳機")
             headphoneAlertLabel.isHidden = false
         default: break
+        }
+    }
+    @objc func chooseView(_ sender: UIButton) {
+        postProductionView.isHidden = true
+        if sender == chooseViewButtons[0] {
+            leftView.layer.addSublayer(cameraPreviewLayer!)
+            chooseViewButtons[0].isHidden = true
+            chooseViewButtons[1].isHidden = false
+        } else if sender == chooseViewButtons[1] {
+            rightView.layer.addSublayer(cameraPreviewLayer!)
+            chooseViewButtons[0].isHidden = false
+            chooseViewButtons[1].isHidden = true
         }
     }
 }
