@@ -378,7 +378,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Gm-ff-X0P">
-                                <rect key="frame" x="16" y="103" width="393" height="393"/>
+                                <rect key="frame" x="16" y="103" width="361" height="393"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="1Gm-ff-X0P" secondAttribute="height" multiplier="1:1" id="M50-sN-2ms"/>
                                 </constraints>
@@ -445,7 +445,7 @@
                             <constraint firstItem="8Hd-ny-0OA" firstAttribute="leading" secondItem="qPn-bZ-lcU" secondAttribute="leading" id="aii-k2-JId"/>
                             <constraint firstAttribute="trailing" secondItem="8Hd-ny-0OA" secondAttribute="trailing" id="fYD-fJ-qq4"/>
                             <constraint firstItem="1Gm-ff-X0P" firstAttribute="leading" secondItem="8Hd-ny-0OA" secondAttribute="leading" constant="16" id="sUu-0f-8rR"/>
-                            <constraint firstItem="1Gm-ff-X0P" firstAttribute="trailing" secondItem="8Hd-ny-0OA" secondAttribute="trailing" constant="16" id="uru-7I-o29"/>
+                            <constraint firstItem="1Gm-ff-X0P" firstAttribute="trailing" secondItem="8Hd-ny-0OA" secondAttribute="trailing" constant="-16" id="uru-7I-o29"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Create" id="x7p-CF-uCW"/>

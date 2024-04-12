@@ -11,21 +11,21 @@ import AVKit // 播放影像
 import Photos // 儲存影像
 
 class CreateViewController: UIViewController {
-
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var cameraButton: UIButton!
     @IBOutlet weak var stretchScreenButton: UIButton!
-    
     @IBOutlet weak var shrinkScreenButton: UIButton!
     var style = 0
     var length = 15
+    var devices = [AVCaptureDevice]()
     var isFrontCamera: Bool = true {
         didSet {
-            if isFrontCamera {
-                configure(for: style, position: .front)
-            } else {
-                configure(for: style, position: .back)
+            currentDevice = isFrontCamera ? devices[0] : devices[1]
+            guard let newInput = try? AVCaptureDeviceInput(device: currentDevice) else {
+                print("Unable to create input from the device.")
+                return
             }
+            configureSessionWithNewInput(newInput)
         }
     }
     let captureSession = AVCaptureSession()
@@ -41,7 +41,6 @@ class CreateViewController: UIViewController {
     @IBOutlet private var containerViewLeadingConstraint: NSLayoutConstraint!
     @IBOutlet private var containerViewTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var containerViewRatio: NSLayoutConstraint!
-    
     @IBOutlet weak var headphoneAlertLabel: UILabel!
     var videoViews: [UIView] = []
 //    let leftView = UIView()
@@ -59,11 +58,14 @@ class CreateViewController: UIViewController {
         bookEarphoneState()
         configurePlayersAndAddObservers()
         clearTemporaryVideos()
+//        let initialCameraPosition: AVCaptureDevice.Position = isFrontCamera ? .front : .back
+//            camera(initialCameraPosition)
+        configure(for: style)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        configure(for: style, position: .front)
+        
         
     }
     
@@ -93,13 +95,13 @@ class CreateViewController: UIViewController {
             videoViews.append(videoView)
         }
         
-        
         if style == 0 {
             videoViews[0].frame = containerView.bounds
         } else if style == 1 {
 
             line.backgroundColor = .black
             containerView.addSubview(line)
+            
             let button1 = UIButton()
             let button2 = UIButton()
             chooseViewButtons.append(button1)
@@ -135,7 +137,7 @@ class CreateViewController: UIViewController {
                 chooseViewButtons[1].centerXAnchor.constraint(equalTo: videoViews[1].centerXAnchor),
                 chooseViewButtons[1].centerYAnchor.constraint(equalTo: videoViews[1].centerYAnchor),
                 chooseViewButtons[1].widthAnchor.constraint(equalToConstant: 40),
-                chooseViewButtons[1].heightAnchor.constraint(equalToConstant: 40),
+                chooseViewButtons[1].heightAnchor.constraint(equalToConstant: 40)
             ])
             for chooseViewButton in chooseViewButtons {
                 chooseViewButton.addTarget(self, action: #selector(chooseView(_:)), for: .touchUpInside)
@@ -167,14 +169,14 @@ class CreateViewController: UIViewController {
         shrinkScreenButton.isHidden = true
         
     }
-    func configure(for style: Int, position: AVCaptureDevice.Position) {
+    func configure(for style: Int) {
         for index in 0...style {
             let player = AVPlayer()
+            players.append(player)
             let playerLayer = AVPlayerLayer(player: player)
             playerLayer.frame = videoViews[index].bounds
-            players.append(player)
-            videoViews[index].layer.addSublayer(playerLayer)
             playerLayer.videoGravity = .resizeAspectFill
+            videoViews[index].layer.addSublayer(playerLayer)
             playerLayers.append(playerLayer)
             if let videoURL = getVideoURL(for: index) {
                 let playerItem = AVPlayerItem(url: videoURL)
@@ -185,16 +187,22 @@ class CreateViewController: UIViewController {
         if captureSession.isRunning {
                 captureSession.stopRunning()
             }
+        
         captureSession.sessionPreset = AVCaptureSession.Preset.high
-        guard let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: position) else {
+        guard let frontDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front),
+              let backDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) else {
             print("Failed to get the camera device")
             return
         }
-        currentDevice = device
+        
+        devices.append(frontDevice)
+        devices.append(backDevice)
+        currentDevice = devices[0]
         guard let captureDeviceInput = try? AVCaptureDeviceInput(device: currentDevice) else {
             print("Failed to set the camera input")
             return
         }
+
         for input in captureSession.inputs {
             captureSession.removeInput(input)
         }
@@ -211,7 +219,7 @@ class CreateViewController: UIViewController {
                 print("Failed to create audio input")
                 return
             }
-        
+
         if captureSession.canAddInput(audioInput) {
                 captureSession.addInput(audioInput)
             }
@@ -229,17 +237,25 @@ class CreateViewController: UIViewController {
         } else if style == 1 {
             postProductionView.isHidden = false
         }
-        
+        containerView.clipsToBounds = true
         cameraPreviewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
         cameraPreviewLayer?.frame = containerView.layer.bounds
-        containerView.clipsToBounds = true
+
         DispatchQueue.global(qos: .background).async {
             self.captureSession.startRunning()
         }
     }
+
+
     @objc func toggleCameraPosition(_ sender: UIBarButtonItem) {
+        guard !isRecording else {
+               print("錄製中，無法切換鏡頭")
+               return
+           }
+
         isFrontCamera.toggle()
     }
+
     @IBAction func capture(sender: AnyObject) {
         if !isRecording {
             isRecording = true
@@ -267,45 +283,24 @@ class CreateViewController: UIViewController {
     }
 
     func playAllVideos() {
+        self.cameraPreviewLayer?.removeFromSuperlayer()
         for (index, player) in players.enumerated() {
+            print("index:\(index),player:\(player)")
             let playerLayer = playerLayers[index]
                 if let videoURL = getVideoURL(for: index) {
                     let playerItem = AVPlayerItem(url: videoURL)
                     player.replaceCurrentItem(with: playerItem)
-                    NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: nil)
+                    NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: playerItem)
                     NotificationCenter.default.addObserver(self,
                                                            selector: #selector(videoDidEnd),
                                                            name: .AVPlayerItemDidPlayToEndTime,
                                                            object: playerItem)
                     player.play()
-                    
-                    videoViews[index].layer.addSublayer(playerLayer)
+                        videoViews[index].layer.addSublayer(playerLayer)
                     playerLayer.frame = videoViews[index].bounds
 //                    containerView.bringSubviewToFront(videoViews[index])
                 }
             }
-//        player = AVPlayer(url: url)
-//        playerLayer = AVPlayerLayer(player: player)
-        
-//        playerLayer?.videoGravity = .resizeAspectFill
-//        if style == 0 {
-//                playerLayer?.frame = containerView.bounds
-//                if let playerLayer = self.playerLayer {
-//                    containerView.layer.addSublayer(playerLayer)
-//                }
-//        } else if style == 1 {
-//            if chooseViewButtons[0].isHidden {
-//                       playerLayer?.frame = leftView.bounds
-//                       if let playerLayer = self.playerLayer {
-//                           leftView.layer.addSublayer(playerLayer)
-//                       }
-//                   } else if chooseViewButtons[1].isHidden {
-//                       playerLayer?.frame = rightView.bounds
-//                       if let playerLayer = self.playerLayer {
-//                           rightView.layer.addSublayer(playerLayer)
-//                       }
-//                   }
-//        }
 
         replayButton.isHidden = true
 //        NotificationCenter.default.addObserver(self, selector: #selector(videoDidEnd), name: .AVPlayerItemDidPlayToEndTime, object: players[0].currentItem)
@@ -330,21 +325,25 @@ class CreateViewController: UIViewController {
 //    }
     @objc func videoDidEnd(notification: NSNotification) {
         guard let playerItem = notification.object as? AVPlayerItem else { return }
+        replayButton.isHidden = false
+        containerView.bringSubviewToFront(replayButton)
+        
         for (index, player) in players.enumerated() {
+            containerView.bringSubviewToFront(chooseViewButtons[index])
             if player.currentItem == playerItem {
                 print("Player \(index) finished playing")
-                if chooseViewButtons.count > 0 {
-                    chooseViewButtons[index].isHidden = false
+                if chooseViewButtons.count > 1 {
+                    
+                    chooseViewButtons[index].isHidden = player.status == .readyToPlay && player.currentItem != nil
+                print("=======player.status:\(player.status)，player.currentItem==nil:\(player.currentItem == nil)")
                 }
-                
                 break
             }
         }
-
-        // 检查是否所有视频都播放完毕，如果是，则显示重播按钮
-        let allVideosEnded = players.allSatisfy { $0.rate == 0 && $0.currentItem != nil }
-        replayButton.isHidden = !allVideosEnded
+//        let allVideosEnded = players.allSatisfy { $0.rate == 0 && $0.currentItem?.status == .readyToPlay }
     }
+
+
 }
 
 extension CreateViewController: AVCaptureFileOutputRecordingDelegate {
@@ -485,20 +484,19 @@ extension CreateViewController {
 //    }
     // TODO: 修理 + 跟 replayButton
     @objc func chooseView(_ sender: UIButton) {
+        replayButton.isHidden = true
         postProductionView.isHidden = true
-        if sender == chooseViewButtons[0] {
-            currentRecordingView = 0
-            videoViews[0].layer.addSublayer(cameraPreviewLayer!)
-            chooseViewButtons[0].isHidden = true
-            // 如果 videoViews[1] 有视频，检查其播放状态
-            chooseViewButtons[1].isHidden = players.count > 1 && players[1].currentItem != nil && players[1].rate != 0
-        } else if sender == chooseViewButtons[1] {
-            currentRecordingView = 1
-            videoViews[1].layer.addSublayer(cameraPreviewLayer!)
-            chooseViewButtons[1].isHidden = true
-            // 如果 videoViews[0] 有视频，检查其播放状态
-            chooseViewButtons[0].isHidden = players.count > 0 && players[0].currentItem != nil && players[0].rate != 0
-        }
+            let viewIndex = sender == chooseViewButtons[0] ? 0 : 1
+            currentRecordingView = viewIndex
+            videoViews[viewIndex].layer.addSublayer(cameraPreviewLayer!)
+        
+            chooseViewButtons[viewIndex].isHidden = true
+            let otherIndex = viewIndex == 0 ? 1 : 0
+            if players.count > otherIndex {
+                let otherPlayerHasItem = players[otherIndex].currentItem != nil && players[otherIndex].currentItem?.duration.seconds ?? 0 > 0
+                chooseViewButtons[otherIndex].isHidden = otherPlayerHasItem
+                
+            }
     }
     @objc func pushSharePage(_ sender: UIBarButtonItem) {
         let shareVC = ShareViewController()
@@ -538,5 +536,26 @@ extension CreateViewController {
             print("Failed to clear temporary files: \(error)")
         }
     }
-    
+    private func configureSessionWithNewInput(_ newInput: AVCaptureDeviceInput) {
+        captureSession.beginConfiguration()
+
+        for input in captureSession.inputs {
+            if let deviceInput = input as? AVCaptureDeviceInput, deviceInput.device.hasMediaType(.video) {
+                captureSession.removeInput(deviceInput)
+            }
+        }
+
+        if captureSession.canAddInput(newInput) {
+            captureSession.addInput(newInput)
+        } else {
+            print("Can't add new video input to the session.")
+        }
+
+        captureSession.commitConfiguration()
+
+        if !captureSession.isRunning {
+            captureSession.startRunning()
+        }
+    }
 }
+
