@@ -22,9 +22,9 @@ class CreateViewController: UIViewController {
     var isFrontCamera: Bool = true {
         didSet {
             if isFrontCamera {
-                configure(position: .front)
+                configure(for: style, position: .front)
             } else {
-                configure(position: .back)
+                configure(for: style, position: .back)
             }
         }
     }
@@ -33,44 +33,37 @@ class CreateViewController: UIViewController {
     var videoFileOutput: AVCaptureMovieFileOutput!
     var cameraPreviewLayer: AVCaptureVideoPreviewLayer?
     var isRecording = false
-    
-    var player: AVPlayer?
-    var playerLayer: AVPlayerLayer?
+    var players: [AVPlayer] = []
+    var playerLayers: [AVPlayerLayer] = []
+//    var player: AVPlayer?
+//    var playerLayer: AVPlayerLayer?
     var replayButton = UIButton()
     @IBOutlet private var containerViewLeadingConstraint: NSLayoutConstraint!
     @IBOutlet private var containerViewTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var containerViewRatio: NSLayoutConstraint!
     
-   
     @IBOutlet weak var headphoneAlertLabel: UILabel!
-    let leftView = UIView()
-    let rightView = UIView()
+    var videoViews: [UIView] = []
+//    let leftView = UIView()
+//    let rightView = UIView()
     let line = UIView()
     var chooseViewButtons = [UIButton]()
-    
-    
-    
+
     @IBOutlet weak var postProductionView: UIView!
     var outputFileURL: URL?
+    var currentRecordingView = 0
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI(style, length)
         setupReplayButton()
         bookEarphoneState()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-     
-}
-    
-    override func viewWillAppear(_ animated: Bool) {
-
+        configurePlayersAndAddObservers()
+        clearTemporaryVideos()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        configure(position: .front)
+        configure(for: style, position: .front)
         
     }
     
@@ -78,13 +71,12 @@ class CreateViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: AVAudioSession.routeChangeNotification, object: nil)
     }
     func setupUI(_ style: Int, _ length: Int) {
+        videoViews.forEach { $0.removeFromSuperview() }
+        videoViews.removeAll()
+        players.removeAll()
+        playerLayers.removeAll()
         let cameraPositionButton = UIBarButtonItem(image: UIImage(systemName: "arrow.triangle.2.circlepath.camera"), style: .plain, target: self, action: #selector(toggleCameraPosition(_:)))
-//        cameraPositionButton.image = UIImage(systemName: "arrow.triangle.2.circlepath.camera")
-//        cameraPositionButton.target = self
-//        cameraPositionButton.action = #selector(toggleCameraPosition(_:))
-        
         self.navigationItem.rightBarButtonItem = cameraPositionButton
-        
         print("style in setupUI: \(style)")
         containerView.layer.borderColor = UIColor.black.cgColor
         containerView.layer.borderWidth = 2
@@ -94,14 +86,19 @@ class CreateViewController: UIViewController {
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
         ])
+        for index in 0...style {
+            let videoView = UIView()
+            videoView.backgroundColor = .systemGray4
+            containerView.addSubview(videoView)
+            videoViews.append(videoView)
+        }
+        
+        
         if style == 0 {
-
+            videoViews[0].frame = containerView.bounds
         } else if style == 1 {
-            leftView.backgroundColor = .systemGray4
-            rightView.backgroundColor = .systemGray4
+
             line.backgroundColor = .black
-            containerView.addSubview(leftView)
-            containerView.addSubview(rightView)
             containerView.addSubview(line)
             let button1 = UIButton()
             let button2 = UIButton()
@@ -115,28 +112,28 @@ class CreateViewController: UIViewController {
             chooseViewButtons[1].translatesAutoresizingMaskIntoConstraints = false
             chooseViewButtons[0].tintColor = .black
             chooseViewButtons[1].tintColor = .black
-            leftView.translatesAutoresizingMaskIntoConstraints = false
-            rightView.translatesAutoresizingMaskIntoConstraints = false
+            videoViews[0].translatesAutoresizingMaskIntoConstraints = false
+            videoViews[1].translatesAutoresizingMaskIntoConstraints = false
             line.translatesAutoresizingMaskIntoConstraints = false
             NSLayoutConstraint.activate([
                 line.widthAnchor.constraint(equalToConstant: 2),
                 line.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
                 line.topAnchor.constraint(equalTo: containerView.topAnchor),
                 line.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
-                leftView.topAnchor.constraint(equalTo: containerView.topAnchor),
-                leftView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-                leftView.trailingAnchor.constraint(equalTo: line.leadingAnchor),
-                leftView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
-                rightView.topAnchor.constraint(equalTo: containerView.topAnchor),
-                rightView.leadingAnchor.constraint(equalTo: line.trailingAnchor),
-                rightView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
-                rightView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
-                chooseViewButtons[0].centerXAnchor.constraint(equalTo: leftView.centerXAnchor),
-                chooseViewButtons[0].centerYAnchor.constraint(equalTo: leftView.centerYAnchor),
+                videoViews[0].topAnchor.constraint(equalTo: containerView.topAnchor),
+                videoViews[0].leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+                videoViews[0].trailingAnchor.constraint(equalTo: line.leadingAnchor),
+                videoViews[0].bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+                videoViews[1].topAnchor.constraint(equalTo: containerView.topAnchor),
+                videoViews[1].leadingAnchor.constraint(equalTo: line.trailingAnchor),
+                videoViews[1].trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+                videoViews[1].bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+                chooseViewButtons[0].centerXAnchor.constraint(equalTo: videoViews[0].centerXAnchor),
+                chooseViewButtons[0].centerYAnchor.constraint(equalTo: videoViews[0].centerYAnchor),
                 chooseViewButtons[0].widthAnchor.constraint(equalToConstant: 40),
                 chooseViewButtons[0].heightAnchor.constraint(equalToConstant: 40),
-                chooseViewButtons[1].centerXAnchor.constraint(equalTo: rightView.centerXAnchor),
-                chooseViewButtons[1].centerYAnchor.constraint(equalTo: rightView.centerYAnchor),
+                chooseViewButtons[1].centerXAnchor.constraint(equalTo: videoViews[1].centerXAnchor),
+                chooseViewButtons[1].centerYAnchor.constraint(equalTo: videoViews[1].centerYAnchor),
                 chooseViewButtons[1].widthAnchor.constraint(equalToConstant: 40),
                 chooseViewButtons[1].heightAnchor.constraint(equalToConstant: 40),
             ])
@@ -170,7 +167,21 @@ class CreateViewController: UIViewController {
         shrinkScreenButton.isHidden = true
         
     }
-    func configure(position: AVCaptureDevice.Position) {
+    func configure(for style: Int, position: AVCaptureDevice.Position) {
+        for index in 0...style {
+            let player = AVPlayer()
+            let playerLayer = AVPlayerLayer(player: player)
+            playerLayer.frame = videoViews[index].bounds
+            players.append(player)
+            videoViews[index].layer.addSublayer(playerLayer)
+            playerLayer.videoGravity = .resizeAspectFill
+            playerLayers.append(playerLayer)
+            if let videoURL = getVideoURL(for: index) {
+                let playerItem = AVPlayerItem(url: videoURL)
+                players[index].replaceCurrentItem(with: playerItem)
+            }
+            print("playerLayer count:\(playerLayers.count)")
+        }
         if captureSession.isRunning {
                 captureSession.stopRunning()
             }
@@ -239,7 +250,7 @@ class CreateViewController: UIViewController {
                            completion: nil
             )
             
-            let outputPath = NSTemporaryDirectory() + "output.mov"
+            let outputPath = NSTemporaryDirectory() + "output\(currentRecordingView).mov"
             outputFileURL = URL(fileURLWithPath: outputPath)
             if let outputFileURL = outputFileURL {
                 videoFileOutput?.startRecording(to: outputFileURL, recordingDelegate: self)
@@ -255,37 +266,84 @@ class CreateViewController: UIViewController {
         }
     }
 
-    func playVideo(url: URL) {
-        player = AVPlayer(url: url)
-        playerLayer = AVPlayerLayer(player: player)
-        
-        playerLayer?.videoGravity = .resizeAspectFill
-        if style == 0 {
-                playerLayer?.frame = containerView.bounds
-                if let playerLayer = self.playerLayer {
-                    containerView.layer.addSublayer(playerLayer)
+    func playAllVideos() {
+        for (index, player) in players.enumerated() {
+            let playerLayer = playerLayers[index]
+                if let videoURL = getVideoURL(for: index) {
+                    let playerItem = AVPlayerItem(url: videoURL)
+                    player.replaceCurrentItem(with: playerItem)
+                    NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: nil)
+                    NotificationCenter.default.addObserver(self,
+                                                           selector: #selector(videoDidEnd),
+                                                           name: .AVPlayerItemDidPlayToEndTime,
+                                                           object: playerItem)
+                    player.play()
+                    
+                    videoViews[index].layer.addSublayer(playerLayer)
+                    playerLayer.frame = videoViews[index].bounds
+//                    containerView.bringSubviewToFront(videoViews[index])
                 }
-        } else if style == 1 {
-            if chooseViewButtons[0].isHidden {
-                       playerLayer?.frame = leftView.bounds
-                       if let playerLayer = self.playerLayer {
-                           leftView.layer.addSublayer(playerLayer)
-                       }
-                   } else if chooseViewButtons[1].isHidden {
-                       playerLayer?.frame = rightView.bounds
-                       if let playerLayer = self.playerLayer {
-                           rightView.layer.addSublayer(playerLayer)
-                       }
-                   }
-        }
+            }
+//        player = AVPlayer(url: url)
+//        playerLayer = AVPlayerLayer(player: player)
+        
+//        playerLayer?.videoGravity = .resizeAspectFill
+//        if style == 0 {
+//                playerLayer?.frame = containerView.bounds
+//                if let playerLayer = self.playerLayer {
+//                    containerView.layer.addSublayer(playerLayer)
+//                }
+//        } else if style == 1 {
+//            if chooseViewButtons[0].isHidden {
+//                       playerLayer?.frame = leftView.bounds
+//                       if let playerLayer = self.playerLayer {
+//                           leftView.layer.addSublayer(playerLayer)
+//                       }
+//                   } else if chooseViewButtons[1].isHidden {
+//                       playerLayer?.frame = rightView.bounds
+//                       if let playerLayer = self.playerLayer {
+//                           rightView.layer.addSublayer(playerLayer)
+//                       }
+//                   }
+//        }
 
         replayButton.isHidden = true
-        NotificationCenter.default.addObserver(self, selector: #selector(videoDidEnd), name: .AVPlayerItemDidPlayToEndTime, object: player?.currentItem)
-        player?.play()
+//        NotificationCenter.default.addObserver(self, selector: #selector(videoDidEnd), name: .AVPlayerItemDidPlayToEndTime, object: players[0].currentItem)
+//        player?.play()
     }
+    
+    func stopAllVideos() {
+        for player in players {
+            player.pause()
+        }
+    }
+//    @objc func videoDidEnd(notification: NSNotification) {
+//        guard let playerItem = notification.object as? AVPlayerItem else { return }
+//           for (index, player) in players.enumerated() {
+//               if player.currentItem == playerItem {
+//                   print("Player \(index) finished playing")
+//                   break
+//               }
+//           }
+//           replayButton.isHidden = false
+//           containerView.bringSubviewToFront(replayButton)
+//    }
     @objc func videoDidEnd(notification: NSNotification) {
-        replayButton.isHidden = false
-        containerView.bringSubviewToFront(replayButton)
+        guard let playerItem = notification.object as? AVPlayerItem else { return }
+        for (index, player) in players.enumerated() {
+            if player.currentItem == playerItem {
+                print("Player \(index) finished playing")
+                if chooseViewButtons.count > 0 {
+                    chooseViewButtons[index].isHidden = false
+                }
+                
+                break
+            }
+        }
+
+        // 检查是否所有视频都播放完毕，如果是，则显示重播按钮
+        let allVideosEnded = players.allSatisfy { $0.rate == 0 && $0.currentItem != nil }
+        replayButton.isHidden = !allVideosEnded
     }
 }
 
@@ -297,7 +355,8 @@ extension CreateViewController: AVCaptureFileOutputRecordingDelegate {
         }
         let alertViewController = UIAlertController(title: "影片錄製成功？", message: "", preferredStyle: .alert)
         let successAction = UIAlertAction(title: "OK", style: .default) { _ in
-            self.playVideo(url: outputFileURL)
+//            self.playVideo(url: outputFileURL)
+            self.playAllVideos()
             self.setupCutting()
         }
         let againAction = UIAlertAction(title: "重來", style: .cancel)
@@ -309,7 +368,6 @@ extension CreateViewController: AVCaptureFileOutputRecordingDelegate {
 
 extension CreateViewController {
     func setupReplayButton() {
-//        replayButton.setImage(UIImage(systemName: "play.circle"), for: .normal)
         replayButton.setBackgroundImage(UIImage(systemName: "play.circle"), for: .normal)
         replayButton.addTarget(self, action: #selector(replayVideo), for: .touchUpInside)
         containerView.addSubview(replayButton)
@@ -323,11 +381,18 @@ extension CreateViewController {
         replayButton.isHidden = true
     }
         @objc func replayVideo() {
-            if let player = player {
-                    player.seek(to: .zero)
-                    player.play()
-                    replayButton.isHidden = true
-                }
+            playAllVideos()
+//            playVideo(url: <#T##URL#>)
+            for player in self.players {
+                player.seek(to: .zero)
+                player.play()
+                replayButton.isHidden = true
+            }
+//            if let player = player {
+//                    player.seek(to: .zero)
+//                    player.play()
+//                    replayButton.isHidden = true
+//                }
         }
     @IBAction func toggleScreenSize(sender: UIButton) {
         if sender == stretchScreenButton {
@@ -396,16 +461,43 @@ extension CreateViewController {
         default: break
         }
     }
+//    @objc func chooseView(_ sender: UIButton) {
+//        postProductionView.isHidden = true
+//        if sender == chooseViewButtons[0] {
+//            currentRecordingView = 0
+//            videoViews[0].layer.addSublayer(cameraPreviewLayer!)
+//            chooseViewButtons[0].isHidden = true
+//            if let playerOne = players.count > 1 ? players[1] : nil, playerOne.currentItem != nil {
+//                       chooseViewButtons[1].isHidden = true
+//                   } else {
+//                       chooseViewButtons[1].isHidden = false
+//                   }
+//        } else if sender == chooseViewButtons[1] {
+//            currentRecordingView = 1
+//            videoViews[1].layer.addSublayer(cameraPreviewLayer!)
+//            chooseViewButtons[1].isHidden = true
+//            if let playerZero = players.count > 0 ? players[0] : nil, playerZero.currentItem != nil {
+//                       chooseViewButtons[0].isHidden = true
+//                   } else {
+//                       chooseViewButtons[0].isHidden = false
+//                   }
+//        }
+//    }
+    // TODO: 修理 + 跟 replayButton
     @objc func chooseView(_ sender: UIButton) {
         postProductionView.isHidden = true
         if sender == chooseViewButtons[0] {
-            leftView.layer.addSublayer(cameraPreviewLayer!)
+            currentRecordingView = 0
+            videoViews[0].layer.addSublayer(cameraPreviewLayer!)
             chooseViewButtons[0].isHidden = true
-            chooseViewButtons[1].isHidden = false
+            // 如果 videoViews[1] 有视频，检查其播放状态
+            chooseViewButtons[1].isHidden = players.count > 1 && players[1].currentItem != nil && players[1].rate != 0
         } else if sender == chooseViewButtons[1] {
-            rightView.layer.addSublayer(cameraPreviewLayer!)
-            chooseViewButtons[0].isHidden = false
+            currentRecordingView = 1
+            videoViews[1].layer.addSublayer(cameraPreviewLayer!)
             chooseViewButtons[1].isHidden = true
+            // 如果 videoViews[0] 有视频，检查其播放状态
+            chooseViewButtons[0].isHidden = players.count > 0 && players[0].currentItem != nil && players[0].rate != 0
         }
     }
     @objc func pushSharePage(_ sender: UIBarButtonItem) {
@@ -413,4 +505,38 @@ extension CreateViewController {
         shareVC.url = outputFileURL
         navigationController?.pushViewController(shareVC, animated: true)
     }
+    func getVideoURL(for index: Int) -> URL? {
+        let outputPath = NSTemporaryDirectory() + "output\(index).mov"
+        outputFileURL = URL(fileURLWithPath: outputPath)
+        print("getVideoURL:\(outputFileURL!)")
+        return outputFileURL
+    }
+    func configurePlayersAndAddObservers() {
+        guard !players.isEmpty else {
+            return
+        }
+        for player in players {
+            if let currentItem = player.currentItem {
+                NotificationCenter.default.addObserver(self,
+                                                       selector: #selector(videoDidEnd),
+                                                       name: .AVPlayerItemDidPlayToEndTime,
+                                                       object: currentItem)
+            }
+        }
+    }
+    func clearTemporaryVideos() {
+        let fileManager = FileManager.default
+        let tempDirectoryPath = NSTemporaryDirectory()
+
+        do {
+            let tempFiles = try fileManager.contentsOfDirectory(atPath: tempDirectoryPath)
+            for file in tempFiles {
+                let filePath = (tempDirectoryPath as NSString).appendingPathComponent(file)
+                try fileManager.removeItem(atPath: filePath)
+            }
+        } catch let error {
+            print("Failed to clear temporary files: \(error)")
+        }
+    }
+    
 }
