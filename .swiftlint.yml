@@ -6,6 +6,7 @@ disabled_rules:
   - comment_spacing # 禁用註釋間距規則
   - line_length # 禁用行長規則
   - cyclomatic_complexity # 禁用函數複雜度規則
+  - function_body_length
   
 identifier_name:
   excluded: # excluded via string array

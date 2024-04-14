@@ -7,7 +7,7 @@
 
 import UIKit
 import AVFoundation // 錄影
-import AVKit // 播放影像
+import AVKit // 播放影像 access to AVPlayer
 import Photos // 儲存影像
 
 class CreateViewController: UIViewController {
@@ -35,22 +35,21 @@ class CreateViewController: UIViewController {
     var isRecording = false
     var players: [AVPlayer] = []
     var playerLayers: [AVPlayerLayer] = []
-//    var player: AVPlayer?
-//    var playerLayer: AVPlayerLayer?
     var replayButton = UIButton()
     @IBOutlet private var containerViewLeadingConstraint: NSLayoutConstraint!
     @IBOutlet private var containerViewTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var containerViewRatio: NSLayoutConstraint!
     @IBOutlet weak var headphoneAlertLabel: UILabel!
     var videoViews: [UIView] = []
-//    let leftView = UIView()
-//    let rightView = UIView()
     let line = UIView()
     var chooseViewButtons = [UIButton]()
 
     @IBOutlet weak var postProductionView: UIView!
     var outputFileURL: URL?
     var currentRecordingView = 0
+    
+    var videoURLs: [URL] = []
+    var audioURLs: [URL] = []
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI(style, length)
@@ -58,11 +57,15 @@ class CreateViewController: UIViewController {
         bookEarphoneState()
         configurePlayersAndAddObservers()
         clearTemporaryVideos()
-//        let initialCameraPosition: AVCaptureDevice.Position = isFrontCamera ? .front : .back
-//            camera(initialCameraPosition)
         configure(for: style)
     }
-    
+//    override func viewDidLayoutSubviews() {
+//        super.viewDidLayoutSubviews()
+//        for (index, playerLayer) in playerLayers.enumerated() {
+//                playerLayer.frame = videoViews[index].bounds
+//            }
+//            cameraPreviewLayer?.frame = containerView.bounds
+//    }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -188,7 +191,7 @@ class CreateViewController: UIViewController {
                 captureSession.stopRunning()
             }
         
-        captureSession.sessionPreset = AVCaptureSession.Preset.high
+        captureSession.sessionPreset = AVCaptureSession.Preset.hd1280x720
         guard let frontDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front),
               let backDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) else {
             print("Failed to get the camera device")
@@ -283,11 +286,14 @@ class CreateViewController: UIViewController {
     }
 
     func playAllVideos() {
-        self.cameraPreviewLayer?.removeFromSuperlayer()
-        for (index, player) in players.enumerated() {
-            print("index:\(index),player:\(player)")
-            let playerLayer = playerLayers[index]
+        if isRecording != true {
+            videoURLs.removeAll()
+            self.cameraPreviewLayer?.removeFromSuperlayer()
+            for (index, player) in players.enumerated() {
+                print("index:\(index),player:\(player)")
+                let playerLayer = playerLayers[index]
                 if let videoURL = getVideoURL(for: index) {
+                    videoURLs.append(videoURL)
                     let playerItem = AVPlayerItem(url: videoURL)
                     player.replaceCurrentItem(with: playerItem)
                     NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: playerItem)
@@ -296,15 +302,17 @@ class CreateViewController: UIViewController {
                                                            name: .AVPlayerItemDidPlayToEndTime,
                                                            object: playerItem)
                     player.play()
-                        videoViews[index].layer.addSublayer(playerLayer)
+                    videoViews[index].layer.addSublayer(playerLayer)
                     playerLayer.frame = videoViews[index].bounds
-//                    containerView.bringSubviewToFront(videoViews[index])
+                    playerLayer.videoGravity = .resizeAspectFill
+                    }
                 }
-            }
 
-        replayButton.isHidden = true
-//        NotificationCenter.default.addObserver(self, selector: #selector(videoDidEnd), name: .AVPlayerItemDidPlayToEndTime, object: players[0].currentItem)
-//        player?.play()
+            replayButton.isHidden = true
+
+        } else {
+            
+        }
     }
     
     func stopAllVideos() {
@@ -312,35 +320,24 @@ class CreateViewController: UIViewController {
             player.pause()
         }
     }
-//    @objc func videoDidEnd(notification: NSNotification) {
-//        guard let playerItem = notification.object as? AVPlayerItem else { return }
-//           for (index, player) in players.enumerated() {
-//               if player.currentItem == playerItem {
-//                   print("Player \(index) finished playing")
-//                   break
-//               }
-//           }
-//           replayButton.isHidden = false
-//           containerView.bringSubviewToFront(replayButton)
-//    }
+
     @objc func videoDidEnd(notification: NSNotification) {
         guard let playerItem = notification.object as? AVPlayerItem else { return }
         replayButton.isHidden = false
         containerView.bringSubviewToFront(replayButton)
         
         for (index, player) in players.enumerated() {
-            containerView.bringSubviewToFront(chooseViewButtons[index])
+            
             if player.currentItem == playerItem {
                 print("Player \(index) finished playing")
                 if chooseViewButtons.count > 1 {
-                    
+                    containerView.bringSubviewToFront(chooseViewButtons[index])
                     chooseViewButtons[index].isHidden = player.status == .readyToPlay && player.currentItem != nil
                 print("=======player.status:\(player.status)，player.currentItem==nil:\(player.currentItem == nil)")
                 }
                 break
             }
         }
-//        let allVideosEnded = players.allSatisfy { $0.rate == 0 && $0.currentItem?.status == .readyToPlay }
     }
 
 
@@ -354,7 +351,6 @@ extension CreateViewController: AVCaptureFileOutputRecordingDelegate {
         }
         let alertViewController = UIAlertController(title: "影片錄製成功？", message: "", preferredStyle: .alert)
         let successAction = UIAlertAction(title: "OK", style: .default) { _ in
-//            self.playVideo(url: outputFileURL)
             self.playAllVideos()
             self.setupCutting()
         }
@@ -381,37 +377,78 @@ extension CreateViewController {
     }
         @objc func replayVideo() {
             playAllVideos()
-//            playVideo(url: <#T##URL#>)
             for player in self.players {
                 player.seek(to: .zero)
                 player.play()
                 replayButton.isHidden = true
             }
-//            if let player = player {
-//                    player.seek(to: .zero)
-//                    player.play()
-//                    replayButton.isHidden = true
-//                }
+
         }
     @IBAction func toggleScreenSize(sender: UIButton) {
-        if sender == stretchScreenButton {
-            stretchScreenButton.isHidden = true
-            shrinkScreenButton.isHidden = false
-            self.containerViewLeadingConstraint.constant = 0
-            self.containerViewTrailingConstraint.constant = 0
-            UIView.animate(withDuration: 0.5) {
-                self.view.layoutIfNeeded()
-                self.cameraPreviewLayer?.frame = self.containerView.layer.bounds
+        if style == 0 {
+            if sender == stretchScreenButton {
+                stretchScreenButton.isHidden = true
+                shrinkScreenButton.isHidden = false
+                self.containerViewLeadingConstraint.constant = 0
+                self.containerViewTrailingConstraint.constant = 0
+                UIView.animate(withDuration: 0.5) {
+                    self.view.layoutIfNeeded()
+                }
+            } else {
+                stretchScreenButton.isHidden = false
+                shrinkScreenButton.isHidden = true
+                self.containerViewLeadingConstraint.constant = 16
+                self.containerViewTrailingConstraint.constant = -16
+                UIView.animate(withDuration: 0.5) {
+                    self.view.layoutIfNeeded()
+                }
             }
-        } else {
-            stretchScreenButton.isHidden = false
-            shrinkScreenButton.isHidden = true
-            self.containerViewLeadingConstraint.constant = 16
-            self.containerViewTrailingConstraint.constant = -16
-            UIView.animate(withDuration: 0.5) {
-                self.view.layoutIfNeeded()
+        } else if style == 1 {
+            if sender == stretchScreenButton {
+                stretchScreenButton.isHidden = true
+                shrinkScreenButton.isHidden = false
+                self.containerViewLeadingConstraint.constant = 0
+                self.containerViewTrailingConstraint.constant = 0
+//                NSLayoutConstraint.deactivate([
+//                    videoViews[0].topAnchor.constraint(equalTo: containerView.topAnchor),
+//                    videoViews[0].leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+//                    videoViews[0].trailingAnchor.constraint(equalTo: line.leadingAnchor),
+//                    videoViews[0].bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
+//                ])
+//                NSLayoutConstraint.activate([
+//                    videoViews[0].topAnchor.constraint(equalTo: containerView.topAnchor),
+//                    videoViews[0].leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+//                    videoViews[0].trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+//                    videoViews[0].bottomAnchor.constraint(equalTo: cameraButton.topAnchor)
+//                ])
+               
+                cameraPreviewLayer?.frame = videoViews[currentRecordingView].bounds
+                UIView.animate(withDuration: 0.5) {
+                    self.view.layoutIfNeeded()
+                }
+            } else {
+                stretchScreenButton.isHidden = false
+                shrinkScreenButton.isHidden = true
+                self.containerViewLeadingConstraint.constant = 16
+                self.containerViewTrailingConstraint.constant = -16
+//                NSLayoutConstraint.deactivate([
+//                    videoViews[0].topAnchor.constraint(equalTo: containerView.topAnchor),
+//                    videoViews[0].leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+//                    videoViews[0].trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+//                    videoViews[0].bottomAnchor.constraint(equalTo: cameraButton.topAnchor)
+//                ])
+//                NSLayoutConstraint.activate([
+//                    videoViews[0].topAnchor.constraint(equalTo: containerView.topAnchor),
+//                    videoViews[0].leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+//                    videoViews[0].trailingAnchor.constraint(equalTo: line.leadingAnchor),
+//                    videoViews[0].bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
+//                ])
+                UIView.animate(withDuration: 0.5) {
+                    self.view.layoutIfNeeded()
+                }
             }
         }
+        
     }
     func setupCutting() {
         let shareButton = UIBarButtonItem(title: "分享", style: .plain, target: self, action: #selector(pushSharePage(_:)))
@@ -460,34 +497,13 @@ extension CreateViewController {
         default: break
         }
     }
-//    @objc func chooseView(_ sender: UIButton) {
-//        postProductionView.isHidden = true
-//        if sender == chooseViewButtons[0] {
-//            currentRecordingView = 0
-//            videoViews[0].layer.addSublayer(cameraPreviewLayer!)
-//            chooseViewButtons[0].isHidden = true
-//            if let playerOne = players.count > 1 ? players[1] : nil, playerOne.currentItem != nil {
-//                       chooseViewButtons[1].isHidden = true
-//                   } else {
-//                       chooseViewButtons[1].isHidden = false
-//                   }
-//        } else if sender == chooseViewButtons[1] {
-//            currentRecordingView = 1
-//            videoViews[1].layer.addSublayer(cameraPreviewLayer!)
-//            chooseViewButtons[1].isHidden = true
-//            if let playerZero = players.count > 0 ? players[0] : nil, playerZero.currentItem != nil {
-//                       chooseViewButtons[0].isHidden = true
-//                   } else {
-//                       chooseViewButtons[0].isHidden = false
-//                   }
-//        }
-//    }
-    // TODO: 修理 + 跟 replayButton
+
     @objc func chooseView(_ sender: UIButton) {
         replayButton.isHidden = true
         postProductionView.isHidden = true
             let viewIndex = sender == chooseViewButtons[0] ? 0 : 1
             currentRecordingView = viewIndex
+        cameraPreviewLayer?.frame = videoViews[viewIndex].bounds
             videoViews[viewIndex].layer.addSublayer(cameraPreviewLayer!)
         
             chooseViewButtons[viewIndex].isHidden = true
@@ -499,16 +515,47 @@ extension CreateViewController {
             }
     }
     @objc func pushSharePage(_ sender: UIBarButtonItem) {
-        let shareVC = ShareViewController()
-        shareVC.url = outputFileURL
-        navigationController?.pushViewController(shareVC, animated: true)
+        guard let outputFileURL = outputFileURL, !videoURLs.isEmpty/*, !audioURLs.isEmpty*/ else {
+            print("點擊分享鍵，但輸出失敗")
+            return
+        }
+        let outputMergedFileURL = URL(fileURLWithPath: NSTemporaryDirectory() + "mergedOutput.mov")
+        if style > 0 {
+            mergeMedia(videoURLs: videoURLs, audioURLs: audioURLs, outputURL: outputMergedFileURL) { [weak self] success in
+                    DispatchQueue.main.async {
+                        if success {
+                            // 導出成功，建立並推送 ShareViewController
+                            let shareVC = ShareViewController()
+                            shareVC.url = outputMergedFileURL
+                            print("導出成功，建立並推送 ShareViewController")
+                            self?.navigationController?.pushViewController(shareVC, animated: true)
+                        } else {
+                            // 導出失敗，顯示錯誤訊息
+                            let alert = UIAlertController(title: "導出錯誤", message: "無法導出影片", preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "確定", style: .default))
+                            self?.present(alert, animated: true, completion: nil)
+                        }
+                    }
+                }
+        } else {
+            let shareVC = ShareViewController()
+            shareVC.url = outputFileURL
+            navigationController?.pushViewController(shareVC, animated: true)
+        }
     }
     func getVideoURL(for index: Int) -> URL? {
         let outputPath = NSTemporaryDirectory() + "output\(index).mov"
         outputFileURL = URL(fileURLWithPath: outputPath)
-        print("getVideoURL:\(outputFileURL!)")
+//        print("getVideoURL:\(outputFileURL!)")
         return outputFileURL
     }
+    
+//    func getAudioURL(for index: Int) -> URL? {
+//        let outputPath = NSTemporaryDirectory() + "output\(index).mov"
+//        outputFileURL = URL(fileURLWithPath: outputPath)
+//        print("getVideoURL:\(outputFileURL!)")
+//        return outputFileURL
+//    }
     func configurePlayersAndAddObservers() {
         guard !players.isEmpty else {
             return
@@ -555,6 +602,146 @@ extension CreateViewController {
 
         if !captureSession.isRunning {
             captureSession.startRunning()
+        }
+    }
+    // TODO: 沒有聲音，只有一個畫面
+    func mergeMedia(videoURLs: [URL], audioURLs: [URL], outputURL: URL, completion: @escaping (Bool) -> Void) {
+        let mixComposition = AVMutableComposition()
+        var instructions = [AVMutableVideoCompositionLayerInstruction]()
+        var videoFrames = [CGRect]()
+        if Thread.isMainThread { 
+            for videoView in self.videoViews {
+                videoFrames.append(videoView.frame)
+                print("===videoView.frame:\(videoView.frame)")
+            }
+        } else {
+            DispatchQueue.main.sync {
+                for videoView in self.videoViews {
+                    videoFrames.append(videoView.frame)
+                }
+            }
+        }
+        let dispatchGroup = DispatchGroup()
+        for (index, videoURL) in videoURLs.enumerated() {
+            dispatchGroup.enter()
+            let videoAsset = AVURLAsset(url: videoURL)
+            guard let videoTrack = videoAsset.tracks(withMediaType: .video).first,
+                  let audioTrack = videoAsset.tracks(withMediaType: .audio).first else {
+                continue
+            }
+            videoAsset.loadTracks(withMediaType: .video) { tracks, error in
+                
+                guard let videoTrack = tracks?.first
+                else {
+                    dispatchGroup.leave()
+                    return
+                }
+                print("Preferred Transform: \(videoTrack.preferredTransform)")
+ 
+                do {
+                    if let compositionVideoTrack = mixComposition.addMutableTrack(withMediaType: .video, preferredTrackID: kCMPersistentTrackID_Invalid) {
+                        try compositionVideoTrack.insertTimeRange(CMTimeRange(start: .zero, duration: videoAsset.duration), of: videoTrack, at: .zero)
+                        if let compositionAudioTrack = mixComposition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid) {
+                            try? compositionAudioTrack.insertTimeRange(CMTimeRange(start: .zero, duration: videoAsset.duration), of: audioTrack, at: .zero)
+                        }
+                        let layerInstruction = AVMutableVideoCompositionLayerInstruction(assetTrack: compositionVideoTrack)
+                        let preferredTransform = videoTrack.preferredTransform
+//                        // CGAffineTransform(a: 0.0, b: 1.0, c: -1.0, d: 0.0, tx: 720.0, ty: 0.0)
+                        let videoSize = videoTrack.naturalSize
+                        print("videoSize:\(videoSize)") // (1280, 720)
+                        let videoFrame = videoFrames[index] // (0.0, 0.0, 170.5, 343.0), (172.5, 0.0, 170.5, 343.0)
+                        let scaleToFitRatioWidth = videoFrame.size.width / videoSize.height
+                        let scaleToFitRatioHeight = videoFrame.size.height / videoSize.width
+                        let undoTranslation = CGAffineTransform(translationX: -720, y: 0)
+                        let transformWithUndoTranslation = preferredTransform.concatenating(undoTranslation)
+                        let scaleFactor = CGAffineTransform(scaleX: scaleToFitRatioWidth, y: scaleToFitRatioHeight)
+                        let transformWithScale = transformWithUndoTranslation.concatenating(scaleFactor)
+                        print("index:\(index), transformWithScale:\(transformWithScale)")
+                        let translation = CGAffineTransform(translationX: CGFloat(index) * videoFrame.origin.x, y: videoFrame.origin.y)
+                        print("index:\(index), translation:\(translation)")
+                        let finalTransform = transformWithScale.concatenating(translation)
+                        print("index:\(index),finalTransform:\(finalTransform)")
+                        layerInstruction.setTransform(finalTransform, at: .zero)
+                        print("index:\(index),layerInstruction:\(instructions)")
+                        instructions.append(layerInstruction)
+                        print("Current number of layerInstructions: \(instructions.count)")
+                        
+                    }
+                } catch {
+                    print("Error with inserting video into composition: \(error)")
+                }
+                dispatchGroup.leave()
+            }
+        }
+
+//        for audioURL in audioURLs {
+//            dispatchGroup.enter()
+//            let audioAsset = AVURLAsset(url: audioURL)
+//            let keys = ["duration"]
+//
+//            audioAsset.loadValuesAsynchronously(forKeys: keys) {
+//                var error: NSError?
+//                let status = audioAsset.statusOfValue(forKey: "duration", error: &error)
+//                switch status {
+//                case .loaded:
+//                    let duration = audioAsset.duration
+//                    audioAsset.loadTracks(withMediaType: .audio) { tracks, tracksError in guard let audioTrack = tracks?.first else {
+//                            dispatchGroup.leave()
+//                            return
+//                        }
+//                        do {
+//                            if let compositionAudioTrack = mixComposition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid) {
+//                                try compositionAudioTrack.insertTimeRange(CMTimeRange(start: .zero, duration: duration), of: audioTrack, at: .zero)
+//                            }
+//                        } catch {
+//                            print("Error with inserting audio into composition: \(error.localizedDescription)")
+//                        }
+//                        dispatchGroup.leave()
+//                    }
+//                case .failed, .cancelled, .loading, .unknown:
+//                    print("Duration not loaded, error: \(error?.localizedDescription ?? "unknown error")")
+//                    dispatchGroup.leave()
+//                @unknown default:
+//                    print("Unknown status of duration loading")
+//                    dispatchGroup.leave()
+//                }
+//            }
+//        }
+        dispatchGroup.notify(queue: .main) {
+            print("Final instructions count: \(instructions.count)")
+            let mainInstruction = AVMutableVideoCompositionInstruction()
+            mainInstruction.timeRange = CMTimeRange(start: .zero, duration: mixComposition.duration)
+            mainInstruction.layerInstructions = instructions
+            
+            print("mainInstruction.layerInstructions:\(mainInstruction.layerInstructions)")
+            let videoComposition = AVMutableVideoComposition()
+            videoComposition.renderSize = CGSize(width: self.containerView.frame.width, height: self.containerView.frame.height)
+            print("videoComposition.renderSize: \(videoComposition.renderSize)")
+            videoComposition.frameDuration = CMTime(value: 1, timescale: 30) // 幀率
+            videoComposition.instructions = [mainInstruction]
+            guard let exporter = AVAssetExportSession(asset: mixComposition, presetName: AVAssetExportPresetHighestQuality) else {
+                print("無法創建 ExportSession")
+                completion(false)
+                return
+            }
+            exporter.outputURL = outputURL
+            exporter.outputFileType = .mov
+            exporter.videoComposition = videoComposition
+            exporter.exportAsynchronously {
+                DispatchQueue.main.async {
+                    switch exporter.status {
+                    case .completed:
+                        print("導出完成")
+                        completion(true)
+                    case .failed:
+                        print("導出失敗：\(exporter.error?.localizedDescription ?? "未知錯誤")")
+                        completion(false)
+                    default:
+                        print("導出未完成")
+                        completion(false)
+                    }
+                }
+            }
         }
     }
 }
