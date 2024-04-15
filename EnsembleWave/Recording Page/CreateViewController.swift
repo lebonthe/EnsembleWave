@@ -237,12 +237,12 @@ class CreateViewController: UIViewController {
         if style == 0 {
             postProductionView.isHidden = true
             containerView.layer.addSublayer(cameraPreviewLayer!)
+            cameraPreviewLayer?.frame = containerView.layer.bounds
         } else if style == 1 {
             postProductionView.isHidden = false
         }
         containerView.clipsToBounds = true
         cameraPreviewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
-        cameraPreviewLayer?.frame = containerView.layer.bounds
 
         DispatchQueue.global(qos: .background).async {
             self.captureSession.startRunning()
@@ -268,7 +268,7 @@ class CreateViewController: UIViewController {
             },
                            completion: nil
             )
-            
+            playAllVideos()
             let outputPath = NSTemporaryDirectory() + "output\(currentRecordingView).mov"
             outputFileURL = URL(fileURLWithPath: outputPath)
             if let outputFileURL = outputFileURL {
@@ -286,9 +286,14 @@ class CreateViewController: UIViewController {
     }
 
     func playAllVideos() {
-        if isRecording != true {
+//        if isRecording != true {
             videoURLs.removeAll()
-            self.cameraPreviewLayer?.removeFromSuperlayer()
+//            self.cameraPreviewLayer?.removeFromSuperlayer()
+            if let cameraPreviewLayer = cameraPreviewLayer {
+                if !cameraPreviewLayer.isPreviewing {
+                    self.cameraPreviewLayer?.removeFromSuperlayer()
+                }
+            }
             for (index, player) in players.enumerated() {
                 print("index:\(index),player:\(player)")
                 let playerLayer = playerLayers[index]
@@ -310,9 +315,13 @@ class CreateViewController: UIViewController {
 
             replayButton.isHidden = true
 
-        } else {
-            
-        }
+//        } else { // 如果是邊錄邊播
+           
+             
+
+        
+
+//        }
     }
     
     func stopAllVideos() {
@@ -501,25 +510,25 @@ extension CreateViewController {
     @objc func chooseView(_ sender: UIButton) {
         replayButton.isHidden = true
         postProductionView.isHidden = true
-            let viewIndex = sender == chooseViewButtons[0] ? 0 : 1
-            currentRecordingView = viewIndex
+        let viewIndex = sender == chooseViewButtons[0] ? 0 : 1
+        currentRecordingView = viewIndex
         cameraPreviewLayer?.frame = videoViews[viewIndex].bounds
-            videoViews[viewIndex].layer.addSublayer(cameraPreviewLayer!)
+        videoViews[viewIndex].layer.addSublayer(cameraPreviewLayer!)
         
-            chooseViewButtons[viewIndex].isHidden = true
-            let otherIndex = viewIndex == 0 ? 1 : 0
-            if players.count > otherIndex {
-                let otherPlayerHasItem = players[otherIndex].currentItem != nil && players[otherIndex].currentItem?.duration.seconds ?? 0 > 0
-                chooseViewButtons[otherIndex].isHidden = otherPlayerHasItem
-                
-            }
+        chooseViewButtons[viewIndex].isHidden = true
+        let otherIndex = viewIndex == 0 ? 1 : 0
+        if players.count > otherIndex {
+            let otherPlayerHasItem = players[otherIndex].currentItem != nil && players[otherIndex].currentItem?.duration.seconds ?? 0 > 0
+            chooseViewButtons[otherIndex].isHidden = otherPlayerHasItem
+            
+        }
     }
     @objc func pushSharePage(_ sender: UIBarButtonItem) {
         guard let outputFileURL = outputFileURL, !videoURLs.isEmpty/*, !audioURLs.isEmpty*/ else {
             print("點擊分享鍵，但輸出失敗")
             return
         }
-        let outputMergedFileURL = URL(fileURLWithPath: NSTemporaryDirectory() + "mergedOutput.mp4"/*"mergedOutput.mov"*/)
+        let outputMergedFileURL = URL(fileURLWithPath: NSTemporaryDirectory() + "mergedOutput.mov")
         if style > 0 {
             mergeMedia(videoURLs: videoURLs, audioURLs: audioURLs, outputURL: outputMergedFileURL) { [weak self] success in
                     DispatchQueue.main.async {
@@ -734,7 +743,7 @@ extension CreateViewController {
                 return
             }
             exporter.outputURL = outputURL
-            exporter.outputFileType = .mp4//.mov
+            exporter.outputFileType = .mov
             exporter.videoComposition = videoComposition
             print("exporter:\(exporter)")
             print("exporter.videoComposition:\(exporter.videoComposition)")
