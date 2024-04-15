@@ -519,7 +519,7 @@ extension CreateViewController {
             print("點擊分享鍵，但輸出失敗")
             return
         }
-        let outputMergedFileURL = URL(fileURLWithPath: NSTemporaryDirectory() + "mergedOutput.mov")
+        let outputMergedFileURL = URL(fileURLWithPath: NSTemporaryDirectory() + "mergedOutput.mp4"/*"mergedOutput.mov"*/)
         if style > 0 {
             mergeMedia(videoURLs: videoURLs, audioURLs: audioURLs, outputURL: outputMergedFileURL) { [weak self] success in
                     DispatchQueue.main.async {
@@ -636,6 +636,7 @@ extension CreateViewController {
                     dispatchGroup.leave()
                     return
                 }
+                print("videoTrack:\(videoTrack)")
                 print("Preferred Transform: \(videoTrack.preferredTransform)")
  
                 do {
@@ -651,21 +652,28 @@ extension CreateViewController {
                         print("videoSize:\(videoSize)") // (1280, 720)
                         let videoFrame = videoFrames[index] // (0.0, 0.0, 170.5, 343.0), (172.5, 0.0, 170.5, 343.0)
                         let scaleToFitRatioWidth = videoFrame.size.width / videoSize.height
+                        print("index:\(index),scaleToFitRatioWidth:\(scaleToFitRatioWidth)")
                         let scaleToFitRatioHeight = videoFrame.size.height / videoSize.width
-                        let undoTranslation = CGAffineTransform(translationX: -720, y: 0)
+                        print("index:\(index),scaleToFitRatioHeight:\(scaleToFitRatioHeight)")
+                        let undoTranslation = CGAffineTransform(translationX: -videoSize.height, y: 0)
                         let transformWithUndoTranslation = preferredTransform.concatenating(undoTranslation)
                         let scaleFactor = CGAffineTransform(scaleX: scaleToFitRatioWidth, y: scaleToFitRatioHeight)
                         let transformWithScale = transformWithUndoTranslation.concatenating(scaleFactor)
                         print("index:\(index), transformWithScale:\(transformWithScale)")
-                        let translation = CGAffineTransform(translationX: CGFloat(index) * videoFrame.origin.x, y: videoFrame.origin.y)
+
+                        var translation = CGAffineTransform(translationX: CGFloat(index) * videoFrame.origin.x + videoFrame.width + 2, y: videoFrame.origin.y)
+                        if index == 0 {
+                          
+                        } else {
+                            translation.tx += 0.5
+                        }
                         print("index:\(index), translation:\(translation)")
                         let finalTransform = transformWithScale.concatenating(translation)
                         print("index:\(index),finalTransform:\(finalTransform)")
                         layerInstruction.setTransform(finalTransform, at: .zero)
-                        print("index:\(index),layerInstruction:\(instructions)")
+                        print("index:\(index),layerInstruction:\(layerInstruction)")
                         instructions.append(layerInstruction)
                         print("Current number of layerInstructions: \(instructions.count)")
-                        
                     }
                 } catch {
                     print("Error with inserting video into composition: \(error)")
@@ -717,6 +725,7 @@ extension CreateViewController {
             let videoComposition = AVMutableVideoComposition()
             videoComposition.renderSize = CGSize(width: self.containerView.frame.width, height: self.containerView.frame.height)
             print("videoComposition.renderSize: \(videoComposition.renderSize)")
+            print("videoComposition.frame:\(videoComposition)")
             videoComposition.frameDuration = CMTime(value: 1, timescale: 30) // 幀率
             videoComposition.instructions = [mainInstruction]
             guard let exporter = AVAssetExportSession(asset: mixComposition, presetName: AVAssetExportPresetHighestQuality) else {
@@ -725,8 +734,10 @@ extension CreateViewController {
                 return
             }
             exporter.outputURL = outputURL
-            exporter.outputFileType = .mov
+            exporter.outputFileType = .mp4//.mov
             exporter.videoComposition = videoComposition
+            print("exporter:\(exporter)")
+            print("exporter.videoComposition:\(exporter.videoComposition)")
             exporter.exportAsynchronously {
                 DispatchQueue.main.async {
                     switch exporter.status {
