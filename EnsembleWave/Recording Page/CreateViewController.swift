@@ -9,6 +9,7 @@ import UIKit
 import AVFoundation // 錄影
 import AVKit // 播放影像 access to AVPlayer
 import Photos // 儲存影像
+import MediaPlayer // 改變音量
 
 class CreateViewController: UIViewController {
     @IBOutlet weak var containerView: UIView!
@@ -50,6 +51,8 @@ class CreateViewController: UIViewController {
     
     var videoURLs: [URL] = []
     var audioURLs: [URL] = []
+    var playerVolume: Float = 0.5
+    var previousVolume: Float = 0.5
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI(style, length)
@@ -58,6 +61,7 @@ class CreateViewController: UIViewController {
         configurePlayersAndAddObservers()
         clearTemporaryVideos()
         configure(for: style)
+        getCurrentSystemVolume()
     }
 //    override func viewDidLayoutSubviews() {
 //        super.viewDidLayoutSubviews()
@@ -66,6 +70,7 @@ class CreateViewController: UIViewController {
 //            }
 //            cameraPreviewLayer?.frame = containerView.bounds
 //    }
+   
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -73,7 +78,7 @@ class CreateViewController: UIViewController {
     }
     
     deinit {
-        NotificationCenter.default.removeObserver(self, name: AVAudioSession.routeChangeNotification, object: nil)
+        NotificationCenter.default.removeObserver(self)
     }
     func setupUI(_ style: Int, _ length: Int) {
         videoViews.forEach { $0.removeFromSuperview() }
@@ -249,7 +254,6 @@ class CreateViewController: UIViewController {
         }
     }
 
-
     @objc func toggleCameraPosition(_ sender: UIBarButtonItem) {
         guard !isRecording else {
                print("錄製中，無法切換鏡頭")
@@ -286,7 +290,20 @@ class CreateViewController: UIViewController {
     }
 
     func playAllVideos() {
-//        if isRecording != true {
+        if isRecording {
+            if headphoneAlertLabel.isHidden != true {
+                previousVolume = playerVolume
+                print("previousVolume:\(previousVolume)")
+                MPVolumeView.setVolume(0.0)
+                print("isRecording Volume:\(0.0)")
+            } else {
+                MPVolumeView.setVolume(playerVolume)
+                print("set playerVolume:\(playerVolume)")
+            }
+        } else {
+            MPVolumeView.setVolume(playerVolume)
+            print("set playerVolume:\(playerVolume)")
+        }
             videoURLs.removeAll()
 //            self.cameraPreviewLayer?.removeFromSuperlayer()
             if let cameraPreviewLayer = cameraPreviewLayer {
@@ -358,6 +375,8 @@ extension CreateViewController: AVCaptureFileOutputRecordingDelegate {
             print(error ?? "")
             return
         }
+        playerVolume = previousVolume
+        print("didFinishRecording，previousVolume:\(previousVolume)")
         let alertViewController = UIAlertController(title: "影片錄製成功？", message: "", preferredStyle: .alert)
         let successAction = UIAlertAction(title: "OK", style: .default) { _ in
             self.playAllVideos()
@@ -471,7 +490,7 @@ extension CreateViewController {
         ])
         let route = AVAudioSession.sharedInstance().currentRoute
         for output in route.outputs {
-            if output.portType == .headphones {
+            if output.portType == .headphones || output.portType == .bluetoothA2DP {
                 print("耳機已連接")
                 headphoneAlertLabel.isHidden = true
             } else {
@@ -496,17 +515,35 @@ extension CreateViewController {
                 let wasUsingHeadPhones = previousRoute.outputs.contains {
                     $0.portType == .headphones
                 }
-                if wasUsingHeadPhones {
+                let wasUsingBlueToothEarPhones = previousRoute.outputs.contains {
+                    $0.portType == .bluetoothA2DP
+                }
+                if wasUsingHeadPhones || wasUsingBlueToothEarPhones {
                     print("耳機已移除")
                     headphoneAlertLabel.isHidden = false
                 }
             }
             print("無耳機")
             headphoneAlertLabel.isHidden = false
+            if isRecording {
+                adjustVolume(isHeadphonesConnected: false)
+            }
         default: break
         }
     }
+// 在錄音狀態改變系統音量
+    private func adjustVolume(isHeadphonesConnected: Bool) {
+        for player in players {
+            if isHeadphonesConnected {
+                       player.volume = playerVolume
+                       print("Headphones connected. Restoring volume.")
+                   } else {
+                       player.volume = 0
+                       print("Headphones disconnected. Muting audio.")
+                   }
+        }
 
+    }
     @objc func chooseView(_ sender: UIButton) {
         replayButton.isHidden = true
         postProductionView.isHidden = true
@@ -613,7 +650,6 @@ extension CreateViewController {
             captureSession.startRunning()
         }
     }
-    // TODO: 沒有聲音，只有一個畫面
     func mergeMedia(videoURLs: [URL], audioURLs: [URL], outputURL: URL, completion: @escaping (Bool) -> Void) {
         let mixComposition = AVMutableComposition()
         var instructions = [AVMutableVideoCompositionLayerInstruction]()
@@ -764,5 +800,40 @@ extension CreateViewController {
             }
         }
     }
+    func getCurrentSystemVolume() {
+        let audioSession = AVAudioSession.sharedInstance()
+        do {
+            try audioSession.setActive(true)
+        } catch {
+            print("Unable to activate audio session")
+        }
+        playerVolume = audioSession.outputVolume
+        print("Current system volume: \(playerVolume)")
+        audioSession.addObserver(self, forKeyPath: "outputVolume", options: NSKeyValueObservingOptions.new, context: nil)
+    }
+
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
+        let audioSession = AVAudioSession.sharedInstance()
+        do {
+            try audioSession.setActive(true)
+        } catch {
+            print("Unable to activate audio session")
+        }
+        
+        if keyPath == "outputVolume" {
+            playerVolume = audioSession.outputVolume
+            print("playerVolume: \(playerVolume)")
+          }
+    }
 }
 
+extension MPVolumeView {
+    static func setVolume(_ volume: Float) {
+        let volumeView = MPVolumeView()
+        let slider = volumeView.subviews.first(where: { $0 is UISlider }) as? UISlider
+
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.01) {
+            slider?.value = volume
+        }
+    }
+}
