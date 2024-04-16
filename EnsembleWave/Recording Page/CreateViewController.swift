@@ -236,6 +236,7 @@ class CreateViewController: UIViewController {
             videoViews.append(videoView)
         }
         trimView.translatesAutoresizingMaskIntoConstraints = false
+        videoViews[0].translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             trimView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             trimView.heightAnchor.constraint(equalToConstant: 200),
@@ -243,7 +244,14 @@ class CreateViewController: UIViewController {
             trimView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
         if style == 0 {
+            
             videoViews[0].frame = containerView.bounds
+            NSLayoutConstraint.activate([
+                videoViews[0].topAnchor.constraint(equalTo: containerView.topAnchor),
+                videoViews[0].leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+                videoViews[0].trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+                videoViews[0].bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
+            ])
         } else if style == 1 {
 
             line.backgroundColor = .black
@@ -261,7 +269,6 @@ class CreateViewController: UIViewController {
             chooseViewButtons[1].translatesAutoresizingMaskIntoConstraints = false
             chooseViewButtons[0].tintColor = .black
             chooseViewButtons[1].tintColor = .black
-            videoViews[0].translatesAutoresizingMaskIntoConstraints = false
             videoViews[1].translatesAutoresizingMaskIntoConstraints = false
             line.translatesAutoresizingMaskIntoConstraints = false
             
@@ -412,7 +419,15 @@ class CreateViewController: UIViewController {
             },
                            completion: nil
             )
-            replayVideo()
+            if style == 0 {
+                if let cameraPreviewLayer = cameraPreviewLayer {
+                    videoViews[0].layer.addSublayer(cameraPreviewLayer)
+                    cameraPreviewLayer.frame = videoViews[0].bounds
+                }
+            } else {
+                replayVideo()
+            }
+            
             let outputPath = NSTemporaryDirectory() + "output\(currentRecordingIndex).mov"
             outputFileURL = URL(fileURLWithPath: outputPath)
             if let outputFileURL = outputFileURL {
@@ -430,18 +445,24 @@ class CreateViewController: UIViewController {
     }
 
     func playAllVideos() {
-        if isRecording {
-                adjustVolumeForRecording()
-            } else {
-                MPVolumeView.setVolume(playerVolume)
-                print("set playerVolume:\(playerVolume)")
-            }
-            
+        if style == 0 {
+            self.cameraPreviewLayer?.removeFromSuperlayer()
+        } else {
             if let cameraPreviewLayer = cameraPreviewLayer {
                 if !cameraPreviewLayer.isPreviewing {
+                    print("isPreviewing:\(cameraPreviewLayer.isPreviewing)")
                     self.cameraPreviewLayer?.removeFromSuperlayer()
                 }
             }
+            if isRecording {
+                    adjustVolumeForRecording()
+                } else {
+                    MPVolumeView.setVolume(playerVolume)
+                    print("set playerVolume:\(playerVolume)")
+                }
+        }
+            
+           
             videoURLs.removeAll()
             for (index, player) in players.enumerated() {
                 print("index:\(index),player:\(player)")
@@ -451,15 +472,21 @@ class CreateViewController: UIViewController {
                     let playerItem = AVPlayerItem(url: videoURL)
                     player.replaceCurrentItem(with: playerItem)
                     setupObserversForPlayerItem(playerItem, with: player)
-                    if index == currentRecordingIndex {
-                        if let startTime = getCropStartTime(for: index) {
-                            player.seek(to: startTime, toleranceBefore: .zero, toleranceAfter: .zero)
-                        }
-                    }
+//                    if index == currentRecordingIndex {
+//                        if let startTime = getCropStartTime(for: index) {
+//                            player.seek(to: startTime, toleranceBefore: .zero, toleranceAfter: .zero)
+//                        }
+//                    }
                     player.play()
                     isPlaying = true
-                    videoViews[index].layer.addSublayer(playerLayer)
-                    playerLayer.frame = videoViews[index].bounds
+                    if style == 0 {
+                        videoViews[0].layer.addSublayer(playerLayer)
+                        playerLayer.frame = videoViews[0].bounds
+                    } else {
+                        videoViews[index].layer.addSublayer(playerLayer)
+                        playerLayer.frame = videoViews[index].bounds
+                        
+                    }
                     playerLayer.videoGravity = .resizeAspectFill
                     }
                 }
@@ -505,6 +532,8 @@ class CreateViewController: UIViewController {
                     containerView.bringSubviewToFront(chooseViewButtons[index])
                     chooseViewButtons[index].isHidden = player.status == .readyToPlay && player.currentItem != nil
                 print("=======player.status:\(player.status)，player.currentItem==nil:\(player.currentItem == nil)")
+                } else {
+                    currentRecordingIndex = 0
                 }
                 break
             }
@@ -564,6 +593,7 @@ extension CreateViewController {
                 self.containerViewTrailingConstraint.constant = 0
                 UIView.animate(withDuration: 0.5) {
                     self.view.layoutIfNeeded()
+                    self.cameraPreviewLayer?.frame = self.containerView.bounds
                 }
             } else {
                 stretchScreenButton.isHidden = false
@@ -580,9 +610,9 @@ extension CreateViewController {
                 shrinkScreenButton.isHidden = false
                 self.containerViewLeadingConstraint.constant = 0
                 self.containerViewTrailingConstraint.constant = 0
-                cameraPreviewLayer?.frame = videoViews[currentRecordingIndex].bounds
                 UIView.animate(withDuration: 0.5) {
                     self.view.layoutIfNeeded()
+                    self.cameraPreviewLayer?.frame = self.videoViews[self.currentRecordingIndex].bounds
                 }
             } else {
                 stretchScreenButton.isHidden = false
