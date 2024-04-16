@@ -10,7 +10,6 @@ import AVFoundation // 錄影
 import AVKit // 播放影像 access to AVPlayer
 import Photos // 儲存影像
 import MediaPlayer // 改變音量
-//import FGVideoEditor // 裁切影片
 import VideoConverter // 裁切影片
 import VideoTrim
 
@@ -58,7 +57,7 @@ class CreateViewController: UIViewController {
     var previousVolume: Float = 0.5
     
     @IBOutlet weak var trimView: UIView!
-    
+    var endTimeObservers: [AVPlayer: Any] = [:]
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -95,48 +94,63 @@ class CreateViewController: UIViewController {
         getCurrentSystemVolume()
         self.videoTrim.delegate = self
     }
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-  
-    }
     @objc func preparedToShare() {
+        // 創建 AVURLAsset
+            let asset = AVURLAsset(url: videoURLs[currentRecordingIndex])
+            // 我們想要非同步加載的資訊鍵
+            let keys = ["tracks"]
+
+            // 非同步加載資訊
+            asset.loadValuesAsynchronously(forKeys: keys) {
+                // 主線程上處理加載後的結果，因為我們將更新UI
+                DispatchQueue.main.async {
+                    var error: NSError?
+                    let status = asset.statusOfValue(forKey: "tracks", error: &error)
+                    if status == .loaded {
+                        if asset.tracks(withMediaType: .video).isEmpty {
+                            print("asset 中沒有影片 tracks")
+                        } else {
+                            self.continuePreparedToShare(with: asset)
+                        }
+                    } else {
+                        print("資源的軌道加載未成功: \(error?.localizedDescription ?? "未知錯誤")")
+                    }
+                }
+            }
+    }
+    func continuePreparedToShare(with asset: AVAsset) {
+        trimView.isHidden = true
         let shareButton = UIBarButtonItem(title: "分享", style: .plain, target: self, action: #selector(pushSharePage(_:)))
         self.navigationItem.rightBarButtonItem = shareButton
         self.navigationItem.leftBarButtonItem = nil
-        trimView.isHidden = true
-        
+
         let startTime = videoTrim.startTime
         let endTime = videoTrim.endTime
-        let asset = AVAsset(url: videoURLs[currentRecordingIndex])
-        let exportSession = asset.assetByTrimming(startTime: startTime, endTime: endTime)
 
-        exportSession.outputURL = getVideoURL(for: currentRecordingIndex)
-           exportSession.outputFileType = .mov
-           exportSession.exportAsynchronously {
-               DispatchQueue.main.async { [weak self] in
-                   guard let self = self else { return }
-                   switch exportSession.status {
-                   case .completed:
-                   guard let outputURL = exportSession.outputURL else {
-                           print("Failed to get output URL after export")
-                           return
-                       }
-                       print("Trim and export successful, new URL is: \(outputURL)")
-                       let playerItem = AVPlayerItem(url: outputURL)
-                       self.players[self.currentRecordingIndex].replaceCurrentItem(with: playerItem)
-                       self.players[self.currentRecordingIndex].seek(to: CMTime.zero)
-                       self.players[self.currentRecordingIndex].play()
-                       self.setupEndTimeObserver(for: self.players[self.currentRecordingIndex], startTime: startTime, endTime: endTime)
-                   case .failed:
-                       print("Export failed: \(exportSession.error?.localizedDescription ?? "No Error Info")")
-                   case .cancelled:
-                       print("Export cancelled")
-                   default:
-                       break
+        if let outputURL = getVideoURL(for: currentRecordingIndex) {
+            print("開始導出到: \(outputURL)")
+            do {
+                try FileManager.default.removeItem(at: outputURL)
+            } catch {
+                print("清除舊檔案失敗: \(error.localizedDescription)")
+            }
+            exportCroppedVideo(asset: asset, startTime: startTime, endTime: endTime, outputURL: outputURL) { success in
+                DispatchQueue.main.async {
+                    if success {
+                        let playerItem = AVPlayerItem(url: outputURL)
+                        self.players[self.currentRecordingIndex].replaceCurrentItem(with: playerItem)
+                        self.players[self.currentRecordingIndex].seek(to: CMTime.zero)
+                        self.players[self.currentRecordingIndex].play()
+                        self.replayVideo()
+                        self.setupEndTimeObserver(for: self.players[self.currentRecordingIndex], startTime: startTime, endTime: endTime)
+                        self.setupObserversForPlayerItem(playerItem, with: self.players[self.currentRecordingIndex])
+                        print("裁剪和導出成功")
+                    } else {
+                        print("裁剪和導出失敗")
+                    }
                 }
             }
         }
-
     }
 
     @objc func recordAgain() {
@@ -190,23 +204,13 @@ class CreateViewController: UIViewController {
             NSLayoutConstraint(item: self.videoTrim, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 100)  // 設置一個固定高度
         ])
 
-
-    }
-//    override func viewDidLayoutSubviews() {
-//        super.viewDidLayoutSubviews()
-//        for (index, playerLayer) in playerLayers.enumerated() {
-//                playerLayer.frame = videoViews[index].bounds
-//            }
-//            cameraPreviewLayer?.frame = containerView.bounds
-//    }
-   
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-   
     }
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+        for (player, observer) in endTimeObservers {
+                player.removeTimeObserver(observer)
+            }
     }
     func setupUI(_ style: Int, _ length: Int) {
         trimView.isHidden = true
@@ -285,7 +289,6 @@ class CreateViewController: UIViewController {
         stretchScreenButton.translatesAutoresizingMaskIntoConstraints = false
         shrinkScreenButton.translatesAutoresizingMaskIntoConstraints = false
         postProductionView.translatesAutoresizingMaskIntoConstraints = false
-        
         postProductionView.backgroundColor = .white
         
         NSLayoutConstraint.activate([
@@ -395,7 +398,6 @@ class CreateViewController: UIViewController {
                print("錄製中，無法切換鏡頭")
                return
            }
-
         isFrontCamera.toggle()
     }
 
@@ -408,7 +410,7 @@ class CreateViewController: UIViewController {
             },
                            completion: nil
             )
-            playAllVideos()
+            replayVideo()
             let outputPath = NSTemporaryDirectory() + "output\(currentRecordingIndex).mov"
             outputFileURL = URL(fileURLWithPath: outputPath)
             if let outputFileURL = outputFileURL {
@@ -432,13 +434,13 @@ class CreateViewController: UIViewController {
                 MPVolumeView.setVolume(playerVolume)
                 print("set playerVolume:\(playerVolume)")
             }
-        
             
             if let cameraPreviewLayer = cameraPreviewLayer {
                 if !cameraPreviewLayer.isPreviewing {
                     self.cameraPreviewLayer?.removeFromSuperlayer()
                 }
             }
+            videoURLs.removeAll()
             for (index, player) in players.enumerated() {
                 print("index:\(index),player:\(player)")
                 let playerLayer = playerLayers[index]
@@ -542,14 +544,15 @@ extension CreateViewController {
         ])
         replayButton.isHidden = true
     }
-        @objc func replayVideo() {
-            playAllVideos()
-            for player in self.players {
-                player.seek(to: .zero)
-                player.play()
-                replayButton.isHidden = true
-            }
+    @objc func replayVideo() {
+        playAllVideos()
+        for player in self.players {
+            player.seek(to: .zero)
+            player.play()
+            replayButton.isHidden = true
         }
+    }
+
     @IBAction func toggleScreenSize(sender: UIButton) {
         if style == 0 {
             if sender == stretchScreenButton {
@@ -651,7 +654,6 @@ extension CreateViewController {
                        print("Headphones disconnected. Muting audio.")
                    }
         }
-
     }
     @objc func chooseView(_ sender: UIButton) {
         replayButton.isHidden = true
@@ -661,7 +663,6 @@ extension CreateViewController {
         currentRecordingIndex = viewIndex
         cameraPreviewLayer?.frame = videoViews[viewIndex].bounds
         videoViews[viewIndex].layer.addSublayer(cameraPreviewLayer!)
-        
         chooseViewButtons[viewIndex].isHidden = true
         let otherIndex = viewIndex == 0 ? 1 : 0
         if players.count > otherIndex {
@@ -679,13 +680,11 @@ extension CreateViewController {
             mergeMedia(videoURLs: videoURLs, audioURLs: audioURLs, outputURL: outputMergedFileURL) { [weak self] success in
                     DispatchQueue.main.async {
                         if success {
-                            // 導出成功，建立並推送 ShareViewController
                             let shareVC = ShareViewController()
                             shareVC.url = outputMergedFileURL
                             print("導出成功，建立並推送 ShareViewController")
                             self?.navigationController?.pushViewController(shareVC, animated: true)
                         } else {
-                            // 導出失敗，顯示錯誤訊息
                             let alert = UIAlertController(title: "導出錯誤", message: "無法導出影片", preferredStyle: .alert)
                             alert.addAction(UIAlertAction(title: "確定", style: .default))
                             self?.present(alert, animated: true, completion: nil)
@@ -701,16 +700,9 @@ extension CreateViewController {
     func getVideoURL(for index: Int) -> URL? {
         let outputPath = NSTemporaryDirectory() + "output\(index).mov"
         outputFileURL = URL(fileURLWithPath: outputPath)
-//        print("getVideoURL:\(outputFileURL!)")
         return outputFileURL
     }
-    
-//    func getAudioURL(for index: Int) -> URL? {
-//        let outputPath = NSTemporaryDirectory() + "output\(index).mov"
-//        outputFileURL = URL(fileURLWithPath: outputPath)
-//        print("getVideoURL:\(outputFileURL!)")
-//        return outputFileURL
-//    }
+
     func configurePlayersAndAddObservers() {
         guard !players.isEmpty else {
             return
@@ -777,6 +769,8 @@ extension CreateViewController {
         }
         let dispatchGroup = DispatchGroup()
         for (index, videoURL) in videoURLs.enumerated() {
+            print("videoURLs.count:\(videoURLs.count)")
+            print("index:\(index),videoURL:\(videoURL)")
             dispatchGroup.enter()
             let videoAsset = AVURLAsset(url: videoURL)
             guard let videoTrack = videoAsset.tracks(withMediaType: .video).first,
@@ -801,7 +795,6 @@ extension CreateViewController {
                         }
                         let layerInstruction = AVMutableVideoCompositionLayerInstruction(assetTrack: compositionVideoTrack)
                         let preferredTransform = videoTrack.preferredTransform
-//                        // CGAffineTransform(a: 0.0, b: 1.0, c: -1.0, d: 0.0, tx: 720.0, ty: 0.0)
                         let videoSize = videoTrack.naturalSize
                         print("videoSize:\(videoSize)") // (1280, 720)
                         let videoFrame = videoFrames[index] // (0.0, 0.0, 170.5, 343.0), (172.5, 0.0, 170.5, 343.0)
@@ -817,7 +810,6 @@ extension CreateViewController {
 
                         var translation = CGAffineTransform(translationX: CGFloat(index) * videoFrame.origin.x + videoFrame.width + 2, y: videoFrame.origin.y)
                         if index == 0 {
-                          
                         } else {
                             translation.tx += 0.5
                         }
@@ -836,39 +828,6 @@ extension CreateViewController {
             }
         }
 
-//        for audioURL in audioURLs {
-//            dispatchGroup.enter()
-//            let audioAsset = AVURLAsset(url: audioURL)
-//            let keys = ["duration"]
-//
-//            audioAsset.loadValuesAsynchronously(forKeys: keys) {
-//                var error: NSError?
-//                let status = audioAsset.statusOfValue(forKey: "duration", error: &error)
-//                switch status {
-//                case .loaded:
-//                    let duration = audioAsset.duration
-//                    audioAsset.loadTracks(withMediaType: .audio) { tracks, tracksError in guard let audioTrack = tracks?.first else {
-//                            dispatchGroup.leave()
-//                            return
-//                        }
-//                        do {
-//                            if let compositionAudioTrack = mixComposition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid) {
-//                                try compositionAudioTrack.insertTimeRange(CMTimeRange(start: .zero, duration: duration), of: audioTrack, at: .zero)
-//                            }
-//                        } catch {
-//                            print("Error with inserting audio into composition: \(error.localizedDescription)")
-//                        }
-//                        dispatchGroup.leave()
-//                    }
-//                case .failed, .cancelled, .loading, .unknown:
-//                    print("Duration not loaded, error: \(error?.localizedDescription ?? "unknown error")")
-//                    dispatchGroup.leave()
-//                @unknown default:
-//                    print("Unknown status of duration loading")
-//                    dispatchGroup.leave()
-//                }
-//            }
-//        }
         dispatchGroup.notify(queue: .main) {
             print("Final instructions count: \(instructions.count)")
             let mainInstruction = AVMutableVideoCompositionInstruction()
@@ -928,7 +887,6 @@ extension CreateViewController {
         } catch {
             print("Unable to activate audio session")
         }
-        
         if keyPath == "outputVolume" {
             playerVolume = audioSession.outputVolume
             print("playerVolume: \(playerVolume)")
@@ -952,10 +910,8 @@ extension CreateViewController {
             if let currentItem = player.currentItem {
                 let startTime = videoTrim.startTime
                 let endTime = videoTrim.endTime
-                
                 let timeRange = CMTimeRange(start: startTime, end: endTime)
                 currentItem.seek(to: startTime, completionHandler: nil)
-                
                 print("更新第 \(index) 個播放器的播放範圍為 \(timeRange)")
             }
         }
@@ -972,7 +928,6 @@ extension CreateViewController: VideoTrimDelegate {
         
         let startTime = view.startTime
         let endTime = view.endTime
-        
         let editingPlayer = players[currentRecordingIndex]
         updatePlayerRange(for: editingPlayer, withStartTime: startTime, endTime: endTime)
         isPlaying = true
@@ -1004,18 +959,56 @@ extension CreateViewController: VideoTrimDelegate {
         }
     }
 
-
     func setupEndTimeObserver(for player: AVPlayer, startTime: CMTime, endTime: CMTime) {
-        if let observer = endTimeObserver {
+        if let observer = endTimeObservers[player] {
             player.removeTimeObserver(observer)
+            endTimeObservers[player] = nil
         }
 
-        endTimeObserver = player.addPeriodicTimeObserver(forInterval: CMTime(seconds: 1, preferredTimescale: 1), queue: .main) { [weak self] time in
+        let observer = player.addPeriodicTimeObserver(forInterval: CMTime(seconds: 1, preferredTimescale: 1), queue: .main) { [weak self] time in
             if time >= endTime {
                 player.pause()
                 player.seek(to: startTime)
             }
         }
+
+        endTimeObservers[player] = observer
     }
 
+    func exportCroppedVideo(asset: AVAsset, startTime: CMTime, endTime: CMTime, outputURL: URL, completion: @escaping (Bool) -> Void) {
+        print("asset.tracks:\(asset.tracks)")
+        guard let videoTrack = asset.tracks(withMediaType: .video).first else {
+            print("導出失敗: 沒有找到 video track")
+            completion(false)
+            return
+        }
+
+        guard let exportSession = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetHighestQuality) else {
+            print("導出失敗: 無法創建 exportSession")
+            completion(false)
+            return
+        }
+
+        exportSession.outputURL = outputURL
+        exportSession.outputFileType = .mov
+        exportSession.timeRange = CMTimeRange(start: startTime, end: endTime)
+        exportSession.exportAsynchronously {
+            DispatchQueue.main.async {
+                switch exportSession.status {
+                case .completed:
+                    print("裁剪和導出成功，文件已更新")
+                    completion(true)
+                case .failed:
+                    print("導出失敗: \(exportSession.error?.localizedDescription ?? "未知錯誤")")
+                    completion(false)
+                case .cancelled:
+                    print("導出取消")
+                    completion(false)
+                default:
+                    print("導出狀態未知")
+                    completion(false)
+                }
+            }
+        }
+    }
 }
