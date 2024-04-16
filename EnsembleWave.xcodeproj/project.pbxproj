@@ -23,7 +23,9 @@
 		9F007EA42BC51F7600C22E5E /* CreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F007EA32BC51F7500C22E5E /* CreateViewController.swift */; };
 		9F007EA72BC520DA00C22E5E /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F007EA62BC520DA00C22E5E /* Style.swift */; };
 		9F007EA92BC5978700C22E5E /* RecordingHomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F007EA82BC5978700C22E5E /* RecordingHomePageViewController.swift */; };
+		9F5A51B92BCE1D0A00070186 /* AVAsset+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5A51B82BCE1D0A00070186 /* AVAsset+Extension.swift */; };
 		9F6B5D602BC804FD00509F5F /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6B5D5F2BC804FD00509F5F /* ShareViewController.swift */; };
+		9F6B5D642BCD383A00509F5F /* VideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6B5D632BCD383A00509F5F /* VideoView.swift */; };
 		9F99AFB22BC79857003671BF /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 9F99AFB12BC79857003671BF /* FirebaseAuth */; };
 		9F99AFB42BC79857003671BF /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9F99AFB32BC79857003671BF /* FirebaseFirestoreSwift */; };
 		9F99AFB62BC79857003671BF /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 9F99AFB52BC79857003671BF /* FirebaseStorage */; };
@@ -77,7 +79,9 @@
 		9F007EA32BC51F7500C22E5E /* CreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateViewController.swift; sourceTree = "<group>"; };
 		9F007EA62BC520DA00C22E5E /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		9F007EA82BC5978700C22E5E /* RecordingHomePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingHomePageViewController.swift; sourceTree = "<group>"; };
+		9F5A51B82BCE1D0A00070186 /* AVAsset+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVAsset+Extension.swift"; sourceTree = "<group>"; };
 		9F6B5D5F2BC804FD00509F5F /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
+		9F6B5D632BCD383A00509F5F /* VideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoView.swift; sourceTree = "<group>"; };
 		9F99AFB92BC7D131003671BF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AF8A4210E4C6EB1AE602BBB5 /* Pods_EnsembleWave.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EnsembleWave.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C368520B942DA87E09E009B4 /* Pods-EnsembleWaveTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EnsembleWaveTests.release.xcconfig"; path = "Target Support Files/Pods-EnsembleWaveTests/Pods-EnsembleWaveTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -154,6 +158,7 @@
 				9F007EA52BC5205400C22E5E /* Model */,
 				9F007E9B2BC51A6200C22E5E /* Recording Page */,
 				9F007EA02BC51BB500C22E5E /* View */,
+				9F6B5D662BCE1B0400509F5F /* Extensions */,
 				9F007E722BC5107E00C22E5E /* Assets.xcassets */,
 				9F007E742BC5107E00C22E5E /* LaunchScreen.storyboard */,
 				9F007E772BC5107E00C22E5E /* Info.plist */,
@@ -197,6 +202,7 @@
 			children = (
 				9F007E6C2BC5107C00C22E5E /* Main.storyboard */,
 				9F007EA12BC51BFC00C22E5E /* RecordingStoryboard.storyboard */,
+				9F6B5D632BCD383A00509F5F /* VideoView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -207,6 +213,15 @@
 				9F007EA62BC520DA00C22E5E /* Style.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		9F6B5D662BCE1B0400509F5F /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				9F5A51B82BCE1D0A00070186 /* AVAsset+Extension.swift */,
+			);
+			name = Extensions;
+			path = View;
 			sourceTree = "<group>";
 		};
 		B0EBC735E7BBF093FF054D28 /* Pods */ = {
@@ -234,6 +249,7 @@
 				9F007E602BC5107C00C22E5E /* Frameworks */,
 				9F007E612BC5107C00C22E5E /* Resources */,
 				9F99AFAD2BC777AB003671BF /* ShellScript */,
+				7FDF7F4140437A279669848E /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -276,6 +292,7 @@
 				9F007E822BC5107E00C22E5E /* Sources */,
 				9F007E832BC5107E00C22E5E /* Frameworks */,
 				9F007E842BC5107E00C22E5E /* Resources */,
+				C40C640CEC959D1B132B0B8C /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -386,6 +403,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		7FDF7F4140437A279669848E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-EnsembleWave/Pods-EnsembleWave-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-EnsembleWave/Pods-EnsembleWave-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EnsembleWave/Pods-EnsembleWave-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		9F99AFAD2BC777AB003671BF /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -401,6 +435,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"\n\n";
+		};
+		C40C640CEC959D1B132B0B8C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-EnsembleWave-EnsembleWaveUITests/Pods-EnsembleWave-EnsembleWaveUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-EnsembleWave-EnsembleWaveUITests/Pods-EnsembleWave-EnsembleWaveUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EnsembleWave-EnsembleWaveUITests/Pods-EnsembleWave-EnsembleWaveUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		DAB793F67E55C56859083547 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -459,6 +510,8 @@
 				9F007EA42BC51F7600C22E5E /* CreateViewController.swift in Sources */,
 				9F007E692BC5107C00C22E5E /* SceneDelegate.swift in Sources */,
 				9F007E9F2BC51AAD00C22E5E /* ChooseLengthTableViewController.swift in Sources */,
+				9F5A51B92BCE1D0A00070186 /* AVAsset+Extension.swift in Sources */,
+				9F6B5D642BCD383A00509F5F /* VideoView.swift in Sources */,
 				9F6B5D602BC804FD00509F5F /* ShareViewController.swift in Sources */,
 				9F007EA72BC520DA00C22E5E /* Style.swift in Sources */,
 				9F007E712BC5107C00C22E5E /* EnsembleWave.xcdatamodeld in Sources */,

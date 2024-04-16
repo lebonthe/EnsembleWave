@@ -10,6 +10,9 @@ import AVFoundation // 錄影
 import AVKit // 播放影像 access to AVPlayer
 import Photos // 儲存影像
 import MediaPlayer // 改變音量
+//import FGVideoEditor // 裁切影片
+import VideoConverter // 裁切影片
+import VideoTrim
 
 class CreateViewController: UIViewController {
     @IBOutlet weak var containerView: UIView!
@@ -47,14 +50,42 @@ class CreateViewController: UIViewController {
 
     @IBOutlet weak var postProductionView: UIView!
     var outputFileURL: URL?
-    var currentRecordingView = 0
+    var currentRecordingIndex = 0
     
     var videoURLs: [URL] = []
     var audioURLs: [URL] = []
     var playerVolume: Float = 0.5
     var previousVolume: Float = 0.5
+    
+    @IBOutlet weak var trimView: UIView!
+    
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+
+    private let trimContainerView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .black
+        return view
+    }()
+    private let videoTrim: VideoTrim = {
+        let videoTrim = VideoTrim()
+        videoTrim.translatesAutoresizingMaskIntoConstraints = false
+        videoTrim.topMargin = 4
+        videoTrim.bottomMargin = 8
+        return videoTrim
+    }()
+
+    private var videoConverter: VideoConverter?
+    private var isPlaying = false
+    private var preset: String?
+    var endTimeObserver: Any? = nil
     override func viewDidLoad() {
         super.viewDidLoad()
+        videoURLs.removeAll()
         setupUI(style, length)
         setupReplayButton()
         bookEarphoneState()
@@ -62,6 +93,104 @@ class CreateViewController: UIViewController {
         clearTemporaryVideos()
         configure(for: style)
         getCurrentSystemVolume()
+        self.videoTrim.delegate = self
+    }
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+  
+    }
+    @objc func preparedToShare() {
+        let shareButton = UIBarButtonItem(title: "分享", style: .plain, target: self, action: #selector(pushSharePage(_:)))
+        self.navigationItem.rightBarButtonItem = shareButton
+        self.navigationItem.leftBarButtonItem = nil
+        trimView.isHidden = true
+        
+        let startTime = videoTrim.startTime
+        let endTime = videoTrim.endTime
+        let asset = AVAsset(url: videoURLs[currentRecordingIndex])
+        let exportSession = asset.assetByTrimming(startTime: startTime, endTime: endTime)
+
+        exportSession.outputURL = getVideoURL(for: currentRecordingIndex)
+           exportSession.outputFileType = .mov
+           exportSession.exportAsynchronously {
+               DispatchQueue.main.async { [weak self] in
+                   guard let self = self else { return }
+                   switch exportSession.status {
+                   case .completed:
+                   guard let outputURL = exportSession.outputURL else {
+                           print("Failed to get output URL after export")
+                           return
+                       }
+                       print("Trim and export successful, new URL is: \(outputURL)")
+                       let playerItem = AVPlayerItem(url: outputURL)
+                       self.players[self.currentRecordingIndex].replaceCurrentItem(with: playerItem)
+                       self.players[self.currentRecordingIndex].seek(to: CMTime.zero)
+                       self.players[self.currentRecordingIndex].play()
+                       self.setupEndTimeObserver(for: self.players[self.currentRecordingIndex], startTime: startTime, endTime: endTime)
+                   case .failed:
+                       print("Export failed: \(exportSession.error?.localizedDescription ?? "No Error Info")")
+                   case .cancelled:
+                       print("Export cancelled")
+                   default:
+                       break
+                }
+            }
+        }
+
+    }
+
+    @objc func recordAgain() {
+        let cameraPositionButton = UIBarButtonItem(image: UIImage(systemName: "arrow.triangle.2.circlepath.camera"), style: .plain, target: self, action: #selector(toggleCameraPosition(_:)))
+        self.navigationItem.rightBarButtonItem = cameraPositionButton
+        self.navigationItem.leftBarButtonItem = nil
+        trimView.isHidden = true
+        
+    }
+    func setupTrimViewUI() {
+        postProductionView.isHidden = false
+        let trimOKButton = UIBarButtonItem(image: UIImage(systemName: "checkmark.circle.fill"), style: .plain, target: self, action: #selector(preparedToShare))
+        let trimCancelButton = UIBarButtonItem(image: UIImage(systemName: "xmark.circle.fill"), style: .plain, target: self, action: #selector(recordAgain))
+        self.navigationItem.rightBarButtonItem = trimOKButton
+        self.navigationItem.leftBarButtonItem = trimCancelButton
+        guard let videoFileURL = getVideoURL(for: currentRecordingIndex) else {
+            print("在 setupTrimViewUI 內 getVideoURL 失敗")
+            return
+        }
+        let asset = AVAsset(url: videoFileURL)
+        videoTrim.asset = asset
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        trimView.backgroundColor = .red
+        trimView.isHidden = false
+        self.trimView.addSubview(self.scrollView)
+        self.scrollView.addSubview(self.trimContainerView)
+        scrollView.backgroundColor = .blue
+        self.trimContainerView.addSubview(self.videoTrim)
+        videoTrim.backgroundColor = .orange
+        // trimContainerView 是 .black
+        self.trimView.addConstraints([
+            NSLayoutConstraint(item: self.scrollView, attribute: .leading, relatedBy: .equal, toItem: self.trimView, attribute: .leading, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: self.scrollView, attribute: .trailing, relatedBy: .equal, toItem: self.trimView, attribute: .trailing, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: self.scrollView, attribute: .top, relatedBy: .equal, toItem: self.trimView, attribute: .top, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: self.scrollView, attribute: .bottom, relatedBy: .equal, toItem: self.trimView, attribute: .bottom, multiplier: 1, constant: 0)
+        ])
+        let containerViewHeightConstraint = NSLayoutConstraint(item: self.trimContainerView, attribute: .height, relatedBy: .equal, toItem: self.scrollView, attribute: .height, multiplier: 1, constant: 0)
+        containerViewHeightConstraint.priority = UILayoutPriority(rawValue: 1)
+        self.scrollView.addConstraints([
+            NSLayoutConstraint(item: self.trimContainerView, attribute: .leading, relatedBy: .equal, toItem: self.scrollView, attribute: .leading, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: self.trimContainerView, attribute: .trailing, relatedBy: .equal, toItem: self.scrollView, attribute: .trailing, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: self.trimContainerView, attribute: .top, relatedBy: .equal, toItem: self.scrollView, attribute: .top, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: self.trimContainerView, attribute: .bottom, relatedBy: .equal, toItem: self.scrollView, attribute: .bottom, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: self.trimContainerView, attribute: .width, relatedBy: .equal, toItem: self.scrollView, attribute: .width, multiplier: 1, constant: 0),
+            containerViewHeightConstraint
+        ])
+        self.trimContainerView.addConstraints([
+            NSLayoutConstraint(item: self.videoTrim, attribute: .top, relatedBy: .equal, toItem: self.trimContainerView, attribute: .top, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: self.videoTrim, attribute: .leading, relatedBy: .equal, toItem: self.trimContainerView, attribute: .leading, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: self.videoTrim, attribute: .trailing, relatedBy: .equal, toItem: self.trimContainerView, attribute: .trailing, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: self.videoTrim, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 100)  // 設置一個固定高度
+        ])
+
+
     }
 //    override func viewDidLayoutSubviews() {
 //        super.viewDidLayoutSubviews()
@@ -73,14 +202,14 @@ class CreateViewController: UIViewController {
    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        
+   
     }
     
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
     func setupUI(_ style: Int, _ length: Int) {
+        trimView.isHidden = true
         videoViews.forEach { $0.removeFromSuperview() }
         videoViews.removeAll()
         players.removeAll()
@@ -96,7 +225,7 @@ class CreateViewController: UIViewController {
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
         ])
-        for index in 0...style {
+        for _ in 0...style {
             let videoView = UIView()
             videoView.backgroundColor = .systemGray4
             containerView.addSubview(videoView)
@@ -125,6 +254,7 @@ class CreateViewController: UIViewController {
             videoViews[0].translatesAutoresizingMaskIntoConstraints = false
             videoViews[1].translatesAutoresizingMaskIntoConstraints = false
             line.translatesAutoresizingMaskIntoConstraints = false
+            trimView.translatesAutoresizingMaskIntoConstraints = false
             NSLayoutConstraint.activate([
                 line.widthAnchor.constraint(equalToConstant: 2),
                 line.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
@@ -155,7 +285,9 @@ class CreateViewController: UIViewController {
         stretchScreenButton.translatesAutoresizingMaskIntoConstraints = false
         shrinkScreenButton.translatesAutoresizingMaskIntoConstraints = false
         postProductionView.translatesAutoresizingMaskIntoConstraints = false
+        
         postProductionView.backgroundColor = .white
+        
         NSLayoutConstraint.activate([
             cameraButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             cameraButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
@@ -172,7 +304,11 @@ class CreateViewController: UIViewController {
             postProductionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
             postProductionView.heightAnchor.constraint(equalToConstant: 60),
             postProductionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            postProductionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            postProductionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            trimView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            trimView.heightAnchor.constraint(equalToConstant: 200),
+            trimView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            trimView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
         shrinkScreenButton.isHidden = true
         
@@ -193,8 +329,8 @@ class CreateViewController: UIViewController {
             print("playerLayer count:\(playerLayers.count)")
         }
         if captureSession.isRunning {
-                captureSession.stopRunning()
-            }
+            captureSession.stopRunning()
+        }
         
         captureSession.sessionPreset = AVCaptureSession.Preset.hd1280x720
         guard let frontDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front),
@@ -273,7 +409,7 @@ class CreateViewController: UIViewController {
                            completion: nil
             )
             playAllVideos()
-            let outputPath = NSTemporaryDirectory() + "output\(currentRecordingView).mov"
+            let outputPath = NSTemporaryDirectory() + "output\(currentRecordingIndex).mov"
             outputFileURL = URL(fileURLWithPath: outputPath)
             if let outputFileURL = outputFileURL {
                 videoFileOutput?.startRecording(to: outputFileURL, recordingDelegate: self)
@@ -291,21 +427,13 @@ class CreateViewController: UIViewController {
 
     func playAllVideos() {
         if isRecording {
-            if headphoneAlertLabel.isHidden != true {
-                previousVolume = playerVolume
-                print("previousVolume:\(previousVolume)")
-                MPVolumeView.setVolume(0.0)
-                print("isRecording Volume:\(0.0)")
+                adjustVolumeForRecording()
             } else {
                 MPVolumeView.setVolume(playerVolume)
                 print("set playerVolume:\(playerVolume)")
             }
-        } else {
-            MPVolumeView.setVolume(playerVolume)
-            print("set playerVolume:\(playerVolume)")
-        }
-            videoURLs.removeAll()
-//            self.cameraPreviewLayer?.removeFromSuperlayer()
+        
+            
             if let cameraPreviewLayer = cameraPreviewLayer {
                 if !cameraPreviewLayer.isPreviewing {
                     self.cameraPreviewLayer?.removeFromSuperlayer()
@@ -318,29 +446,43 @@ class CreateViewController: UIViewController {
                     videoURLs.append(videoURL)
                     let playerItem = AVPlayerItem(url: videoURL)
                     player.replaceCurrentItem(with: playerItem)
-                    NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: playerItem)
-                    NotificationCenter.default.addObserver(self,
-                                                           selector: #selector(videoDidEnd),
-                                                           name: .AVPlayerItemDidPlayToEndTime,
-                                                           object: playerItem)
+                    setupObserversForPlayerItem(playerItem, with: player)
+                    if index == currentRecordingIndex {
+                        if let startTime = getCropStartTime(for: index) {
+                            player.seek(to: startTime, toleranceBefore: .zero, toleranceAfter: .zero)
+                        }
+                    }
                     player.play()
+                    isPlaying = true
                     videoViews[index].layer.addSublayer(playerLayer)
                     playerLayer.frame = videoViews[index].bounds
                     playerLayer.videoGravity = .resizeAspectFill
                     }
                 }
-
             replayButton.isHidden = true
-
-//        } else { // 如果是邊錄邊播
-           
-             
-
-        
-
-//        }
     }
-    
+    func getCropStartTime(for index: Int) -> CMTime? {
+        if index == currentRecordingIndex {
+            return videoTrim.startTime
+        }
+        return nil
+    }
+
+    func setupObserversForPlayerItem(_ playerItem: AVPlayerItem, with player: AVPlayer) {
+        NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: playerItem)
+        NotificationCenter.default.addObserver(self, selector: #selector(videoDidEnd), name: .AVPlayerItemDidPlayToEndTime, object: playerItem)
+    }
+    func adjustVolumeForRecording() {
+        if headphoneAlertLabel.isHidden {
+            previousVolume = playerVolume
+            print("previousVolume:\(previousVolume)")
+            MPVolumeView.setVolume(0.0)
+            print("isRecording Volume:\(0.0)")
+        } else {
+            MPVolumeView.setVolume(playerVolume)
+            print("set playerVolume:\(playerVolume)")
+        }
+    }
     func stopAllVideos() {
         for player in players {
             player.pause()
@@ -353,7 +495,6 @@ class CreateViewController: UIViewController {
         containerView.bringSubviewToFront(replayButton)
         
         for (index, player) in players.enumerated() {
-            
             if player.currentItem == playerItem {
                 print("Player \(index) finished playing")
                 if chooseViewButtons.count > 1 {
@@ -365,8 +506,6 @@ class CreateViewController: UIViewController {
             }
         }
     }
-
-
 }
 
 extension CreateViewController: AVCaptureFileOutputRecordingDelegate {
@@ -380,7 +519,7 @@ extension CreateViewController: AVCaptureFileOutputRecordingDelegate {
         let alertViewController = UIAlertController(title: "影片錄製成功？", message: "", preferredStyle: .alert)
         let successAction = UIAlertAction(title: "OK", style: .default) { _ in
             self.playAllVideos()
-            self.setupCutting()
+            self.setupTrimViewUI()
         }
         let againAction = UIAlertAction(title: "重來", style: .cancel)
         alertViewController.addAction(successAction)
@@ -410,7 +549,6 @@ extension CreateViewController {
                 player.play()
                 replayButton.isHidden = true
             }
-
         }
     @IBAction func toggleScreenSize(sender: UIButton) {
         if style == 0 {
@@ -437,20 +575,7 @@ extension CreateViewController {
                 shrinkScreenButton.isHidden = false
                 self.containerViewLeadingConstraint.constant = 0
                 self.containerViewTrailingConstraint.constant = 0
-//                NSLayoutConstraint.deactivate([
-//                    videoViews[0].topAnchor.constraint(equalTo: containerView.topAnchor),
-//                    videoViews[0].leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-//                    videoViews[0].trailingAnchor.constraint(equalTo: line.leadingAnchor),
-//                    videoViews[0].bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
-//                ])
-//                NSLayoutConstraint.activate([
-//                    videoViews[0].topAnchor.constraint(equalTo: containerView.topAnchor),
-//                    videoViews[0].leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-//                    videoViews[0].trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
-//                    videoViews[0].bottomAnchor.constraint(equalTo: cameraButton.topAnchor)
-//                ])
-               
-                cameraPreviewLayer?.frame = videoViews[currentRecordingView].bounds
+                cameraPreviewLayer?.frame = videoViews[currentRecordingIndex].bounds
                 UIView.animate(withDuration: 0.5) {
                     self.view.layoutIfNeeded()
                 }
@@ -459,29 +584,13 @@ extension CreateViewController {
                 shrinkScreenButton.isHidden = true
                 self.containerViewLeadingConstraint.constant = 16
                 self.containerViewTrailingConstraint.constant = -16
-//                NSLayoutConstraint.deactivate([
-//                    videoViews[0].topAnchor.constraint(equalTo: containerView.topAnchor),
-//                    videoViews[0].leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-//                    videoViews[0].trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
-//                    videoViews[0].bottomAnchor.constraint(equalTo: cameraButton.topAnchor)
-//                ])
-//                NSLayoutConstraint.activate([
-//                    videoViews[0].topAnchor.constraint(equalTo: containerView.topAnchor),
-//                    videoViews[0].leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-//                    videoViews[0].trailingAnchor.constraint(equalTo: line.leadingAnchor),
-//                    videoViews[0].bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
-//                ])
                 UIView.animate(withDuration: 0.5) {
                     self.view.layoutIfNeeded()
                 }
             }
         }
-        
     }
-    func setupCutting() {
-        let shareButton = UIBarButtonItem(title: "分享", style: .plain, target: self, action: #selector(pushSharePage(_:)))
-        self.navigationItem.rightBarButtonItem = shareButton
-    }
+
     func bookEarphoneState() {
         headphoneAlertLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -547,8 +656,9 @@ extension CreateViewController {
     @objc func chooseView(_ sender: UIButton) {
         replayButton.isHidden = true
         postProductionView.isHidden = true
+        trimView.isHidden = true
         let viewIndex = sender == chooseViewButtons[0] ? 0 : 1
-        currentRecordingView = viewIndex
+        currentRecordingIndex = viewIndex
         cameraPreviewLayer?.frame = videoViews[viewIndex].bounds
         videoViews[viewIndex].layer.addSublayer(cameraPreviewLayer!)
         
@@ -557,7 +667,6 @@ extension CreateViewController {
         if players.count > otherIndex {
             let otherPlayerHasItem = players[otherIndex].currentItem != nil && players[otherIndex].currentItem?.duration.seconds ?? 0 > 0
             chooseViewButtons[otherIndex].isHidden = otherPlayerHasItem
-            
         }
     }
     @objc func pushSharePage(_ sender: UIBarButtonItem) {
@@ -836,4 +945,77 @@ extension MPVolumeView {
             slider?.value = volume
         }
     }
+}
+extension CreateViewController {
+    private func updateTrimTime() {
+        for (index, player) in players.enumerated() {
+            if let currentItem = player.currentItem {
+                let startTime = videoTrim.startTime
+                let endTime = videoTrim.endTime
+                
+                let timeRange = CMTimeRange(start: startTime, end: endTime)
+                currentItem.seek(to: startTime, completionHandler: nil)
+                
+                print("更新第 \(index) 個播放器的播放範圍為 \(timeRange)")
+            }
+        }
+    }
+}
+extension CreateViewController: VideoTrimDelegate {
+    func videoTrimStartTrimChange(_ view: VideoTrim) {
+        isPlaying = false
+        self.stopAllVideos()
+    }
+
+    func videoTrimEndTrimChange(_ view: VideoTrim) {
+        self.updateTrimTime()
+        
+        let startTime = view.startTime
+        let endTime = view.endTime
+        
+        let editingPlayer = players[currentRecordingIndex]
+        updatePlayerRange(for: editingPlayer, withStartTime: startTime, endTime: endTime)
+        isPlaying = true
+        if isPlaying {
+            playAllVideos()
+        }
+    }
+
+    func videoTrimPlayTimeChange(_ view: VideoTrim) {
+        let newTime = CMTime(value: CMTimeValue(view.playTime.value + view.startTime.value), timescale: view.playTime.timescale)
+        let player = players[currentRecordingIndex]
+        player.seek(to: newTime, toleranceBefore: .zero, toleranceAfter: .zero)
+    }
+
+    func updatePlayerRange(for player: AVPlayer, withStartTime startTime: CMTime, endTime: CMTime) {
+        guard let currentItem = player.currentItem else {
+            return
+        }
+        let asset = currentItem.asset
+        let newRange = CMTimeRange(start: startTime, duration: endTime - startTime)
+        
+        let newPlayerItem = AVPlayerItem(asset: asset)
+        player.replaceCurrentItem(with: newPlayerItem)
+        
+        player.seek(to: newRange.start) { [weak self] _ in
+            guard let self = self else { return }
+            player.play()
+            self.setupEndTimeObserver(for: player, startTime: startTime, endTime: endTime)
+        }
+    }
+
+
+    func setupEndTimeObserver(for player: AVPlayer, startTime: CMTime, endTime: CMTime) {
+        if let observer = endTimeObserver {
+            player.removeTimeObserver(observer)
+        }
+
+        endTimeObserver = player.addPeriodicTimeObserver(forInterval: CMTime(seconds: 1, preferredTimescale: 1), queue: .main) { [weak self] time in
+            if time >= endTime {
+                player.pause()
+                player.seek(to: startTime)
+            }
+        }
+    }
+
 }

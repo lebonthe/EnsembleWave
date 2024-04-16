@@ -15,81 +15,170 @@
 			dependencies = (
 			);
 			name = SwiftLint;
-			productName = SwiftLint;
 		};
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		0DD1C010D61B84C9874AD39D11CF4848 /* Pods-EnsembleWave-EnsembleWaveUITests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 58935A584D00797E00838C972144B578 /* Pods-EnsembleWave-EnsembleWaveUITests-dummy.m */; };
-		17C4E71B05B9D545443A78C1099D6C1C /* Pods-EnsembleWaveTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1ED6E3F24D7A54D078EED2EFBF9DAE13 /* Pods-EnsembleWaveTests-dummy.m */; };
-		314013FCFEB9A8D29C63BB0DC07B3F09 /* Pods-EnsembleWave-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F85453A2D39DB6034A2BDB01A55BEAC /* Pods-EnsembleWave-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BFE25CBAA35D1E8B6FC006C50C01E0 /* Pods-EnsembleWave-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C8CEEE0D859719764010FBA92BB4E2 /* Pods-EnsembleWave-dummy.m */; };
-		748711CEBCDB3B9CE38BC48442F43CDE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
+		17C4E71B05B9D545443A78C1099D6C1C /* Pods-EnsembleWaveTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 36D0F4BCC10CAD79995EC6AC5A469E88 /* Pods-EnsembleWaveTests-dummy.m */; };
+		226E80B58C50B215F04322BA6096CED8 /* Pods-EnsembleWave-EnsembleWaveUITests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 743ADE28C237D76A80002C2C88C55B06 /* Pods-EnsembleWave-EnsembleWaveUITests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		493015F0FA5D93198E1DBBE1BE0B5B9B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
+		71E8FEEFFD04608497F1223EE1B37E0D /* Pods-EnsembleWave-EnsembleWaveUITests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 107B778CAB9BC94735B133835AFA2772 /* Pods-EnsembleWave-EnsembleWaveUITests-dummy.m */; };
+		7AD7A1FC4888878577AA70ED9E6C5622 /* VideoConverter-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D82BE5E27C73FDBB9760B446836D02B5 /* VideoConverter-dummy.m */; };
+		841E1019FEECD1A4F74F788A0666E4E3 /* Pods-EnsembleWave-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = CB508F42ACAA7FFFDD24157DDBC2A9CD /* Pods-EnsembleWave-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		85E2E4C99B5E2172FFB4D676135052AB /* Pods-EnsembleWave-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B270F8BC30402FE7DEA94A7F5464E2 /* Pods-EnsembleWave-dummy.m */; };
+		88BD1B8D33F55E01F7D7B4C85877C7E6 /* VisualEffectImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9780AE0A0657374CB703517B50AB44 /* VisualEffectImageView.swift */; };
+		97A08E9AF09DF165F7BB92E009EADE50 /* ConverterDegree.swift in Sources */ = {isa = PBXBuildFile; fileRef = D647166F4D3E8B559848D7994F963235 /* ConverterDegree.swift */; };
+		97B714FBA39C53986E6D768C1F26CAA1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
+		99FE7C9AEED7CE80442E93B1EA0B5444 /* VideoConverter-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 964FFF900FDAC016F156DD36DF9EAC46 /* VideoConverter-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A52434B15BECE06D2B6294DBB90E10E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
-		C960E67459160B078553E1F64EA47018 /* Pods-EnsembleWave-EnsembleWaveUITests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = CF387837CE469B9E7DFCA746E84FAED5 /* Pods-EnsembleWave-EnsembleWaveUITests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E617D4B23B1B36DBBE5266A9E5D7F80F /* Pods-EnsembleWaveTests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 6282668C194DF76F61E9B62AA7B0A062 /* Pods-EnsembleWaveTests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F485A7A55A23A836148CBC5B61454854 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
+		A578FDF749832154918842C808F2ABAD /* VideoTrim-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 482A04872B4E7145F3FBA5173BB2FE66 /* VideoTrim-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B7CEF160B5F8BF17717ED745F7C3F5C2 /* VideoConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B186F210A629463340E1E1F2DCFDD1 /* VideoConverter.swift */; };
+		BBF139ACD1600EA091A0AD1DA55DEAB2 /* ConverterOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70DDE59C202F84FA867FC45D8C8C4783 /* ConverterOption.swift */; };
+		BCA097A75AAB9132D9B7C24B865F9A28 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
+		E4A47A5221C722F71E99DD954E2DD9FE /* Int+Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3363102717FB006AC2C8C4860EC24DE6 /* Int+Time.swift */; };
+		E617D4B23B1B36DBBE5266A9E5D7F80F /* Pods-EnsembleWaveTests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 07844DCF15E5B7880E236D4AC76660E7 /* Pods-EnsembleWaveTests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E814D6911B00A720FCC1800DF2061820 /* ConverterCrop.swift in Sources */ = {isa = PBXBuildFile; fileRef = C703600EABE727DAE873DDCE3A1F1193 /* ConverterCrop.swift */; };
+		F1EFD74A50FC151DCB62466E9AB0076A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
+		FB7CF626F9696E8ECDF4CED73A4CC4D5 /* VideoTrim-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5787802CA3D0D6F22CE8D4CB567BFE2D /* VideoTrim-dummy.m */; };
+		FD8361D737C65DF0CF5BE688D3B2F777 /* VideoTrim.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECFDDBB9263B0150BBF4B34D9B303C5 /* VideoTrim.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		3C5ECD4B04CF6408637BE88C40FD412C /* PBXContainerItemProxy */ = {
+		39B3971F28044E9420739C47EC4B9BBA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 52B60EC2A583F24ACBB69C113F5488B9;
 			remoteInfo = SwiftLint;
 		};
-		5FFAA9D828F814925C7322BAC1E6DDF5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 52B60EC2A583F24ACBB69C113F5488B9;
-			remoteInfo = SwiftLint;
-		};
-		DE6694B661BCC67C3AF9423730F8889F /* PBXContainerItemProxy */ = {
+		82957A2153BD7590A1720113FADBB4E3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 8FEED24CBF15E07278F2F2A6158EF0B5;
 			remoteInfo = "Pods-EnsembleWave";
 		};
+		9412716942A69990ADFE49DBA1F841D3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 901D7D609F83C426259CDBAD2B3A602A;
+			remoteInfo = VideoTrim;
+		};
+		951524F0CD19785AD7C4B6281B920AAE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 83B303712B258BD9F462D494D9FCCBB2;
+			remoteInfo = VideoConverter;
+		};
+		B59A5052019F211F385F0DDB52E90FF7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 52B60EC2A583F24ACBB69C113F5488B9;
+			remoteInfo = SwiftLint;
+		};
+		B72A6F506792848B24DC826650E4DA00 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 83B303712B258BD9F462D494D9FCCBB2;
+			remoteInfo = VideoConverter;
+		};
+		DE4A10E383D8275186819B50DEB53768 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 901D7D609F83C426259CDBAD2B3A602A;
+			remoteInfo = VideoTrim;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0763227103B35BBC1D81D9A531B373DA /* Pods-EnsembleWave.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-EnsembleWave.modulemap"; sourceTree = "<group>"; };
+		046580C505E5F48294910A638F834BCF /* VideoTrim.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = VideoTrim.debug.xcconfig; sourceTree = "<group>"; };
+		0626F3DDEB8C78D2ACECCB1E274EBB8E /* Pods-EnsembleWave-EnsembleWaveUITests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-EnsembleWave-EnsembleWaveUITests-Info.plist"; sourceTree = "<group>"; };
+		07844DCF15E5B7880E236D4AC76660E7 /* Pods-EnsembleWaveTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-EnsembleWaveTests-umbrella.h"; sourceTree = "<group>"; };
 		0C38CDB52CF46091F97493934AB11479 /* Pods-EnsembleWave-EnsembleWaveUITests */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-EnsembleWave-EnsembleWaveUITests"; path = Pods_EnsembleWave_EnsembleWaveUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		1D98535C703E25B31C23C72EE7FE3806 /* Pods-EnsembleWave-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-EnsembleWave-acknowledgements.markdown"; sourceTree = "<group>"; };
-		1ED6E3F24D7A54D078EED2EFBF9DAE13 /* Pods-EnsembleWaveTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-EnsembleWaveTests-dummy.m"; sourceTree = "<group>"; };
-		2BBF98D5332C2BE1EE65945AFC926D53 /* Pods-EnsembleWaveTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-EnsembleWaveTests.modulemap"; sourceTree = "<group>"; };
-		2D7165CF041E4186565B559F3FEB4163 /* Pods-EnsembleWave-EnsembleWaveUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-EnsembleWave-EnsembleWaveUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		3C68343F8197B8A3C1EE7D66FA53DAFD /* Pods-EnsembleWave.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-EnsembleWave.debug.xcconfig"; sourceTree = "<group>"; };
-		3EC0124719FE8EF5FDDD72C26F8A2F57 /* SwiftLint.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftLint.debug.xcconfig; sourceTree = "<group>"; };
-		44C8CEEE0D859719764010FBA92BB4E2 /* Pods-EnsembleWave-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-EnsembleWave-dummy.m"; sourceTree = "<group>"; };
-		4FB2200C81AB0B24A0A09128D8893200 /* Pods-EnsembleWave-EnsembleWaveUITests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-EnsembleWave-EnsembleWaveUITests-acknowledgements.markdown"; sourceTree = "<group>"; };
-		58935A584D00797E00838C972144B578 /* Pods-EnsembleWave-EnsembleWaveUITests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-EnsembleWave-EnsembleWaveUITests-dummy.m"; sourceTree = "<group>"; };
-		6282668C194DF76F61E9B62AA7B0A062 /* Pods-EnsembleWaveTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-EnsembleWaveTests-umbrella.h"; sourceTree = "<group>"; };
-		64654A30B72713D0501D0F2FFB6E36D2 /* Pods-EnsembleWave-EnsembleWaveUITests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-EnsembleWave-EnsembleWaveUITests-acknowledgements.plist"; sourceTree = "<group>"; };
+		107B778CAB9BC94735B133835AFA2772 /* Pods-EnsembleWave-EnsembleWaveUITests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-EnsembleWave-EnsembleWaveUITests-dummy.m"; sourceTree = "<group>"; };
+		186965FFEF21AED1F79B5302BC3E502B /* Pods-EnsembleWave-EnsembleWaveUITests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-EnsembleWave-EnsembleWaveUITests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		24158831A93435689929B152A0E13456 /* Pods-EnsembleWave-EnsembleWaveUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-EnsembleWave-EnsembleWaveUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		26E7B6F88C3E5F75240B422DD9C350CB /* Pods-EnsembleWaveTests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-EnsembleWaveTests-Info.plist"; sourceTree = "<group>"; };
+		281A6E96CFE1221B02B4E6304AAB1E0A /* Pods-EnsembleWave.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-EnsembleWave.debug.xcconfig"; sourceTree = "<group>"; };
+		2AF85ADAACEA7898D02A5718C8294499 /* Pods-EnsembleWave-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-EnsembleWave-acknowledgements.plist"; sourceTree = "<group>"; };
+		322A37D5439A9C9546DE312F5A00D4D8 /* Pods-EnsembleWave-EnsembleWaveUITests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-EnsembleWave-EnsembleWaveUITests-acknowledgements.plist"; sourceTree = "<group>"; };
+		328EA5BE1535974C1B1F298D29A2015D /* VideoConverter-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "VideoConverter-Info.plist"; sourceTree = "<group>"; };
+		3363102717FB006AC2C8C4860EC24DE6 /* Int+Time.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Int+Time.swift"; path = "VideoTrim/Classes/Int+Time.swift"; sourceTree = "<group>"; };
+		36D0F4BCC10CAD79995EC6AC5A469E88 /* Pods-EnsembleWaveTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-EnsembleWaveTests-dummy.m"; sourceTree = "<group>"; };
+		38A8410C899FC75239F27FCE09FF9C28 /* Pods-EnsembleWaveTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-EnsembleWaveTests.release.xcconfig"; sourceTree = "<group>"; };
+		3DE32F48D156ED0E7FDC3B4B0D84EBE2 /* SwiftLint.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftLint.release.xcconfig; sourceTree = "<group>"; };
+		40A73D0D34EDFDA5DCB8EF8EBCC48DA0 /* VideoConverter */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = VideoConverter; path = VideoConverter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		482A04872B4E7145F3FBA5173BB2FE66 /* VideoTrim-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "VideoTrim-umbrella.h"; sourceTree = "<group>"; };
+		4E92C5BCBEFD1041EB52ADEB4662BDC6 /* Pods-EnsembleWave-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-EnsembleWave-acknowledgements.markdown"; sourceTree = "<group>"; };
+		50CEF45E3B48168B7397AABFBC315C20 /* Pods-EnsembleWave-EnsembleWaveUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-EnsembleWave-EnsembleWaveUITests.release.xcconfig"; sourceTree = "<group>"; };
+		5787802CA3D0D6F22CE8D4CB567BFE2D /* VideoTrim-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "VideoTrim-dummy.m"; sourceTree = "<group>"; };
+		583BC01F4581300D4A05AC1E28BA4D5B /* Pods-EnsembleWaveTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-EnsembleWaveTests.modulemap"; sourceTree = "<group>"; };
+		5B19846060DF17332CBA752E14D40310 /* VideoConverter.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = VideoConverter.modulemap; sourceTree = "<group>"; };
+		6A9780AE0A0657374CB703517B50AB44 /* VisualEffectImageView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = VisualEffectImageView.swift; path = VideoTrim/Classes/VisualEffectImageView.swift; sourceTree = "<group>"; };
+		6AE8E2C2008C8D57634671A5642B1CC9 /* VideoTrim-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "VideoTrim-Info.plist"; sourceTree = "<group>"; };
 		6B3AE8F55A090AE27C8A70A567888A71 /* Pods-EnsembleWave */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-EnsembleWave"; path = Pods_EnsembleWave.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6F85453A2D39DB6034A2BDB01A55BEAC /* Pods-EnsembleWave-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-EnsembleWave-umbrella.h"; sourceTree = "<group>"; };
-		70A961933974496C98551B860DEAA0D9 /* Pods-EnsembleWaveTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-EnsembleWaveTests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		6BBD70D33F5527F7DA3ECB4C5A09721A /* Pods-EnsembleWave-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-EnsembleWave-Info.plist"; sourceTree = "<group>"; };
+		70B270F8BC30402FE7DEA94A7F5464E2 /* Pods-EnsembleWave-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-EnsembleWave-dummy.m"; sourceTree = "<group>"; };
+		70DDE59C202F84FA867FC45D8C8C4783 /* ConverterOption.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConverterOption.swift; path = VideoConverter/Classes/ConverterOption.swift; sourceTree = "<group>"; };
 		73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		7B17EDE4427844BC61C610DD81823D68 /* Pods-EnsembleWaveTests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-EnsembleWaveTests-Info.plist"; sourceTree = "<group>"; };
-		7EAB1DA481EDDC005A251D3A5E6BE4CD /* SwiftLint.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftLint.release.xcconfig; sourceTree = "<group>"; };
-		8491AF4A548E253C114B6B3F9A5D2F35 /* Pods-EnsembleWave-EnsembleWaveUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-EnsembleWave-EnsembleWaveUITests.release.xcconfig"; sourceTree = "<group>"; };
-		8EDCE22B98E63564655BB66AECFAF2D0 /* Pods-EnsembleWave-EnsembleWaveUITests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-EnsembleWave-EnsembleWaveUITests-Info.plist"; sourceTree = "<group>"; };
-		8FB5FCB4F5717C70ACCAFD74412DE3F1 /* Pods-EnsembleWave-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-EnsembleWave-Info.plist"; sourceTree = "<group>"; };
-		9071C046553828FB5AF5153104B34491 /* Pods-EnsembleWaveTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-EnsembleWaveTests.release.xcconfig"; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		B20EAF3860CADD6917152A1918068751 /* Pods-EnsembleWaveTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-EnsembleWaveTests-acknowledgements.plist"; sourceTree = "<group>"; };
-		BC283C0281170B5C81D8DB97899FF20B /* Pods-EnsembleWave-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-EnsembleWave-acknowledgements.plist"; sourceTree = "<group>"; };
-		C0A03BBAA0D49B9DF832C5FFB6B064D5 /* Pods-EnsembleWaveTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-EnsembleWaveTests.debug.xcconfig"; sourceTree = "<group>"; };
-		CF387837CE469B9E7DFCA746E84FAED5 /* Pods-EnsembleWave-EnsembleWaveUITests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-EnsembleWave-EnsembleWaveUITests-umbrella.h"; sourceTree = "<group>"; };
-		D11819A22CC47117DB630EB8474A5C24 /* Pods-EnsembleWave.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-EnsembleWave.release.xcconfig"; sourceTree = "<group>"; };
+		743ADE28C237D76A80002C2C88C55B06 /* Pods-EnsembleWave-EnsembleWaveUITests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-EnsembleWave-EnsembleWaveUITests-umbrella.h"; sourceTree = "<group>"; };
+		751A9292FA3F0DB6FC40238C610822EF /* Pods-EnsembleWave-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-EnsembleWave-frameworks.sh"; sourceTree = "<group>"; };
+		8D19D63306421BCF78A915049B26978F /* Pods-EnsembleWaveTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-EnsembleWaveTests-acknowledgements.plist"; sourceTree = "<group>"; };
+		964FFF900FDAC016F156DD36DF9EAC46 /* VideoConverter-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "VideoConverter-umbrella.h"; sourceTree = "<group>"; };
+		9BBAC73C080C6BC7148D3727A81459EE /* Pods-EnsembleWaveTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-EnsembleWaveTests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		9C7229B0433A692583F385289276F1BB /* Pods-EnsembleWave-EnsembleWaveUITests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-EnsembleWave-EnsembleWaveUITests-frameworks.sh"; sourceTree = "<group>"; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		A455D3AF4F3BFBDFDCA73228768BF979 /* SwiftLint.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftLint.debug.xcconfig; sourceTree = "<group>"; };
+		A4B186F210A629463340E1E1F2DCFDD1 /* VideoConverter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = VideoConverter.swift; path = VideoConverter/Classes/VideoConverter.swift; sourceTree = "<group>"; };
+		A5534D0AFFDCF26F6EF8B0128ABDBBD5 /* VideoTrim.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = VideoTrim.modulemap; sourceTree = "<group>"; };
+		AC23474F025A6207D897913AD26EFE62 /* Pods-EnsembleWave.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-EnsembleWave.modulemap"; sourceTree = "<group>"; };
+		C703600EABE727DAE873DDCE3A1F1193 /* ConverterCrop.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConverterCrop.swift; path = VideoConverter/Classes/ConverterCrop.swift; sourceTree = "<group>"; };
+		C76CAED0112D05CEBE4CB7CC12B9B048 /* VideoTrim.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = VideoTrim.release.xcconfig; sourceTree = "<group>"; };
+		CB508F42ACAA7FFFDD24157DDBC2A9CD /* Pods-EnsembleWave-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-EnsembleWave-umbrella.h"; sourceTree = "<group>"; };
+		CBA11B94E6FCF2318A6135AFF4E519B2 /* Pods-EnsembleWave.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-EnsembleWave.release.xcconfig"; sourceTree = "<group>"; };
+		D0314F41429DD749621B3B097E8CCD24 /* VideoTrim-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "VideoTrim-prefix.pch"; sourceTree = "<group>"; };
+		D647166F4D3E8B559848D7994F963235 /* ConverterDegree.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConverterDegree.swift; path = VideoConverter/Classes/ConverterDegree.swift; sourceTree = "<group>"; };
+		D82BE5E27C73FDBB9760B446836D02B5 /* VideoConverter-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "VideoConverter-dummy.m"; sourceTree = "<group>"; };
+		DAA1C4ECF9A2927E7DD772CC45BFF0D6 /* Pods-EnsembleWave-EnsembleWaveUITests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-EnsembleWave-EnsembleWaveUITests.modulemap"; sourceTree = "<group>"; };
+		DDEFEDC9EC6EC71420923C278E873F12 /* Pods-EnsembleWaveTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-EnsembleWaveTests.debug.xcconfig"; sourceTree = "<group>"; };
+		DF07CC7C8C8148FF46B2CF6CC3D6F5DF /* VideoConverter-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "VideoConverter-prefix.pch"; sourceTree = "<group>"; };
+		E4D7745AB1FBC9A6DDCCDC6C43C01E01 /* VideoConverter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = VideoConverter.release.xcconfig; sourceTree = "<group>"; };
+		E5C4034CCEFF68E25433D42A0DF9FF48 /* VideoConverter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = VideoConverter.debug.xcconfig; sourceTree = "<group>"; };
+		EECFDDBB9263B0150BBF4B34D9B303C5 /* VideoTrim.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = VideoTrim.swift; path = VideoTrim/Classes/VideoTrim.swift; sourceTree = "<group>"; };
 		FBE3F720A1DD48222A0A5166E9F8DECC /* Pods-EnsembleWaveTests */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-EnsembleWaveTests"; path = Pods_EnsembleWaveTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		FF369C5CC9756F438F7C12B154567D99 /* Pods-EnsembleWave-EnsembleWaveUITests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-EnsembleWave-EnsembleWaveUITests.modulemap"; sourceTree = "<group>"; };
+		FFFABD6A64B21675A1548E1DCF7C2C85 /* VideoTrim */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = VideoTrim; path = VideoTrim.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		17FDD6BD084F82F24093A151AC40FD1B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCA097A75AAB9132D9B7C24B865F9A28 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2A4BCBCD5D3CDD4ACFD3E193315AC131 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F1EFD74A50FC151DCB62466E9AB0076A /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		51B831AF59B7B04F991F0532B2BAFB0E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				493015F0FA5D93198E1DBBE1BE0B5B9B /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		54383D2D7FF0B1B17117D025C85673B5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -98,75 +187,40 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9A7DC01C0BDE1F5AD2044745D2A50D61 /* Frameworks */ = {
+		B1ECEE49B077BF64AFD98BCBF476509C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F485A7A55A23A836148CBC5B61454854 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		9F0191F83D165F65763FC9B99DEF98B1 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				748711CEBCDB3B9CE38BC48442F43CDE /* Foundation.framework in Frameworks */,
+				97B714FBA39C53986E6D768C1F26CAA1 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0BD30DEF6E269816E90131BACA8A7278 /* Products */ = {
+		153513AC1DF09BF54A2061E894527D98 /* VideoConverter */ = {
+			isa = PBXGroup;
+			children = (
+				C703600EABE727DAE873DDCE3A1F1193 /* ConverterCrop.swift */,
+				D647166F4D3E8B559848D7994F963235 /* ConverterDegree.swift */,
+				70DDE59C202F84FA867FC45D8C8C4783 /* ConverterOption.swift */,
+				A4B186F210A629463340E1E1F2DCFDD1 /* VideoConverter.swift */,
+				94543CC5442D94C2D4867B174093BBD8 /* Support Files */,
+			);
+			name = VideoConverter;
+			path = VideoConverter;
+			sourceTree = "<group>";
+		};
+		340F15989E854140A9B4D1BBB5BDA108 /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				6B3AE8F55A090AE27C8A70A567888A71 /* Pods-EnsembleWave */,
 				0C38CDB52CF46091F97493934AB11479 /* Pods-EnsembleWave-EnsembleWaveUITests */,
 				FBE3F720A1DD48222A0A5166E9F8DECC /* Pods-EnsembleWaveTests */,
+				40A73D0D34EDFDA5DCB8EF8EBCC48DA0 /* VideoConverter */,
+				FFFABD6A64B21675A1548E1DCF7C2C85 /* VideoTrim */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		14BEA6D601E76702D8FC49AB486B9DA2 /* Targets Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				21D54ACD3954D195995F2D4DC9764485 /* Pods-EnsembleWave */,
-				FE8A096C5D68E25A56964AEA495997EB /* Pods-EnsembleWave-EnsembleWaveUITests */,
-				24A31CFC5A986475C615D14F614E3CC4 /* Pods-EnsembleWaveTests */,
-			);
-			name = "Targets Support Files";
-			sourceTree = "<group>";
-		};
-		21D54ACD3954D195995F2D4DC9764485 /* Pods-EnsembleWave */ = {
-			isa = PBXGroup;
-			children = (
-				0763227103B35BBC1D81D9A531B373DA /* Pods-EnsembleWave.modulemap */,
-				1D98535C703E25B31C23C72EE7FE3806 /* Pods-EnsembleWave-acknowledgements.markdown */,
-				BC283C0281170B5C81D8DB97899FF20B /* Pods-EnsembleWave-acknowledgements.plist */,
-				44C8CEEE0D859719764010FBA92BB4E2 /* Pods-EnsembleWave-dummy.m */,
-				8FB5FCB4F5717C70ACCAFD74412DE3F1 /* Pods-EnsembleWave-Info.plist */,
-				6F85453A2D39DB6034A2BDB01A55BEAC /* Pods-EnsembleWave-umbrella.h */,
-				3C68343F8197B8A3C1EE7D66FA53DAFD /* Pods-EnsembleWave.debug.xcconfig */,
-				D11819A22CC47117DB630EB8474A5C24 /* Pods-EnsembleWave.release.xcconfig */,
-			);
-			name = "Pods-EnsembleWave";
-			path = "Target Support Files/Pods-EnsembleWave";
-			sourceTree = "<group>";
-		};
-		24A31CFC5A986475C615D14F614E3CC4 /* Pods-EnsembleWaveTests */ = {
-			isa = PBXGroup;
-			children = (
-				2BBF98D5332C2BE1EE65945AFC926D53 /* Pods-EnsembleWaveTests.modulemap */,
-				70A961933974496C98551B860DEAA0D9 /* Pods-EnsembleWaveTests-acknowledgements.markdown */,
-				B20EAF3860CADD6917152A1918068751 /* Pods-EnsembleWaveTests-acknowledgements.plist */,
-				1ED6E3F24D7A54D078EED2EFBF9DAE13 /* Pods-EnsembleWaveTests-dummy.m */,
-				7B17EDE4427844BC61C610DD81823D68 /* Pods-EnsembleWaveTests-Info.plist */,
-				6282668C194DF76F61E9B62AA7B0A062 /* Pods-EnsembleWaveTests-umbrella.h */,
-				C0A03BBAA0D49B9DF832C5FFB6B064D5 /* Pods-EnsembleWaveTests.debug.xcconfig */,
-				9071C046553828FB5AF5153104B34491 /* Pods-EnsembleWaveTests.release.xcconfig */,
-			);
-			name = "Pods-EnsembleWaveTests";
-			path = "Target Support Files/Pods-EnsembleWaveTests";
 			sourceTree = "<group>";
 		};
 		578452D2E740E91742655AC8F1636D1F /* iOS */ = {
@@ -177,22 +231,94 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
-		7FDA596DBE0337ACDFE55A210D54EF26 /* Support Files */ = {
+		67959EA7CB159244BE760A6C3C8B9282 /* Targets Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				3EC0124719FE8EF5FDDD72C26F8A2F57 /* SwiftLint.debug.xcconfig */,
-				7EAB1DA481EDDC005A251D3A5E6BE4CD /* SwiftLint.release.xcconfig */,
+				8218DBB5443A360C25225168F41BF6D2 /* Pods-EnsembleWave */,
+				AB1C0667F25E122389EC17425FDA031E /* Pods-EnsembleWave-EnsembleWaveUITests */,
+				DEB1A1A8E444563FD7BA0156A4D36196 /* Pods-EnsembleWaveTests */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		7CF1A6D434C95E9D6F1E1C4B038A5DC8 /* SwiftLint */ = {
+			isa = PBXGroup;
+			children = (
+				A62CE60AE9CA2FE490B7521127B39E9C /* Support Files */,
+			);
+			name = SwiftLint;
+			path = SwiftLint;
+			sourceTree = "<group>";
+		};
+		8218DBB5443A360C25225168F41BF6D2 /* Pods-EnsembleWave */ = {
+			isa = PBXGroup;
+			children = (
+				AC23474F025A6207D897913AD26EFE62 /* Pods-EnsembleWave.modulemap */,
+				4E92C5BCBEFD1041EB52ADEB4662BDC6 /* Pods-EnsembleWave-acknowledgements.markdown */,
+				2AF85ADAACEA7898D02A5718C8294499 /* Pods-EnsembleWave-acknowledgements.plist */,
+				70B270F8BC30402FE7DEA94A7F5464E2 /* Pods-EnsembleWave-dummy.m */,
+				751A9292FA3F0DB6FC40238C610822EF /* Pods-EnsembleWave-frameworks.sh */,
+				6BBD70D33F5527F7DA3ECB4C5A09721A /* Pods-EnsembleWave-Info.plist */,
+				CB508F42ACAA7FFFDD24157DDBC2A9CD /* Pods-EnsembleWave-umbrella.h */,
+				281A6E96CFE1221B02B4E6304AAB1E0A /* Pods-EnsembleWave.debug.xcconfig */,
+				CBA11B94E6FCF2318A6135AFF4E519B2 /* Pods-EnsembleWave.release.xcconfig */,
+			);
+			name = "Pods-EnsembleWave";
+			path = "Target Support Files/Pods-EnsembleWave";
+			sourceTree = "<group>";
+		};
+		94543CC5442D94C2D4867B174093BBD8 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				5B19846060DF17332CBA752E14D40310 /* VideoConverter.modulemap */,
+				D82BE5E27C73FDBB9760B446836D02B5 /* VideoConverter-dummy.m */,
+				328EA5BE1535974C1B1F298D29A2015D /* VideoConverter-Info.plist */,
+				DF07CC7C8C8148FF46B2CF6CC3D6F5DF /* VideoConverter-prefix.pch */,
+				964FFF900FDAC016F156DD36DF9EAC46 /* VideoConverter-umbrella.h */,
+				E5C4034CCEFF68E25433D42A0DF9FF48 /* VideoConverter.debug.xcconfig */,
+				E4D7745AB1FBC9A6DDCCDC6C43C01E01 /* VideoConverter.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/VideoConverter";
+			sourceTree = "<group>";
+		};
+		A1600050CC52BC1193F6BC07720DE8A7 /* VideoTrim */ = {
+			isa = PBXGroup;
+			children = (
+				3363102717FB006AC2C8C4860EC24DE6 /* Int+Time.swift */,
+				EECFDDBB9263B0150BBF4B34D9B303C5 /* VideoTrim.swift */,
+				6A9780AE0A0657374CB703517B50AB44 /* VisualEffectImageView.swift */,
+				DFCA0618E6FCCAF28BD3131C1F72E06D /* Support Files */,
+			);
+			name = VideoTrim;
+			path = VideoTrim;
+			sourceTree = "<group>";
+		};
+		A62CE60AE9CA2FE490B7521127B39E9C /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				A455D3AF4F3BFBDFDCA73228768BF979 /* SwiftLint.debug.xcconfig */,
+				3DE32F48D156ED0E7FDC3B4B0D84EBE2 /* SwiftLint.release.xcconfig */,
 			);
 			name = "Support Files";
 			path = "../Target Support Files/SwiftLint";
 			sourceTree = "<group>";
 		};
-		965877409E01FB3D85D85E90E6B30185 /* Pods */ = {
+		AB1C0667F25E122389EC17425FDA031E /* Pods-EnsembleWave-EnsembleWaveUITests */ = {
 			isa = PBXGroup;
 			children = (
-				D96179D43A67C5D5323B0682D32C133C /* SwiftLint */,
+				DAA1C4ECF9A2927E7DD772CC45BFF0D6 /* Pods-EnsembleWave-EnsembleWaveUITests.modulemap */,
+				186965FFEF21AED1F79B5302BC3E502B /* Pods-EnsembleWave-EnsembleWaveUITests-acknowledgements.markdown */,
+				322A37D5439A9C9546DE312F5A00D4D8 /* Pods-EnsembleWave-EnsembleWaveUITests-acknowledgements.plist */,
+				107B778CAB9BC94735B133835AFA2772 /* Pods-EnsembleWave-EnsembleWaveUITests-dummy.m */,
+				9C7229B0433A692583F385289276F1BB /* Pods-EnsembleWave-EnsembleWaveUITests-frameworks.sh */,
+				0626F3DDEB8C78D2ACECCB1E274EBB8E /* Pods-EnsembleWave-EnsembleWaveUITests-Info.plist */,
+				743ADE28C237D76A80002C2C88C55B06 /* Pods-EnsembleWave-EnsembleWaveUITests-umbrella.h */,
+				24158831A93435689929B152A0E13456 /* Pods-EnsembleWave-EnsembleWaveUITests.debug.xcconfig */,
+				50CEF45E3B48168B7397AABFBC315C20 /* Pods-EnsembleWave-EnsembleWaveUITests.release.xcconfig */,
 			);
-			name = Pods;
+			name = "Pods-EnsembleWave-EnsembleWaveUITests";
+			path = "Target Support Files/Pods-EnsembleWave-EnsembleWaveUITests";
 			sourceTree = "<group>";
 		};
 		CF1408CF629C7361332E53B88F7BD30C = {
@@ -200,9 +326,9 @@
 			children = (
 				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
 				D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */,
-				965877409E01FB3D85D85E90E6B30185 /* Pods */,
-				0BD30DEF6E269816E90131BACA8A7278 /* Products */,
-				14BEA6D601E76702D8FC49AB486B9DA2 /* Targets Support Files */,
+				E8F590A3A6C6DF93F0508896DE5EB94C /* Pods */,
+				340F15989E854140A9B4D1BBB5BDA108 /* Products */,
+				67959EA7CB159244BE760A6C3C8B9282 /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
 		};
@@ -214,28 +340,45 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		D96179D43A67C5D5323B0682D32C133C /* SwiftLint */ = {
+		DEB1A1A8E444563FD7BA0156A4D36196 /* Pods-EnsembleWaveTests */ = {
 			isa = PBXGroup;
 			children = (
-				7FDA596DBE0337ACDFE55A210D54EF26 /* Support Files */,
+				583BC01F4581300D4A05AC1E28BA4D5B /* Pods-EnsembleWaveTests.modulemap */,
+				9BBAC73C080C6BC7148D3727A81459EE /* Pods-EnsembleWaveTests-acknowledgements.markdown */,
+				8D19D63306421BCF78A915049B26978F /* Pods-EnsembleWaveTests-acknowledgements.plist */,
+				36D0F4BCC10CAD79995EC6AC5A469E88 /* Pods-EnsembleWaveTests-dummy.m */,
+				26E7B6F88C3E5F75240B422DD9C350CB /* Pods-EnsembleWaveTests-Info.plist */,
+				07844DCF15E5B7880E236D4AC76660E7 /* Pods-EnsembleWaveTests-umbrella.h */,
+				DDEFEDC9EC6EC71420923C278E873F12 /* Pods-EnsembleWaveTests.debug.xcconfig */,
+				38A8410C899FC75239F27FCE09FF9C28 /* Pods-EnsembleWaveTests.release.xcconfig */,
 			);
-			path = SwiftLint;
+			name = "Pods-EnsembleWaveTests";
+			path = "Target Support Files/Pods-EnsembleWaveTests";
 			sourceTree = "<group>";
 		};
-		FE8A096C5D68E25A56964AEA495997EB /* Pods-EnsembleWave-EnsembleWaveUITests */ = {
+		DFCA0618E6FCCAF28BD3131C1F72E06D /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				FF369C5CC9756F438F7C12B154567D99 /* Pods-EnsembleWave-EnsembleWaveUITests.modulemap */,
-				4FB2200C81AB0B24A0A09128D8893200 /* Pods-EnsembleWave-EnsembleWaveUITests-acknowledgements.markdown */,
-				64654A30B72713D0501D0F2FFB6E36D2 /* Pods-EnsembleWave-EnsembleWaveUITests-acknowledgements.plist */,
-				58935A584D00797E00838C972144B578 /* Pods-EnsembleWave-EnsembleWaveUITests-dummy.m */,
-				8EDCE22B98E63564655BB66AECFAF2D0 /* Pods-EnsembleWave-EnsembleWaveUITests-Info.plist */,
-				CF387837CE469B9E7DFCA746E84FAED5 /* Pods-EnsembleWave-EnsembleWaveUITests-umbrella.h */,
-				2D7165CF041E4186565B559F3FEB4163 /* Pods-EnsembleWave-EnsembleWaveUITests.debug.xcconfig */,
-				8491AF4A548E253C114B6B3F9A5D2F35 /* Pods-EnsembleWave-EnsembleWaveUITests.release.xcconfig */,
+				A5534D0AFFDCF26F6EF8B0128ABDBBD5 /* VideoTrim.modulemap */,
+				5787802CA3D0D6F22CE8D4CB567BFE2D /* VideoTrim-dummy.m */,
+				6AE8E2C2008C8D57634671A5642B1CC9 /* VideoTrim-Info.plist */,
+				D0314F41429DD749621B3B097E8CCD24 /* VideoTrim-prefix.pch */,
+				482A04872B4E7145F3FBA5173BB2FE66 /* VideoTrim-umbrella.h */,
+				046580C505E5F48294910A638F834BCF /* VideoTrim.debug.xcconfig */,
+				C76CAED0112D05CEBE4CB7CC12B9B048 /* VideoTrim.release.xcconfig */,
 			);
-			name = "Pods-EnsembleWave-EnsembleWaveUITests";
-			path = "Target Support Files/Pods-EnsembleWave-EnsembleWaveUITests";
+			name = "Support Files";
+			path = "../Target Support Files/VideoTrim";
+			sourceTree = "<group>";
+		};
+		E8F590A3A6C6DF93F0508896DE5EB94C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				7CF1A6D434C95E9D6F1E1C4B038A5DC8 /* SwiftLint */,
+				153513AC1DF09BF54A2061E894527D98 /* VideoConverter */,
+				A1600050CC52BC1193F6BC07720DE8A7 /* VideoTrim */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -249,19 +392,35 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		32122E395C373E2402F7542DA5E5F0BF /* Headers */ = {
+		5806E10863F80828377A3B518D214C60 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C960E67459160B078553E1F64EA47018 /* Pods-EnsembleWave-EnsembleWaveUITests-umbrella.h in Headers */,
+				99FE7C9AEED7CE80442E93B1EA0B5444 /* VideoConverter-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D33F260618CE7F8B1BEEDFBA40CBBEC6 /* Headers */ = {
+		61C67520A073FC0BDA16ECE7DECEEA21 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				314013FCFEB9A8D29C63BB0DC07B3F09 /* Pods-EnsembleWave-umbrella.h in Headers */,
+				841E1019FEECD1A4F74F788A0666E4E3 /* Pods-EnsembleWave-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BE0414F27735DFF4C525C50EDA72C268 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				226E80B58C50B215F04322BA6096CED8 /* Pods-EnsembleWave-EnsembleWaveUITests-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FD38D9445708E77872F0D7AD9665BE37 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A578FDF749832154918842C808F2ABAD /* VideoTrim-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,7 +439,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				D695297DA7A0ACAAC658498DEFFD57D8 /* PBXTargetDependency */,
+				63D6FCB09F3E0DE19E44DA09E7E05075 /* PBXTargetDependency */,
 			);
 			name = "Pods-EnsembleWaveTests";
 			productName = Pods_EnsembleWaveTests;
@@ -289,40 +448,80 @@
 		};
 		3F96AD08E8C147AE11E940954BB7CC9B /* Pods-EnsembleWave-EnsembleWaveUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 07C526587BFEE7013EFA80B1EF595729 /* Build configuration list for PBXNativeTarget "Pods-EnsembleWave-EnsembleWaveUITests" */;
+			buildConfigurationList = 8CC59E43F593E7BAFD31CDF5EC587112 /* Build configuration list for PBXNativeTarget "Pods-EnsembleWave-EnsembleWaveUITests" */;
 			buildPhases = (
-				32122E395C373E2402F7542DA5E5F0BF /* Headers */,
-				D7DA2583F91A358A3F9F99DE6D523398 /* Sources */,
-				9A7DC01C0BDE1F5AD2044745D2A50D61 /* Frameworks */,
-				5518ADD67D1C0F73510524C1447C0956 /* Resources */,
+				BE0414F27735DFF4C525C50EDA72C268 /* Headers */,
+				17FA6D3A8BB13DA2F204AB28C01DF6E4 /* Sources */,
+				51B831AF59B7B04F991F0532B2BAFB0E /* Frameworks */,
+				D18797D512FC07300E00427AC923BDA1 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				272E30A956F42212556DAA6C828A6131 /* PBXTargetDependency */,
+				CA977EB4714C5FF84DEDBF5C3D796C7C /* PBXTargetDependency */,
+				64B5BC8EBFCB790447FB6388F6D8F492 /* PBXTargetDependency */,
+				B9A2E4FB47B943F121BA8356E5AE386C /* PBXTargetDependency */,
 			);
 			name = "Pods-EnsembleWave-EnsembleWaveUITests";
 			productName = Pods_EnsembleWave_EnsembleWaveUITests;
 			productReference = 0C38CDB52CF46091F97493934AB11479 /* Pods-EnsembleWave-EnsembleWaveUITests */;
 			productType = "com.apple.product-type.framework";
 		};
-		8FEED24CBF15E07278F2F2A6158EF0B5 /* Pods-EnsembleWave */ = {
+		83B303712B258BD9F462D494D9FCCBB2 /* VideoConverter */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 32987BB52AB9780B5CDD5E68FC345813 /* Build configuration list for PBXNativeTarget "Pods-EnsembleWave" */;
+			buildConfigurationList = 4CB01847D8D0D850D985AD238F7676BF /* Build configuration list for PBXNativeTarget "VideoConverter" */;
 			buildPhases = (
-				D33F260618CE7F8B1BEEDFBA40CBBEC6 /* Headers */,
-				CADF9A0AB8D2CEC9E32FC92A76A943DC /* Sources */,
-				9F0191F83D165F65763FC9B99DEF98B1 /* Frameworks */,
-				50FE5D5689829EA3237B332ACBE85BFC /* Resources */,
+				5806E10863F80828377A3B518D214C60 /* Headers */,
+				92FA964CCCC75804F8BE7F0867463F75 /* Sources */,
+				17FDD6BD084F82F24093A151AC40FD1B /* Frameworks */,
+				A6470C109396780A000C39F19B0E1532 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				DCA74F240E46061E4FFF789E2C8595AD /* PBXTargetDependency */,
+			);
+			name = VideoConverter;
+			productName = VideoConverter;
+			productReference = 40A73D0D34EDFDA5DCB8EF8EBCC48DA0 /* VideoConverter */;
+			productType = "com.apple.product-type.framework";
+		};
+		8FEED24CBF15E07278F2F2A6158EF0B5 /* Pods-EnsembleWave */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 38DBA4368ADE69C8E6575EB8A60E265F /* Build configuration list for PBXNativeTarget "Pods-EnsembleWave" */;
+			buildPhases = (
+				61C67520A073FC0BDA16ECE7DECEEA21 /* Headers */,
+				CEE0B04B6BB5CDA2159E942EAB68D361 /* Sources */,
+				B1ECEE49B077BF64AFD98BCBF476509C /* Frameworks */,
+				815CC4FB466EFADA138EC624F8FA335E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EC6F87FDC9C56B48B010C90768B589C5 /* PBXTargetDependency */,
+				C1C839FF8587831EBD661C4DFCF05AE9 /* PBXTargetDependency */,
+				B7027CA51773E3F02240E4D9177D8C33 /* PBXTargetDependency */,
 			);
 			name = "Pods-EnsembleWave";
 			productName = Pods_EnsembleWave;
 			productReference = 6B3AE8F55A090AE27C8A70A567888A71 /* Pods-EnsembleWave */;
+			productType = "com.apple.product-type.framework";
+		};
+		901D7D609F83C426259CDBAD2B3A602A /* VideoTrim */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CA666E3A3A5F3037D52F638F93878763 /* Build configuration list for PBXNativeTarget "VideoTrim" */;
+			buildPhases = (
+				FD38D9445708E77872F0D7AD9665BE37 /* Headers */,
+				B48898FFE3D09CF61D1581444BCFFB24 /* Sources */,
+				2A4BCBCD5D3CDD4ACFD3E193315AC131 /* Frameworks */,
+				67C97788A9B148AAD0B5D0895AD98CA1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = VideoTrim;
+			productName = VideoTrim;
+			productReference = FFFABD6A64B21675A1548E1DCF7C2C85 /* VideoTrim */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -343,7 +542,7 @@
 				en,
 			);
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
-			productRefGroup = 0BD30DEF6E269816E90131BACA8A7278 /* Products */;
+			productRefGroup = 340F15989E854140A9B4D1BBB5BDA108 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -351,19 +550,28 @@
 				3F96AD08E8C147AE11E940954BB7CC9B /* Pods-EnsembleWave-EnsembleWaveUITests */,
 				113A10C11D9F9AD2D904FF0AA72E88C2 /* Pods-EnsembleWaveTests */,
 				52B60EC2A583F24ACBB69C113F5488B9 /* SwiftLint */,
+				83B303712B258BD9F462D494D9FCCBB2 /* VideoConverter */,
+				901D7D609F83C426259CDBAD2B3A602A /* VideoTrim */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		50FE5D5689829EA3237B332ACBE85BFC /* Resources */ = {
+		67C97788A9B148AAD0B5D0895AD98CA1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5518ADD67D1C0F73510524C1447C0956 /* Resources */ = {
+		815CC4FB466EFADA138EC624F8FA335E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A6470C109396780A000C39F19B0E1532 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -377,9 +585,36 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D18797D512FC07300E00427AC923BDA1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		17FA6D3A8BB13DA2F204AB28C01DF6E4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				71E8FEEFFD04608497F1223EE1B37E0D /* Pods-EnsembleWave-EnsembleWaveUITests-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		92FA964CCCC75804F8BE7F0867463F75 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E814D6911B00A720FCC1800DF2061820 /* ConverterCrop.swift in Sources */,
+				97A08E9AF09DF165F7BB92E009EADE50 /* ConverterDegree.swift in Sources */,
+				BBF139ACD1600EA091A0AD1DA55DEAB2 /* ConverterOption.swift in Sources */,
+				B7CEF160B5F8BF17717ED745F7C3F5C2 /* VideoConverter.swift in Sources */,
+				7AD7A1FC4888878577AA70ED9E6C5622 /* VideoConverter-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A4C188502D920ABE0932F4016E247700 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -388,54 +623,115 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CADF9A0AB8D2CEC9E32FC92A76A943DC /* Sources */ = {
+		B48898FFE3D09CF61D1581444BCFFB24 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				42BFE25CBAA35D1E8B6FC006C50C01E0 /* Pods-EnsembleWave-dummy.m in Sources */,
+				E4A47A5221C722F71E99DD954E2DD9FE /* Int+Time.swift in Sources */,
+				FD8361D737C65DF0CF5BE688D3B2F777 /* VideoTrim.swift in Sources */,
+				FB7CF626F9696E8ECDF4CED73A4CC4D5 /* VideoTrim-dummy.m in Sources */,
+				88BD1B8D33F55E01F7D7B4C85877C7E6 /* VisualEffectImageView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D7DA2583F91A358A3F9F99DE6D523398 /* Sources */ = {
+		CEE0B04B6BB5CDA2159E942EAB68D361 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0DD1C010D61B84C9874AD39D11CF4848 /* Pods-EnsembleWave-EnsembleWaveUITests-dummy.m in Sources */,
+				85E2E4C99B5E2172FFB4D676135052AB /* Pods-EnsembleWave-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		272E30A956F42212556DAA6C828A6131 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = SwiftLint;
-			target = 52B60EC2A583F24ACBB69C113F5488B9 /* SwiftLint */;
-			targetProxy = 5FFAA9D828F814925C7322BAC1E6DDF5 /* PBXContainerItemProxy */;
-		};
-		D695297DA7A0ACAAC658498DEFFD57D8 /* PBXTargetDependency */ = {
+		63D6FCB09F3E0DE19E44DA09E7E05075 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "Pods-EnsembleWave";
 			target = 8FEED24CBF15E07278F2F2A6158EF0B5 /* Pods-EnsembleWave */;
-			targetProxy = DE6694B661BCC67C3AF9423730F8889F /* PBXContainerItemProxy */;
+			targetProxy = 82957A2153BD7590A1720113FADBB4E3 /* PBXContainerItemProxy */;
 		};
-		DCA74F240E46061E4FFF789E2C8595AD /* PBXTargetDependency */ = {
+		64B5BC8EBFCB790447FB6388F6D8F492 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = VideoConverter;
+			target = 83B303712B258BD9F462D494D9FCCBB2 /* VideoConverter */;
+			targetProxy = 951524F0CD19785AD7C4B6281B920AAE /* PBXContainerItemProxy */;
+		};
+		B7027CA51773E3F02240E4D9177D8C33 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = VideoTrim;
+			target = 901D7D609F83C426259CDBAD2B3A602A /* VideoTrim */;
+			targetProxy = 9412716942A69990ADFE49DBA1F841D3 /* PBXContainerItemProxy */;
+		};
+		B9A2E4FB47B943F121BA8356E5AE386C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = VideoTrim;
+			target = 901D7D609F83C426259CDBAD2B3A602A /* VideoTrim */;
+			targetProxy = DE4A10E383D8275186819B50DEB53768 /* PBXContainerItemProxy */;
+		};
+		C1C839FF8587831EBD661C4DFCF05AE9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = VideoConverter;
+			target = 83B303712B258BD9F462D494D9FCCBB2 /* VideoConverter */;
+			targetProxy = B72A6F506792848B24DC826650E4DA00 /* PBXContainerItemProxy */;
+		};
+		CA977EB4714C5FF84DEDBF5C3D796C7C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = SwiftLint;
 			target = 52B60EC2A583F24ACBB69C113F5488B9 /* SwiftLint */;
-			targetProxy = 3C5ECD4B04CF6408637BE88C40FD412C /* PBXContainerItemProxy */;
+			targetProxy = B59A5052019F211F385F0DDB52E90FF7 /* PBXContainerItemProxy */;
+		};
+		EC6F87FDC9C56B48B010C90768B589C5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SwiftLint;
+			target = 52B60EC2A583F24ACBB69C113F5488B9 /* SwiftLint */;
+			targetProxy = 39B3971F28044E9420739C47EC4B9BBA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		25B4F7F9BF551F509BB65063E8412784 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E5C4034CCEFF68E25433D42A0DF9FF48 /* VideoConverter.debug.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/VideoConverter/VideoConverter-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/VideoConverter/VideoConverter-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/VideoConverter/VideoConverter.modulemap";
+				PRODUCT_MODULE_NAME = VideoConverter;
+				PRODUCT_NAME = VideoConverter;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
 		26EA5A9600226D2B7D8D25152A304F3B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7EAB1DA481EDDC005A251D3A5E6BE4CD /* SwiftLint.release.xcconfig */;
+			baseConfigurationReference = 3DE32F48D156ED0E7FDC3B4B0D84EBE2 /* SwiftLint.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_OBJC_WEAK = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -446,46 +742,9 @@
 			};
 			name = Release;
 		};
-		364FF0EAE79C880E1FF757D1C9961841 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3C68343F8197B8A3C1EE7D66FA53DAFD /* Pods-EnsembleWave.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-EnsembleWave/Pods-EnsembleWave-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-EnsembleWave/Pods-EnsembleWave.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
 		43AB34F1EA296C5461430F088C90C176 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9071C046553828FB5AF5153104B34491 /* Pods-EnsembleWaveTests.release.xcconfig */;
+			baseConfigurationReference = 38A8410C899FC75239F27FCE09FF9C28 /* Pods-EnsembleWaveTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -521,9 +780,9 @@
 			};
 			name = Release;
 		};
-		678D94A945F5C2D248CF93445E3AE928 /* Release */ = {
+		4ABBE6407F735C7453030936A81263FC /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8491AF4A548E253C114B6B3F9A5D2F35 /* Pods-EnsembleWave-EnsembleWaveUITests.release.xcconfig */;
+			baseConfigurationReference = 50CEF45E3B48168B7397AABFBC315C20 /* Pods-EnsembleWave-EnsembleWaveUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -559,9 +818,9 @@
 			};
 			name = Release;
 		};
-		775A8B7482732D2A806A704D40047644 /* Release */ = {
+		4AF90C835271946C5C8E54DC11E66E84 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D11819A22CC47117DB630EB8474A5C24 /* Pods-EnsembleWave.release.xcconfig */;
+			baseConfigurationReference = 281A6E96CFE1221B02B4E6304AAB1E0A /* Pods-EnsembleWave.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -591,11 +850,44 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Release;
+			name = Debug;
+		};
+		5F86464DED57C99C5702329AB5ADCFB6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 046580C505E5F48294910A638F834BCF /* VideoTrim.debug.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/VideoTrim/VideoTrim-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/VideoTrim/VideoTrim-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/VideoTrim/VideoTrim.modulemap";
+				PRODUCT_MODULE_NAME = VideoTrim;
+				PRODUCT_NAME = VideoTrim;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
 		};
 		92486E5E72E54FAF60E1A7D022C21B10 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -725,9 +1017,82 @@
 			};
 			name = Debug;
 		};
-		A971EEB0783570C692C4EF34AF8F1CA8 /* Debug */ = {
+		A36F0F36D190642E9960FCBC67CD00FE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2D7165CF041E4186565B559F3FEB4163 /* Pods-EnsembleWave-EnsembleWaveUITests.debug.xcconfig */;
+			baseConfigurationReference = E4D7745AB1FBC9A6DDCCDC6C43C01E01 /* VideoConverter.release.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/VideoConverter/VideoConverter-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/VideoConverter/VideoConverter-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/VideoConverter/VideoConverter.modulemap";
+				PRODUCT_MODULE_NAME = VideoConverter;
+				PRODUCT_NAME = VideoConverter;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		B0249BFD2864EE49707AAC723546FF13 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CBA11B94E6FCF2318A6135AFF4E519B2 /* Pods-EnsembleWave.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-EnsembleWave/Pods-EnsembleWave-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-EnsembleWave/Pods-EnsembleWave.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		C94DF7407636E57E3FFE1BCB71BC6106 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 24158831A93435689929B152A0E13456 /* Pods-EnsembleWave-EnsembleWaveUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -764,7 +1129,7 @@
 		};
 		CC261B7C406C09E5F1A37B31F3088C06 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C0A03BBAA0D49B9DF832C5FFB6B064D5 /* Pods-EnsembleWaveTests.debug.xcconfig */;
+			baseConfigurationReference = DDEFEDC9EC6EC71420923C278E873F12 /* Pods-EnsembleWaveTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -801,12 +1166,12 @@
 		};
 		E9E1A48A750B946DE9877594C6E735E4 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3EC0124719FE8EF5FDDD72C26F8A2F57 /* SwiftLint.debug.xcconfig */;
+			baseConfigurationReference = A455D3AF4F3BFBDFDCA73228768BF979 /* SwiftLint.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_OBJC_WEAK = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -816,23 +1181,49 @@
 			};
 			name = Debug;
 		};
+		F5DAA98906A68C14B12925BFE1D9D0EB /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C76CAED0112D05CEBE4CB7CC12B9B048 /* VideoTrim.release.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/VideoTrim/VideoTrim-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/VideoTrim/VideoTrim-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/VideoTrim/VideoTrim.modulemap";
+				PRODUCT_MODULE_NAME = VideoTrim;
+				PRODUCT_NAME = VideoTrim;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		07C526587BFEE7013EFA80B1EF595729 /* Build configuration list for PBXNativeTarget "Pods-EnsembleWave-EnsembleWaveUITests" */ = {
+		38DBA4368ADE69C8E6575EB8A60E265F /* Build configuration list for PBXNativeTarget "Pods-EnsembleWave" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				A971EEB0783570C692C4EF34AF8F1CA8 /* Debug */,
-				678D94A945F5C2D248CF93445E3AE928 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		32987BB52AB9780B5CDD5E68FC345813 /* Build configuration list for PBXNativeTarget "Pods-EnsembleWave" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				364FF0EAE79C880E1FF757D1C9961841 /* Debug */,
-				775A8B7482732D2A806A704D40047644 /* Release */,
+				4AF90C835271946C5C8E54DC11E66E84 /* Debug */,
+				B0249BFD2864EE49707AAC723546FF13 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -846,11 +1237,38 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		4CB01847D8D0D850D985AD238F7676BF /* Build configuration list for PBXNativeTarget "VideoConverter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				25B4F7F9BF551F509BB65063E8412784 /* Debug */,
+				A36F0F36D190642E9960FCBC67CD00FE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8CC59E43F593E7BAFD31CDF5EC587112 /* Build configuration list for PBXNativeTarget "Pods-EnsembleWave-EnsembleWaveUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C94DF7407636E57E3FFE1BCB71BC6106 /* Debug */,
+				4ABBE6407F735C7453030936A81263FC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		AE7B4FB01588B9E6DF09CB79FC7CE7BD /* Build configuration list for PBXAggregateTarget "SwiftLint" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E9E1A48A750B946DE9877594C6E735E4 /* Debug */,
 				26EA5A9600226D2B7D8D25152A304F3B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CA666E3A3A5F3037D52F638F93878763 /* Build configuration list for PBXNativeTarget "VideoTrim" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5F86464DED57C99C5702329AB5ADCFB6 /* Debug */,
+				F5DAA98906A68C14B12925BFE1D9D0EB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -1,5 +1,6 @@
 # Uncomment the next line to define a global platform for your project
-# platform :ios, '9.0'
+platform :ios, '15.4'
+
 
 target 'EnsembleWave' do
   # Comment the next line if you don't want to use dynamic frameworks
@@ -7,6 +8,10 @@ target 'EnsembleWave' do
 
   # Pods for EnsembleWave
 	pod 'SwiftLint'
+	# pod "FGVideoEditor", "~>1.2.1"
+	pod 'VideoConverter'
+	pod 'VideoTrim'
+
 
   target 'EnsembleWaveTests' do
     inherit! :search_paths

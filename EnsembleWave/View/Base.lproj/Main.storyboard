@@ -433,7 +433,12 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OMG-sP-MWp">
-                                <rect key="frame" x="0.0" y="637" width="393" height="80"/>
+                                <rect key="frame" x="0.0" y="578" width="393" height="274"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9ED-LC-btW" userLabel="Trim View">
+                                <rect key="frame" x="0.0" y="652" width="393" height="200"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
@@ -459,6 +464,7 @@
                         <outlet property="postProductionView" destination="OMG-sP-MWp" id="3dX-Dp-RkM"/>
                         <outlet property="shrinkScreenButton" destination="fXX-Nn-CrJ" id="qSY-ZX-3fh"/>
                         <outlet property="stretchScreenButton" destination="BGx-Uc-Yan" id="I1f-8w-pcR"/>
+                        <outlet property="trimView" destination="9ED-LC-btW" id="mku-kF-NS8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nIe-dP-pLZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
