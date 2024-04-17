@@ -14,19 +14,28 @@ class WallViewController: UIViewController {
     let db = Firestore.firestore()
     override func viewDidLoad() {
         super.viewDidLoad()
-        Task {
-            await getAllPosts()
-        }
+       
+        listenToPosts()
+        
     }
-    private func getAllPosts() async {
-        do {
-            let querySnapshot = try await db.collection("Posts").getDocuments()
-            for document in querySnapshot.documents {
-                print("\(document.documentID) => \(document.data())")
+    private func listenToPosts() {
+        db.collection("Posts")
+          .addSnapshotListener { querySnapshot, error in
+            guard let snapshot = querySnapshot else {
+              print("Error listening for post updates: \(error?.localizedDescription ?? "No error")")
+              return
             }
-        } catch {
-            print("Error getting documents: \(error)")
-        }
+            snapshot.documentChanges.forEach { change in
+              if change.type == .added {
+                print("New post: \(change.document.data())")
+              } else if change.type == .modified {
+                print("Updated post: \(change.document.data())")
+              } else if change.type == .removed {
+                print("Removed post: \(change.document.data())")
+              }
+            }
+          }
     }
+
 
 }
