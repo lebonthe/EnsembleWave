@@ -24,6 +24,7 @@ class VideoCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         setupUI()
+        configure()
     }
     deinit {
         NotificationCenter.default.removeObserver(self)

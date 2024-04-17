@@ -13,6 +13,8 @@ class WallViewController: UIViewController {
     
     let db = Firestore.firestore()
     var posts = [Post]()
+    var userInfo: User?
+    var usersNames: [String: String] = [:]
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
@@ -35,35 +37,17 @@ class WallViewController: UIViewController {
                 return
             }
               snapshot.documentChanges.forEach { change in
-                  var data = change.document.data()
+                  let data = change.document.data()
                   let post = Post(dic: data)
                   if change.type == .added {
                       print("New post: \(change.document.data())")
 //                      do {
-                          self.posts.append(post)
-                          DispatchQueue.main.async {
+                      self.posts.append(post)
+                      self.fetchUserName(userID: post.userID)
+                      DispatchQueue.main.async {
                               self.tableView.reloadData()
                           }
-//                          var data = try JSONSerialization.data(withJSONObject: change.document.data(), options: .prettyPrinted)
-                          
-//                          if let timestamp = data["createdTime"] as? Timestamp {
-//                                          data["createdTime"] = timestamp.dateValue().iso8601String
-//                                      }
-//                          do {
-//                              let jsonData = try JSONSerialization.data(withJSONObject: data, options: [])
-////                              let postAdded = try decoder.decode(Post.self, from: data)
-//                              let post = try JSONDecoder().decode(Post.self, from: jsonData)
-//                              self.posts.append(post)
-//                              DispatchQueue.main.async {
-//                                                  self.tableView.reloadData()
-//                                              }
-//                              print("self.posts:\(self.posts)")
-//                          } catch {
-//                              print("data 轉換失敗:\(error.localizedDescription)")
-//                          }
-//                      } catch {
-//                          print("decode 失敗:\(error.localizedDescription)")
-//                      }
+
                   } else if change.type == .modified {
                       print("Updated post: \(change.document.data())")
                       if let index = self.posts.firstIndex(where: { $0.id == post.id }) {
@@ -82,6 +66,20 @@ class WallViewController: UIViewController {
               }
           }
     }
+    private func fetchUserName(userID: String) {
+        let docRef = db.collection("Users").document(userID)
+        docRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                let userName = document.data()?["name"] as? String ?? "Unknown User"
+                self.usersNames[userID] = userName
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            } else {
+                print("Document does not exist")
+            }
+        }
+    }
 }
 extension WallViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -91,7 +89,6 @@ extension WallViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         6
     }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let row = indexPath.row
         switch row {
@@ -138,6 +135,10 @@ extension WallViewController: UITableViewDataSource {
 }
 
 extension WallViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        let userID = posts[section].userID
+        return usersNames[userID]
+    }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         118 // TODO: 調整不同的行高
     }

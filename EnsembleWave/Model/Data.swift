@@ -14,14 +14,14 @@ struct User: Decodable {
     var userID: String
     var email: String
     var follow: [String] // userID
-    var blackList: [String] // userID
+    var userBlackList: [String] // userID
     init(dic: [String: Any]) {
         self.name = dic["name"] as? String ?? ""
         self.signUpTime = Timestamp.dateValue(dic["signUpTime"] as? Timestamp ?? Timestamp())()
         self.userID = dic["userID"] as? String ?? ""
         self.email = dic["email"] as? String ?? ""
         self.follow = dic["follow"] as? [String] ?? []
-        self.blackList = dic["blackList"] as? [String] ?? []
+        self.userBlackList = dic["userBlackList"] as? [String] ?? []
     }
 }
 
