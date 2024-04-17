@@ -26,6 +26,8 @@
 		9F5A51B92BCE1D0A00070186 /* AVAsset+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5A51B82BCE1D0A00070186 /* AVAsset+Extension.swift */; };
 		9F5A51BB2BCEC68900070186 /* ExportError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5A51BA2BCEC68900070186 /* ExportError.swift */; };
 		9F5A51BD2BCF9A4700070186 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5A51BC2BCF9A4700070186 /* Data.swift */; };
+		9F5A51C02BCFC2C300070186 /* PostToWallViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F5A51BF2BCFC2C300070186 /* PostToWallViewController.xib */; };
+		9F5A51C12BCFC2C300070186 /* PostToWallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5A51BE2BCFC2C300070186 /* PostToWallViewController.swift */; };
 		9F6B5D602BC804FD00509F5F /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6B5D5F2BC804FD00509F5F /* ShareViewController.swift */; };
 		9F6B5D642BCD383A00509F5F /* VideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6B5D632BCD383A00509F5F /* VideoView.swift */; };
 		9F99AFB22BC79857003671BF /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 9F99AFB12BC79857003671BF /* FirebaseAuth */; };
@@ -84,6 +86,8 @@
 		9F5A51B82BCE1D0A00070186 /* AVAsset+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVAsset+Extension.swift"; sourceTree = "<group>"; };
 		9F5A51BA2BCEC68900070186 /* ExportError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportError.swift; sourceTree = "<group>"; };
 		9F5A51BC2BCF9A4700070186 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
+		9F5A51BE2BCFC2C300070186 /* PostToWallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostToWallViewController.swift; sourceTree = "<group>"; };
+		9F5A51BF2BCFC2C300070186 /* PostToWallViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostToWallViewController.xib; sourceTree = "<group>"; };
 		9F6B5D5F2BC804FD00509F5F /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		9F6B5D632BCD383A00509F5F /* VideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoView.swift; sourceTree = "<group>"; };
 		9F99AFB92BC7D131003671BF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -197,6 +201,7 @@
 				9F007E9E2BC51AAD00C22E5E /* ChooseLengthTableViewController.swift */,
 				9F007EA32BC51F7500C22E5E /* CreateViewController.swift */,
 				9F6B5D5F2BC804FD00509F5F /* ShareViewController.swift */,
+				9F5A51BE2BCFC2C300070186 /* PostToWallViewController.swift */,
 			);
 			path = "Recording Page";
 			sourceTree = "<group>";
@@ -206,6 +211,7 @@
 			children = (
 				9F007E6C2BC5107C00C22E5E /* Main.storyboard */,
 				9F007EA12BC51BFC00C22E5E /* RecordingStoryboard.storyboard */,
+				9F5A51BF2BCFC2C300070186 /* PostToWallViewController.xib */,
 				9F6B5D632BCD383A00509F5F /* VideoView.swift */,
 			);
 			path = View;
@@ -364,6 +370,7 @@
 				9F007E732BC5107E00C22E5E /* Assets.xcassets in Resources */,
 				9F007E762BC5107E00C22E5E /* Base in Resources */,
 				9F99AFB82BC7B160003671BF /* (null) in Resources */,
+				9F5A51C02BCFC2C300070186 /* PostToWallViewController.xib in Resources */,
 				9F007E6E2BC5107C00C22E5E /* Base in Resources */,
 				9F007EA22BC51BFC00C22E5E /* RecordingStoryboard.storyboard in Resources */,
 				9F99AFBA2BC7D131003671BF /* GoogleService-Info.plist in Resources */,
@@ -517,6 +524,7 @@
 				9F007E692BC5107C00C22E5E /* SceneDelegate.swift in Sources */,
 				9F007E9F2BC51AAD00C22E5E /* ChooseLengthTableViewController.swift in Sources */,
 				9F5A51B92BCE1D0A00070186 /* AVAsset+Extension.swift in Sources */,
+				9F5A51C12BCFC2C300070186 /* PostToWallViewController.swift in Sources */,
 				9F6B5D642BCD383A00509F5F /* VideoView.swift in Sources */,
 				9F5A51BD2BCF9A4700070186 /* Data.swift in Sources */,
 				9F5A51BB2BCEC68900070186 /* ExportError.swift in Sources */,

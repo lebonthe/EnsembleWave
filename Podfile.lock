@@ -1,24 +1,28 @@
 PODS:
+  - IQKeyboardManagerSwift (7.0.1)
   - SwiftLint (0.54.0)
   - VideoConverter (0.1.5)
   - VideoTrim (0.1.7)
 
 DEPENDENCIES:
+  - IQKeyboardManagerSwift
   - SwiftLint
   - VideoConverter
   - VideoTrim
 
 SPEC REPOS:
   trunk:
+    - IQKeyboardManagerSwift
     - SwiftLint
     - VideoConverter
     - VideoTrim
 
 SPEC CHECKSUMS:
+  IQKeyboardManagerSwift: 7f6b1b1d1497855d2beea7f2f10ffcc6978525b1
   SwiftLint: c1de071d9d08c8aba837545f6254315bc900e211
   VideoConverter: 9b3d34e7c0987b85cbd80b3c50043a4291f934aa
   VideoTrim: 5f0192644a7189d95c76061fd36425e3e827383a
 
-PODFILE CHECKSUM: e97012457afb5f89d4f75f35ef7ca696a2ad4cef
+PODFILE CHECKSUM: d1d77946cd7256d472a9041da8ff20a5cade4232
 
 COCOAPODS: 1.15.2

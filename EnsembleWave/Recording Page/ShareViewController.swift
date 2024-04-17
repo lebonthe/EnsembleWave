@@ -46,7 +46,7 @@ class ShareViewController: UIViewController {
             shareToWallButton.widthAnchor.constraint(equalToConstant: 200)
         ])
         saveToAlbumButton.addTarget(self, action: #selector(saveVideoToAlbum), for: .touchUpInside)
-        shareToWallButton.addTarget(self, action: #selector(saveVideoToFirebase), for: .touchUpInside)
+        shareToWallButton.addTarget(self, action: #selector(shareToWall), for: .touchUpInside)
     }
     @objc func saveVideoToAlbum() {
         guard let url = url else {
@@ -74,35 +74,58 @@ class ShareViewController: UIViewController {
             }
         }
     }
-    @objc func saveVideoToFirebase() {
+    @objc func shareToWall() {
+        saveVideoToFirebase() { url in
+                if let url = url {
+                    print("Got the download URL: \(url)")
+                    let controller = PostToWallViewController(nibName: "PostToWallViewController", bundle: nil)
+                    controller.url = url
+                    self.present(controller, animated: true)
+                    
+                } else {
+                    print("Failed to get the download URL")
+                }
+            }
+    }
+    func saveVideoToFirebase(completion: @escaping (URL?) -> Void) {
         let storage = Storage.storage()
         let storageRef = storage.reference()
-        let mergedVideoURL = url
-        let videoRef = storageRef.child("videos/\(UUID().uuidString)" + ".mov")
+        let videoRef = storageRef.child("videos/\(UUID().uuidString).mov")
         guard let url = url else {
             print("沒有 url")
+            completion(nil)
             return
         }
+        let dispatchGroup = DispatchGroup()
+        dispatchGroup.enter()
         let uploadTask = videoRef.putFile(from: url, metadata: nil) { metadata, error in
             guard error == nil else {
                 print("putFile error:\(error?.localizedDescription ?? "error")")
+                dispatchGroup.leave()
+                completion(nil)
                 return
             }
             guard let metadata = metadata else {
                 print("metadata 錯誤")
+                dispatchGroup.leave()
+                completion(nil)
                 return
             }
-            let size = metadata.size
+            print("Uploaded Size: \(metadata.size) bytes")
             videoRef.downloadURL { url, error in
+                defer { dispatchGroup.leave() }
                 guard error == nil else {
                     print("downloadURL error:\(error?.localizedDescription ?? "error")")
+                    completion(nil)
                     return
                 }
-                guard let downloadURL = url else {
+                guard let url = url else {
                     print("downloadURL 失敗")
+                    completion(nil)
                     return
                 }
-                print("downloadURL:\(downloadURL)")
+                print("downloadURL:\(url)")
+                completion(url)
             }
         }
     }

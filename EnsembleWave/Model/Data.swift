@@ -14,14 +14,14 @@ struct User: Decodable {
     var userID: String
     var email: String
     var follow: [String] // userID
-    var blacklist: [String] // userID
+    var blackList: [String] // userID
     init(dic: [String: Any]) {
         self.name = dic["name"] as? String ?? ""
         self.signUpTime = Timestamp.dateValue(dic["signUpTime"] as? Timestamp ?? Timestamp())()
         self.userID = dic["userID"] as? String ?? ""
         self.email = dic["email"] as? String ?? ""
         self.follow = dic["follow"] as? [String] ?? []
-        self.blacklist = dic["blacklist"] as? [String] ?? []
+        self.blackList = dic["blackList"] as? [String] ?? []
     }
 }
 
@@ -33,7 +33,7 @@ struct Post: Decodable {
     var content: String
     var importMusic: String?
     var duration: TimeInterval?
-    var tag: [String]?
+    var tag: String
     var like: Int
     var report: [Report]?
     
@@ -45,7 +45,7 @@ struct Post: Decodable {
         self.content = dic["content"] as? String ?? ""
         self.importMusic = dic["importMusic"] as? String ?? ""
         self.duration = dic["duration"] as? TimeInterval ?? TimeInterval()
-        self.tag = dic["tag"] as? [String] ?? []
+        self.tag = dic["tag"] as? String ?? ""
         self.like = dic["like"] as? Int ?? 0
         self.report = dic["Report"] as? [Report] ?? [Report]()
     }

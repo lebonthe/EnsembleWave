@@ -11,7 +11,7 @@ target 'EnsembleWave' do
 	# pod "FGVideoEditor", "~>1.2.1"
 	pod 'VideoConverter'
 	pod 'VideoTrim'
-
+	pod 'IQKeyboardManagerSwift'
 
   target 'EnsembleWaveTests' do
     inherit! :search_paths
