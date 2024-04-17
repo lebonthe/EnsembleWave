@@ -7,6 +7,7 @@
 
 import UIKit
 import Photos
+import FirebaseStorage
 
 class ShareViewController: UIViewController {
     var url: URL?
@@ -45,6 +46,7 @@ class ShareViewController: UIViewController {
             shareToWallButton.widthAnchor.constraint(equalToConstant: 200)
         ])
         saveToAlbumButton.addTarget(self, action: #selector(saveVideoToAlbum), for: .touchUpInside)
+        shareToWallButton.addTarget(self, action: #selector(saveVideoToFirebase), for: .touchUpInside)
     }
     @objc func saveVideoToAlbum() {
         guard let url = url else {
@@ -72,5 +74,36 @@ class ShareViewController: UIViewController {
             }
         }
     }
-
+    @objc func saveVideoToFirebase() {
+        let storage = Storage.storage()
+        let storageRef = storage.reference()
+        let mergedVideoURL = url
+        let videoRef = storageRef.child("videos/\(UUID().uuidString)" + ".mov")
+        guard let url = url else {
+            print("沒有 url")
+            return
+        }
+        let uploadTask = videoRef.putFile(from: url, metadata: nil) { metadata, error in
+            guard error == nil else {
+                print("putFile error:\(error?.localizedDescription ?? "error")")
+                return
+            }
+            guard let metadata = metadata else {
+                print("metadata 錯誤")
+                return
+            }
+            let size = metadata.size
+            videoRef.downloadURL { url, error in
+                guard error == nil else {
+                    print("downloadURL error:\(error?.localizedDescription ?? "error")")
+                    return
+                }
+                guard let downloadURL = url else {
+                    print("downloadURL 失敗")
+                    return
+                }
+                print("downloadURL:\(downloadURL)")
+            }
+        }
+    }
 }
