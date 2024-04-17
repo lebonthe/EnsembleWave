@@ -35,6 +35,7 @@ struct Post: Decodable {
     var duration: TimeInterval?
     var tag: String
     var like: Int
+    var replay: [String]
     var report: [Report]?
     
     init(dic: [String: Any]) {
@@ -47,6 +48,7 @@ struct Post: Decodable {
         self.duration = dic["duration"] as? TimeInterval ?? TimeInterval()
         self.tag = dic["tag"] as? String ?? ""
         self.like = dic["like"] as? Int ?? 0
+        self.replay = dic["replay"] as? [String] ?? []
         self.report = dic["Report"] as? [Report] ?? [Report]()
     }
 }

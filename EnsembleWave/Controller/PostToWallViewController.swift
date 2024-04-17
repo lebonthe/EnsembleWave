@@ -36,7 +36,6 @@ class PostToWallViewController: UIViewController {
             configure(url: url)
             setupReplayButton()
         }
-        
     }
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -56,27 +55,35 @@ class PostToWallViewController: UIViewController {
         if titleTextField.text == nil || contentTextView.text == nil || tagTextField.text == nil {
             let alertViewController = UIAlertController(title: "請完成所有欄位", message: "跟大家分享你的創作想法", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .cancel)
-        } else {
-            Task {
-                await postToWall()
-            }
-            let alertViewController = UIAlertController(title: "影片已發佈", message: "", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .default) { _ in
-                self.dismiss(animated: true) {
-                    self.tabBarController?.selectedIndex = 1
-                }
-            }
             alertViewController.addAction(okAction)
             present(alertViewController, animated: true)
+        } else {
+            Task {
+                let success = await postToWall()
+                if success {
+                    let alertViewController = UIAlertController(title: "影片已發布", message: "", preferredStyle: .alert)
+                    let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+                        self.dismiss(animated: true) {
+                            self.tabBarController?.selectedIndex = 1
+                        }
+                    }
+                    alertViewController.addAction(okAction)
+                    present(alertViewController, animated: true)
+                } else {
+                    let alertViewController = UIAlertController(title: "Oops!", message: "影片發布失敗", preferredStyle: .alert)
+                    let okAction = UIAlertAction(title: "OK", style: .default)
+                    alertViewController.addAction(okAction)
+                    present(alertViewController, animated: true)
+                }
+            }
         }
-        
     }
-    func postToWall() async {
+    func postToWall() async -> Bool{
         guard let titleText = titleTextField.text,
            let contentText = contentTextView.text,
            let tagText = tagTextField.text else {
             print("缺少發文內容")
-           return
+           return false
         }
         let post = [
             "title": titleText,
@@ -94,10 +101,11 @@ class PostToWallViewController: UIViewController {
             try await db.collection("Posts").document(id).updateData([
                 "id": id
             ])
+            return true
         } catch {
             print("Error adding document: \(error)")
+            return false
         }
-        
     }
     
     func setupObserversForPlayerItem(_ playerItem: AVPlayerItem, with player: AVPlayer) {
@@ -128,14 +136,4 @@ class PostToWallViewController: UIViewController {
             }
         }
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
