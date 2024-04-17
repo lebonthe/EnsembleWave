@@ -29,6 +29,12 @@
 		9F5A51C02BCFC2C300070186 /* PostToWallViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F5A51BF2BCFC2C300070186 /* PostToWallViewController.xib */; };
 		9F5A51C12BCFC2C300070186 /* PostToWallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5A51BE2BCFC2C300070186 /* PostToWallViewController.swift */; };
 		9F5A51C32BD004C100070186 /* WallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5A51C22BD004C100070186 /* WallViewController.swift */; };
+		9F5A51C52BD018C900070186 /* VideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5A51C42BD018C900070186 /* VideoCell.swift */; };
+		9F5A51C72BD01A8100070186 /* OptionsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5A51C62BD01A8100070186 /* OptionsCell.swift */; };
+		9F5A51C92BD01AFD00070186 /* LikesCountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5A51C82BD01AFD00070186 /* LikesCountCell.swift */; };
+		9F5A51CB2BD01B3300070186 /* ContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5A51CA2BD01B3300070186 /* ContentCell.swift */; };
+		9F5A51CD2BD01B7600070186 /* TagsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5A51CC2BD01B7600070186 /* TagsCell.swift */; };
+		9F5A51CF2BD01B9900070186 /* ReplaysCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5A51CE2BD01B9900070186 /* ReplaysCell.swift */; };
 		9F6B5D602BC804FD00509F5F /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6B5D5F2BC804FD00509F5F /* ShareViewController.swift */; };
 		9F6B5D642BCD383A00509F5F /* VideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6B5D632BCD383A00509F5F /* VideoView.swift */; };
 		9F99AFB22BC79857003671BF /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 9F99AFB12BC79857003671BF /* FirebaseAuth */; };
@@ -90,6 +96,12 @@
 		9F5A51BE2BCFC2C300070186 /* PostToWallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostToWallViewController.swift; sourceTree = "<group>"; };
 		9F5A51BF2BCFC2C300070186 /* PostToWallViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostToWallViewController.xib; sourceTree = "<group>"; };
 		9F5A51C22BD004C100070186 /* WallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WallViewController.swift; sourceTree = "<group>"; };
+		9F5A51C42BD018C900070186 /* VideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCell.swift; sourceTree = "<group>"; };
+		9F5A51C62BD01A8100070186 /* OptionsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsCell.swift; sourceTree = "<group>"; };
+		9F5A51C82BD01AFD00070186 /* LikesCountCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesCountCell.swift; sourceTree = "<group>"; };
+		9F5A51CA2BD01B3300070186 /* ContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentCell.swift; sourceTree = "<group>"; };
+		9F5A51CC2BD01B7600070186 /* TagsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsCell.swift; sourceTree = "<group>"; };
+		9F5A51CE2BD01B9900070186 /* ReplaysCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplaysCell.swift; sourceTree = "<group>"; };
 		9F6B5D5F2BC804FD00509F5F /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		9F6B5D632BCD383A00509F5F /* VideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoView.swift; sourceTree = "<group>"; };
 		9F99AFB92BC7D131003671BF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -205,6 +217,12 @@
 				9F6B5D5F2BC804FD00509F5F /* ShareViewController.swift */,
 				9F5A51BE2BCFC2C300070186 /* PostToWallViewController.swift */,
 				9F5A51C22BD004C100070186 /* WallViewController.swift */,
+				9F5A51C42BD018C900070186 /* VideoCell.swift */,
+				9F5A51C62BD01A8100070186 /* OptionsCell.swift */,
+				9F5A51C82BD01AFD00070186 /* LikesCountCell.swift */,
+				9F5A51CA2BD01B3300070186 /* ContentCell.swift */,
+				9F5A51CC2BD01B7600070186 /* TagsCell.swift */,
+				9F5A51CE2BD01B9900070186 /* ReplaysCell.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -521,18 +539,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				9F007E9A2BC519D100C22E5E /* ChooseStyleViewController.swift in Sources */,
+				9F5A51C52BD018C900070186 /* VideoCell.swift in Sources */,
 				9F007E672BC5107C00C22E5E /* AppDelegate.swift in Sources */,
 				9F007EA92BC5978700C22E5E /* RecordingHomePageViewController.swift in Sources */,
+				9F5A51C92BD01AFD00070186 /* LikesCountCell.swift in Sources */,
 				9F007EA42BC51F7600C22E5E /* CreateViewController.swift in Sources */,
+				9F5A51C72BD01A8100070186 /* OptionsCell.swift in Sources */,
 				9F007E692BC5107C00C22E5E /* SceneDelegate.swift in Sources */,
 				9F007E9F2BC51AAD00C22E5E /* ChooseLengthTableViewController.swift in Sources */,
+				9F5A51CB2BD01B3300070186 /* ContentCell.swift in Sources */,
 				9F5A51C32BD004C100070186 /* WallViewController.swift in Sources */,
 				9F5A51B92BCE1D0A00070186 /* AVAsset+Extension.swift in Sources */,
+				9F5A51CD2BD01B7600070186 /* TagsCell.swift in Sources */,
 				9F5A51C12BCFC2C300070186 /* PostToWallViewController.swift in Sources */,
 				9F6B5D642BCD383A00509F5F /* VideoView.swift in Sources */,
 				9F5A51BD2BCF9A4700070186 /* Data.swift in Sources */,
 				9F5A51BB2BCEC68900070186 /* ExportError.swift in Sources */,
 				9F6B5D602BC804FD00509F5F /* ShareViewController.swift in Sources */,
+				9F5A51CF2BD01B9900070186 /* ReplaysCell.swift in Sources */,
 				9F007EA72BC520DA00C22E5E /* Style.swift in Sources */,
 				9F007E712BC5107C00C22E5E /* EnsembleWave.xcdatamodeld in Sources */,
 			);

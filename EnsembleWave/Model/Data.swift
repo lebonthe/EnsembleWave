@@ -30,6 +30,7 @@ struct Post: Decodable {
     var createdTime: Date
     var id: String
     var userID: String
+    var videoURL: String
     var content: String
     var importMusic: String?
     var duration: TimeInterval?
@@ -43,6 +44,7 @@ struct Post: Decodable {
         self.createdTime = Timestamp.dateValue(dic["createdTime"] as? Timestamp ?? Timestamp())()
         self.id = dic["id"] as? String ?? ""
         self.userID = dic["userID"] as? String ?? ""
+        self.videoURL = dic["videoURL"] as? String ?? ""
         self.content = dic["content"] as? String ?? ""
         self.importMusic = dic["importMusic"] as? String ?? ""
         self.duration = dic["duration"] as? TimeInterval ?? TimeInterval()
