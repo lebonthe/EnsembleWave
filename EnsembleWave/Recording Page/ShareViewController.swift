@@ -10,19 +10,49 @@ import Photos
 
 class ShareViewController: UIViewController {
     var url: URL?
+    private let saveToAlbumButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("存到相簿", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        return button
+    }()
+    private let shareToWallButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("分享到動態牆", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .white
-        if let url = url {
-            self.saveVideoToAlbum(url)
-            print("url in ShareVC:\(url)")
-        }
+        setupUI()
     }
-    func saveVideoToAlbum(_ videoURL: URL) {
+    func setupUI() {
+        view.addSubview(saveToAlbumButton)
+        view.addSubview(shareToWallButton)
+        NSLayoutConstraint.activate([
+            saveToAlbumButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 200),
+            saveToAlbumButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            saveToAlbumButton.heightAnchor.constraint(equalToConstant: 50),
+            saveToAlbumButton.widthAnchor.constraint(equalToConstant: 100),
+            shareToWallButton.topAnchor.constraint(equalTo: saveToAlbumButton.bottomAnchor, constant: 200),
+            shareToWallButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            shareToWallButton.heightAnchor.constraint(equalToConstant: 50),
+            shareToWallButton.widthAnchor.constraint(equalToConstant: 200)
+        ])
+        saveToAlbumButton.addTarget(self, action: #selector(saveVideoToAlbum), for: .touchUpInside)
+    }
+    @objc func saveVideoToAlbum() {
+        guard let url = url else {
+            print("no url")
+            return
+        }
         PHPhotoLibrary.shared().performChanges({
-            PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: videoURL)
+            PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: url)
         }) { saved, error in
             DispatchQueue.main.async {
                 
