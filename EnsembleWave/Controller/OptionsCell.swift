@@ -53,29 +53,9 @@ class OptionsCell: UITableViewCell {
             addLike()
         }
     }
-//    func addLike() {
-//        // TODO: 回來改 user id 使用者ID
-//        db.collection("Posts").document("\(postID)").collection("whoLike").document("09876543").setData(["userID":"09876543"])
-//    }
-//    func deleteLike() {
-//        guard !postID.isEmpty else {
-//            print("Error: postID is empty")
-//            return
-//        }
-//
-//        let userId = "09876543" // TODO: 回來改使用者 ID
-//        let userLikeRef = db.collection("Posts").document(postID).collection("whoLike").document(userId)
-//        
-//        userLikeRef.delete() { error in
-//            if let error = error {
-//                print("Error removing like: \(error)")
-//            } else {
-//                print("Like successfully removed.")
-//            }
-//        }
-//    }
+
     func addLike() {
-        let userLikeRef = db.collection("Posts").document(postID).collection("whoLike").document("09876543")
+        let userLikeRef = db.collection("Posts").document(postID).collection("whoLike").document("09876543")// TODO: 回來改使用者 ID
         userLikeRef.setData(["userID": "09876543"]) { [weak self] error in
             if let error = error {
                 print("Error adding like: \(error)")
@@ -86,7 +66,7 @@ class OptionsCell: UITableViewCell {
     }
 
     func deleteLike() {
-        let userLikeRef = db.collection("Posts").document(postID).collection("whoLike").document("09876543")
+        let userLikeRef = db.collection("Posts").document(postID).collection("whoLike").document("09876543") // TODO: 回來改使用者 ID
         userLikeRef.delete { [weak self] error in
             if let error = error {
                 print("Error removing like: \(error)")
