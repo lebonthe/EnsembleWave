@@ -19,7 +19,7 @@ class CreateViewController: UIViewController {
     @IBOutlet weak var stretchScreenButton: UIButton!
     @IBOutlet weak var shrinkScreenButton: UIButton!
     var style = 0
-    var length = 15
+    var length: Int = 15
     var devices = [AVCaptureDevice]()
     var isFrontCamera: Bool = true {
         didSet {
@@ -88,15 +88,16 @@ class CreateViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    private let timerLabel: UILabel = {
+    private let countdownLabel: UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+    var countdownTimer: Timer?
     override func viewDidLoad() {
         super.viewDidLoad()
         videoURLs.removeAll()
-        setupUI(style, length)
+        setupUI(style)
         setupReplayButton()
         bookEarphoneState()
         configurePlayersAndAddObservers()
@@ -218,7 +219,7 @@ class CreateViewController: UIViewController {
                 player.removeTimeObserver(observer)
             }
     }
-    func setupUI(_ style: Int, _ length: Int) {
+    func setupUI(_ style: Int) {
         trimView.isHidden = true
         videoViews.forEach { $0.removeFromSuperview() }
         videoViews.removeAll()
@@ -342,12 +343,41 @@ class CreateViewController: UIViewController {
         shrinkScreenButton.isHidden = true
         
     }
+    func timeFormatter(sec: Int) -> String {
+        let formatter = DateComponentsFormatter()
+        formatter.unitsStyle = .abbreviated
+        let second: TimeInterval = Double(sec)
+        guard let remainingTime = formatter.string(from: second) else {
+            fatalError("時間轉換失敗")
+        }
+        print("remainingTime: \(remainingTime)")
+        return "- \(remainingTime)"
+    }
+    func startCountdownTimer() {
+        var remainingTime = length
+        countdownTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true){ [weak self] _ in
+            guard let self = self else { return }
+            remainingTime -= 1
+            updateCountdownLabel(remainingTime)
+            if remainingTime == 0 {
+                stopCountdownTimer()
+                capture(sender: cameraButton)
+            }
+        }
+    }
+    func stopCountdownTimer(){
+        countdownTimer?.invalidate()
+        countdownTimer = nil
+    }
+    func updateCountdownLabel(_ remainingTime: Int) {
+        countdownLabel.text = timeFormatter(sec: remainingTime)
+    }
     func setupRecordingTopView() {
         guard let navigationController = navigationController else {
             print("There is no navigation controller")
             return
         }
-//        navigationController.navigationBar.isHidden = true
+        
         navigationController.view.addSubview(recordingTopView)
         let cameraPositionButton = UIButton()
         cameraPositionButton.setBackgroundImage(UIImage(systemName: "arrow.triangle.2.circlepath.camera"), for: .normal)
@@ -362,22 +392,22 @@ class CreateViewController: UIViewController {
         recordingTopView.translatesAutoresizingMaskIntoConstraints = false
         recordingTopView.addSubview(cameraPositionButton)
         recordingTopView.addSubview(cancelButton)
-        recordingTopView.addSubview(timerLabel)
+        recordingTopView.addSubview(countdownLabel)
         recordingTopView.backgroundColor = .black
-        timerLabel.text = "- 00.06"
-        timerLabel.textColor = .red
+        updateCountdownLabel(length)
+        countdownLabel.textColor = .red
         NSLayoutConstraint.activate([
             recordingTopView.topAnchor.constraint(equalTo: navigationController.view.topAnchor, constant: 30),
             recordingTopView.leadingAnchor.constraint(equalTo: navigationController.view.leadingAnchor),
             recordingTopView.trailingAnchor.constraint(equalTo: navigationController.view.trailingAnchor),
 //            recordingTopView.bottomAnchor.constraint(equalTo: /*containerView*/.topAnchor),
             recordingTopView.heightAnchor.constraint(equalToConstant: 50),
-            timerLabel.centerXAnchor.constraint(equalTo: recordingTopView.centerXAnchor),
-            timerLabel.centerYAnchor.constraint(equalTo: recordingTopView.centerYAnchor),
+            countdownLabel.centerXAnchor.constraint(equalTo: recordingTopView.centerXAnchor),
+            countdownLabel.centerYAnchor.constraint(equalTo: recordingTopView.centerYAnchor),
             cameraPositionButton.centerYAnchor.constraint(equalTo: recordingTopView.centerYAnchor),
             cameraPositionButton.trailingAnchor.constraint(equalTo: recordingTopView.trailingAnchor, constant: -16),
             cancelButton.centerYAnchor.constraint(equalTo: recordingTopView.centerYAnchor),
-            cancelButton.leadingAnchor.constraint(equalTo: recordingTopView.leadingAnchor, constant: 16),
+            cancelButton.leadingAnchor.constraint(equalTo: recordingTopView.leadingAnchor, constant: 16)
         ])
     }
     @objc func cancelRecording() {
@@ -471,6 +501,7 @@ class CreateViewController: UIViewController {
     @IBAction func capture(sender: AnyObject) {
         if !isRecording {
             isRecording = true
+            startCountdownTimer()
             UIView.animate(withDuration: 0.5, delay: 0.0, options: [.repeat, .autoreverse, .allowUserInteraction], animations: { () -> Void
                 in
                 self.cameraButton.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
@@ -493,6 +524,7 @@ class CreateViewController: UIViewController {
             }
         } else {
             isRecording = false
+            stopCountdownTimer()
             UIView.animate(withDuration: 0.5, delay: 1.0, options: [], animations: { () -> Void
             in
                 self.cameraButton.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
@@ -606,7 +638,9 @@ extension CreateViewController: AVCaptureFileOutputRecordingDelegate {
             self.playAllVideos()
             self.setupTrimViewUI()
         }
-        let againAction = UIAlertAction(title: "重來", style: .cancel)
+        let againAction = UIAlertAction(title: "重來", style: .cancel) { _ in
+            self.countdownLabel.text = self.timeFormatter(sec: self.length)
+        }
         alertViewController.addAction(successAction)
         alertViewController.addAction(againAction)
         present(alertViewController, animated: true)
