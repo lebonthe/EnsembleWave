@@ -108,8 +108,9 @@ extension WallViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(VideoCell.self)", for: indexPath) as? VideoCell else {
                 fatalError("error when building VideoCell")
             }
-            cell.setupUI()
+            print("====post.videoURL: \(post.videoURL)")
             cell.urlString = post.videoURL
+            cell.setupUI()
             return cell
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(OptionsCell.self)", for: indexPath) as? OptionsCell else {
@@ -155,7 +156,8 @@ extension WallViewController: UITableViewDataSource {
 extension WallViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         let userID = posts[section].userID
-        return usersNames[userID]
+        let title = posts[section].title
+        return (usersNames[userID] ?? "") + " 🎙️ \(title)"
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let row = indexPath.row

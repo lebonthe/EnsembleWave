@@ -81,11 +81,13 @@ class PostToWallViewController: UIViewController {
     func postToWall() async -> Bool{
         guard let titleText = titleTextField.text,
            let contentText = contentTextView.text,
-           let tagText = tagTextField.text else {
+           let tagText = tagTextField.text,
+              let url = url else {
             print("缺少發文內容")
            return false
         }
         let post = [
+            "videoURL": "\(url)",
             "title": titleText,
             "createdTime": FieldValue.serverTimestamp(),
             "userID": "09876543",
