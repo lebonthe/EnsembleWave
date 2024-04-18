@@ -15,6 +15,7 @@ class WallViewController: UIViewController {
     var posts = [Post]()
     var userInfo: User?
     var usersNames: [String: String] = [:]
+    var postLikesCount: [String: Int] = [:]
     var postLikesStatus: [String: Bool] = [:]
     @IBOutlet weak var tableView: UITableView!
     
@@ -30,55 +31,39 @@ class WallViewController: UIViewController {
         tableView.register(TagsCell.self, forCellReuseIdentifier: "\(TagsCell.self)")
         tableView.register(ReplysCell.self, forCellReuseIdentifier: "\(ReplysCell.self)")
     }
+
     private func listenToPosts() {
         db.collection("Posts")
-          .addSnapshotListener { querySnapshot, error in
-            guard let snapshot = querySnapshot else {
+          .addSnapshotListener { [weak self] querySnapshot, error in
+            guard let self = self, let snapshot = querySnapshot else {
               print("Error listening for post updates: \(error?.localizedDescription ?? "No error")")
-                return
+              return
             }
-              snapshot.documentChanges.forEach { change in
-                  if change.type == .added {
-                      let data = change.document.data()
-                      let post = Post(dic: data)
-                      print("New post: \(change.document.data())")
-                      let whoLikeRef = self.db.collection("Posts").document(post.id).collection("whoLike")
-                      whoLikeRef.getDocuments { (querySnapshot, error) in
-                          guard let documents = querySnapshot?.documents else {
-                              print("Error fetching whoLike documents: \(error?.localizedDescription ?? "No error")")
-                              return
-                          }
-                          let userIDs = documents.compactMap { $0.documentID }
-                          let isLiked = userIDs.contains("09876543") // TODO: 替換為當前用戶的 ID
-                          self.postLikesStatus[post.id] = isLiked
-                          print("Post ID: \(post.id), Liked: \(isLiked)")
-                          self.posts.append(post)
-                          self.fetchUserName(userID: post.userID)
-                          DispatchQueue.main.async {
-                              self.tableView.reloadData()
-                          }
-                      }
-                  } else if change.type == .modified {
-                      let data = change.document.data()
-                      let post = Post(dic: data)
-                      print("Updated post: \(change.document.data())")
-                      if let index = self.posts.firstIndex(where: { $0.id == post.id }) {
-                          self.posts[index] = post
-                          DispatchQueue.main.async {
-                              self.tableView.reloadData()
-                          }
-                      }
-                  } else if change.type == .removed {
-                      let data = change.document.data()
-                      let post = Post(dic: data)
-                      print("Removed post: \(change.document.data())")
-                      self.posts.removeAll { $0.id == post.id }
-                      DispatchQueue.main.async {
-                          self.tableView.reloadData()
-                      }
-                  }
-              }
-          }
+
+            snapshot.documentChanges.forEach { change in
+                let postId = change.document.documentID
+                switch change.type {
+                case .added, .modified:
+                    let data = change.document.data()
+                    let post = Post(dic: data)
+
+                    if change.type == .added {
+                        self.posts.append(post)
+                    } else if let index = self.posts.firstIndex(where: { $0.id == post.id }) {
+                        self.posts[index] = post
+                    }
+
+                    // Set up or update the listener for the whoLike collection of this post
+                    self.setupLikesListener(for: postId)
+
+                case .removed:
+                    self.posts.removeAll { $0.id == postId }
+                    self.postLikesCount.removeValue(forKey: postId)
+                    self.postLikesStatus.removeValue(forKey: postId)
+                }
+            }
+            self.tableView.reloadData()
+        }
     }
 
     private func fetchUserName(userID: String) {
@@ -127,9 +112,9 @@ extension WallViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(LikesCountCell.self)", for: indexPath) as? LikesCountCell else {
                 fatalError("error when building OptionsCell")
             }
-            
-            cell.likesCount = post.whoLike.count
-            print("likesCount:\(post.whoLike.count)")
+            let postId = post.id
+            cell.likesCount = postLikesCount[postId] ?? 0
+            print("likesCount in cell 2: \(cell.likesCount)")
             cell.setupUI()
             return cell
         case 3:
@@ -171,6 +156,41 @@ extension WallViewController: UITableViewDelegate {
             return view.window?.windowScene?.screen.bounds.width ?? 200
         } else {
             return UITableView.automaticDimension
+        }
+    }
+}
+
+extension WallViewController: OptionsCellDelegate {
+    func updateLikeStatus(postId: String, hasLiked: Bool) {
+        let adjustment = hasLiked ? 1 : -1
+        let currentCount = postLikesCount[postId] ?? 0
+        postLikesCount[postId] = max(0, currentCount + adjustment)
+        postLikesStatus[postId] = hasLiked
+
+        if let index = posts.firstIndex(where: { $0.id == postId }) {
+            DispatchQueue.main.async {
+                let indexPath = IndexPath(row: 2, section: index) // Assuming row 2 shows the likes count
+                self.tableView.reloadRows(at: [indexPath], with: .none)
+            }
+        }
+    }
+    private func setupLikesListener(for postId: String) {
+        db.collection("Posts").document(postId).collection("whoLike")
+          .addSnapshotListener { [weak self] querySnapshot, error in
+            guard let self = self else { return }
+            if let error = error {
+                print("Error listening for likes updates: \(error)")
+                return
+            }
+
+            let likesCount = querySnapshot?.documents.count ?? 0
+            DispatchQueue.main.async {
+                self.postLikesCount[postId] = likesCount
+                if let index = self.posts.firstIndex(where: { $0.id == postId }) {
+                    let indexPath = IndexPath(row: 2, section: index) // Assuming row 2 shows the likes count
+                    self.tableView.reloadRows(at: [indexPath], with: .none)
+                }
+            }
         }
     }
 }
