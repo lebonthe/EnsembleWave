@@ -9,9 +9,9 @@ import UIKit
 import AVFoundation
 
 class VideoCell: UITableViewCell {
-    var urlString: String = "" {
+    var urlString: String? {
         didSet {
-            configure()
+            configurePlayer()
         }
     }
     let videoView: UIView = {
@@ -22,47 +22,59 @@ class VideoCell: UITableViewCell {
     let replayButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(systemName: "play.circle"), for: .normal)
+        button.tintColor = .gray
         return button
     }()
+    var playerLayer: AVPlayerLayer?
     let player = AVPlayer()
 
-    deinit {
-        NotificationCenter.default.removeObserver(self)
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        setupUI()
     }
 
     func setupUI() {
         contentView.addSubview(videoView)
         contentView.addSubview(replayButton)
-        replayButton.setImage(UIImage(systemName: "play.circle"), for: .normal)
-        replayButton.tintColor = .gray
         replayButton.isHidden = false
         replayButton.addTarget(self, action: #selector(play), for: .touchUpInside)
+
         NSLayoutConstraint.activate([
             videoView.topAnchor.constraint(equalTo: contentView.topAnchor),
             videoView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             videoView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            videoView.heightAnchor.constraint(equalTo: contentView.widthAnchor),
-            replayButton.topAnchor.constraint(equalTo: contentView.topAnchor),
-            replayButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            replayButton.heightAnchor.constraint(equalToConstant: 60),
-            replayButton.widthAnchor.constraint(equalToConstant: 60)
+            videoView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            replayButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            replayButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            replayButton.widthAnchor.constraint(equalToConstant: 60),
+            replayButton.heightAnchor.constraint(equalToConstant: 60)
         ])
     }
-    
-    func configure() {
-        let url = URL(string: urlString)
-        let playerLayer = AVPlayerLayer(player: player)
-        playerLayer.frame = videoView.bounds
-        playerLayer.videoGravity = .resizeAspectFill
-        videoView.layer.addSublayer(playerLayer)
-        guard let url = url else {
-            print("url 生成失敗")
+
+    func configurePlayer() {
+        guard let urlString = urlString, let url = URL(string: urlString) else {
+            print("Invalid URL string")
             return
         }
+        if playerLayer == nil {
+            playerLayer = AVPlayerLayer(player: player)
+            playerLayer?.videoGravity = .resizeAspect
+            if let layer = playerLayer {
+                videoView.layer.addSublayer(layer)
+            }
+        }
+        playerLayer?.frame = videoView.bounds
         let playerItem = AVPlayerItem(url: url)
         player.replaceCurrentItem(with: playerItem)
         setupObserversForPlayerItem(playerItem, with: player)
     }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        playerLayer?.frame = videoView.bounds
+    }
+
     @objc func play() {
         let startTime = CMTime(seconds: 0, preferredTimescale: 1)
         player.seek(to: startTime) { [weak self] completed in
@@ -73,9 +85,12 @@ class VideoCell: UITableViewCell {
         }
     }
     func setupObserversForPlayerItem(_ playerItem: AVPlayerItem, with player: AVPlayer) {
-        NotificationCenter.default.addObserver(self, selector: #selector(videoDidEnd), name: .AVPlayerItemDidPlayToEndTime, object: playerItem)
-    }
+            NotificationCenter.default.addObserver(self, selector: #selector(videoDidEnd), name: .AVPlayerItemDidPlayToEndTime, object: playerItem)
+        }
     @objc func videoDidEnd(notification: NSNotification) {
         replayButton.isHidden = false
     }
+    deinit {
+            NotificationCenter.default.removeObserver(self)
+        }
 }
