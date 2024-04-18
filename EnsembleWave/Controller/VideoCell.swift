@@ -76,13 +76,8 @@ class VideoCell: UITableViewCell {
     }
 
     @objc func play() {
-        let startTime = CMTime(seconds: 0, preferredTimescale: 1)
-        player.seek(to: startTime) { [weak self] completed in
-            if completed {
-                self?.player.play()
-                self?.replayButton.isHidden = true
-            }
-        }
+        player.play()
+        replayButton.isHidden = true
     }
     func setupObserversForPlayerItem(_ playerItem: AVPlayerItem, with player: AVPlayer) {
             NotificationCenter.default.addObserver(self, selector: #selector(videoDidEnd), name: .AVPlayerItemDidPlayToEndTime, object: playerItem)
