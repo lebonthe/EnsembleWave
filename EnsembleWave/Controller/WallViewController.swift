@@ -80,6 +80,18 @@ class WallViewController: UIViewController {
             }
         }
     }
+    private func fetchPostLiked(id: String) -> Bool {
+        var isLiked = Bool()
+        let docRef = db.collection("Users").document("postLiked")
+        docRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                isLiked = true
+            } else {
+                isLiked = false
+            }
+        }
+        return isLiked
+    }
 }
 extension WallViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -90,43 +102,49 @@ extension WallViewController: UITableViewDataSource {
         6
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let row = indexPath.row
-        switch row {
+        let post = posts[indexPath.section]
+        switch indexPath.row {
         case 0:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(VideoCell.self)", for: indexPath) as? VideoCell else {
                 fatalError("error when building VideoCell")
             }
-            cell.urlString = posts[row].videoURL
+            cell.setupUI()
+            cell.urlString = post.videoURL
             return cell
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(OptionsCell.self)", for: indexPath) as? OptionsCell else {
                 fatalError("error when building OptionsCell")
             }
-
+            cell.isUserLiked = fetchPostLiked(id: post.id)
+            cell.setupUI()
             return cell
         case 2:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(LikesCountCell.self)", for: indexPath) as? LikesCountCell else {
                 fatalError("error when building OptionsCell")
             }
-
+            cell.likesCount = post.like
+            cell.setupUI()
             return cell
         case 3:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(ContentCell.self)", for: indexPath) as? ContentCell else {
                 fatalError("error when building OptionsCell")
             }
-
+            cell.contentText = post.content
+            cell.setupUI()
             return cell
         case 4:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(TagsCell.self)", for: indexPath) as? TagsCell else {
                 fatalError("error when building OptionsCell")
             }
-
+            cell.tagsText = post.tag
+            cell.setupUI()
             return cell
         case 5:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(ReplaysCell.self)", for: indexPath) as? ReplaysCell else {
                 fatalError("error when building OptionsCell")
             }
-
+            cell.replayContent = post.replay
+            cell.setupUI()
             return cell
         default:
             fatalError("Out of cell types")
@@ -140,6 +158,11 @@ extension WallViewController: UITableViewDelegate {
         return usersNames[userID]
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        118 // TODO: 調整不同的行高
+        let row = indexPath.row
+        if row == 0 {
+            return view.window?.windowScene?.screen.bounds.width ?? 200
+        } else {
+            return UITableView.automaticDimension
+        }
     }
 }

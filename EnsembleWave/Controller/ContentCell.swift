@@ -8,16 +8,21 @@
 import UIKit
 
 class ContentCell: UITableViewCell {
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    var contentLabel:UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    var contentText: String = "This is what they said..."
+    func setupUI() {
+        contentView.addSubview(contentLabel)
+        contentLabel.text = contentText
+        contentLabel.numberOfLines = 0
+        NSLayoutConstraint.activate([
+            contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
+            contentLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            contentLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            contentLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6)
+        ])
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
 }

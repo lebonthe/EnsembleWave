@@ -9,7 +9,11 @@ import UIKit
 import AVFoundation
 
 class VideoCell: UITableViewCell {
-    var urlString: String = ""
+    var urlString: String = "" {
+        didSet {
+            configure()
+        }
+    }
     let videoView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -21,11 +25,7 @@ class VideoCell: UITableViewCell {
         return button
     }()
     let player = AVPlayer()
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        setupUI()
-        configure()
-    }
+
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
@@ -78,10 +78,4 @@ class VideoCell: UITableViewCell {
     @objc func videoDidEnd(notification: NSNotification) {
         replayButton.isHidden = false
     }
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
 }

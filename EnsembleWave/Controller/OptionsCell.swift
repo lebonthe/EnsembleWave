@@ -9,15 +9,23 @@ import UIKit
 
 class OptionsCell: UITableViewCell {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    var heartButton: UIButton = {
+       let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    var isUserLiked: Bool = false
+    func setupUI() {
+        contentView.addSubview(heartButton)
+        heartButton.setBackgroundImage(UIImage(systemName: "heart"), for: .normal)
+        heartButton.setBackgroundImage(UIImage(systemName: "heart.fill"), for: .selected)
+        NSLayoutConstraint.activate([
+            heartButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
+            heartButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            heartButton.widthAnchor.constraint(equalToConstant: 36),
+            heartButton.heightAnchor.constraint(equalToConstant: 36),
+            heartButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6)
+        ])
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
+    
 }

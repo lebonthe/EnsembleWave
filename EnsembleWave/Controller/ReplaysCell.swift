@@ -9,15 +9,23 @@ import UIKit
 
 class ReplaysCell: UITableViewCell {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    var replayButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    var replayContent: [ReplayContent] = []
+    func setupUI() {
+        contentView.addSubview(replayButton)
+        replayButton.setTitle("\(replayContent.count) 更多留言", for: .normal)
+        replayButton.setTitleColor(.blue, for: .normal)
+        NSLayoutConstraint.activate([
+            replayButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
+            replayButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            replayButton.widthAnchor.constraint(equalToConstant: 100),
+            replayButton.heightAnchor.constraint(equalToConstant: 22),
+            replayButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6)
+        ])
     }
 
 }

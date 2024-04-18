@@ -13,12 +13,14 @@ struct User: Decodable {
     var signUpTime: Date
     var userID: String
     var email: String
+    var postLiked: [String]
     var follow: [String] // userID
     var userBlackList: [String] // userID
     init(dic: [String: Any]) {
         self.name = dic["name"] as? String ?? ""
         self.signUpTime = Timestamp.dateValue(dic["signUpTime"] as? Timestamp ?? Timestamp())()
         self.userID = dic["userID"] as? String ?? ""
+        self.postLiked = dic["postLiked"] as? [String] ?? []
         self.email = dic["email"] as? String ?? ""
         self.follow = dic["follow"] as? [String] ?? []
         self.userBlackList = dic["userBlackList"] as? [String] ?? []
@@ -36,7 +38,7 @@ struct Post: Decodable {
     var duration: TimeInterval?
     var tag: String
     var like: Int
-    var replay: [String]
+    var replay: [ReplayContent]
     var report: [Report]?
     
     init(dic: [String: Any]) {
@@ -50,7 +52,7 @@ struct Post: Decodable {
         self.duration = dic["duration"] as? TimeInterval ?? TimeInterval()
         self.tag = dic["tag"] as? String ?? ""
         self.like = dic["like"] as? Int ?? 0
-        self.replay = dic["replay"] as? [String] ?? []
+        self.replay = dic["replay"] as? [ReplayContent] ?? []
         self.report = dic["Report"] as? [Report] ?? [Report]()
     }
 }
@@ -64,3 +66,14 @@ enum ReportType: Decodable {
     case spam, insult, mistakeInfo, violence, revealIdentity, other
 }
 
+struct ReplayContent: Decodable {
+    var userID: String
+    var replayContent: String
+    var replayTime: Date
+    
+    init(dic: [String: Any]) {
+        self.userID = dic["userID"] as? String ?? ""
+        self.replayContent = dic["replayContent"] as? String ?? ""
+        self.replayTime = Timestamp.dateValue(dic["replayTime"] as? Timestamp ?? Timestamp())()
+    }
+}
