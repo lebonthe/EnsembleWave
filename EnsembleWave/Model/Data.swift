@@ -13,14 +13,12 @@ struct User: Decodable {
     var signUpTime: Date
     var userID: String
     var email: String
-    var postLiked: [String]
     var follow: [String] // userID
     var userBlackList: [String] // userID
     init(dic: [String: Any]) {
         self.name = dic["name"] as? String ?? ""
         self.signUpTime = Timestamp.dateValue(dic["signUpTime"] as? Timestamp ?? Timestamp())()
         self.userID = dic["userID"] as? String ?? ""
-        self.postLiked = dic["postLiked"] as? [String] ?? []
         self.email = dic["email"] as? String ?? ""
         self.follow = dic["follow"] as? [String] ?? []
         self.userBlackList = dic["userBlackList"] as? [String] ?? []
@@ -37,9 +35,9 @@ struct Post: Decodable {
     var importMusic: String?
     var duration: TimeInterval?
     var tag: String
-    var like: Int
-    var replay: [ReplayContent]
-    var report: [Report]?
+    var whoLike: [String]
+    var reply: [ReplayContent]
+    var report: [Report]
     
     init(dic: [String: Any]) {
         self.title = dic["title"] as? String ?? ""
@@ -51,9 +49,9 @@ struct Post: Decodable {
         self.importMusic = dic["importMusic"] as? String ?? ""
         self.duration = dic["duration"] as? TimeInterval ?? TimeInterval()
         self.tag = dic["tag"] as? String ?? ""
-        self.like = dic["like"] as? Int ?? 0
-        self.replay = dic["replay"] as? [ReplayContent] ?? []
-        self.report = dic["Report"] as? [Report] ?? [Report]()
+        self.whoLike = dic["whoLike"] as? [String] ?? []
+        self.reply = dic["replay"] as? [ReplayContent] ?? []
+        self.report = dic["Report"] as? [Report] ?? []
     }
 }
 

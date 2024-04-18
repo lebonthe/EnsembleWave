@@ -15,6 +15,7 @@ class WallViewController: UIViewController {
     var posts = [Post]()
     var userInfo: User?
     var usersNames: [String: String] = [:]
+    var postLikesStatus: [String: Bool] = [:]
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
@@ -27,7 +28,7 @@ class WallViewController: UIViewController {
         tableView.register(LikesCountCell.self, forCellReuseIdentifier: "\(LikesCountCell.self)")
         tableView.register(ContentCell.self, forCellReuseIdentifier: "\(ContentCell.self)")
         tableView.register(TagsCell.self, forCellReuseIdentifier: "\(TagsCell.self)")
-        tableView.register(ReplaysCell.self, forCellReuseIdentifier: "\(ReplaysCell.self)")
+        tableView.register(ReplysCell.self, forCellReuseIdentifier: "\(ReplysCell.self)")
     }
     private func listenToPosts() {
         db.collection("Posts")
@@ -37,18 +38,29 @@ class WallViewController: UIViewController {
                 return
             }
               snapshot.documentChanges.forEach { change in
-                  let data = change.document.data()
-                  let post = Post(dic: data)
                   if change.type == .added {
+                      let data = change.document.data()
+                      let post = Post(dic: data)
                       print("New post: \(change.document.data())")
-//                      do {
-                      self.posts.append(post)
-                      self.fetchUserName(userID: post.userID)
-                      DispatchQueue.main.async {
+                      let whoLikeRef = self.db.collection("Posts").document(post.id).collection("whoLike")
+                      whoLikeRef.getDocuments { (querySnapshot, error) in
+                          guard let documents = querySnapshot?.documents else {
+                              print("Error fetching whoLike documents: \(error?.localizedDescription ?? "No error")")
+                              return
+                          }
+                          let userIDs = documents.compactMap { $0.documentID }
+                          let isLiked = userIDs.contains("09876543") // TODO: 替換為當前用戶的 ID
+                          self.postLikesStatus[post.id] = isLiked
+                          print("Post ID: \(post.id), Liked: \(isLiked)")
+                          self.posts.append(post)
+                          self.fetchUserName(userID: post.userID)
+                          DispatchQueue.main.async {
                               self.tableView.reloadData()
                           }
-
+                      }
                   } else if change.type == .modified {
+                      let data = change.document.data()
+                      let post = Post(dic: data)
                       print("Updated post: \(change.document.data())")
                       if let index = self.posts.firstIndex(where: { $0.id == post.id }) {
                           self.posts[index] = post
@@ -57,6 +69,8 @@ class WallViewController: UIViewController {
                           }
                       }
                   } else if change.type == .removed {
+                      let data = change.document.data()
+                      let post = Post(dic: data)
                       print("Removed post: \(change.document.data())")
                       self.posts.removeAll { $0.id == post.id }
                       DispatchQueue.main.async {
@@ -66,6 +80,7 @@ class WallViewController: UIViewController {
               }
           }
     }
+
     private func fetchUserName(userID: String) {
         let docRef = db.collection("Users").document(userID)
         docRef.getDocument { (document, error) in
@@ -79,18 +94,6 @@ class WallViewController: UIViewController {
                 print("Document does not exist")
             }
         }
-    }
-    private func fetchPostLiked(id: String) -> Bool {
-        var isLiked = Bool()
-        let docRef = db.collection("Users").document("postLiked")
-        docRef.getDocument { (document, error) in
-            if let document = document, document.exists {
-                isLiked = true
-            } else {
-                isLiked = false
-            }
-        }
-        return isLiked
     }
 }
 extension WallViewController: UITableViewDataSource {
@@ -116,14 +119,17 @@ extension WallViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(OptionsCell.self)", for: indexPath) as? OptionsCell else {
                 fatalError("error when building OptionsCell")
             }
-            cell.isUserLiked = fetchPostLiked(id: post.id)
+            cell.isUserLiked = self.postLikesStatus[post.id] ?? false
+            cell.postID = post.id
             cell.setupUI()
             return cell
         case 2:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(LikesCountCell.self)", for: indexPath) as? LikesCountCell else {
                 fatalError("error when building OptionsCell")
             }
-            cell.likesCount = post.like
+            
+            cell.likesCount = post.whoLike.count
+            print("likesCount:\(post.whoLike.count)")
             cell.setupUI()
             return cell
         case 3:
@@ -141,10 +147,10 @@ extension WallViewController: UITableViewDataSource {
             cell.setupUI()
             return cell
         case 5:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(ReplaysCell.self)", for: indexPath) as? ReplaysCell else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(ReplysCell.self)", for: indexPath) as? ReplysCell else {
                 fatalError("error when building OptionsCell")
             }
-            cell.replayContent = post.replay
+            cell.replyContent = post.reply
             cell.setupUI()
             return cell
         default:
