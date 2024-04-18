@@ -23,6 +23,7 @@
 		9F007EA42BC51F7600C22E5E /* CreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F007EA32BC51F7500C22E5E /* CreateViewController.swift */; };
 		9F007EA72BC520DA00C22E5E /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F007EA62BC520DA00C22E5E /* Style.swift */; };
 		9F007EA92BC5978700C22E5E /* RecordingHomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F007EA82BC5978700C22E5E /* RecordingHomePageViewController.swift */; };
+		9F3FD9F82BD12C0000A03E22 /* LengthCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3FD9F72BD12C0000A03E22 /* LengthCell.swift */; };
 		9F5A51B92BCE1D0A00070186 /* AVAsset+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5A51B82BCE1D0A00070186 /* AVAsset+Extension.swift */; };
 		9F5A51BB2BCEC68900070186 /* ExportError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5A51BA2BCEC68900070186 /* ExportError.swift */; };
 		9F5A51BD2BCF9A4700070186 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5A51BC2BCF9A4700070186 /* Data.swift */; };
@@ -90,6 +91,7 @@
 		9F007EA32BC51F7500C22E5E /* CreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateViewController.swift; sourceTree = "<group>"; };
 		9F007EA62BC520DA00C22E5E /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		9F007EA82BC5978700C22E5E /* RecordingHomePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingHomePageViewController.swift; sourceTree = "<group>"; };
+		9F3FD9F72BD12C0000A03E22 /* LengthCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LengthCell.swift; sourceTree = "<group>"; };
 		9F5A51B82BCE1D0A00070186 /* AVAsset+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVAsset+Extension.swift"; sourceTree = "<group>"; };
 		9F5A51BA2BCEC68900070186 /* ExportError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportError.swift; sourceTree = "<group>"; };
 		9F5A51BC2BCF9A4700070186 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
@@ -223,6 +225,7 @@
 				9F5A51CA2BD01B3300070186 /* ContentCell.swift */,
 				9F5A51CC2BD01B7600070186 /* TagsCell.swift */,
 				9F5A51CE2BD01B9900070186 /* ReplysCell.swift */,
+				9F3FD9F72BD12C0000A03E22 /* LengthCell.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -549,6 +552,7 @@
 				9F007E9F2BC51AAD00C22E5E /* ChooseLengthTableViewController.swift in Sources */,
 				9F5A51CB2BD01B3300070186 /* ContentCell.swift in Sources */,
 				9F5A51C32BD004C100070186 /* WallViewController.swift in Sources */,
+				9F3FD9F82BD12C0000A03E22 /* LengthCell.swift in Sources */,
 				9F5A51B92BCE1D0A00070186 /* AVAsset+Extension.swift in Sources */,
 				9F5A51CD2BD01B7600070186 /* TagsCell.swift in Sources */,
 				9F5A51C12BCFC2C300070186 /* PostToWallViewController.swift in Sources */,
