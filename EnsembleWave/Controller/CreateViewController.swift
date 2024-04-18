@@ -82,6 +82,17 @@ class CreateViewController: UIViewController {
     private var isPlaying = false
     private var preset: String?
     var endTimeObserver: Any? = nil
+    
+    private let recordingTopView: UIView = {
+       let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    private let timerLabel: UILabel = {
+       let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     override func viewDidLoad() {
         super.viewDidLoad()
         videoURLs.removeAll()
@@ -90,19 +101,14 @@ class CreateViewController: UIViewController {
         bookEarphoneState()
         configurePlayersAndAddObservers()
         clearTemporaryVideos()
-        configure(for: style)
         getCurrentSystemVolume()
         self.videoTrim.delegate = self
     }
     @objc func preparedToShare() {
-        // 創建 AVURLAsset
             let asset = AVURLAsset(url: videoURLs[currentRecordingIndex])
-            // 我們想要非同步加載的資訊鍵
             let keys = ["tracks"]
 
-            // 非同步加載資訊
             asset.loadValuesAsynchronously(forKeys: keys) {
-                // 主線程上處理加載後的結果，因為我們將更新UI
                 DispatchQueue.main.async {
                     var error: NSError?
                     let status = asset.statusOfValue(forKey: "tracks", error: &error)
@@ -201,7 +207,7 @@ class CreateViewController: UIViewController {
             NSLayoutConstraint(item: self.videoTrim, attribute: .top, relatedBy: .equal, toItem: self.trimContainerView, attribute: .top, multiplier: 1, constant: 0),
             NSLayoutConstraint(item: self.videoTrim, attribute: .leading, relatedBy: .equal, toItem: self.trimContainerView, attribute: .leading, multiplier: 1, constant: 0),
             NSLayoutConstraint(item: self.videoTrim, attribute: .trailing, relatedBy: .equal, toItem: self.trimContainerView, attribute: .trailing, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: self.videoTrim, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 100)  // 設置一個固定高度
+            NSLayoutConstraint(item: self.videoTrim, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 100)
         ])
 
     }
@@ -227,7 +233,7 @@ class CreateViewController: UIViewController {
         containerViewLeadingConstraint.constant = 16
         containerViewTrailingConstraint.constant = -16
         NSLayoutConstraint.activate([
-            containerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+            containerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 50)
         ])
         for _ in 0...style {
             let videoView = UIView()
@@ -243,14 +249,25 @@ class CreateViewController: UIViewController {
             trimView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             trimView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
+
         if style == 0 {
-            
             videoViews[0].frame = containerView.bounds
+            let startButton = UIButton()
+            chooseViewButtons.append(startButton)
+            videoViews[0].addSubview(chooseViewButtons[0])
+            chooseViewButtons[0].setBackgroundImage(UIImage(systemName: "plus"), for: .normal)
+            chooseViewButtons[0].translatesAutoresizingMaskIntoConstraints = false
+            chooseViewButtons[0].tintColor = .black
+            chooseViewButtons[0].addTarget(self, action: #selector(startToRecordingView), for: .touchUpInside)
             NSLayoutConstraint.activate([
                 videoViews[0].topAnchor.constraint(equalTo: containerView.topAnchor),
                 videoViews[0].leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
                 videoViews[0].trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
-                videoViews[0].bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
+                videoViews[0].bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+                chooseViewButtons[0].centerXAnchor.constraint(equalTo: videoViews[0].centerXAnchor),
+                chooseViewButtons[0].centerYAnchor.constraint(equalTo: videoViews[0].centerYAnchor),
+                chooseViewButtons[0].widthAnchor.constraint(equalToConstant: 40),
+                chooseViewButtons[0].heightAnchor.constraint(equalToConstant: 40)
             ])
         } else if style == 1 {
 
@@ -324,6 +341,47 @@ class CreateViewController: UIViewController {
         ])
         shrinkScreenButton.isHidden = true
         
+    }
+    func setupRecordingTopView() {
+        guard let navigationController = navigationController else {
+            print("There is no navigation controller")
+            return
+        }
+//        navigationController.navigationBar.isHidden = true
+        navigationController.view.addSubview(recordingTopView)
+        let cameraPositionButton = UIButton()
+        cameraPositionButton.setBackgroundImage(UIImage(systemName: "arrow.triangle.2.circlepath.camera"), for: .normal)
+        cameraPositionButton.tintColor = .red
+        cameraPositionButton.addTarget(self, action: #selector(toggleCameraPosition), for: .touchUpInside)
+        let cancelButton = UIButton()
+        cancelButton.setBackgroundImage(UIImage(systemName: "xmark"), for: .normal)
+        cancelButton.tintColor = .red
+        cancelButton.addTarget(self, action: #selector(cancelRecording), for: .touchUpInside)
+        cameraPositionButton.translatesAutoresizingMaskIntoConstraints = false
+        cancelButton.translatesAutoresizingMaskIntoConstraints = false
+        recordingTopView.translatesAutoresizingMaskIntoConstraints = false
+        recordingTopView.addSubview(cameraPositionButton)
+        recordingTopView.addSubview(cancelButton)
+        recordingTopView.addSubview(timerLabel)
+        recordingTopView.backgroundColor = .black
+        timerLabel.text = "- 00.06"
+        timerLabel.textColor = .red
+        NSLayoutConstraint.activate([
+            recordingTopView.topAnchor.constraint(equalTo: navigationController.view.topAnchor, constant: 30),
+            recordingTopView.leadingAnchor.constraint(equalTo: navigationController.view.leadingAnchor),
+            recordingTopView.trailingAnchor.constraint(equalTo: navigationController.view.trailingAnchor),
+//            recordingTopView.bottomAnchor.constraint(equalTo: /*containerView*/.topAnchor),
+            recordingTopView.heightAnchor.constraint(equalToConstant: 50),
+            timerLabel.centerXAnchor.constraint(equalTo: recordingTopView.centerXAnchor),
+            timerLabel.centerYAnchor.constraint(equalTo: recordingTopView.centerYAnchor),
+            cameraPositionButton.centerYAnchor.constraint(equalTo: recordingTopView.centerYAnchor),
+            cameraPositionButton.trailingAnchor.constraint(equalTo: recordingTopView.trailingAnchor, constant: -16),
+            cancelButton.centerYAnchor.constraint(equalTo: recordingTopView.centerYAnchor),
+            cancelButton.leadingAnchor.constraint(equalTo: recordingTopView.leadingAnchor, constant: 16),
+        ])
+    }
+    @objc func cancelRecording() {
+        resetView()
     }
     func configure(for style: Int) {
         for index in 0...style {
@@ -461,7 +519,6 @@ class CreateViewController: UIViewController {
                     print("set playerVolume:\(playerVolume)")
                 }
         }
-            
            
             videoURLs.removeAll()
             for (index, player) in players.enumerated() {
@@ -472,11 +529,6 @@ class CreateViewController: UIViewController {
                     let playerItem = AVPlayerItem(url: videoURL)
                     player.replaceCurrentItem(with: playerItem)
                     setupObserversForPlayerItem(playerItem, with: player)
-//                    if index == currentRecordingIndex {
-//                        if let startTime = getCropStartTime(for: index) {
-//                            player.seek(to: startTime, toleranceBefore: .zero, toleranceAfter: .zero)
-//                        }
-//                    }
                     player.play()
                     isPlaying = true
                     if style == 0 {
@@ -687,7 +739,21 @@ extension CreateViewController {
                    }
         }
     }
+    // TODO: 解決 containerView 跟 startToRecordingView 的位置衝突
+    @objc func startToRecordingView() {
+        setupRecordingTopView()
+        configure(for: style)
+        replayButton.isHidden = true
+        postProductionView.isHidden = true
+        trimView.isHidden = true
+        cameraPreviewLayer?.frame = videoViews[0].bounds
+        videoViews[0].layer.addSublayer(cameraPreviewLayer!)
+        chooseViewButtons[0].isHidden = true
+        
+    }
     @objc func chooseView(_ sender: UIButton) {
+        setupRecordingTopView()
+        configure(for: style)
         replayButton.isHidden = true
         postProductionView.isHidden = true
         trimView.isHidden = true
@@ -701,6 +767,19 @@ extension CreateViewController {
             let otherPlayerHasItem = players[otherIndex].currentItem != nil && players[otherIndex].currentItem?.duration.seconds ?? 0 > 0
             chooseViewButtons[otherIndex].isHidden = otherPlayerHasItem
         }
+    }
+    @objc func resetView() {
+        recordingTopView.removeFromSuperview()
+        postProductionView.isHidden = false
+        trimView.isHidden = true
+        cameraPreviewLayer?.removeFromSuperlayer()
+        for chooseViewButton in chooseViewButtons {
+            chooseViewButton.isHidden = false
+        }
+//        if players.count > 1 {
+//            let otherPlayerHasItem = players[otherIndex].currentItem != nil && players[otherIndex].currentItem?.duration.seconds ?? 0 > 0
+//            chooseViewButtons[otherIndex].isHidden = otherPlayerHasItem
+//        }
     }
     @objc func pushSharePage(_ sender: UIBarButtonItem) {
         guard let outputFileURL = outputFileURL, !videoURLs.isEmpty/*, !audioURLs.isEmpty*/ else {

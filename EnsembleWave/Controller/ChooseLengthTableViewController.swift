@@ -24,6 +24,14 @@ class ChooseLengthTableViewController: UITableViewController {
         }
     }
 
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+            if segue.identifier == "LengthChosen" {
+                if let destinationVC = segue.destination as? CreateViewController {
+                    destinationVC.style = style
+                    destinationVC.length = length
+                }
+            }
+        }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return lengths.count
     }
