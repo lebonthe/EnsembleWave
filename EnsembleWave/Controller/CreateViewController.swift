@@ -96,6 +96,15 @@ class CreateViewController: UIViewController {
     var countdownTimer: Timer?
     var videoViewHasContent: [Bool] = []
     lazy var tapGesture = UITapGestureRecognizer(target: self, action: #selector(videoViewTapped(_:)))
+    var countBeforeRecording: Bool = true
+    let countingImages = ["5.circle", "4.circle", "3.circle", "2.circle", "1.circle"]
+    var currentImageIndex = 0
+    var countdownImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    var timerBeforePlay: Timer?
     override func viewDidLoad() {
         super.viewDidLoad()
         videoURLs.removeAll()
@@ -170,9 +179,10 @@ class CreateViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = cameraPositionButton
         self.navigationItem.leftBarButtonItem = nil
         trimView.isHidden = true
-        
+        stopCountdownTimer()
     }
     func setupTrimViewUI() {
+        stopCountdownTimer()
         postProductionView.isHidden = false
         let trimOKButton = UIBarButtonItem(image: UIImage(systemName: "checkmark.circle.fill"), style: .plain, target: self, action: #selector(preparedToShare))
         let trimCancelButton = UIBarButtonItem(image: UIImage(systemName: "xmark.circle.fill"), style: .plain, target: self, action: #selector(recordAgain))
@@ -404,6 +414,8 @@ class CreateViewController: UIViewController {
     func stopCountdownTimer(){
         countdownTimer?.invalidate()
         countdownTimer = nil
+        timerBeforePlay?.invalidate()
+        timerBeforePlay = nil
     }
     func updateCountdownLabel(_ remainingTime: Int) {
         countdownLabel.text = timeFormatter(sec: remainingTime)
@@ -452,6 +464,23 @@ class CreateViewController: UIViewController {
             cancelButton.centerYAnchor.constraint(equalTo: recordingTopView.centerYAnchor),
             cancelButton.leadingAnchor.constraint(equalTo: recordingTopView.leadingAnchor, constant: 16)
         ])
+        // 開始前的倒數計時
+        let countdownButton = UIButton()
+        countdownButton.translatesAutoresizingMaskIntoConstraints = false
+        countdownButton.setImage(UIImage(systemName: "clock.badge.checkmark"), for: .normal)
+        countdownButton.setImage(UIImage(systemName: "clock.badge.xmark"), for: .selected)
+        countdownButton.tintColor = .red
+        recordingTopView.addSubview(countdownButton)
+        countdownButton.addTarget(self, action: #selector(changeCountdownMode(_:)), for: .touchUpInside)
+        NSLayoutConstraint.activate([
+            countdownButton.centerYAnchor.constraint(equalTo: recordingTopView.centerYAnchor),
+            countdownButton.trailingAnchor.constraint(equalTo: cameraPositionButton.leadingAnchor, constant: -16)
+        ])
+    }
+    @objc func changeCountdownMode(_ sender: UIButton) {
+        countBeforeRecording.toggle()
+        sender.isSelected = countBeforeRecording
+        print("is countBeforeRecording:\(countBeforeRecording)")
     }
     @objc func cancelRecording() {
         resetView()
@@ -548,31 +577,63 @@ class CreateViewController: UIViewController {
            }
         isFrontCamera.toggle()
     }
-
+    func startRecording() {
+        isRecording = true
+        startCountdownTimer()
+        UIView.animate(withDuration: 0.5, delay: 0.0, options: [.repeat, .autoreverse, .allowUserInteraction], animations: { () -> Void
+            in
+            self.cameraButton.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)}, completion: nil)
+        if style == 0 {
+            if let cameraPreviewLayer = cameraPreviewLayer {
+                videoViews[0].layer.addSublayer(cameraPreviewLayer)
+                cameraPreviewLayer.frame = videoViews[0].bounds
+            }
+        } else {
+            replayVideo()
+        }
+        
+        let outputPath = NSTemporaryDirectory() + "output\(currentRecordingIndex).mov"
+        outputFileURL = URL(fileURLWithPath: outputPath)
+        
+        if let outputFileURL = outputFileURL {
+            videoFileOutput?.startRecording(to: outputFileURL, recordingDelegate: self)
+        }
+    }
+    func startCountdown() {
+        view.addSubview(countdownImageView)
+        countdownImageView.isHidden = true
+        NSLayoutConstraint.activate([
+            countdownImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            countdownImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            countdownImageView.heightAnchor.constraint(equalToConstant: 100),
+            countdownImageView.widthAnchor.constraint(equalToConstant: 100)
+        ])
+        countdownImageView.image = UIImage(systemName: countingImages[currentImageIndex])
+        timerBeforePlay = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateImage), userInfo: nil, repeats: true)
+        }
+    @objc func updateImage() {
+        print("currentImageIndex:\(currentImageIndex)")
+        if currentImageIndex < countingImages.count {
+            countdownImageView.isHidden = currentImageIndex == 0
+            countdownImageView.image = UIImage(systemName: countingImages[currentImageIndex])
+        } else {
+            print("invalidate")
+            timerBeforePlay?.invalidate()
+            timerBeforePlay = nil
+            countdownImageView.isHidden = true
+            startRecording()
+            currentImageIndex = 0
+        }
+        currentImageIndex += 1
+        }
     @IBAction func capture(sender: AnyObject) {
         if !isRecording {
-            isRecording = true
-            startCountdownTimer()
-            UIView.animate(withDuration: 0.5, delay: 0.0, options: [.repeat, .autoreverse, .allowUserInteraction], animations: { () -> Void
-                in
-                self.cameraButton.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
-            },
-                           completion: nil
-            )
-            if style == 0 {
-                if let cameraPreviewLayer = cameraPreviewLayer {
-                    videoViews[0].layer.addSublayer(cameraPreviewLayer)
-                    cameraPreviewLayer.frame = videoViews[0].bounds
-                }
+            if countBeforeRecording {
+                startCountdown()
             } else {
-                replayVideo()
+                startRecording()
             }
             
-            let outputPath = NSTemporaryDirectory() + "output\(currentRecordingIndex).mov"
-            outputFileURL = URL(fileURLWithPath: outputPath)
-            if let outputFileURL = outputFileURL {
-                videoFileOutput?.startRecording(to: outputFileURL, recordingDelegate: self)
-            }
         } else {
             isRecording = false
             stopCountdownTimer()
