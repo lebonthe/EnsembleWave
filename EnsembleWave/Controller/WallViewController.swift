@@ -46,7 +46,7 @@ class WallViewController: UIViewController {
                 case .added, .modified:
                     let data = change.document.data()
                     let post = Post(dic: data)
-
+                    self.fetchUserName(userID: post.userID)
                     if change.type == .added {
                         self.posts.append(post)
                     } else if let index = self.posts.firstIndex(where: { $0.id == post.id }) {
@@ -148,6 +148,7 @@ extension WallViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         let userID = posts[section].userID
         let title = posts[section].title
+        print("usersNames:\(usersNames)")
         return (usersNames[userID] ?? "") + " 🎙️ \(title)"
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

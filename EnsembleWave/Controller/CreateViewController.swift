@@ -96,7 +96,7 @@ class CreateViewController: UIViewController {
     var countdownTimer: Timer?
     var videoViewHasContent: [Bool] = []
     lazy var tapGesture = UITapGestureRecognizer(target: self, action: #selector(videoViewTapped(_:)))
-    var countBeforeRecording: Bool = true
+    var countBeforeRecording: Bool = true // 使用者點選相機，決定要不要倒數計時
     let countingImages = ["5.circle", "4.circle", "3.circle", "2.circle", "1.circle"]
     var currentImageIndex = 0
     var countdownImageView: UIImageView = {
@@ -599,6 +599,12 @@ class CreateViewController: UIViewController {
             videoFileOutput?.startRecording(to: outputFileURL, recordingDelegate: self)
         }
     }
+    func stopCountdwonBeforeRecording() {
+        timerBeforePlay?.invalidate()
+        timerBeforePlay = nil
+        countdownImageView.isHidden = true
+        currentImageIndex = 0
+    }
     func startCountdown() {
         view.addSubview(countdownImageView)
         countdownImageView.isHidden = true
@@ -628,21 +634,21 @@ class CreateViewController: UIViewController {
         }
     @IBAction func capture(sender: AnyObject) {
         if !isRecording {
+            stopCountdwonBeforeRecording()
             if countBeforeRecording {
                 startCountdown()
             } else {
                 startRecording()
             }
-            
         } else {
-            isRecording = false
             stopCountdownTimer()
             UIView.animate(withDuration: 0.5, delay: 1.0, options: [], animations: { () -> Void
-            in
+                in
                 self.cameraButton.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
             }, completion: nil)
             cameraButton.layer.removeAllAnimations()
             videoFileOutput?.stopRecording()
+            isRecording = false
         }
     }
 
