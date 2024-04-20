@@ -231,6 +231,7 @@ class CreateViewController: UIViewController {
     }
     
     deinit {
+        print("CreatViewController deinit")
         NotificationCenter.default.removeObserver(self)
         for (player, observer) in endTimeObservers {
                 player.removeTimeObserver(observer)
@@ -437,7 +438,8 @@ class CreateViewController: UIViewController {
             print("There is no navigation controller")
             return
         }
-        
+        countBeforeRecording = true
+        useHandPoseStartRecording = true
         navigationController.view.addSubview(recordingTopView)
         let cameraPositionButton = UIButton()
         cameraPositionButton.setBackgroundImage(UIImage(systemName: "arrow.triangle.2.circlepath.camera"), for: .normal)
@@ -474,7 +476,7 @@ class CreateViewController: UIViewController {
         countdownButton.setImage(UIImage(systemName: "clock.badge.checkmark"), for: .normal)
         countdownButton.setImage(UIImage(systemName: "clock.badge.xmark"), for: .selected)
         countdownButton.tintColor = .red
-        countdownButton.isSelected = countBeforeRecording
+        countdownButton.isSelected = !countBeforeRecording
         recordingTopView.addSubview(countdownButton)
         countdownButton.addTarget(self, action: #selector(changeCountdownMode(_:)), for: .touchUpInside)
         NSLayoutConstraint.activate([
@@ -485,7 +487,7 @@ class CreateViewController: UIViewController {
             handPoseButton.translatesAutoresizingMaskIntoConstraints = false
             handPoseButton.setTitle("🤘", for: .normal)
             handPoseButton.setTitle("🙅‍♀️", for: .selected)
-            handPoseButton.isSelected = useHandPoseStartRecording
+            handPoseButton.isSelected = !useHandPoseStartRecording
             recordingTopView.addSubview(handPoseButton)
             handPoseButton.addTarget(self, action: #selector(changeHandPoseMode(_:)), for: .touchUpInside)
             NSLayoutConstraint.activate([
@@ -495,12 +497,13 @@ class CreateViewController: UIViewController {
     }
     @objc func changeHandPoseMode(_ sender: UIButton) {
         useHandPoseStartRecording.toggle()
-        sender.isSelected = useHandPoseStartRecording
+        sender.isSelected = !useHandPoseStartRecording
+        print("handPoseButton.isSelected = \(sender.isSelected)")
         print("useHandPoseStartRecording:\(useHandPoseStartRecording)")
     }
     @objc func changeCountdownMode(_ sender: UIButton) {
         countBeforeRecording.toggle()
-        sender.isSelected = countBeforeRecording
+        sender.isSelected = !countBeforeRecording
         print("is countBeforeRecording:\(countBeforeRecording)")
     }
     @objc func cancelRecording() {
