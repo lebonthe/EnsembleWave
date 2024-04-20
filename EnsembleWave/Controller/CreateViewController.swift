@@ -12,7 +12,7 @@ import Photos // 儲存影像
 import MediaPlayer // 改變音量
 import VideoConverter // 裁切影片
 import VideoTrim
-
+import Vision
 class CreateViewController: UIViewController {
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var cameraButton: UIButton!
@@ -105,6 +105,7 @@ class CreateViewController: UIViewController {
         return imageView
     }()
     var timerBeforePlay: Timer?
+    var handPoseRequest = VNDetectHumanHandPoseRequest()
     override func viewDidLoad() {
         super.viewDidLoad()
         videoURLs.removeAll()
@@ -115,6 +116,7 @@ class CreateViewController: UIViewController {
         clearTemporaryVideos()
         getCurrentSystemVolume()
         self.videoTrim.delegate = self
+        addGestureRecognitionToSession()
     }
     @objc func preparedToShare() {
         let asset = AVURLAsset(url: videoURLs[currentRecordingIndex])
@@ -486,6 +488,9 @@ class CreateViewController: UIViewController {
         resetView()
     }
     func configure(for style: Int) {
+        if captureSession.isRunning {
+            captureSession.stopRunning()
+        }
         if style == 1 && players.count > 2 {
                 players = Array(players.prefix(2))
             }
@@ -508,10 +513,7 @@ class CreateViewController: UIViewController {
             }
             print("playerLayer count:\(playerLayers.count)")
         }
-        if captureSession.isRunning {
-            captureSession.stopRunning()
-        }
-        
+
         captureSession.sessionPreset = AVCaptureSession.Preset.hd1280x720
         guard let frontDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front),
               let backDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) else {
