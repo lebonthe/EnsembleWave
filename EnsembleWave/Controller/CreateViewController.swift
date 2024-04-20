@@ -106,6 +106,8 @@ class CreateViewController: UIViewController {
     }()
     var timerBeforePlay: Timer?
     var handPoseRequest = VNDetectHumanHandPoseRequest()
+    var useHandPoseStartRecording: Bool = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         videoURLs.removeAll()
@@ -472,12 +474,29 @@ class CreateViewController: UIViewController {
         countdownButton.setImage(UIImage(systemName: "clock.badge.checkmark"), for: .normal)
         countdownButton.setImage(UIImage(systemName: "clock.badge.xmark"), for: .selected)
         countdownButton.tintColor = .red
+        countdownButton.isSelected = countBeforeRecording
         recordingTopView.addSubview(countdownButton)
         countdownButton.addTarget(self, action: #selector(changeCountdownMode(_:)), for: .touchUpInside)
         NSLayoutConstraint.activate([
             countdownButton.centerYAnchor.constraint(equalTo: recordingTopView.centerYAnchor),
             countdownButton.trailingAnchor.constraint(equalTo: cameraPositionButton.leadingAnchor, constant: -16)
         ])
+        let handPoseButton = UIButton()
+            handPoseButton.translatesAutoresizingMaskIntoConstraints = false
+            handPoseButton.setTitle("🤘", for: .normal)
+            handPoseButton.setTitle("🙅‍♀️", for: .selected)
+            handPoseButton.isSelected = useHandPoseStartRecording
+            recordingTopView.addSubview(handPoseButton)
+            handPoseButton.addTarget(self, action: #selector(changeHandPoseMode(_:)), for: .touchUpInside)
+            NSLayoutConstraint.activate([
+                handPoseButton.centerYAnchor.constraint(equalTo: recordingTopView.centerYAnchor),
+                handPoseButton.trailingAnchor.constraint(equalTo: countdownButton.leadingAnchor, constant: -16)
+            ])
+    }
+    @objc func changeHandPoseMode(_ sender: UIButton) {
+        useHandPoseStartRecording.toggle()
+        sender.isSelected = useHandPoseStartRecording
+        print("useHandPoseStartRecording:\(useHandPoseStartRecording)")
     }
     @objc func changeCountdownMode(_ sender: UIButton) {
         countBeforeRecording.toggle()

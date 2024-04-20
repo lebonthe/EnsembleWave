@@ -197,7 +197,7 @@
 		38A8410C899FC75239F27FCE09FF9C28 /* Pods-EnsembleWaveTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-EnsembleWaveTests.release.xcconfig"; sourceTree = "<group>"; };
 		39AB509B2151429426B96FA31BC366A0 /* IQNSArray+Sort.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "IQNSArray+Sort.swift"; path = "IQKeyboardManagerSwift/UIKitExtensions/IQNSArray+Sort.swift"; sourceTree = "<group>"; };
 		3E7E3229CE21FFFC9457C81887B565A1 /* VideoConverter-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "VideoConverter-prefix.pch"; sourceTree = "<group>"; };
-		40A73D0D34EDFDA5DCB8EF8EBCC48DA0 /* VideoConverter */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = VideoConverter; path = VideoConverter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		40A73D0D34EDFDA5DCB8EF8EBCC48DA0 /* VideoConverter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VideoConverter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4447C4D0D5DDA79C95A193A4B8C06079 /* IQKeyboardConfiguration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IQKeyboardConfiguration.swift; path = IQKeyboardManagerSwift/Configuration/IQKeyboardConfiguration.swift; sourceTree = "<group>"; };
 		4830EDB6A764F8BF65E3BA8CAD5EC807 /* IQUITableView+Additions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "IQUITableView+Additions.swift"; path = "IQKeyboardManagerSwift/UIKitExtensions/IQUITableView+Additions.swift"; sourceTree = "<group>"; };
 		4AEE8DF8A319750D7213D0DF5BE2CBC9 /* IQInvocation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IQInvocation.swift; path = IQKeyboardManagerSwift/IQToolbar/IQInvocation.swift; sourceTree = "<group>"; };
@@ -471,7 +471,7 @@
 				6B3AE8F55A090AE27C8A70A567888A71 /* Pods-EnsembleWave */,
 				0C38CDB52CF46091F97493934AB11479 /* Pods-EnsembleWave-EnsembleWaveUITests */,
 				FBE3F720A1DD48222A0A5166E9F8DECC /* Pods-EnsembleWaveTests */,
-				40A73D0D34EDFDA5DCB8EF8EBCC48DA0 /* VideoConverter */,
+				40A73D0D34EDFDA5DCB8EF8EBCC48DA0 /* VideoConverter.framework */,
 				FFFABD6A64B21675A1548E1DCF7C2C85 /* VideoTrim.framework */,
 			);
 			name = Products;
@@ -718,7 +718,7 @@
 			);
 			name = VideoConverter;
 			productName = VideoConverter;
-			productReference = 40A73D0D34EDFDA5DCB8EF8EBCC48DA0 /* VideoConverter */;
+			productReference = 40A73D0D34EDFDA5DCB8EF8EBCC48DA0 /* VideoConverter.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		8FEED24CBF15E07278F2F2A6158EF0B5 /* Pods-EnsembleWave */ = {
@@ -1147,7 +1147,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/VideoConverter/VideoConverter-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/VideoConverter/VideoConverter-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1173,7 +1173,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_OBJC_WEAK = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1453,7 +1453,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/VideoConverter/VideoConverter-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/VideoConverter/VideoConverter-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1643,7 +1643,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_OBJC_WEAK = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
