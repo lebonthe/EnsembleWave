@@ -9,26 +9,27 @@ import UIKit
 import FirebaseCore
 import FirebaseFirestore
 class ReplyViewController: UIViewController {
-    var reply = [ReplayContent]()
+    var replies: [ReplyContent] = []
     var postID: String?
     let tableView = UITableView()
     let textView = UIView()
     let textField = UITextField()
     let enterButton = UIButton()
     let db = Firestore.firestore()
-    
+    var usersNames: [String: String] = [:]
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupUI()
-        print("reply:\(reply)")
+        tableView.delegate = self
+        tableView.dataSource = self
+        print("replies:\(replies)")
+        listenToReplies()
+        tableView.register(ReplyDetailTableViewCell.self, forCellReuseIdentifier: "\(ReplyDetailTableViewCell.self)")
     }
     
     func setupUI() {
         view.backgroundColor = .white
         self.title = "留言"
-        tableView.delegate = self
-        tableView.dataSource = self
         view.addSubview(tableView)
         textView.backgroundColor = .orange
         view.addSubview(textView)
@@ -94,21 +95,81 @@ class ReplyViewController: UIViewController {
             return false
         }
     }
+    private func listenToReplies() {
+        guard let postID = postID else {
+            print("Post ID is nil")
+            return
+        }
+
+        let repliesRef = db.collection("Posts").document(postID).collection("replies")
+        repliesRef.addSnapshotListener { [weak self] querySnapshot, error in
+            guard let self = self, let snapshot = querySnapshot else {
+                print("Error listening for replies: \(error?.localizedDescription ?? "No error")")
+                return
+            }
+
+            self.replies = snapshot.documents.compactMap { docSnapshot -> ReplyContent? in
+                var reply = ReplyContent(dic: docSnapshot.data())
+                self.fetchUserName(userID: reply.userID)
+                print("replies in listenToReplies:\(self.replies)")
+                return reply
+            }
+
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
+    private func fetchUserName(userID: String) {
+        UserManager.shared.fetchUserName(userID: userID) { [weak self] userName, error in
+            DispatchQueue.main.async {
+                if let userName = userName {
+                    self?.usersNames[userID] = userName
+                    self?.refreshTableViewForUserID(userID)
+                } else if let error = error {
+                    print("Error fetching user name: \(error)")
+                }
+            }
+        }
+    }
+    private func refreshTableViewForUserID(_ userID: String) {
+        let indexes = replies.enumerated().compactMap { index, reply -> IndexPath? in
+            return reply.userID == userID ? IndexPath(row: index, section: 0) : nil
+        }
+        tableView.reloadRows(at: indexes, with: .none)
+    }
 }
 
 extension ReplyViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        reply.count
+        replies.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "(ReplyDetailTableViewCell.self)", for: indexPath) as? ReplyDetailTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(ReplyDetailTableViewCell.self)", for: indexPath) as? ReplyDetailTableViewCell else {
             fatalError("Fail to build ReplyDetailTableViewCell")
         }
+        let reply = replies[indexPath.row]
+        cell.nameLabel.text = usersNames[reply.userID] ?? "Unknown"
+        cell.contentLabel.text = reply.replyContent
+        cell.timeLabel.text = formatDate(reply.replyTime)
+        cell.setupCell()
         return cell
     }
 }
 
 extension ReplyViewController: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        UITableView.automaticDimension
+    }
+}
+
+extension ReplyViewController {
+    private func formatDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        return formatter.string(from: date)
+    }
 }

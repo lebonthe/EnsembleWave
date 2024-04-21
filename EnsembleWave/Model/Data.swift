@@ -36,7 +36,7 @@ struct Post: Decodable {
     var duration: TimeInterval?
     var tag: String
     var whoLike: [String]
-    var reply: [ReplayContent]
+    var reply: [ReplyContent]
     var report: [Report]
     
     init(dic: [String: Any]) {
@@ -50,7 +50,7 @@ struct Post: Decodable {
         self.duration = dic["duration"] as? TimeInterval ?? TimeInterval()
         self.tag = dic["tag"] as? String ?? ""
         self.whoLike = dic["whoLike"] as? [String] ?? []
-        self.reply = dic["replay"] as? [ReplayContent] ?? []
+        self.reply = dic["replay"] as? [ReplyContent] ?? []
         self.report = dic["Report"] as? [Report] ?? []
     }
 }
@@ -64,14 +64,14 @@ enum ReportType: Decodable {
     case spam, insult, mistakeInfo, violence, revealIdentity, other
 }
 
-struct ReplayContent: Decodable {
+struct ReplyContent: Decodable {
     var userID: String
-    var replayContent: String
-    var replayTime: Date
+    var replyContent: String
+    var replyTime: Date
     
     init(dic: [String: Any]) {
         self.userID = dic["userID"] as? String ?? ""
-        self.replayContent = dic["replayContent"] as? String ?? ""
-        self.replayTime = Timestamp.dateValue(dic["replayTime"] as? Timestamp ?? Timestamp())()
+        self.replyContent = dic["replayContent"] as? String ?? ""
+        self.replyTime = Timestamp.dateValue(dic["replayTime"] as? Timestamp ?? Timestamp())()
     }
 }

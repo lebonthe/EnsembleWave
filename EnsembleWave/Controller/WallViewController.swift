@@ -68,18 +68,16 @@ class WallViewController: UIViewController {
     }
 
     private func fetchUserName(userID: String) {
-        let docRef = db.collection("Users").document(userID)
-        docRef.getDocument { (document, error) in
-            if let document = document, document.exists {
-                let userName = document.data()?["name"] as? String ?? "Unknown User"
-                self.usersNames[userID] = userName
+        UserManager.shared.fetchUserName(userID: userID) { [weak self] userName, error in
                 DispatchQueue.main.async {
-                    self.tableView.reloadData()
+                    if let userName = userName {
+                        self?.usersNames[userID] = userName
+                        self?.tableView.reloadData()
+                    } else if let error = error {
+                        print("Error fetching user name: \(error)")
+                    }
                 }
-            } else {
-                print("Document does not exist")
             }
-        }
     }
 }
 extension WallViewController: UITableViewDataSource {
@@ -167,7 +165,7 @@ extension WallViewController: UITableViewDelegate {
 extension WallViewController: OptionsCellDelegate {
     func showReplyPage(from cell: OptionsCell, cellIndex: Int, postID: String) {
         let controller = ReplyViewController()
-        controller.reply = posts[cellIndex].reply
+//        controller.replies = posts[cellIndex].reply
         controller.postID = postID
         self.navigationController?.pushViewController(controller, animated: true)
     }

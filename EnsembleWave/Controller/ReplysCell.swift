@@ -14,7 +14,7 @@ class ReplysCell: UITableViewCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    var replyContent: [ReplayContent] = []
+    var replyContent: [ReplyContent] = []
     func setupUI() {
         contentView.addSubview(replyButton)
         replyButton.setTitle("\(replyContent.count) 更多留言", for: .normal)
