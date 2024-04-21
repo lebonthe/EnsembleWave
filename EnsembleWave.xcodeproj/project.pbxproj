@@ -25,6 +25,8 @@
 		9F007EA92BC5978700C22E5E /* RecordingHomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F007EA82BC5978700C22E5E /* RecordingHomePageViewController.swift */; };
 		9F3FD9F82BD12C0000A03E22 /* LengthCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3FD9F72BD12C0000A03E22 /* LengthCell.swift */; };
 		9F4462B62BD39FBB00462C44 /* AVCaptureVideoDataOutputSampleBufferDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4462B52BD39FBB00462C44 /* AVCaptureVideoDataOutputSampleBufferDelegate.swift */; };
+		9F4462B82BD4434200462C44 /* ReplyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4462B72BD4434200462C44 /* ReplyViewController.swift */; };
+		9F4462BA2BD503BB00462C44 /* ReplyDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4462B92BD503BB00462C44 /* ReplyDetailTableViewCell.swift */; };
 		9F5A51B92BCE1D0A00070186 /* AVAsset+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5A51B82BCE1D0A00070186 /* AVAsset+Extension.swift */; };
 		9F5A51BB2BCEC68900070186 /* ExportError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5A51BA2BCEC68900070186 /* ExportError.swift */; };
 		9F5A51BD2BCF9A4700070186 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5A51BC2BCF9A4700070186 /* Data.swift */; };
@@ -94,6 +96,8 @@
 		9F007EA82BC5978700C22E5E /* RecordingHomePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingHomePageViewController.swift; sourceTree = "<group>"; };
 		9F3FD9F72BD12C0000A03E22 /* LengthCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LengthCell.swift; sourceTree = "<group>"; };
 		9F4462B52BD39FBB00462C44 /* AVCaptureVideoDataOutputSampleBufferDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVCaptureVideoDataOutputSampleBufferDelegate.swift; sourceTree = "<group>"; };
+		9F4462B72BD4434200462C44 /* ReplyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyViewController.swift; sourceTree = "<group>"; };
+		9F4462B92BD503BB00462C44 /* ReplyDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyDetailTableViewCell.swift; sourceTree = "<group>"; };
 		9F5A51B82BCE1D0A00070186 /* AVAsset+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVAsset+Extension.swift"; sourceTree = "<group>"; };
 		9F5A51BA2BCEC68900070186 /* ExportError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportError.swift; sourceTree = "<group>"; };
 		9F5A51BC2BCF9A4700070186 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
@@ -221,6 +225,7 @@
 				9F6B5D5F2BC804FD00509F5F /* ShareViewController.swift */,
 				9F5A51BE2BCFC2C300070186 /* PostToWallViewController.swift */,
 				9F5A51C22BD004C100070186 /* WallViewController.swift */,
+				9F4462B72BD4434200462C44 /* ReplyViewController.swift */,
 				9F5A51C42BD018C900070186 /* VideoCell.swift */,
 				9F5A51C62BD01A8100070186 /* OptionsCell.swift */,
 				9F5A51C82BD01AFD00070186 /* LikesCountCell.swift */,
@@ -229,6 +234,7 @@
 				9F5A51CE2BD01B9900070186 /* ReplysCell.swift */,
 				9F3FD9F72BD12C0000A03E22 /* LengthCell.swift */,
 				9F4462B52BD39FBB00462C44 /* AVCaptureVideoDataOutputSampleBufferDelegate.swift */,
+				9F4462B92BD503BB00462C44 /* ReplyDetailTableViewCell.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -551,6 +557,7 @@
 				9F5A51C92BD01AFD00070186 /* LikesCountCell.swift in Sources */,
 				9F007EA42BC51F7600C22E5E /* CreateViewController.swift in Sources */,
 				9F4462B62BD39FBB00462C44 /* AVCaptureVideoDataOutputSampleBufferDelegate.swift in Sources */,
+				9F4462B82BD4434200462C44 /* ReplyViewController.swift in Sources */,
 				9F5A51C72BD01A8100070186 /* OptionsCell.swift in Sources */,
 				9F007E692BC5107C00C22E5E /* SceneDelegate.swift in Sources */,
 				9F007E9F2BC51AAD00C22E5E /* ChooseLengthTableViewController.swift in Sources */,
@@ -565,6 +572,7 @@
 				9F5A51BB2BCEC68900070186 /* ExportError.swift in Sources */,
 				9F6B5D602BC804FD00509F5F /* ShareViewController.swift in Sources */,
 				9F5A51CF2BD01B9900070186 /* ReplysCell.swift in Sources */,
+				9F4462BA2BD503BB00462C44 /* ReplyDetailTableViewCell.swift in Sources */,
 				9F007EA72BC520DA00C22E5E /* Style.swift in Sources */,
 				9F007E712BC5107C00C22E5E /* EnsembleWave.xcdatamodeld in Sources */,
 			);

@@ -42,6 +42,7 @@ class WallViewController: UIViewController {
 
             snapshot.documentChanges.forEach { change in
                 let postId = change.document.documentID
+    
                 switch change.type {
                 case .added, .modified:
                     let data = change.document.data()
@@ -104,8 +105,10 @@ extension WallViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(OptionsCell.self)", for: indexPath) as? OptionsCell else {
                 fatalError("error when building OptionsCell")
             }
+            cell.delegate = self
             cell.isUserLiked = self.postLikesStatus[post.id] ?? false
             cell.postID = post.id
+            cell.cellIndex = indexPath
             cell.setupUI()
             return cell
         case 2:
@@ -162,6 +165,12 @@ extension WallViewController: UITableViewDelegate {
 }
 
 extension WallViewController: OptionsCellDelegate {
+    func showReplyPage(from cell: OptionsCell, cellIndex: Int, postID: String) {
+        let controller = ReplyViewController()
+        controller.reply = posts[cellIndex].reply
+        controller.postID = postID
+        self.navigationController?.pushViewController(controller, animated: true)
+    }
     func updateLikeStatus(postId: String, hasLiked: Bool) {
         let adjustment = hasLiked ? 1 : -1
         let currentCount = postLikesCount[postId] ?? 0
@@ -170,7 +179,7 @@ extension WallViewController: OptionsCellDelegate {
 
         if let index = posts.firstIndex(where: { $0.id == postId }) {
             DispatchQueue.main.async {
-                let indexPath = IndexPath(row: 2, section: index) // Assuming row 2 shows the likes count
+                let indexPath = IndexPath(row: 2, section: index) 
                 self.tableView.reloadRows(at: [indexPath], with: .none)
             }
         }
@@ -188,7 +197,7 @@ extension WallViewController: OptionsCellDelegate {
             DispatchQueue.main.async {
                 self.postLikesCount[postId] = likesCount
                 if let index = self.posts.firstIndex(where: { $0.id == postId }) {
-                    let indexPath = IndexPath(row: 2, section: index) // Assuming row 2 shows the likes count
+                    let indexPath = IndexPath(row: 2, section: index)
                     self.tableView.reloadRows(at: [indexPath], with: .none)
                 }
             }

@@ -26,7 +26,6 @@ class PostToWallViewController: UIViewController {
     var url: URL?
     var replayButton = UIButton()
     let player = AVPlayer()
-    
     let db = Firestore.firestore()
     override func viewDidLoad() {
         super.viewDidLoad()

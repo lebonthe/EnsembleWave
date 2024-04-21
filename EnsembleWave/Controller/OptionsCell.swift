@@ -11,6 +11,8 @@ import FirebaseFirestore
 
 protocol OptionsCellDelegate: AnyObject {
     func updateLikeStatus(postId: String, hasLiked: Bool)
+    
+    func showReplyPage(from cell: OptionsCell, cellIndex: Int, postID: String)
 }
 
 class OptionsCell: UITableViewCell {
@@ -22,7 +24,13 @@ class OptionsCell: UITableViewCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+    var goToReplyButton: UIButton = {
+       let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
     var isUserLiked: Bool = false
+    var cellIndex: IndexPath?
     func setupUI() {
         contentView.addSubview(heartButton)
         if isUserLiked {
@@ -32,13 +40,30 @@ class OptionsCell: UITableViewCell {
         }
         heartButton.tintColor = .red
         heartButton.addTarget(self, action: #selector(tapLike), for: .touchUpInside)
+        contentView.addSubview(goToReplyButton)
+        goToReplyButton.setBackgroundImage(UIImage(systemName: "message"), for: .normal)
+        goToReplyButton.tintColor = .black
+        goToReplyButton.addTarget(self, action: #selector(reply), for: .touchUpInside)
         NSLayoutConstraint.activate([
             heartButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
             heartButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             heartButton.widthAnchor.constraint(equalToConstant: 36),
-//            heartButton.heightAnchor.constraint(equalToConstant: 36),
-            heartButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6)
+            heartButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6),
+            goToReplyButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
+            goToReplyButton.leadingAnchor.constraint(equalTo: heartButton.trailingAnchor, constant: 16),
+            goToReplyButton.widthAnchor.constraint(equalToConstant: 36),
+            goToReplyButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6)
+
         ])
+    }
+    
+    @objc func reply() {
+        guard let cellIndex = cellIndex else {
+            print("no cellIndex")
+            return
+        }
+        print("postID:\(postID)")
+        delegate?.showReplyPage(from: self, cellIndex: cellIndex.section, postID: postID)
     }
     @objc func tapLike() {
         if isUserLiked {
