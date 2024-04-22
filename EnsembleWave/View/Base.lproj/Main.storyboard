@@ -410,6 +410,15 @@
                                             <action selector="captureWithSender:" destination="tyf-YL-DGF" eventType="touchUpInside" id="QBy-Rj-pFg"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="FIP-Zy-vGT">
+                                        <rect key="frame" x="16" y="16" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" backgroundImage="photo" catalog="system"/>
+                                        <connections>
+                                            <action selector="selectVideo:" destination="tyf-YL-DGF" eventType="touchUpInside" id="sDb-sL-aPO"/>
+                                        </connections>
+                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BGx-Uc-Yan">
                                         <rect key="frame" x="320" y="15" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -470,6 +479,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Create" id="x7p-CF-uCW"/>
                     <connections>
+                        <outlet property="albumButton" destination="FIP-Zy-vGT" id="rx3-7Y-5AS"/>
                         <outlet property="cameraButton" destination="Bla-Hp-QJw" id="qe4-5G-2S5"/>
                         <outlet property="containerView" destination="1Gm-ff-X0P" id="Z8d-X5-Dco"/>
                         <outlet property="containerViewLeadingConstraint" destination="sUu-0f-8rR" id="Pae-wo-h4Q"/>
@@ -497,6 +507,7 @@
         <image name="mic.fill" catalog="system" width="110" height="128"/>
         <image name="music.note.list" catalog="system" width="128" height="115"/>
         <image name="person.fill" catalog="system" width="128" height="120"/>
+        <image name="photo" catalog="system" width="128" height="93"/>
         <namedColor name="AccentColor">
             <color red="1" green="0.79199999570846558" blue="0.15700000524520874" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

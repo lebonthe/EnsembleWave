@@ -11,8 +11,9 @@ import AVKit // 播放影像 access to AVPlayer
 import Photos // 儲存影像
 import MediaPlayer // 改變音量
 import VideoConverter // 裁切影片
-import VideoTrim
-import Vision
+import VideoTrim // 裁切影片
+import Vision // 手勢
+import PhotosUI // 相簿選取影闢安
 class CreateViewController: UIViewController {
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var cameraButton: UIButton!
@@ -108,6 +109,7 @@ class CreateViewController: UIViewController {
     var handPoseRequest = VNDetectHumanHandPoseRequest()
     var useHandPoseStartRecording: Bool = true
     
+    @IBOutlet weak var albumButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
         videoURLs.removeAll()
@@ -236,6 +238,11 @@ class CreateViewController: UIViewController {
         for (player, observer) in endTimeObservers {
                 player.removeTimeObserver(observer)
             }
+        for player in players {
+               if let currentItem = player.currentItem {
+                   currentItem.removeObserver(self, forKeyPath: "status")
+               }
+           }
     }
     func setupUI(_ style: Int) {
         videoViewHasContent = Array(repeating: false, count: style + 1)
@@ -350,6 +357,7 @@ class CreateViewController: UIViewController {
         stretchScreenButton.translatesAutoresizingMaskIntoConstraints = false
         shrinkScreenButton.translatesAutoresizingMaskIntoConstraints = false
         postProductionView.translatesAutoresizingMaskIntoConstraints = false
+        albumButton.translatesAutoresizingMaskIntoConstraints = false
         postProductionView.backgroundColor = .white
         
         NSLayoutConstraint.activate([
@@ -357,6 +365,10 @@ class CreateViewController: UIViewController {
             cameraButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
             cameraButton.heightAnchor.constraint(equalToConstant: 60),
             cameraButton.widthAnchor.constraint(equalToConstant: 60),
+            albumButton.centerYAnchor.constraint(equalTo: cameraButton.centerYAnchor),
+            albumButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            albumButton.heightAnchor.constraint(equalToConstant: 60),
+            albumButton.widthAnchor.constraint(equalToConstant: 60),
             stretchScreenButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
             stretchScreenButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
             stretchScreenButton.heightAnchor.constraint(equalToConstant: 60),
@@ -406,6 +418,7 @@ class CreateViewController: UIViewController {
     }
     func startCountdownTimer() {
         var remainingTime = length
+        // TODO: 解決開始倒數計時，數字圖片的延遲
         countdownTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true){ [weak self] _ in
             guard let self = self else { return }
             remainingTime -= 1
@@ -687,43 +700,43 @@ class CreateViewController: UIViewController {
                 }
             }
             if isRecording {
-                    adjustVolumeForRecording()
+                adjustVolumeForRecording()
+            } else {
+                MPVolumeView.setVolume(playerVolume)
+                print("set playerVolume:\(playerVolume)")
+            }
+        }
+        
+        videoURLs.removeAll()
+        for (index, player) in players.enumerated() {
+            print("index:\(index),player:\(player)")
+            let playerLayer = playerLayers[index]
+            if let videoURL = getVideoURL(for: index) {
+                videoURLs.append(videoURL)
+                let playerItem = AVPlayerItem(url: videoURL)
+                player.replaceCurrentItem(with: playerItem)
+                setupObserversForPlayerItem(playerItem, with: player)
+                player.play()
+                isPlaying = true
+                if style == 0 {
+                    videoViews[0].layer.addSublayer(playerLayer)
+                    playerLayer.frame = videoViews[0].bounds
                 } else {
-                    MPVolumeView.setVolume(playerVolume)
-                    print("set playerVolume:\(playerVolume)")
+                    videoViews[index].layer.addSublayer(playerLayer)
+                    playerLayer.frame = videoViews[index].bounds
+                    
                 }
+                playerLayer.videoGravity = .resizeAspectFill
+            }
         }
-           
-            videoURLs.removeAll()
-            for (index, player) in players.enumerated() {
-                print("index:\(index),player:\(player)")
-                let playerLayer = playerLayers[index]
-                if let videoURL = getVideoURL(for: index) {
-                    videoURLs.append(videoURL)
-                    let playerItem = AVPlayerItem(url: videoURL)
-                    player.replaceCurrentItem(with: playerItem)
-                    setupObserversForPlayerItem(playerItem, with: player)
-                    player.play()
-                    isPlaying = true
-                    if style == 0 {
-                        videoViews[0].layer.addSublayer(playerLayer)
-                        playerLayer.frame = videoViews[0].bounds
-                    } else {
-                        videoViews[index].layer.addSublayer(playerLayer)
-                        playerLayer.frame = videoViews[index].bounds
-                        
-                    }
-                    playerLayer.videoGravity = .resizeAspectFill
-                    }
-                }
-            replayButton.isHidden = true
+        replayButton.isHidden = true
     }
-    func getCropStartTime(for index: Int) -> CMTime? {
-        if index == currentRecordingIndex {
-            return videoTrim.startTime
-        }
-        return nil
-    }
+//    func getCropStartTime(for index: Int) -> CMTime? {
+//        if index == currentRecordingIndex {
+//            return videoTrim.startTime
+//        }
+//        return nil
+//    }
 
     func setupObserversForPlayerItem(_ playerItem: AVPlayerItem, with player: AVPlayer) {
         NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: playerItem)
@@ -994,9 +1007,9 @@ extension CreateViewController {
         }
     }
     func getVideoURL(for index: Int) -> URL? {
-        let outputPath = NSTemporaryDirectory() + "output\(index).mov"
-        outputFileURL = URL(fileURLWithPath: outputPath)
-        return outputFileURL
+            let outputPath = NSTemporaryDirectory() + "output\(index).mov"
+            outputFileURL = URL(fileURLWithPath: outputPath)
+            return outputFileURL
     }
 
     func configurePlayersAndAddObservers() {
@@ -1177,15 +1190,27 @@ extension CreateViewController {
     }
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
-        if keyPath == "outputVolume" {
-            if let volumeChange = change?[.newKey] as? Float {
-                playerVolume = volumeChange
-                print("playerVolume: \(playerVolume)")
-            }
-        } else {
-            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+        if keyPath == "outputVolume", let volumeChange = change?[.newKey] as? Float {
+            playerVolume = volumeChange
+            print("playerVolume: \(playerVolume)")
+            return
         }
+
+        if keyPath == "status", let playerItem = object as? AVPlayerItem {
+            switch playerItem.status {
+            case .readyToPlay:
+                print("Video is ready to play")
+            case .failed:
+                print("Failed to load video: \(playerItem.error?.localizedDescription ?? "unknown error")")
+            default:
+                print("Video loading...")
+            }
+            return
+        }
+
+        super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
     }
+
 }
 
 extension MPVolumeView {
@@ -1270,7 +1295,7 @@ extension CreateViewController: VideoTrimDelegate {
     }
     func exportCroppedVideo(asset: AVAsset, startTime: CMTime, endTime: CMTime, outputURL: URL, completion: @escaping (Bool) -> Void) {
            print("asset.tracks:\(asset.tracks)")
-           guard let videoTrack = asset.tracks(withMediaType: .video).first else {
+        guard asset.tracks(withMediaType: .video).first != nil else {
                print("導出失敗: 沒有找到 video track")
                completion(false)
                return
@@ -1332,5 +1357,72 @@ extension CreateViewController: VideoTrimDelegate {
     @objc func prepareRecording(for index: Int) {
         configure(for: style)
         chooseViewButtons[index].isHidden = false
+    }
+}
+
+extension CreateViewController: PHPickerViewControllerDelegate {
+    @IBAction func selectVideo(_ sender: Any) {
+        var configuration = PHPickerConfiguration()
+        configuration.filter = .videos
+        let picker = PHPickerViewController(configuration: configuration)
+        picker.delegate = self
+        present(picker, animated: true)
+    }
+
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        guard let provider = results.first?.itemProvider, provider.hasItemConformingToTypeIdentifier(UTType.movie.identifier) else {
+            picker.dismiss(animated: true)
+            return
+        }
+        
+        provider.loadFileRepresentation(forTypeIdentifier: UTType.movie.identifier) { url, error in
+            guard let url = url, error == nil else {
+                print("Error: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+            let sandboxURL = FileManager.default.temporaryDirectory.appendingPathComponent(url.lastPathComponent)
+            do {
+                if FileManager.default.fileExists(atPath: sandboxURL.path) {
+                    try FileManager.default.removeItem(at: sandboxURL)
+                }
+                try FileManager.default.copyItem(at: url, to: sandboxURL)
+                
+                DispatchQueue.main.async {
+                    self.setupPlayer(with: sandboxURL)
+                    picker.dismiss(animated: true)
+                }
+            } catch {
+                print("檔案管理錯誤: \(error)")
+            }
+        }
+    }
+    
+    func setupPlayer(with url: URL) {
+        replayButton.isHidden = true
+        if style == 0 {
+            self.cameraPreviewLayer?.removeFromSuperlayer()
+        } else {
+            if let cameraPreviewLayer = cameraPreviewLayer {
+                if !cameraPreviewLayer.isPreviewing {
+                    print("isPreviewing:\(cameraPreviewLayer.isPreviewing)")
+                    self.cameraPreviewLayer?.removeFromSuperlayer()
+                }
+            }
+            if isRecording {
+                adjustVolumeForRecording()
+            } else {
+                MPVolumeView.setVolume(playerVolume)
+                print("set playerVolume:\(playerVolume)")
+            }
+        }
+        players[currentRecordingIndex] = AVPlayer(url: url)
+        playerLayers[currentRecordingIndex] = AVPlayerLayer(player: players[currentRecordingIndex])
+        playerLayers[currentRecordingIndex].frame = videoViews[currentRecordingIndex].bounds
+        videoViews[currentRecordingIndex].layer.addSublayer(playerLayers[currentRecordingIndex])
+        playerLayers[currentRecordingIndex].videoGravity = .resizeAspectFill
+        for player in self.players {
+            player.seek(to: CMTime.zero)
+            player.play()
+        }
     }
 }
