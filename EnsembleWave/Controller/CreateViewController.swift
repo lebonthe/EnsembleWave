@@ -13,7 +13,8 @@ import MediaPlayer // 改變音量
 import VideoConverter // 裁切影片
 import VideoTrim // 裁切影片
 import Vision // 手勢
-import PhotosUI // 相簿選取影闢安
+import PhotosUI // 選取相簿影片
+
 class CreateViewController: UIViewController {
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var cameraButton: UIButton!
@@ -82,7 +83,7 @@ class CreateViewController: UIViewController {
     private var videoConverter: VideoConverter?
     private var isPlaying = false
     private var preset: String?
-    var endTimeObserver: Any? = nil
+    var endTimeObserver: Any?
     
     private let recordingTopView: UIView = {
        let view = UIView()
@@ -108,8 +109,16 @@ class CreateViewController: UIViewController {
     var timerBeforePlay: Timer?
     var handPoseRequest = VNDetectHumanHandPoseRequest()
     var useHandPoseStartRecording: Bool = true
-    
+    var isHeadphoneConnected: Bool = false {
+        didSet {
+            headphoneAlertLabel.isHidden = isHeadphoneConnected
+            print("耳機已連接:\(isHeadphoneConnected)")
+        }
+    }
     @IBOutlet weak var albumButton: UIButton!
+    var selectedMusic: MusicType?
+    var audioPlayer: AVAudioPlayer?
+    var musicPlayer: MPMusicPlayerController?
     override func viewDidLoad() {
         super.viewDidLoad()
         videoURLs.removeAll()
@@ -121,6 +130,21 @@ class CreateViewController: UIViewController {
         getCurrentSystemVolume()
         self.videoTrim.delegate = self
         addGestureRecognitionToSession()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        print("===== CreateViewController viewWillAppear =====")
+    }
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        print("===== CreateViewController viewDidLayoutSubviews =====")
+    }
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        print("===== CreateViewController viewDidDisappear =====")
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        print("===== CreateViewController viewDidAppear =====")
     }
     @objc func preparedToShare() {
         let asset = AVURLAsset(url: videoURLs[currentRecordingIndex])
@@ -233,7 +257,7 @@ class CreateViewController: UIViewController {
     }
     
     deinit {
-        print("CreatViewController deinit")
+        print("===== CreatViewController deinit =====")
         NotificationCenter.default.removeObserver(self)
         for (player, observer) in endTimeObservers {
                 player.removeTimeObserver(observer)
@@ -523,6 +547,14 @@ class CreateViewController: UIViewController {
         resetView()
     }
     func configure(for style: Int) {
+        do {
+               let audioSession = AVAudioSession.sharedInstance()
+               try audioSession.setCategory(.playAndRecord, mode: .default, options: [.mixWithOthers, .allowBluetooth, .defaultToSpeaker])
+               try audioSession.setActive(true)
+               print("Audio session is set to allow mixing with other apps.")
+           } catch {
+               print("Failed to set audio session category: \(error)")
+           }
         if captureSession.isRunning {
             captureSession.stopRunning()
         }
@@ -582,15 +614,15 @@ class CreateViewController: UIViewController {
             }
 
         if captureSession.canAddInput(audioInput) {
-                captureSession.addInput(audioInput)
-            }
+            captureSession.addInput(audioInput)
+        }
         
         if videoFileOutput == nil {
-                videoFileOutput = AVCaptureMovieFileOutput()
-                if captureSession.canAddOutput(videoFileOutput) {
-                    captureSession.addOutput(videoFileOutput)
-                }
+            videoFileOutput = AVCaptureMovieFileOutput()
+            if captureSession.canAddOutput(videoFileOutput) {
+                captureSession.addOutput(videoFileOutput)
             }
+        }
         cameraPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         if style == 0 {
             postProductionView.isHidden = true
@@ -633,6 +665,7 @@ class CreateViewController: UIViewController {
         outputFileURL = URL(fileURLWithPath: outputPath)
         
         if let outputFileURL = outputFileURL {
+            self.playMusic()
             videoFileOutput?.startRecording(to: outputFileURL, recordingDelegate: self)
         }
     }
@@ -724,7 +757,6 @@ class CreateViewController: UIViewController {
                 } else {
                     videoViews[index].layer.addSublayer(playerLayer)
                     playerLayer.frame = videoViews[index].bounds
-                    
                 }
                 playerLayer.videoGravity = .resizeAspectFill
             }
@@ -743,7 +775,7 @@ class CreateViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(videoDidEnd), name: .AVPlayerItemDidPlayToEndTime, object: playerItem)
     }
     func adjustVolumeForRecording() {
-        if headphoneAlertLabel.isHidden {
+        if isHeadphoneConnected == false {
             previousVolume = playerVolume
             print("previousVolume:\(previousVolume)")
             MPVolumeView.setVolume(0.0)
@@ -757,6 +789,8 @@ class CreateViewController: UIViewController {
         for player in players {
             player.pause()
         }
+        musicPlayer?.pause()
+        audioPlayer?.pause()
     }
     // 影片播放結束
     @objc func videoDidEnd(notification: NSNotification) {
@@ -787,6 +821,8 @@ extension CreateViewController: AVCaptureFileOutputRecordingDelegate {
             return
         }
         playerVolume = previousVolume
+        musicPlayer?.pause()
+        audioPlayer?.pause()
         print("didFinishRecording，previousVolume:\(previousVolume)")
         let alertViewController = UIAlertController(title: "影片錄製成功？", message: "", preferredStyle: .alert)
         let successAction = UIAlertAction(title: "OK", style: .default) { _ in
@@ -876,12 +912,11 @@ extension CreateViewController {
         ])
         let route = AVAudioSession.sharedInstance().currentRoute
         for output in route.outputs {
-            if output.portType == .headphones || output.portType == .bluetoothA2DP {
-                print("耳機已連接")
-                headphoneAlertLabel.isHidden = true
+            if output.portType == .headphones || output.portType == .bluetoothA2DP || output.portType == .airPlay || output.portType == .usbAudio {
+                isHeadphoneConnected = true
+                break
             } else {
-                print("使用外放")
-                headphoneAlertLabel.isHidden = false
+                isHeadphoneConnected = false
             }
         }
         NotificationCenter.default.addObserver(self, selector: #selector(handleRouteChange), name: AVAudioSession.routeChangeNotification, object: nil)
@@ -1286,7 +1321,8 @@ extension CreateViewController: VideoTrimDelegate {
 
         let observer = player.addPeriodicTimeObserver(forInterval: CMTime(seconds: 1, preferredTimescale: 1), queue: .main) { [weak self] time in
             if time >= endTime {
-                player.pause()
+//                player.pause()
+                self?.stopAllVideos()
                 player.seek(to: startTime)
             }
         }
@@ -1332,7 +1368,8 @@ extension CreateViewController: VideoTrimDelegate {
     @objc func clearVideoView(for index: Int) {
         replayButton.isHidden = true
         let player = players[index]
-        player.pause()
+//        player.pause()
+        stopAllVideos()
         player.replaceCurrentItem(with: nil)
         print("index:\(index),currentItem:\(player.currentItem ?? nil)")
         let playerLayer = playerLayers[index]
@@ -1357,6 +1394,12 @@ extension CreateViewController: VideoTrimDelegate {
     @objc func prepareRecording(for index: Int) {
         configure(for: style)
         chooseViewButtons[index].isHidden = false
+    }
+    @IBAction func selectMusic(_ sender: Any) {
+        let controller = MusicViewController()
+        controller.modalPresentationStyle = .fullScreen 
+        controller.delegate = self
+        present(controller, animated: true)
     }
 }
 
@@ -1424,5 +1467,60 @@ extension CreateViewController: PHPickerViewControllerDelegate {
             player.seek(to: CMTime.zero)
             player.play()
         }
+    }
+}
+extension CreateViewController: MusicSelectionDelegate {
+    func musicViewController(_ controller: MusicViewController, didSelectMusic music: MusicType) {
+        selectedMusic = music
+    }
+
+     func playMusic() {
+        guard let selectedMusic = selectedMusic else {
+            print("No music selected")
+            return
+        }
+
+        switch selectedMusic {
+        case .mp3(let url):
+            do {
+                let audioPlayer = try AVAudioPlayer(contentsOf: url)
+                audioPlayer.play()
+                self.audioPlayer = audioPlayer
+            } catch {
+                print("Failed to play music from file: \(error)")
+            }
+        case .appleMusic(let id):
+            requestMediaLibraryAccess(id: id)
+            print("Apple Music ID: \(id)")
+        }
+    }
+    func requestMediaLibraryAccess(id: String) {
+        MPMediaLibrary.requestAuthorization { status in
+            if status == .authorized {
+                if let id = UInt64(id) {
+                    self.fetchMediaItem(usingPersistentID: id)
+                }
+                
+            } else {
+                print("Access denied by the user")
+            }
+        }
+    }
+    func fetchMediaItem(usingPersistentID persistentID: UInt64) {
+        let query = MPMediaQuery()
+        let predicate = MPMediaPropertyPredicate(value: persistentID, forProperty: MPMediaItemPropertyPersistentID)
+        query.addFilterPredicate(predicate)
+
+        if let items = query.items, let item = items.first {
+            let collection = MPMediaItemCollection(items: [item])
+            playMediaItemCollection(collection)
+        } else {
+            print("No items found")
+        }
+    }
+    func playMediaItemCollection(_ collection: MPMediaItemCollection) {
+        musicPlayer = MPMusicPlayerController.systemMusicPlayer // .applicationMusicPlayer
+        musicPlayer?.setQueue(with: collection)
+        musicPlayer?.play()
     }
 }

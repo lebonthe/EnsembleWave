@@ -12,6 +12,7 @@ target 'EnsembleWave' do
 	pod 'VideoConverter'
 	pod 'VideoTrim'
 	pod 'IQKeyboardManagerSwift'
+	pod 'AudioKitUI'
 
   target 'EnsembleWaveTests' do
     inherit! :search_paths

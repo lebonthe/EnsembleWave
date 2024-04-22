@@ -419,6 +419,15 @@
                                             <action selector="selectVideo:" destination="tyf-YL-DGF" eventType="touchUpInside" id="sDb-sL-aPO"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="7j0-Ei-Ueg">
+                                        <rect key="frame" x="88" y="15" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" backgroundImage="music.quarternote.3" catalog="system"/>
+                                        <connections>
+                                            <action selector="selectMusic:" destination="tyf-YL-DGF" eventType="touchUpInside" id="DPL-h7-mYB"/>
+                                        </connections>
+                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BGx-Uc-Yan">
                                         <rect key="frame" x="320" y="15" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -506,6 +515,7 @@
         <image name="arrow.up.backward.and.arrow.down.forward" catalog="system" width="128" height="115"/>
         <image name="mic.fill" catalog="system" width="110" height="128"/>
         <image name="music.note.list" catalog="system" width="128" height="115"/>
+        <image name="music.quarternote.3" catalog="system" width="128" height="102"/>
         <image name="person.fill" catalog="system" width="128" height="120"/>
         <image name="photo" catalog="system" width="128" height="93"/>
         <namedColor name="AccentColor">
