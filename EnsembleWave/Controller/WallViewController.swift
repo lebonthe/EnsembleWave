@@ -48,6 +48,7 @@ class WallViewController: UIViewController {
                     let data = change.document.data()
                     let post = Post(dic: data)
                     self.fetchUserName(userID: post.userID)
+           
                     if change.type == .added {
                         self.posts.insert(post, at: 0)
                     } else if let index = self.posts.firstIndex(where: { $0.id == post.id }) {
@@ -56,6 +57,20 @@ class WallViewController: UIViewController {
 
                     // Set up or update the listener for the whoLike collection of this post
                     self.setupLikesListener(for: postId)
+                    
+                    let whoLikeRef = self.db.collection("Posts").document(postId).collection("whoLike")
+                    whoLikeRef.getDocuments { (querySnapshot, error) in
+                        DispatchQueue.main.async {
+                            guard let documents = querySnapshot?.documents else {
+                                print("Error fetching whoLike documents: \(error?.localizedDescription ?? "No error")")
+                                return
+                            }
+                            let userIDs = documents.compactMap { $0.documentID }
+                            let isLiked = userIDs.contains("09876543") // TODO: 回來改使用者
+                            self.postLikesStatus[postId] = isLiked
+                            print("Post ID: \(postId), Liked by current user: \(isLiked)")
+                        }
+                    }
 
                 case .removed:
                     self.posts.removeAll { $0.id == postId }
@@ -170,9 +185,9 @@ extension WallViewController: OptionsCellDelegate {
         self.navigationController?.pushViewController(controller, animated: true)
     }
     func updateLikeStatus(postId: String, hasLiked: Bool) {
-        let adjustment = hasLiked ? 1 : -1
-        let currentCount = postLikesCount[postId] ?? 0
-        postLikesCount[postId] = max(0, currentCount + adjustment)
+//        let adjustment = hasLiked ? 1 : -1
+        let currentCount = postLikesCount[postId] ?? 0 // 這裡的 postLikesCount[postId] 是已經增加過的
+        postLikesCount[postId] = max(0, currentCount /*+ adjustment*/)
         postLikesStatus[postId] = hasLiked
 
         if let index = posts.firstIndex(where: { $0.id == postId }) {
