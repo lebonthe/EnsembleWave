@@ -112,43 +112,40 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bTm-W6-8OC">
-                                <rect key="frame" x="211" y="123" width="150" height="150"/>
+                                <rect key="frame" x="161" y="467" width="150" height="150"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8vk-rX-8YF">
-                                        <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <connections>
-                                            <segue destination="4KP-Xt-B6c" kind="show" identifier="Style01" id="LzO-OZ-hgi"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" systemColor="systemGray4Color"/>
                             </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ixL-co-vxZ">
-                                <rect key="frame" x="32" y="123" width="150" height="150"/>
+                                <rect key="frame" x="121" y="186" width="150" height="150"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nXV-SA-cn6">
-                                        <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <connections>
-                                            <segue destination="4KP-Xt-B6c" kind="show" identifier="Style00" id="mtm-ej-WZe"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8vk-rX-8YF">
+                                <rect key="frame" x="161" y="467" width="150" height="150"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <connections>
+                                    <segue destination="4KP-Xt-B6c" kind="show" identifier="Style01" id="LzO-OZ-hgi"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nXV-SA-cn6">
+                                <rect key="frame" x="121" y="186" width="150" height="150"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <connections>
+                                    <segue destination="4KP-Xt-B6c" kind="show" identifier="Style00" id="mtm-ej-WZe"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="d12-K9-2Jr"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" title="Choose Style" id="7Oz-h4-IiS"/>
                     <connections>
+                        <outlet property="button00" destination="nXV-SA-cn6" id="YUf-wz-oIB"/>
+                        <outlet property="button01" destination="8vk-rX-8YF" id="KVE-3u-n4i"/>
                         <outlet property="styleView00" destination="ixL-co-vxZ" id="TTK-KF-ZUJ"/>
                         <outlet property="styleView01" destination="bTm-W6-8OC" id="l0C-N5-SxZ"/>
                     </connections>
@@ -234,7 +231,7 @@
         <!--Choose Length-->
         <scene sceneID="Ots-aF-MSe">
             <objects>
-                <tableViewController id="4KP-Xt-B6c" customClass="ChooseLengthTableViewController" customModule="EnsembleWave" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="ChooseLengthTableViewController" id="4KP-Xt-B6c" customClass="ChooseLengthTableViewController" customModule="EnsembleWave" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="Q0Y-l6-H75">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -493,6 +490,7 @@
                         <outlet property="containerViewRatio" destination="M50-sN-2ms" id="Qlq-mT-cYC"/>
                         <outlet property="containerViewTrailingConstraint" destination="uru-7I-o29" id="8OA-Gt-lTY"/>
                         <outlet property="headphoneAlertLabel" destination="ceN-cC-TYM" id="z8H-qw-vxF"/>
+                        <outlet property="musicButton" destination="7j0-Ei-Ueg" id="Dlr-00-2Qf"/>
                         <outlet property="postProductionView" destination="OMG-sP-MWp" id="3dX-Dp-RkM"/>
                         <outlet property="shrinkScreenButton" destination="fXX-Nn-CrJ" id="qSY-ZX-3fh"/>
                         <outlet property="stretchScreenButton" destination="BGx-Uc-Yan" id="I1f-8w-pcR"/>

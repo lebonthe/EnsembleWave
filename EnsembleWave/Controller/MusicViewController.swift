@@ -136,7 +136,11 @@ class MusicViewController: UIViewController {
         controller.addAction(actionaAppleMusic)
         let cancelAction = UIAlertAction(title: "取消", style: .cancel)
         controller.addAction(cancelAction)
-        
+        // Check if the device is iPad to configure popover presentation
+        if let popoverController = controller.popoverPresentationController {
+            popoverController.sourceView = sender
+            popoverController.sourceRect = sender.bounds 
+        }
         present(controller, animated: true)
     }
     

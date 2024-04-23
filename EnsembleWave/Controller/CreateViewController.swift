@@ -117,6 +117,8 @@ class CreateViewController: UIViewController {
         }
     }
     @IBOutlet weak var albumButton: UIButton!
+    
+    @IBOutlet weak var musicButton: UIButton!
     var selectedMusic: MusicType?
     var audioPlayer: AVAudioPlayer?
     var musicPlayer: MPMusicPlayerController?
@@ -398,6 +400,7 @@ class CreateViewController: UIViewController {
         shrinkScreenButton.translatesAutoresizingMaskIntoConstraints = false
         postProductionView.translatesAutoresizingMaskIntoConstraints = false
         albumButton.translatesAutoresizingMaskIntoConstraints = false
+        musicButton.translatesAutoresizingMaskIntoConstraints = false
         postProductionView.backgroundColor = .white
         
         NSLayoutConstraint.activate([
@@ -406,19 +409,23 @@ class CreateViewController: UIViewController {
             cameraButton.heightAnchor.constraint(equalToConstant: 60),
             cameraButton.widthAnchor.constraint(equalToConstant: 60),
             albumButton.centerYAnchor.constraint(equalTo: cameraButton.centerYAnchor),
-            albumButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            albumButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
             albumButton.heightAnchor.constraint(equalToConstant: 60),
             albumButton.widthAnchor.constraint(equalToConstant: 60),
-            stretchScreenButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            musicButton.leadingAnchor.constraint(equalTo: albumButton.trailingAnchor, constant: 15),
+            musicButton.centerYAnchor.constraint(equalTo: cameraButton.centerYAnchor),
+            musicButton.heightAnchor.constraint(equalToConstant: 60),
+            musicButton.widthAnchor.constraint(equalToConstant: 60),
+            stretchScreenButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
             stretchScreenButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
             stretchScreenButton.heightAnchor.constraint(equalToConstant: 60),
             stretchScreenButton.widthAnchor.constraint(equalToConstant: 60),
-            shrinkScreenButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            shrinkScreenButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
             shrinkScreenButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
             shrinkScreenButton.heightAnchor.constraint(equalToConstant: 60),
             shrinkScreenButton.widthAnchor.constraint(equalToConstant: 60),
-            postProductionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
-            postProductionView.heightAnchor.constraint(equalToConstant: 60),
+            postProductionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 8),
+            postProductionView.heightAnchor.constraint(equalToConstant: 80),
             postProductionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             postProductionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
@@ -927,7 +934,7 @@ extension CreateViewController {
         ])
         let route = AVAudioSession.sharedInstance().currentRoute
         for output in route.outputs {
-            if output.portType == .headphones || output.portType == .bluetoothA2DP || output.portType == .airPlay || output.portType == .usbAudio {
+            if output.portType == .headphones || output.portType == .bluetoothA2DP || output.portType == .airPlay || output.portType == .usbAudio || output.portType == .HDMI {
                 isHeadphoneConnected = true
                 break
             } else {
