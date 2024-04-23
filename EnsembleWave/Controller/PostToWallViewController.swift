@@ -18,7 +18,6 @@ class PostToWallViewController: UIViewController {
     
     @IBOutlet weak var titleTextField: UITextField!
     
-    
     @IBOutlet weak var contentTextView: UITextView!
     
     @IBOutlet weak var tagTextField: UITextField!

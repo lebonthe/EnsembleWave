@@ -124,6 +124,7 @@ class CreateViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("===== CreateViewController viewDidLoad =====")
         videoURLs.removeAll()
         setupUI(style)
         setupReplayButton()
@@ -135,7 +136,7 @@ class CreateViewController: UIViewController {
         addGestureRecognitionToSession()
     }
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+        super.viewWillAppear(animated)
         print("===== CreateViewController viewWillAppear =====")
     }
     override func viewDidLayoutSubviews() {
@@ -150,6 +151,7 @@ class CreateViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         print("===== CreateViewController viewDidDisappear =====")
+        dchCheckDeallocation()
     }
     override func viewDidAppear(_ animated: Bool) {
         print("===== CreateViewController viewDidAppear =====")
@@ -159,7 +161,8 @@ class CreateViewController: UIViewController {
         let keys = ["tracks"]
         
         asset.loadValuesAsynchronously(forKeys: keys) {
-            DispatchQueue.main.async { 
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
                 var error: NSError?
                 let status = asset.statusOfValue(forKey: "tracks", error: &error)
                 if status == .loaded {
@@ -266,10 +269,14 @@ class CreateViewController: UIViewController {
     
     deinit {
         print("===== CreatViewController deinit =====")
-        NotificationCenter.default.removeObserver(self)
-        for (player, observer) in endTimeObservers {
-                player.removeTimeObserver(observer)
-            }
+        recordingTopView.removeFromSuperview()
+//        NotificationCenter.default.removeObserver(self)
+//        if endTimeObservers.count > 0 {
+//            for (player, observer) in endTimeObservers {
+//                player.removeTimeObserver(observer)
+//            }
+//        }
+        
 //        for player in players {
 //            if let currentItem = player.currentItem {
 //                currentItem.removeObserver(self, forKeyPath: "status")
@@ -1088,13 +1095,13 @@ extension CreateViewController {
         }
         for player in players {
             if let currentItem = player.currentItem {
-                NotificationCenter.default.addObserver(self,
-                                                       selector: #selector(videoDidEnd),
-                                                       name: .AVPlayerItemDidPlayToEndTime,
-                                                       object: currentItem)
+                NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: currentItem, queue: .main) { [weak self] notification in
+                    self?.videoDidEnd(notification: notification as NSNotification)
+                }
             }
         }
     }
+
     func clearTemporaryVideos() {
         let fileManager = FileManager.default
         let tempDirectoryPath = NSTemporaryDirectory()
@@ -1264,19 +1271,17 @@ extension CreateViewController {
             playerVolume = volumeChange
             print("playerVolume: \(playerVolume)")
             return
-        }
-
-        if keyPath == "status", let playerItem = object as? AVPlayerItem {
-            switch playerItem.status {
-            case .readyToPlay:
-                print("Video is ready to play")
-            case .failed:
-                print("Failed to load video: \(playerItem.error?.localizedDescription ?? "unknown error")")
-            default:
-                print("Video loading...")
-            }
-            return
-        }
+        } //else if keyPath == "status", let playerItem = object as? AVPlayerItem {
+//            switch playerItem.status {
+//            case .readyToPlay:
+//                print("Video is ready to play")
+//            case .failed:
+//                print("Failed to load video: \(playerItem.error?.localizedDescription ?? "unknown error")")
+//            default:
+//                print("Video loading...")
+//            }
+//            return
+//        }
 
         super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
     }
@@ -1354,11 +1359,12 @@ extension CreateViewController: VideoTrimDelegate {
             endTimeObservers[player] = nil
         }
 
-        let observer = player.addPeriodicTimeObserver(forInterval: CMTime(seconds: 1, preferredTimescale: 1), queue: .main) { [weak self] time in
+        let observer = player.addPeriodicTimeObserver(forInterval: CMTime(seconds: 1, preferredTimescale: 1), queue: .global()) { [weak self] time in
             if time >= endTime {
-//                player.pause()
-                self?.stopAllVideos()
-                player.seek(to: startTime)
+                DispatchQueue.main.async {
+                    self?.stopAllVideos()
+                    player.seek(to: startTime)
+                }
             }
         }
 

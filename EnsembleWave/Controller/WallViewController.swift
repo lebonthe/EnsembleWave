@@ -49,7 +49,7 @@ class WallViewController: UIViewController {
                     let post = Post(dic: data)
                     self.fetchUserName(userID: post.userID)
                     if change.type == .added {
-                        self.posts.append(post)
+                        self.posts.insert(post, at: 0)
                     } else if let index = self.posts.firstIndex(where: { $0.id == post.id }) {
                         self.posts[index] = post
                     }
