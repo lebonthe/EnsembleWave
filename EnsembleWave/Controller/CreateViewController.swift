@@ -14,6 +14,7 @@ import VideoConverter // 裁切影片
 import VideoTrim // 裁切影片
 import Vision // 手勢
 import PhotosUI // 選取相簿影片
+import Lottie // 動畫
 
 class CreateViewController: UIViewController {
     @IBOutlet weak var containerView: UIView!
@@ -119,6 +120,8 @@ class CreateViewController: UIViewController {
     var selectedMusic: MusicType?
     var audioPlayer: AVAudioPlayer?
     var musicPlayer: MPMusicPlayerController?
+    var animView: LottieAnimationView?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         videoURLs.removeAll()
@@ -139,6 +142,11 @@ class CreateViewController: UIViewController {
         super.viewDidLayoutSubviews()
         print("===== CreateViewController viewDidLayoutSubviews =====")
     }
+    override func viewWillDisappear(_ animated: Bool) {
+        animView?.stop()
+        animView?.removeFromSuperview()
+        animView = nil
+    }
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         print("===== CreateViewController viewDidDisappear =====")
@@ -151,7 +159,7 @@ class CreateViewController: UIViewController {
         let keys = ["tracks"]
         
         asset.loadValuesAsynchronously(forKeys: keys) {
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { 
                 var error: NSError?
                 let status = asset.statusOfValue(forKey: "tracks", error: &error)
                 if status == .loaded {
@@ -262,11 +270,12 @@ class CreateViewController: UIViewController {
         for (player, observer) in endTimeObservers {
                 player.removeTimeObserver(observer)
             }
-        for player in players {
-               if let currentItem = player.currentItem {
-                   currentItem.removeObserver(self, forKeyPath: "status")
-               }
-           }
+//        for player in players {
+//            if let currentItem = player.currentItem {
+//                currentItem.removeObserver(self, forKeyPath: "status")
+//            }
+//        }
+        
     }
     func setupUI(_ style: Int) {
         videoViewHasContent = Array(repeating: false, count: style + 1)
@@ -467,7 +476,7 @@ class CreateViewController: UIViewController {
             print("There is no navigation controller")
             return
         }
-        recordingTopView.removeFromSuperview()
+        recordingTopView.isHidden = true
         setupTrimViewUI()
     }
     func setupRecordingTopView() {
@@ -521,16 +530,16 @@ class CreateViewController: UIViewController {
             countdownButton.trailingAnchor.constraint(equalTo: cameraPositionButton.leadingAnchor, constant: -16)
         ])
         let handPoseButton = UIButton()
-            handPoseButton.translatesAutoresizingMaskIntoConstraints = false
-            handPoseButton.setTitle("🤘", for: .normal)
-            handPoseButton.setTitle("🙅‍♀️", for: .selected)
-            handPoseButton.isSelected = !useHandPoseStartRecording
-            recordingTopView.addSubview(handPoseButton)
-            handPoseButton.addTarget(self, action: #selector(changeHandPoseMode(_:)), for: .touchUpInside)
-            NSLayoutConstraint.activate([
-                handPoseButton.centerYAnchor.constraint(equalTo: recordingTopView.centerYAnchor),
-                handPoseButton.trailingAnchor.constraint(equalTo: countdownButton.leadingAnchor, constant: -16)
-            ])
+        handPoseButton.translatesAutoresizingMaskIntoConstraints = false
+        handPoseButton.setTitle("🤘", for: .normal)
+        handPoseButton.setTitle("🙅‍♀️", for: .selected)
+        handPoseButton.isSelected = !useHandPoseStartRecording
+        recordingTopView.addSubview(handPoseButton)
+        handPoseButton.addTarget(self, action: #selector(changeHandPoseMode(_:)), for: .touchUpInside)
+        NSLayoutConstraint.activate([
+            handPoseButton.centerYAnchor.constraint(equalTo: recordingTopView.centerYAnchor),
+            handPoseButton.trailingAnchor.constraint(equalTo: countdownButton.leadingAnchor, constant: -16)
+        ])
     }
     @objc func changeHandPoseMode(_ sender: UIButton) {
         useHandPoseStartRecording.toggle()
@@ -820,6 +829,9 @@ extension CreateViewController: AVCaptureFileOutputRecordingDelegate {
             print(error ?? "")
             return
         }
+        if captureSession.isRunning {
+            captureSession.stopRunning()
+        }
         playerVolume = previousVolume
         musicPlayer?.pause()
         audioPlayer?.pause()
@@ -967,7 +979,11 @@ extension CreateViewController {
     // TODO: 解決 containerView 跟 startToRecordingView 的位置衝突
    // style 0 的準備錄影（還不是錄影）介面
     @objc func startToRecordingView() {
-        setupRecordingTopView()
+        if recordingTopView.isHidden {
+            recordingTopView.isHidden = false
+        } else {
+            setupRecordingTopView()
+        }
         configure(for: style)
         replayButton.isHidden = true
         postProductionView.isHidden = true
@@ -978,7 +994,11 @@ extension CreateViewController {
         
     }
     @objc func chooseView(_ sender: UIButton) {
-        setupRecordingTopView()
+        if recordingTopView.isHidden {
+            recordingTopView.isHidden = false
+        } else {
+            setupRecordingTopView()
+        }
         configure(for: style)
         replayButton.isHidden = true
         postProductionView.isHidden = true
@@ -1002,7 +1022,7 @@ extension CreateViewController {
         }
     }
     @objc func resetView() {
-        recordingTopView.removeFromSuperview()
+        recordingTopView.isHidden = true
         postProductionView.isHidden = false
         trimView.isHidden = true
         cameraPreviewLayer?.removeFromSuperlayer()
@@ -1017,8 +1037,12 @@ extension CreateViewController {
     @objc func pushSharePage(_ sender: UIBarButtonItem) {
         guard let outputFileURL = outputFileURL, !videoURLs.isEmpty/*, !audioURLs.isEmpty*/ else {
             print("點擊分享鍵，但輸出失敗")
+            let alert = UIAlertController(title: "輸出失敗", message: "無法導出影片", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel))
+            present(alert, animated: true, completion: nil)
             return
         }
+        mergingAnimation()
         let outputMergedFileURL = URL(fileURLWithPath: NSTemporaryDirectory() + "mergedOutput.mov")
         if style > 0 {
             mergeMedia(videoURLs: videoURLs, audioURLs: audioURLs, outputURL: outputMergedFileURL) { [weak self] success in
@@ -1040,6 +1064,17 @@ extension CreateViewController {
             shareVC.url = outputFileURL
             navigationController?.pushViewController(shareVC, animated: true)
         }
+    }
+    func mergingAnimation() {
+        if animView == nil {
+            animView = LottieAnimationView(name: "Animation00", bundle: .main)
+            animView?.frame = CGRect(x: 200, y: 350, width: 300, height: 300)
+            animView?.center = self.view.center
+            animView?.loopMode = .loop
+            animView?.animationSpeed = 2
+            self.view.addSubview(animView!)
+        }
+        animView?.play()
     }
     func getVideoURL(for index: Int) -> URL? {
             let outputPath = NSTemporaryDirectory() + "output\(index).mov"
