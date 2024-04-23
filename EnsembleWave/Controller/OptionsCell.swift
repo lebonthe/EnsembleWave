@@ -12,7 +12,7 @@ import FirebaseFirestore
 protocol OptionsCellDelegate: AnyObject {
     func updateLikeStatus(postId: String, hasLiked: Bool)
     
-    func showReplyPage(from cell: OptionsCell, cellIndex: Int, postID: String)
+    func showReplyPage(from cell: UITableViewCell, cellIndex: Int, postID: String)
 }
 
 class OptionsCell: UITableViewCell {
@@ -48,6 +48,7 @@ class OptionsCell: UITableViewCell {
             heartButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
             heartButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             heartButton.widthAnchor.constraint(equalToConstant: 36),
+            heartButton.heightAnchor.constraint(equalToConstant: 36),
             heartButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6),
             goToReplyButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
             goToReplyButton.leadingAnchor.constraint(equalTo: heartButton.trailingAnchor, constant: 16),

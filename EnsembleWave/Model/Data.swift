@@ -36,7 +36,7 @@ struct Post: Decodable {
     var duration: TimeInterval?
     var tag: String
     var whoLike: [String]
-    var reply: [ReplyContent]
+    var replies: [ReplyContent]
     var report: [Report]
     
     init(dic: [String: Any]) {
@@ -50,7 +50,7 @@ struct Post: Decodable {
         self.duration = dic["duration"] as? TimeInterval ?? TimeInterval()
         self.tag = dic["tag"] as? String ?? ""
         self.whoLike = dic["whoLike"] as? [String] ?? []
-        self.reply = dic["replay"] as? [ReplyContent] ?? []
+        self.replies = dic["replay"] as? [ReplyContent] ?? []
         self.report = dic["Report"] as? [Report] ?? []
     }
 }

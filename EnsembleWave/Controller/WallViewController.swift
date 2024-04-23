@@ -17,8 +17,9 @@ class WallViewController: UIViewController {
     var usersNames: [String: String] = [:]
     var postLikesCount: [String: Int] = [:]
     var postLikesStatus: [String: Bool] = [:]
+    var postReplies: [String: Int] = [:]
     @IBOutlet weak var tableView: UITableView!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         listenToPosts()
@@ -29,7 +30,7 @@ class WallViewController: UIViewController {
         tableView.register(LikesCountCell.self, forCellReuseIdentifier: "\(LikesCountCell.self)")
         tableView.register(ContentCell.self, forCellReuseIdentifier: "\(ContentCell.self)")
         tableView.register(TagsCell.self, forCellReuseIdentifier: "\(TagsCell.self)")
-        tableView.register(ReplysCell.self, forCellReuseIdentifier: "\(ReplysCell.self)")
+        tableView.register(RepliesCell.self, forCellReuseIdentifier: "\(RepliesCell.self)")
     }
 
     private func listenToPosts() {
@@ -71,7 +72,18 @@ class WallViewController: UIViewController {
                             print("Post ID: \(postId), Liked by current user: \(isLiked)")
                         }
                     }
-
+                    let repiesRef = self.db.collection("Posts").document(postId).collection("replies")
+                    repiesRef.getDocuments { (querySnapshot, error) in
+                        DispatchQueue.main.async {
+                            guard let documents = querySnapshot?.documents else {
+                                print("Error fetching replies documents: \(error?.localizedDescription ?? "No error")")
+                                return
+                            }
+                            let count = documents.count
+                            print("replies documents.count: \(documents.count)")
+                            self.postReplies[postId] = count
+                        }
+                    }
                 case .removed:
                     self.posts.removeAll { $0.id == postId }
                     self.postLikesCount.removeValue(forKey: postId)
@@ -148,10 +160,14 @@ extension WallViewController: UITableViewDataSource {
             cell.setupUI()
             return cell
         case 5:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(ReplysCell.self)", for: indexPath) as? ReplysCell else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(RepliesCell.self)", for: indexPath) as? RepliesCell else {
                 fatalError("error when building OptionsCell")
             }
-            cell.replyContent = post.reply
+            cell.delegate = self
+            print("cell.replyCount: \(cell.replyCount)")
+            cell.replyCount = postReplies[post.id] ?? 0
+            cell.postID = post.id
+            cell.cellIndex = indexPath
             cell.setupUI()
             return cell
         default:
@@ -178,7 +194,7 @@ extension WallViewController: UITableViewDelegate {
 }
 
 extension WallViewController: OptionsCellDelegate {
-    func showReplyPage(from cell: OptionsCell, cellIndex: Int, postID: String) {
+    func showReplyPage(from cell: UITableViewCell, cellIndex: Int, postID: String) {
         let controller = ReplyViewController()
 //        controller.replies = posts[cellIndex].reply
         controller.postID = postID
