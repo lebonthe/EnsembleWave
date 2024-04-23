@@ -503,156 +503,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "32A07831-B9F6-4554-8339-6F7893962E85"
+            uuid = "6BB014AB-87E6-4E07-A7EA-DA9E21632C0B"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "EnsembleWave/Controller/OptionsCell.swift"
+            filePath = "EnsembleWave/Controller/ChooseStyleViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "84"
-            endingLineNumber = "84"
-            landmarkName = "addLike()"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
+            landmarkName = "setupLayoutUI()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "79FE3E61-CE38-4D5B-8E3D-B1BB476A8580"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "EnsembleWave/Controller/OptionsCell.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "95"
-            endingLineNumber = "95"
-            landmarkName = "deleteLike()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "EC73CE08-ED2C-4B5C-B205-7C32F17D9BC0"
+            uuid = "4707FF5D-B88E-40B6-A604-6FE5F1E9A72F"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "EnsembleWave/Controller/WallViewController.swift"
+            filePath = "EnsembleWave/Controller/ChooseStyleViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "217"
-            endingLineNumber = "217"
-            landmarkName = "setupLikesListener(for:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "EC73CE08-ED2C-4B5C-B205-7C32F17D9BC0 - 61a04ad19c3a3903"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "EnsembleWave.WallViewController.setupLikesListener(for: Swift.String) -&gt; ()"
-                  moduleName = "EnsembleWave"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lebonthe/Documents/ios/School/Solo%20Project/EnsembleWave/EnsembleWave/Controller/WallViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "217"
-                  endingLineNumber = "217">
-               </Location>
-               <Location
-                  uuid = "EC73CE08-ED2C-4B5C-B205-7C32F17D9BC0 - 8c0b6f68733c1071"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;__C.FIRQuerySnapshot&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in EnsembleWave.WallViewController.setupLikesListener(for: Swift.String) -&gt; ()"
-                  moduleName = "EnsembleWave"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lebonthe/Documents/ios/School/Solo%20Project/EnsembleWave/EnsembleWave/Controller/WallViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "217"
-                  endingLineNumber = "217">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "BB697DEC-D7A1-4A11-AE69-733DA3C2F557"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "EnsembleWave/Controller/WallViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "204"
-            endingLineNumber = "204"
-            landmarkName = "updateLikeStatus(postId:hasLiked:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "BB697DEC-D7A1-4A11-AE69-733DA3C2F557 - 3f92de8e586a1a91"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "EnsembleWave.WallViewController.updateLikeStatus(postId: Swift.String, hasLiked: Swift.Bool) -&gt; ()"
-                  moduleName = "EnsembleWave"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lebonthe/Documents/ios/School/Solo%20Project/EnsembleWave/EnsembleWave/Controller/WallViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "204"
-                  endingLineNumber = "204">
-               </Location>
-               <Location
-                  uuid = "BB697DEC-D7A1-4A11-AE69-733DA3C2F557 - 3f92de8e586a1ab2"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "EnsembleWave.WallViewController.updateLikeStatus(postId: Swift.String, hasLiked: Swift.Bool) -&gt; ()"
-                  moduleName = "EnsembleWave"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lebonthe/Documents/ios/School/Solo%20Project/EnsembleWave/EnsembleWave/Controller/WallViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "205"
-                  endingLineNumber = "205">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "4D15C99E-547C-4519-BA9A-C350FFCB30F3"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "EnsembleWave/Controller/OptionsCell.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "69"
-            endingLineNumber = "69"
-            landmarkName = "tapLike()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "8B4585A3-A015-496B-A4FA-452F5CED391D"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "EnsembleWave/Controller/RepliesCell.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "35"
-            endingLineNumber = "35"
-            landmarkName = "reply()"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
+            landmarkName = "setupLayoutUI()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
