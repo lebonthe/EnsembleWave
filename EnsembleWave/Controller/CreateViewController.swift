@@ -665,9 +665,7 @@ class CreateViewController: UIViewController {
     func startRecording() {
         isRecording = true
         startCountdownTimer()
-        UIView.animate(withDuration: 0.5, delay: 0.0, options: [.repeat, .autoreverse, .allowUserInteraction], animations: { () -> Void
-            in
-            self.cameraButton.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)}, completion: nil)
+        cameraButton.setBackgroundImage(UIImage(systemName: "stop.circle"), for: .normal)
         if style == 0 {
             if let cameraPreviewLayer = cameraPreviewLayer {
                 videoViews[0].layer.addSublayer(cameraPreviewLayer)
@@ -728,10 +726,8 @@ class CreateViewController: UIViewController {
             }
         } else {
             stopCountdownTimer()
-            UIView.animate(withDuration: 0.5, delay: 1.0, options: [], animations: { () -> Void
-                in
-                self.cameraButton.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-            }, completion: nil)
+            
+            cameraButton.setBackgroundImage(UIImage(systemName: "record.circle"), for: .normal)
             cameraButton.layer.removeAllAnimations()
             videoFileOutput?.stopRecording()
             isRecording = false
