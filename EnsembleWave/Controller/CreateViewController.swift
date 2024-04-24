@@ -127,6 +127,9 @@ class CreateViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("===== CreateViewController viewDidLoad =====")
+        withUnsafeBytes(of: &(players)) { (point) -> Void in
+            print("players 在記憶體的位置:\(point)")
+        }
         videoURLs.removeAll()
         setupUI(style)
         setupReplayButton()
@@ -153,7 +156,7 @@ class CreateViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         print("===== CreateViewController viewDidDisappear =====")
-        dchCheckDeallocation()
+//        dchCheckDeallocation()
     }
     override func viewDidAppear(_ animated: Bool) {
         print("===== CreateViewController viewDidAppear =====")
@@ -270,21 +273,35 @@ class CreateViewController: UIViewController {
     }
     
     deinit {
-        print("===== CreatViewController deinit =====")
+        print("===== Enter CreatViewController deinit =====")
+        withUnsafeBytes(of: &(players)) { (point) -> Void in
+            print("players 在記憶體的位置:\(point)")
+        }
         recordingTopView.removeFromSuperview()
-//        NotificationCenter.default.removeObserver(self)
-//        if endTimeObservers.count > 0 {
-//            for (player, observer) in endTimeObservers {
-//                player.removeTimeObserver(observer)
-//            }
-//        }
-        
-//        for player in players {
-//            if let currentItem = player.currentItem {
-//                currentItem.removeObserver(self, forKeyPath: "status")
-//            }
-//        }
-        
+        for player in players {
+            NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: player.currentItem)
+        }
+        AVAudioSession.sharedInstance().removeObserver(self, forKeyPath: "outputVolume")
+        for (player, observer) in endTimeObservers {
+            player.removeTimeObserver(observer)
+        }
+            endTimeObservers.removeAll()
+        for player in players {
+                player.pause()
+                player.replaceCurrentItem(with: nil)
+            }
+        musicPlayer?.stop()
+        musicPlayer = nil
+        audioPlayer?.stop()
+        audioPlayer = nil
+        NotificationCenter.default.removeObserver(self, name: AVAudioSession.routeChangeNotification, object: nil)
+        for layer in playerLayers {
+            layer.removeFromSuperlayer()
+        }
+        print("===== Leave CreatViewController deinit =====")
+        withUnsafeBytes(of: &(players)) { (point) -> Void in
+            print("players 在記憶體的位置:\(point)")
+        }
     }
     func setupUI(_ style: Int) {
         videoViewHasContent = Array(repeating: false, count: style + 1)
@@ -490,7 +507,8 @@ class CreateViewController: UIViewController {
             print("There is no navigation controller")
             return
         }
-        recordingTopView.isHidden = true
+//        recordingTopView.isHidden = true
+        recordingTopView.removeFromSuperview()
         setupTrimViewUI()
     }
     func setupRecordingTopView() {
@@ -564,6 +582,9 @@ class CreateViewController: UIViewController {
     @objc func changeCountdownMode(_ sender: UIButton) {
         countBeforeRecording.toggle()
         sender.isSelected = !countBeforeRecording
+        if !countBeforeRecording {
+            stopCountdwonBeforeRecording()
+        }
         print("is countBeforeRecording:\(countBeforeRecording)")
     }
     @objc func cancelRecording() {
@@ -1473,7 +1494,7 @@ extension CreateViewController: PHPickerViewControllerDelegate {
                     try FileManager.default.removeItem(at: sandboxURL)
                 }
                 try FileManager.default.copyItem(at: url, to: sandboxURL)
-                
+               /* try FileManager.default.copyItem(at: url, to: URL(fileURLWithPath: NS*//*TemporaryDirectory() + "output\(self.currentRecordingIndex).mov"))*/
                 DispatchQueue.main.async {
                     self.setupPlayer(with: sandboxURL)
                     picker.dismiss(animated: true)
@@ -1507,6 +1528,7 @@ extension CreateViewController: PHPickerViewControllerDelegate {
         playerLayers[currentRecordingIndex].frame = videoViews[currentRecordingIndex].bounds
         videoViews[currentRecordingIndex].layer.addSublayer(playerLayers[currentRecordingIndex])
         playerLayers[currentRecordingIndex].videoGravity = .resizeAspectFill
+        launchTrimTopView()
         for player in self.players {
             player.seek(to: CMTime.zero)
             player.play()
