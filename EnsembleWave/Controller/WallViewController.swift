@@ -31,6 +31,10 @@ class WallViewController: UIViewController {
         tableView.register(ContentCell.self, forCellReuseIdentifier: "\(ContentCell.self)")
         tableView.register(TagsCell.self, forCellReuseIdentifier: "\(TagsCell.self)")
         tableView.register(RepliesCell.self, forCellReuseIdentifier: "\(RepliesCell.self)")
+        tableView.sectionHeaderHeight = 25
+        tableView.sectionIndexBackgroundColor = .clear
+        tableView.backgroundColor = .black
+
     }
 
     private func listenToPosts() {
@@ -190,6 +194,18 @@ extension WallViewController: UITableViewDelegate {
         } else {
             return UITableView.automaticDimension
         }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView()
+        headerView.backgroundColor = UIColor.clear
+
+        let headerLabel = UILabel(frame: CGRect(x: 16, y: 0, width: tableView.bounds.size.width, height: 30))
+        headerLabel.textColor = UIColor.white 
+        headerLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
+        headerView.addSubview(headerLabel)
+
+        return headerView
     }
 }
 

@@ -29,12 +29,13 @@ class VideoCell: UITableViewCell {
     var playerLayer: AVPlayerLayer?
     let player = AVPlayer()
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        setupUI()
-    }
+//    override func awakeFromNib() {
+//        super.awakeFromNib()
+//        setupUI()
+//    }
 
     func setupUI() {
+        contentView.backgroundColor = .black
         contentView.addSubview(videoView)
         contentView.addSubview(replayButton)
         replayButton.isHidden = false

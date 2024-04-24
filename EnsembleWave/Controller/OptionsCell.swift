@@ -32,6 +32,7 @@ class OptionsCell: UITableViewCell {
     var isUserLiked: Bool = false
     var cellIndex: IndexPath?
     func setupUI() {
+        contentView.backgroundColor = .black
         contentView.addSubview(heartButton)
         if isUserLiked {
             heartButton.setBackgroundImage(UIImage(systemName: "heart.fill"), for: .normal)
@@ -42,7 +43,7 @@ class OptionsCell: UITableViewCell {
         heartButton.addTarget(self, action: #selector(tapLike), for: .touchUpInside)
         contentView.addSubview(goToReplyButton)
         goToReplyButton.setBackgroundImage(UIImage(systemName: "message"), for: .normal)
-        goToReplyButton.tintColor = .black
+        goToReplyButton.tintColor = .white
         goToReplyButton.addTarget(self, action: #selector(reply), for: .touchUpInside)
         NSLayoutConstraint.activate([
             heartButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
