@@ -182,11 +182,14 @@ class CreateViewController: UIViewController {
             }
         }
     }
-    func continuePreparedToShare(with asset: AVAsset) {
+    func setupShareButton() {
         trimView.isHidden = true
         let shareButton = UIBarButtonItem(title: "分享", style: .plain, target: self, action: #selector(pushSharePage(_:)))
         self.navigationItem.rightBarButtonItem = shareButton
         self.navigationItem.leftBarButtonItem = nil
+    }
+    func continuePreparedToShare(with asset: AVAsset) {
+        setupShareButton()
 
         let startTime = videoTrim.startTime
         let endTime = videoTrim.endTime
@@ -310,8 +313,8 @@ class CreateViewController: UIViewController {
         videoViews.removeAll()
         players.removeAll()
         playerLayers.removeAll()
-        let cameraPositionButton = UIBarButtonItem(image: UIImage(systemName: "arrow.triangle.2.circlepath.camera"), style: .plain, target: self, action: #selector(toggleCameraPosition(_:)))
-        self.navigationItem.rightBarButtonItem = cameraPositionButton
+//        let cameraPositionButton = UIBarButtonItem(image: UIImage(systemName: "arrow.triangle.2.circlepath.camera"), style: .plain, target: self, action: #selector(toggleCameraPosition(_:)))
+//        self.navigationItem.rightBarButtonItem = cameraPositionButton
         print("style in setupUI: \(style)")
         containerView.layer.borderColor = UIColor.black.cgColor
         containerView.layer.borderWidth = 2
@@ -587,6 +590,7 @@ class CreateViewController: UIViewController {
         }
         print("is countBeforeRecording:\(countBeforeRecording)")
     }
+    // 按左上角x
     @objc func cancelRecording() {
         resetView()
     }
@@ -1052,6 +1056,7 @@ extension CreateViewController {
             }
         }
     }
+    // 按左上角x
     @objc func resetView() {
         recordingTopView.isHidden = true
         postProductionView.isHidden = false
@@ -1433,10 +1438,9 @@ extension CreateViewController: VideoTrimDelegate {
     @objc func clearVideoView(for index: Int) {
         replayButton.isHidden = true
         let player = players[index]
-//        player.pause()
         stopAllVideos()
         player.replaceCurrentItem(with: nil)
-        print("index:\(index),currentItem:\(player.currentItem ?? nil)")
+        print("index: \(index), currentItem: \(player.currentItem ?? nil)")
         let playerLayer = playerLayers[index]
         playerLayer.removeFromSuperlayer()
         if let url = getVideoURL(for: index) {

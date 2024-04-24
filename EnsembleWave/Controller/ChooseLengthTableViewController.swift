@@ -11,7 +11,7 @@ class ChooseLengthTableViewController: UITableViewController {
 
     var style = 0
     var lengths = [5, 15, 30, 60, 180, 300, 600]
-    var length = 15
+    var length = 5
     var selectedIndexPath: IndexPath?
 
     override func viewDidLoad() {
