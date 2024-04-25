@@ -13,6 +13,10 @@ protocol OptionsCellDelegate: AnyObject {
     func updateLikeStatus(postId: String, hasLiked: Bool)
     
     func showReplyPage(from cell: UITableViewCell, cellIndex: Int, postID: String)
+    
+    func presentRecordingPage(postID: String)
+    
+    func viewControllerForPresentation() -> UIViewController?
 }
 
 class OptionsCell: UITableViewCell {
@@ -54,6 +58,7 @@ class OptionsCell: UITableViewCell {
         ensembleButton.setImage(UIImage(systemName: "music.mic"), for: .normal)
         ensembleButton.setTitle("共同創作", for: .normal)
         ensembleButton.setTitleColor(.green, for: .normal)
+        ensembleButton.addTarget(self, action: #selector(checkForEnsemble), for: .touchUpInside)
         ensembleButton.backgroundColor = .red
         contentView.addSubview(ensembleButton)
         NSLayoutConstraint.activate([
@@ -116,5 +121,25 @@ class OptionsCell: UITableViewCell {
             }
         }
     }
-
+    @objc func checkForEnsemble() {
+        let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+       
+        let actionImport = UIAlertAction(title: "輸入創作", style: .default) {_ in
+            self.delegate?.presentRecordingPage(postID: self.postID)
+        }
+        controller.addAction(actionImport)
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel)
+        controller.addAction(cancelAction)
+        // Check if the device is iPad to configure popover presentation
+        if let popoverController = controller.popoverPresentationController {
+            let sourceView = self.contentView
+                popoverController.sourceView = sourceView
+                popoverController.sourceRect = CGRect(x: sourceView.bounds.midX, y: sourceView.bounds.maxY, width: 0, height: 0)
+                popoverController.permittedArrowDirections = [] 
+            
+        }
+        if let vc = delegate?.viewControllerForPresentation() {
+                vc.present(controller, animated: true, completion: nil)
+            }
+    }
 }

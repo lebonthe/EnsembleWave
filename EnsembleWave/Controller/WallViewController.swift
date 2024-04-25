@@ -8,6 +8,8 @@
 import UIKit
 import FirebaseCore
 import FirebaseFirestore
+import Lottie
+import AVFoundation
 
 class WallViewController: UIViewController {
     
@@ -18,8 +20,10 @@ class WallViewController: UIViewController {
     var postLikesCount: [String: Int] = [:]
     var postLikesStatus: [String: Bool] = [:]
     var postReplies: [String: Int] = [:]
+    var post: Post?
     @IBOutlet weak var tableView: UITableView!
-
+    var animView: LottieAnimationView?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         listenToPosts()
@@ -34,9 +38,10 @@ class WallViewController: UIViewController {
         tableView.sectionHeaderHeight = 25
         tableView.sectionIndexBackgroundColor = .clear
         tableView.backgroundColor = .black
-
     }
-
+    override func viewWillAppear(_ animated: Bool) {
+        tabBarController?.tabBar.isHidden = false
+    }
     private func listenToPosts() {
         db.collection("Posts")
           .addSnapshotListener { [weak self] querySnapshot, error in
@@ -178,6 +183,44 @@ extension WallViewController: UITableViewDataSource {
             fatalError("Out of cell types")
         }
     }
+    func importAnimation() {
+        if animView == nil {
+            animView = LottieAnimationView(name: "Animation00", bundle: .main)
+            animView?.frame = CGRect(x: 200, y: 350, width: 300, height: 300)
+            animView?.center = self.view.center
+            animView?.loopMode = .loop
+            animView?.animationSpeed = 2
+            self.view.addSubview(animView!)
+        }
+        animView?.play()
+    }
+    func stopAnimation() {
+            DispatchQueue.main.async { [weak self] in
+                self?.animView?.stop()
+                self?.animView?.removeFromSuperview()
+            }
+        }
+    func getVideoAndUserID(postID: String) async -> (videoURL: String, userID: String)? {
+        do {
+            let document = try await db.collection("Posts").document(postID).getDocument()
+            if document.exists, let data = document.data(),
+               let videoURL = data["videoURL"] as? String,
+               let userID = data["userID"] as? String {
+                return (videoURL, userID)
+            }
+        } catch {
+            print("Error getting document: \(error)")
+        }
+        return nil
+    }
+    
+    func getVideoLength(with url: String) -> Int {
+        let videoURL = URL(fileURLWithPath: url)
+        let asset = AVURLAsset(url: videoURL)
+        let durationInSeconds = CMTimeGetSeconds(asset.duration)
+        print("Video duration: \(durationInSeconds) seconds")
+        return Int(durationInSeconds.rounded())
+    }
 }
 
 extension WallViewController: UITableViewDelegate {
@@ -210,14 +253,43 @@ extension WallViewController: UITableViewDelegate {
 }
 
 extension WallViewController: OptionsCellDelegate {
+    func viewControllerForPresentation() -> UIViewController? {
+            return self
+        }
+    func presentRecordingPage(postID: String) {
+        importAnimation()
+        
+        Task {
+            if let (videoURL, userID) = await getVideoAndUserID(postID: postID) {
+                let length = getVideoLength(with: videoURL)
+                DispatchQueue.main.async { [weak self] in
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil) 
+                    guard let controller = storyboard.instantiateViewController(withIdentifier: "CreateViewController") as? CreateViewController else {
+                        print("Unable to instantiate CreateViewController from storyboard.")
+                        return
+                    }
+                    
+                    controller.style = 101
+                    controller.length = length
+                    self?.stopAnimation()
+                    self?.tabBarController?.tabBar.isHidden = true
+                    self?.navigationController?.pushViewController(controller, animated: true)
+                }
+            } else {
+                stopAnimation()
+                print("Required data not found or document does not exist.")
+            }
+        }
+    }
+    
     func showReplyPage(from cell: UITableViewCell, cellIndex: Int, postID: String) {
+        
         let controller = ReplyViewController()
 //        controller.replies = posts[cellIndex].reply
         controller.postID = postID
         self.navigationController?.pushViewController(controller, animated: true)
     }
     func updateLikeStatus(postId: String, hasLiked: Bool) {
-//        let adjustment = hasLiked ? 1 : -1
         let currentCount = postLikesCount[postId] ?? 0 // 這裡的 postLikesCount[postId] 是已經增加過的
         postLikesCount[postId] = max(0, currentCount /*+ adjustment*/)
         postLikesStatus[postId] = hasLiked
