@@ -305,6 +305,21 @@ class CreateViewController: UIViewController {
         withUnsafeBytes(of: &(players)) { (point) -> Void in
             print("players 在記憶體的位置:\(point)")
         }
+        func clearTemporaryFiles() {
+            let tempDirectoryPath = NSTemporaryDirectory()
+            
+            do {
+                let fileManager = FileManager.default
+                let tempFiles = try fileManager.contentsOfDirectory(atPath: tempDirectoryPath)
+                for file in tempFiles {
+                    let filePath = (tempDirectoryPath as NSString).appendingPathComponent(file)
+                    try fileManager.removeItem(atPath: filePath)
+                }
+                print("Temporary files are deleted.")
+            } catch {
+                print("Failed to delete temporary files: \(error)")
+            }
+        }
     }
     func setupUI(_ style: Int) {
         videoViewHasContent = Array(repeating: false, count: style + 1)
@@ -374,10 +389,10 @@ class CreateViewController: UIViewController {
             line.backgroundColor = .black
             containerView.addSubview(line)
             
+            let button0 = UIButton()
             let button1 = UIButton()
-            let button2 = UIButton()
+            chooseViewButtons.append(button0)
             chooseViewButtons.append(button1)
-            chooseViewButtons.append(button2)
             containerView.addSubview(chooseViewButtons[0])
             containerView.addSubview(chooseViewButtons[1])
             chooseViewButtons[0].setBackgroundImage(UIImage(systemName: "plus"), for: .normal)
@@ -1041,18 +1056,24 @@ extension CreateViewController {
         let viewIndex = sender == chooseViewButtons[0] ? 0 : 1
         currentRecordingIndex = viewIndex
         cameraPreviewLayer?.frame = videoViews[viewIndex].bounds
+        
         videoViews[viewIndex].layer.addSublayer(cameraPreviewLayer!)
         chooseViewButtons[viewIndex].isHidden = true
         let otherIndex = viewIndex == 0 ? 1 : 0
+        
+        // 如果是 style 1
         if players.count > 1 && players.count > style {
-            if let currentItem = players[otherIndex].currentItem {
-                let otherPlayerHasItem = players[otherIndex].currentItem != nil && currentItem.duration.seconds > 0
-//                chooseViewButtons[otherIndex].isHidden = otherPlayerHasItem
-                chooseViewButtons[otherIndex].isHidden = true
-                print("otherIndex:\(otherIndex),otherPlayerHasItem:\(otherPlayerHasItem)")
-                print("players[\(otherIndex)]duration:\(currentItem.duration.seconds)")
-                print("chooseViewButtons[0].isHidden:\(chooseViewButtons[0].isHidden)")
-                print("chooseViewButtons[1].isHidden:\(chooseViewButtons[1].isHidden)")
+            
+            if let currentItemOfOtherIndex = players[otherIndex].currentItem {
+                // otherPlayerHasItem 另一個 player 是否有影片
+                let otherPlayerHasItem = players[otherIndex].currentItem != nil &&  currentItemOfOtherIndex.asset.isPlayable
+                // 另一個+是否隱藏 = 另一個 player 是否有影片
+                chooseViewButtons[otherIndex].isHidden = otherPlayerHasItem
+                // 如果另一個+顯示
+                if !chooseViewButtons[otherIndex].isHidden {
+                    // 拉到最上層
+                    containerView.bringSubviewToFront(chooseViewButtons[otherIndex])
+                }
             }
         }
     }
