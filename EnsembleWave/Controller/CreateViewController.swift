@@ -123,13 +123,17 @@ class CreateViewController: UIViewController {
     var audioPlayer: AVAudioPlayer?
     var musicPlayer: MPMusicPlayerController?
     var animView: LottieAnimationView?
-    
+    var ensembleVideoURL: String?
+    var ensembleUserID: String?
+    var duration: Int?
     override func viewDidLoad() {
         super.viewDidLoad()
         print("===== CreateViewController viewDidLoad =====")
-        withUnsafeBytes(of: &(players)) { (point) -> Void in
+        print("length:\(length)")
+        withUnsafeBytes(of: &(players)) { (point) in
             print("players 在記憶體的位置:\(point)")
         }
+        print("ensembleVideoURL:\(ensembleVideoURL ?? "no ensembleVideoURL")")
         videoURLs.removeAll()
         setupUI(style)
         setupReplayButton()
@@ -139,9 +143,13 @@ class CreateViewController: UIViewController {
         getCurrentSystemVolume()
         self.videoTrim.delegate = self
         addGestureRecognitionToSession()
+       
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        if ensembleVideoURL != nil && style == 1 {
+            chooseView(chooseViewButtons[0])
+        }
         print("===== CreateViewController viewWillAppear =====")
     }
     override func viewDidLayoutSubviews() {
@@ -152,6 +160,27 @@ class CreateViewController: UIViewController {
         animView?.stop()
         animView?.removeFromSuperview()
         animView = nil
+        recordingTopView.removeFromSuperview()
+        for player in players {
+            NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: player.currentItem)
+        }
+        AVAudioSession.sharedInstance().removeObserver(self, forKeyPath: "outputVolume")
+        for (player, observer) in endTimeObservers {
+            player.removeTimeObserver(observer)
+        }
+            endTimeObservers.removeAll()
+        for player in players {
+                player.pause()
+                player.replaceCurrentItem(with: nil)
+            }
+        musicPlayer?.stop()
+        musicPlayer = nil
+        audioPlayer?.stop()
+        audioPlayer = nil
+        NotificationCenter.default.removeObserver(self, name: AVAudioSession.routeChangeNotification, object: nil)
+        for layer in playerLayers {
+            layer.removeFromSuperlayer()
+        }
     }
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -215,6 +244,11 @@ class CreateViewController: UIViewController {
                         self.videoViewHasContent[self.currentRecordingIndex] = true
                         self.videoViews[self.currentRecordingIndex].addGestureRecognizer(self.tapGesture)
                         print("videoViews[0].subviews:\(self.videoViews[0].subviews)")
+                        
+                        let durationInSeconds = CMTimeGetSeconds(asset.duration)
+                        self.duration = Int(durationInSeconds.rounded())
+                        print("儲存的影片長度為: \(self.duration ?? 0) 秒")
+
                     } else {
                         print("裁剪和導出失敗")
                     }
@@ -222,6 +256,7 @@ class CreateViewController: UIViewController {
             }
         }
     }
+
 
     @objc func recordAgain() {
         let cameraPositionButton = UIBarButtonItem(image: UIImage(systemName: "arrow.triangle.2.circlepath.camera"), style: .plain, target: self, action: #selector(toggleCameraPosition(_:)))
@@ -280,45 +315,26 @@ class CreateViewController: UIViewController {
         withUnsafeBytes(of: &(players)) { (point) -> Void in
             print("players 在記憶體的位置:\(point)")
         }
-        recordingTopView.removeFromSuperview()
-        for player in players {
-            NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: player.currentItem)
-        }
-        AVAudioSession.sharedInstance().removeObserver(self, forKeyPath: "outputVolume")
-        for (player, observer) in endTimeObservers {
-            player.removeTimeObserver(observer)
-        }
-            endTimeObservers.removeAll()
-        for player in players {
-                player.pause()
-                player.replaceCurrentItem(with: nil)
-            }
-        musicPlayer?.stop()
-        musicPlayer = nil
-        audioPlayer?.stop()
-        audioPlayer = nil
-        NotificationCenter.default.removeObserver(self, name: AVAudioSession.routeChangeNotification, object: nil)
-        for layer in playerLayers {
-            layer.removeFromSuperlayer()
-        }
+        
         print("===== Leave CreatViewController deinit =====")
         withUnsafeBytes(of: &(players)) { (point) -> Void in
             print("players 在記憶體的位置:\(point)")
         }
-        func clearTemporaryFiles() {
-            let tempDirectoryPath = NSTemporaryDirectory()
-            
-            do {
-                let fileManager = FileManager.default
-                let tempFiles = try fileManager.contentsOfDirectory(atPath: tempDirectoryPath)
-                for file in tempFiles {
-                    let filePath = (tempDirectoryPath as NSString).appendingPathComponent(file)
-                    try fileManager.removeItem(atPath: filePath)
-                }
-                print("Temporary files are deleted.")
-            } catch {
-                print("Failed to delete temporary files: \(error)")
+        clearTemporaryFiles()
+    }
+    func clearTemporaryFiles() {
+        let tempDirectoryPath = NSTemporaryDirectory()
+        
+        do {
+            let fileManager = FileManager.default
+            let tempFiles = try fileManager.contentsOfDirectory(atPath: tempDirectoryPath)
+            for file in tempFiles {
+                let filePath = (tempDirectoryPath as NSString).appendingPathComponent(file)
+                try fileManager.removeItem(atPath: filePath)
             }
+            print("Temporary files are deleted.")
+        } catch {
+            print("Failed to delete temporary files: \(error)")
         }
     }
     func setupUI(_ style: Int) {
@@ -611,22 +627,47 @@ class CreateViewController: UIViewController {
     }
     func configure(for style: Int) {
         do {
-               let audioSession = AVAudioSession.sharedInstance()
-               try audioSession.setCategory(.playAndRecord, mode: .default, options: [.mixWithOthers, .allowBluetooth, .defaultToSpeaker])
-               try audioSession.setActive(true)
-               print("Audio session is set to allow mixing with other apps.")
-           } catch {
-               print("Failed to set audio session category: \(error)")
-           }
+            let audioSession = AVAudioSession.sharedInstance()
+            try audioSession.setCategory(.playAndRecord, mode: .default, options: [.mixWithOthers, .allowBluetooth, .defaultToSpeaker])
+            try audioSession.setActive(true)
+            print("Audio session is set to allow mixing with other apps.")
+        } catch {
+            print("Failed to set audio session category: \(error)")
+        }
         if captureSession.isRunning {
             captureSession.stopRunning()
         }
         if style == 1 && players.count > 2 {
-                players = Array(players.prefix(2))
-            }
+            players = Array(players.prefix(2))
+        }
         
         for index in 0...style {
-            if index < players.count {
+            if index == 1 && ensembleVideoURL != nil {
+                guard let url = URL(string: ensembleVideoURL!) else {
+                    print("no ensembleVideoURL")
+                    return
+                }
+                print("ensembleVideoURL:\(url)")
+                let player = AVPlayer(url: url)
+                if players.count <= index {
+                        players.append(player)
+                    } else {
+                        players[index] = player
+                    }
+               
+                let playerLayer = AVPlayerLayer(player: player)
+                playerLayer.frame = videoViews[index].bounds
+                playerLayer.videoGravity = .resizeAspectFill
+                videoViews[index].layer.addSublayer(playerLayer)
+                if playerLayers.count <= index {
+                        playerLayers.append(playerLayer)
+                    } else {
+                        playerLayers[index] = playerLayer
+                    }
+//                let playerItem = AVPlayerItem(url: URL(string: url)!)
+//                players[index].replaceCurrentItem(with: playerItem)
+                player.play()
+            } else if index < players.count {
                 if let videoURL = getVideoURL(for: index) {
                     let playerItem = AVPlayerItem(url: videoURL)
                     players[index].replaceCurrentItem(with: playerItem)
@@ -643,7 +684,7 @@ class CreateViewController: UIViewController {
             }
             print("playerLayer count:\(playerLayers.count)")
         }
-
+        
         captureSession.sessionPreset = AVCaptureSession.Preset.hd1280x720
         guard let frontDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front),
               let backDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) else {
@@ -658,7 +699,7 @@ class CreateViewController: UIViewController {
             print("Failed to set the camera input")
             return
         }
-
+        
         for input in captureSession.inputs {
             captureSession.removeInput(input)
         }
@@ -667,15 +708,15 @@ class CreateViewController: UIViewController {
         }
         
         guard let audioDevice = AVCaptureDevice.default(for: .audio) else {
-                print("Failed to get the audio device")
-                return
-            }
+            print("Failed to get the audio device")
+            return
+        }
         
         guard let audioInput = try? AVCaptureDeviceInput(device: audioDevice) else {
-                print("Failed to create audio input")
-                return
-            }
-
+            print("Failed to create audio input")
+            return
+        }
+        
         if captureSession.canAddInput(audioInput) {
             captureSession.addInput(audioInput)
         }
@@ -803,11 +844,24 @@ class CreateViewController: UIViewController {
         for (index, player) in players.enumerated() {
             print("index:\(index),player:\(player)")
             let playerLayer = playerLayers[index]
-            if let videoURL = getVideoURL(for: index) {
-                videoURLs.append(videoURL)
-                let playerItem = AVPlayerItem(url: videoURL)
+            if index == 1 && ensembleUserID != nil {
+                guard let url = URL(string: ensembleVideoURL!) else {
+                    print("ensembleUserID 轉換失敗")
+                    return
+                }
+                videoURLs.append(url)
+                let playerItem = AVPlayerItem(url: url)
                 player.replaceCurrentItem(with: playerItem)
                 setupObserversForPlayerItem(playerItem, with: player)
+            } else {
+                
+                if let videoURL = getVideoURL(for: index) {
+                    videoURLs.append(videoURL)
+                    let playerItem = AVPlayerItem(url: videoURL)
+                    player.replaceCurrentItem(with: playerItem)
+                    setupObserversForPlayerItem(playerItem, with: player)
+                }
+            }
                 player.play()
                 isPlaying = true
                 if style == 0 {
@@ -819,7 +873,7 @@ class CreateViewController: UIViewController {
                 }
                 playerLayer.videoGravity = .resizeAspectFill
             }
-        }
+            
         replayButton.isHidden = true
     }
 //    func getCropStartTime(for index: Int) -> CMTime? {
@@ -1043,6 +1097,7 @@ extension CreateViewController {
         chooseViewButtons[0].isHidden = true
         
     }
+    // TODO: 找為什麼一開始兩個Layer 都看不到東西，錄完之後有下載影片的看得見，但錄的還是看不見
     @objc func chooseView(_ sender: UIButton) {
         if recordingTopView.isHidden {
             recordingTopView.isHidden = false
@@ -1060,7 +1115,7 @@ extension CreateViewController {
         videoViews[viewIndex].layer.addSublayer(cameraPreviewLayer!)
         chooseViewButtons[viewIndex].isHidden = true
         let otherIndex = viewIndex == 0 ? 1 : 0
-        
+
         // 如果是 style 1
         if players.count > 1 && players.count > style {
             
@@ -1092,7 +1147,7 @@ extension CreateViewController {
 //        }
     }
     @objc func pushSharePage(_ sender: UIBarButtonItem) {
-        guard let outputFileURL = outputFileURL, !videoURLs.isEmpty/*, !audioURLs.isEmpty*/ else {
+        guard let outputFileURL = outputFileURL, !videoURLs.isEmpty, let duration = duration else {
             print("點擊分享鍵，但輸出失敗")
             let alert = UIAlertController(title: "輸出失敗", message: "無法導出影片", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .cancel))
@@ -1107,6 +1162,7 @@ extension CreateViewController {
                         if success {
                             let shareVC = ShareViewController()
                             shareVC.url = outputMergedFileURL
+                            shareVC.duration = duration
                             print("導出成功，建立並推送 ShareViewController")
                             self?.navigationController?.pushViewController(shareVC, animated: true)
                         } else {
@@ -1480,7 +1536,7 @@ extension CreateViewController: VideoTrimDelegate {
             }
         }
     }
-
+    // 刪除重錄回到有+的畫面
     @objc func prepareRecording(for index: Int) {
         configure(for: style)
         chooseViewButtons[index].isHidden = false

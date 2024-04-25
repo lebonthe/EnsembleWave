@@ -25,7 +25,7 @@ class ShareViewController: UIViewController {
         button.setTitleColor(.black, for: .normal)
         return button
     }()
-    
+    var duration: Int?
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -76,16 +76,18 @@ class ShareViewController: UIViewController {
     }
     @objc func shareToWall() {
         saveVideoToFirebase() { url in
-                if let url = url {
-                    print("Got the download URL: \(url)")
-                    let controller = PostToWallViewController(nibName: "PostToWallViewController", bundle: nil)
-                    controller.url = url
-                    self.present(controller, animated: true)
-                    
-                } else {
-                    print("Failed to get the download URL")
-                }
+            if let url = url,
+               let duration = self.duration {
+                print("Got the download URL: \(url)")
+                let controller = PostToWallViewController(nibName: "PostToWallViewController", bundle: nil)
+                controller.url = url
+                controller.duration = duration
+                self.present(controller, animated: true)
+                
+            } else {
+                print("Failed to get the download URL")
             }
+        }
     }
     func saveVideoToFirebase(completion: @escaping (URL?) -> Void) {
         let storage = Storage.storage()

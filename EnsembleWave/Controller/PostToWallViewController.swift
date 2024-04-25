@@ -21,7 +21,7 @@ class PostToWallViewController: UIViewController {
     @IBOutlet weak var contentTextView: UITextView!
     
     @IBOutlet weak var tagTextField: UITextField!
-    
+    var duration: Int?
     var url: URL?
     var replayButton = UIButton()
     let player = AVPlayer()
@@ -78,11 +78,12 @@ class PostToWallViewController: UIViewController {
     }
     func postToWall() async -> Bool{
         guard let titleText = titleTextField.text,
-           let contentText = contentTextView.text,
-           let tagText = tagTextField.text,
-              let url = url else {
+              let contentText = contentTextView.text,
+              let tagText = tagTextField.text,
+              let url = url,
+              let duration = duration else {
             print("缺少發文內容")
-           return false
+            return false
         }
         let post = [
             "videoURL": "\(url)",
@@ -91,7 +92,7 @@ class PostToWallViewController: UIViewController {
             "userID": "09876543",
             "content": contentText,
             "importMusic": "Music composed by AI",
-            "duration": "01:20",
+            "duration": duration,
             "tag": tagText
         ] as [String: Any]
         do {

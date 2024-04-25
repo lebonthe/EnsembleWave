@@ -33,7 +33,7 @@ struct Post: Decodable {
     var videoURL: String
     var content: String
     var importMusic: String?
-    var duration: TimeInterval?
+    var duration: Int?
     var tag: String
     var whoLike: [String]
     var replies: [ReplyContent]
@@ -47,7 +47,7 @@ struct Post: Decodable {
         self.videoURL = dic["videoURL"] as? String ?? ""
         self.content = dic["content"] as? String ?? ""
         self.importMusic = dic["importMusic"] as? String ?? ""
-        self.duration = dic["duration"] as? TimeInterval ?? TimeInterval()
+        self.duration = dic["duration"] as? Int ?? Int()
         self.tag = dic["tag"] as? String ?? ""
         self.whoLike = dic["whoLike"] as? [String] ?? []
         self.replies = dic["replay"] as? [ReplyContent] ?? []

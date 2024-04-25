@@ -200,26 +200,19 @@ extension WallViewController: UITableViewDataSource {
                 self?.animView?.removeFromSuperview()
             }
         }
-    func getVideoAndUserID(postID: String) async -> (videoURL: String, userID: String)? {
+    func getVideoAndUserID(postID: String) async -> (videoURL: String, userID: String, duration: Int)? {
         do {
             let document = try await db.collection("Posts").document(postID).getDocument()
             if document.exists, let data = document.data(),
                let videoURL = data["videoURL"] as? String,
-               let userID = data["userID"] as? String {
-                return (videoURL, userID)
+               let userID = data["userID"] as? String,
+               let duration = data["duration"] as? Int {
+                return (videoURL, userID, duration)
             }
         } catch {
             print("Error getting document: \(error)")
         }
         return nil
-    }
-    
-    func getVideoLength(with url: String) -> Int {
-        let videoURL = URL(fileURLWithPath: url)
-        let asset = AVURLAsset(url: videoURL)
-        let durationInSeconds = CMTimeGetSeconds(asset.duration)
-        print("Video duration: \(durationInSeconds) seconds")
-        return Int(durationInSeconds.rounded())
     }
 }
 
@@ -260,16 +253,17 @@ extension WallViewController: OptionsCellDelegate {
         importAnimation()
         
         Task {
-            if let (videoURL, userID) = await getVideoAndUserID(postID: postID) {
-                let length = getVideoLength(with: videoURL)
+            if let (videoURL, userID, duration) = await getVideoAndUserID(postID: postID) {
+                let length = duration
                 DispatchQueue.main.async { [weak self] in
                     let storyboard = UIStoryboard(name: "Main", bundle: nil) 
                     guard let controller = storyboard.instantiateViewController(withIdentifier: "CreateViewController") as? CreateViewController else {
                         print("Unable to instantiate CreateViewController from storyboard.")
                         return
                     }
-                    
-                    controller.style = 101
+                    controller.ensembleVideoURL = videoURL
+                    controller.ensembleUserID = userID
+                    controller.style = 1
                     controller.length = length
                     self?.stopAnimation()
                     self?.tabBarController?.tabBar.isHidden = true
