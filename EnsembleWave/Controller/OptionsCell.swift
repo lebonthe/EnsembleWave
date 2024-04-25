@@ -25,7 +25,12 @@ class OptionsCell: UITableViewCell {
         return button
     }()
     var goToReplyButton: UIButton = {
-       let button = UIButton()
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    var ensembleButton: UIButton = {
+        let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -45,6 +50,12 @@ class OptionsCell: UITableViewCell {
         goToReplyButton.setBackgroundImage(UIImage(systemName: "message"), for: .normal)
         goToReplyButton.tintColor = .white
         goToReplyButton.addTarget(self, action: #selector(reply), for: .touchUpInside)
+        ensembleButton.tintColor = .green
+        ensembleButton.setImage(UIImage(systemName: "music.mic"), for: .normal)
+        ensembleButton.setTitle("共同創作", for: .normal)
+        ensembleButton.setTitleColor(.green, for: .normal)
+        ensembleButton.backgroundColor = .red
+        contentView.addSubview(ensembleButton)
         NSLayoutConstraint.activate([
             heartButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
             heartButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
@@ -54,8 +65,11 @@ class OptionsCell: UITableViewCell {
             goToReplyButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
             goToReplyButton.leadingAnchor.constraint(equalTo: heartButton.trailingAnchor, constant: 16),
             goToReplyButton.widthAnchor.constraint(equalToConstant: 36),
-            goToReplyButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6)
-
+            goToReplyButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6),
+            ensembleButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
+            ensembleButton.leadingAnchor.constraint(equalTo: goToReplyButton.trailingAnchor, constant: 16),
+            ensembleButton.widthAnchor.constraint(equalToConstant: 110),
+            ensembleButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6)
         ])
     }
     
