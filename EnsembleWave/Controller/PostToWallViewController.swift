@@ -21,14 +21,26 @@ class PostToWallViewController: UIViewController {
     @IBOutlet weak var contentTextView: UITextView!
     
     @IBOutlet weak var tagTextField: UITextField!
+    
+    @IBOutlet weak var ensembleUserLabel: UILabel!
+    @IBOutlet weak var ensembleUserNameLabel: UILabel!
     var duration: Int?
     var url: URL?
     var replayButton = UIButton()
     let player = AVPlayer()
     let db = Firestore.firestore()
+    var ensembleUserID: String?
+    var ensembleUserName: String?
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        if let ensembleUserID = ensembleUserID {
+            ensembleUserLabel.isHidden = false
+            ensembleUserNameLabel.isHidden = false
+        } else {
+            ensembleUserLabel.isHidden = true
+            ensembleUserNameLabel.isHidden = true
+        }
+            
         if let url = url {
             print("url:\(url) 傳入 PostToWallViewController")
             configure(url: url)
@@ -85,7 +97,7 @@ class PostToWallViewController: UIViewController {
             print("缺少發文內容")
             return false
         }
-        let post = [
+        var post: [String: Any] = [
             "videoURL": "\(url)",
             "title": titleText,
             "createdTime": FieldValue.serverTimestamp(),
@@ -93,8 +105,11 @@ class PostToWallViewController: UIViewController {
             "content": contentText,
             "importMusic": "Music composed by AI",
             "duration": duration,
-            "tag": tagText
-        ] as [String: Any]
+            "tag": tagText,
+        ]
+        if let ensembleUserID = ensembleUserID {
+            post["ensembleUserID"] = ensembleUserID
+        }
         do {
             let ref = try await db.collection("Posts").addDocument(data: post)
             print("Document added with ID: \(ref.documentID)")
@@ -137,4 +152,5 @@ class PostToWallViewController: UIViewController {
             }
         }
     }
+    
 }

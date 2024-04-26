@@ -1147,7 +1147,7 @@ extension CreateViewController {
 //        }
     }
     @objc func pushSharePage(_ sender: UIBarButtonItem) {
-        guard let outputFileURL = outputFileURL, !videoURLs.isEmpty, let duration = duration else {
+        guard let outputFileURL = outputFileURL, !videoURLs.isEmpty, let duration = duration/*, let ensembleUserID = ensembleUserID*/ else {
             print("點擊分享鍵，但輸出失敗")
             let alert = UIAlertController(title: "輸出失敗", message: "無法導出影片", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .cancel))
@@ -1163,6 +1163,9 @@ extension CreateViewController {
                             let shareVC = ShareViewController()
                             shareVC.url = outputMergedFileURL
                             shareVC.duration = duration
+                            if let ensembleUserID = self?.ensembleUserID {
+                                shareVC.ensembleUserID = ensembleUserID
+                            }
                             print("導出成功，建立並推送 ShareViewController")
                             self?.navigationController?.pushViewController(shareVC, animated: true)
                         } else {
@@ -1175,6 +1178,7 @@ extension CreateViewController {
         } else {
             let shareVC = ShareViewController()
             shareVC.url = outputFileURL
+            shareVC.duration = duration
             navigationController?.pushViewController(shareVC, animated: true)
         }
     }

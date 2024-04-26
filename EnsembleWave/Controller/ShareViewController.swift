@@ -26,9 +26,10 @@ class ShareViewController: UIViewController {
         return button
     }()
     var duration: Int?
+    var ensembleUserID: String?
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print("duration sent to ShareViewController:\(duration)")
         view.backgroundColor = .white
         setupUI()
     }
@@ -75,6 +76,7 @@ class ShareViewController: UIViewController {
         }
     }
     @objc func shareToWall() {
+        // TODO: 找出這些 comment 為何會害上傳失敗
         saveVideoToFirebase() { url in
             if let url = url,
                let duration = self.duration {
@@ -82,8 +84,13 @@ class ShareViewController: UIViewController {
                 let controller = PostToWallViewController(nibName: "PostToWallViewController", bundle: nil)
                 controller.url = url
                 controller.duration = duration
-                self.present(controller, animated: true)
-                
+                if let ensembleUserID = self.ensembleUserID {
+                    controller.ensembleUserID =  ensembleUserID
+                    self.present(controller, animated: true)
+                } else {
+                    self.present(controller, animated: true)
+                }
+    
             } else {
                 print("Failed to get the download URL")
             }
@@ -129,6 +136,24 @@ class ShareViewController: UIViewController {
                 print("downloadURL:\(url)")
                 completion(url)
             }
+        }
+    }
+    private func fetchUserName(ensembleUserID: String, url: URL, duration: Int) {
+        UserManager.shared.fetchUserName(userID: ensembleUserID) { [weak self] userName, error in
+            let controller = PostToWallViewController()
+                DispatchQueue.main.async {
+                    if let userName = userName {
+                        DispatchQueue.main.async {
+                            controller.url = url
+                            controller.duration = duration
+                            controller.ensembleUserID = ensembleUserID
+                            controller.ensembleUserName = userName
+                            self?.present(controller, animated: true)
+                        }
+                    } else if let error = error {
+                        print("Error fetching user name: \(error)")
+                    }
+                }
         }
     }
 }

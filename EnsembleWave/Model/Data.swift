@@ -38,7 +38,7 @@ struct Post: Decodable {
     var whoLike: [String]
     var replies: [ReplyContent]
     var report: [Report]
-    
+    var ensembleUserID: String?
     init(dic: [String: Any]) {
         self.title = dic["title"] as? String ?? ""
         self.createdTime = Timestamp.dateValue(dic["createdTime"] as? Timestamp ?? Timestamp())()
@@ -52,6 +52,7 @@ struct Post: Decodable {
         self.whoLike = dic["whoLike"] as? [String] ?? []
         self.replies = dic["replay"] as? [ReplyContent] ?? []
         self.report = dic["Report"] as? [Report] ?? []
+        self.ensembleUserID = dic["ensembleUserID"] as? String ?? ""
     }
 }
 
