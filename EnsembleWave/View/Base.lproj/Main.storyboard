@@ -220,7 +220,7 @@
         <!--Profile-->
         <scene sceneID="d5M-hT-SvR">
             <objects>
-                <viewController id="jvn-CK-f7R" sceneMemberID="viewController">
+                <viewController id="jvn-CK-f7R" customClass="LoginViewController" customModule="EnsembleWave" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="yjx-Cp-ETD">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
