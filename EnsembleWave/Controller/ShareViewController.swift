@@ -138,22 +138,22 @@ class ShareViewController: UIViewController {
             }
         }
     }
-    private func fetchUserName(ensembleUserID: String, url: URL, duration: Int) {
-        UserManager.shared.fetchUserName(userID: ensembleUserID) { [weak self] userName, error in
-            let controller = PostToWallViewController()
-                DispatchQueue.main.async {
-                    if let userName = userName {
-                        DispatchQueue.main.async {
-                            controller.url = url
-                            controller.duration = duration
-                            controller.ensembleUserID = ensembleUserID
-                            controller.ensembleUserName = userName
-                            self?.present(controller, animated: true)
-                        }
-                    } else if let error = error {
-                        print("Error fetching user name: \(error)")
-                    }
-                }
-        }
-    }
+//    private func fetchUserName(ensembleUserID: String, url: URL, duration: Int) {
+//        UserManager.shared.fetchUserName(userID: ensembleUserID) { [weak self] userName, error in
+//            let controller = PostToWallViewController()
+//                DispatchQueue.main.async {
+//                    if let userName = userName {
+//                        DispatchQueue.main.async {
+//                            controller.url = url
+//                            controller.duration = duration
+//                            controller.ensembleUserID = ensembleUserID
+//                            controller.ensembleUserName = userName
+//                            self?.present(controller, animated: true)
+//                        }
+//                    } else if let error = error {
+//                        print("Error fetching user name: \(error)")
+//                    }
+//                }
+//        }
+//    }
 }

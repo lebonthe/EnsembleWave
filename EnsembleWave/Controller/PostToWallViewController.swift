@@ -34,11 +34,16 @@ class PostToWallViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         if let ensembleUserID = ensembleUserID {
-            ensembleUserLabel.isHidden = false
-            ensembleUserNameLabel.isHidden = false
-        } else {
-            ensembleUserLabel.isHidden = true
-            ensembleUserNameLabel.isHidden = true
+            UserManager.shared.fetchUserName(userID: ensembleUserID) { userName, error in
+                if let ensembleUserID = userName {
+                    self.ensembleUserNameLabel.text = userName
+                    self.ensembleUserLabel.isHidden = false
+                    self.ensembleUserNameLabel.isHidden = false
+                } else {
+                    self.ensembleUserLabel.isHidden = true
+                    self.ensembleUserNameLabel.isHidden = true
+                }
+            }
         }
             
         if let url = url {
@@ -105,7 +110,7 @@ class PostToWallViewController: UIViewController {
             "content": contentText,
             "importMusic": "Music composed by AI",
             "duration": duration,
-            "tag": tagText,
+            "tag": tagText
         ]
         if let ensembleUserID = ensembleUserID {
             post["ensembleUserID"] = ensembleUserID
