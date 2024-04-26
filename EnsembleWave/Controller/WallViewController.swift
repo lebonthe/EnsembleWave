@@ -23,7 +23,7 @@ class WallViewController: UIViewController {
     var post: Post?
     @IBOutlet weak var tableView: UITableView!
     var animView: LottieAnimationView?
-    
+    var ensembleUsersNames: [String: String] = [:]
     override func viewDidLoad() {
         super.viewDidLoad()
         listenToPosts()
@@ -58,7 +58,10 @@ class WallViewController: UIViewController {
                     let data = change.document.data()
                     let post = Post(dic: data)
                     self.fetchUserName(userID: post.userID)
-           
+                    if let ensembleUserID = post.ensembleUserID {
+                        self.fetchEnsembleUserName(userID: ensembleUserID)
+                    }
+                    
                     if change.type == .added {
                         self.posts.insert(post, at: 0)
                     } else if let index = self.posts.firstIndex(where: { $0.id == post.id }) {
@@ -108,6 +111,18 @@ class WallViewController: UIViewController {
                 DispatchQueue.main.async {
                     if let userName = userName {
                         self?.usersNames[userID] = userName
+                        self?.tableView.reloadData()
+                    } else if let error = error {
+                        print("Error fetching user name: \(error)")
+                    }
+                }
+            }
+    }
+    private func fetchEnsembleUserName(userID: String) {
+        UserManager.shared.fetchUserName(userID: userID) { [weak self] userName, error in
+                DispatchQueue.main.async {
+                    if let userName = userName {
+                        self?.ensembleUsersNames[userID] = userName
                         self?.tableView.reloadData()
                     } else if let error = error {
                         print("Error fetching user name: \(error)")
@@ -221,7 +236,11 @@ extension WallViewController: UITableViewDelegate {
         let userID = posts[section].userID
         let title = posts[section].title
         print("usersNames:\(usersNames)")
-        return (usersNames[userID] ?? "") + " 🎙️ \(title)"
+        if let ensembleUserID = posts[section].ensembleUserID {
+            return (usersNames[userID] ?? "") + " ➕ \(ensembleUsersNames[ensembleUserID] ?? "")" + " 🎙️ \(title)"
+        } else {
+            return (usersNames[userID] ?? "") + " 🎙️ \(title)"
+        }
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let row = indexPath.row

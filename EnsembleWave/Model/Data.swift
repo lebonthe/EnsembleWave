@@ -52,7 +52,7 @@ struct Post: Decodable {
         self.whoLike = dic["whoLike"] as? [String] ?? []
         self.replies = dic["replay"] as? [ReplyContent] ?? []
         self.report = dic["Report"] as? [Report] ?? []
-        self.ensembleUserID = dic["ensembleUserID"] as? String ?? ""
+        self.ensembleUserID = dic["ensembleUserID"] as? String ?? nil
     }
 }
 
