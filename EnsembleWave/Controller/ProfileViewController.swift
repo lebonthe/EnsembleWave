@@ -66,6 +66,7 @@ class ProfileViewController: UIViewController {
     @IBAction func presentLoginViewController() {
         let loginViewController = LoginViewController()
         loginViewController.delegate = self
+        loginViewController.modalPresentationStyle = .fullScreen
         present(loginViewController, animated: true)
     }
 
