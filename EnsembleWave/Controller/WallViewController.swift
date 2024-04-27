@@ -10,7 +10,7 @@ import FirebaseCore
 import FirebaseFirestore
 import Lottie
 import AVFoundation
-
+import FirebaseAuth
 class WallViewController: UIViewController {
     
     let db = Firestore.firestore()
@@ -333,4 +333,10 @@ extension WallViewController: OptionsCellDelegate {
             }
         }
     }
+ 
+
+       func presentLoginViewController() {
+           let loginViewController = LoginViewController()
+           present(loginViewController, animated: true)
+       }
 }

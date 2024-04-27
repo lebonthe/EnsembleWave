@@ -58,6 +58,8 @@
 		9FAD76FF2BDB9EAA00BF7163 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD76FE2BDB9EAA00BF7163 /* LoginViewController.swift */; };
 		9FAD77012BDB9ED500BF7163 /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD77002BDB9ED500BF7163 /* KeychainItem.swift */; };
 		9FAD77032BDBA13200BF7163 /* CustomFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD77022BDBA13200BF7163 /* CustomFunc.swift */; };
+		9FAD77052BDBB23700BF7163 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD77042BDBB23700BF7163 /* TabBarController.swift */; };
+		9FAD77072BDC08D500BF7163 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD77062BDC08D500BF7163 /* ProfileViewController.swift */; };
 		B8472009B49679B5671FB722 /* Pods_EnsembleWave.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF8A4210E4C6EB1AE602BBB5 /* Pods_EnsembleWave.framework */; };
 		E05B02D0B93EF9664C522C10 /* Pods_EnsembleWave_EnsembleWaveUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D955A00B2C7036CEEACF668 /* Pods_EnsembleWave_EnsembleWaveUITests.framework */; };
 /* End PBXBuildFile section */
@@ -137,6 +139,8 @@
 		9FAD76FE2BDB9EAA00BF7163 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		9FAD77002BDB9ED500BF7163 /* KeychainItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItem.swift; sourceTree = "<group>"; };
 		9FAD77022BDBA13200BF7163 /* CustomFunc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CustomFunc.swift; path = ../Controller/CustomFunc.swift; sourceTree = "<group>"; };
+		9FAD77042BDBB23700BF7163 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		9FAD77062BDC08D500BF7163 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		AF8A4210E4C6EB1AE602BBB5 /* Pods_EnsembleWave.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EnsembleWave.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C368520B942DA87E09E009B4 /* Pods-EnsembleWaveTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EnsembleWaveTests.release.xcconfig"; path = "Target Support Files/Pods-EnsembleWaveTests/Pods-EnsembleWaveTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -265,6 +269,8 @@
 				9F4462B92BD503BB00462C44 /* ReplyDetailTableViewCell.swift */,
 				9F4463252BD65E4900462C44 /* MusicViewController.swift */,
 				9FAD76FE2BDB9EAA00BF7163 /* LoginViewController.swift */,
+				9FAD77042BDBB23700BF7163 /* TabBarController.swift */,
+				9FAD77062BDC08D500BF7163 /* ProfileViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -619,6 +625,7 @@
 				9F3FD9F82BD12C0000A03E22 /* LengthCell.swift in Sources */,
 				9F5A51B92BCE1D0A00070186 /* AVAsset+Extension.swift in Sources */,
 				9F5A51CD2BD01B7600070186 /* TagsCell.swift in Sources */,
+				9FAD77052BDBB23700BF7163 /* TabBarController.swift in Sources */,
 				9F4462BD2BD5261700462C44 /* UserManager.swift in Sources */,
 				9FAD76FF2BDB9EAA00BF7163 /* LoginViewController.swift in Sources */,
 				9F5A51C12BCFC2C300070186 /* PostToWallViewController.swift in Sources */,
@@ -631,6 +638,7 @@
 				9F5A51CF2BD01B9900070186 /* RepliesCell.swift in Sources */,
 				9F4462BA2BD503BB00462C44 /* ReplyDetailTableViewCell.swift in Sources */,
 				9F007EA72BC520DA00C22E5E /* Style.swift in Sources */,
+				9FAD77072BDC08D500BF7163 /* ProfileViewController.swift in Sources */,
 				9F007E712BC5107C00C22E5E /* EnsembleWave.xcdatamodeld in Sources */,
 				9F6FDABA2BD8F96900315B13 /* CustomColor.swift in Sources */,
 			);

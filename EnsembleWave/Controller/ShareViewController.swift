@@ -8,7 +8,7 @@
 import UIKit
 import Photos
 import FirebaseStorage
-
+import FirebaseAuth
 class ShareViewController: UIViewController {
     var url: URL?
     private let saveToAlbumButton: UIButton = {
@@ -76,6 +76,10 @@ class ShareViewController: UIViewController {
         }
     }
     @objc func shareToWall() {
+        guard Auth.auth().currentUser != nil else {
+            presentLoginViewController()
+            return
+            }
         // TODO: 找出這些 comment 為何會害上傳失敗
         saveVideoToFirebase() { url in
             if let url = url,
@@ -138,22 +142,8 @@ class ShareViewController: UIViewController {
             }
         }
     }
-//    private func fetchUserName(ensembleUserID: String, url: URL, duration: Int) {
-//        UserManager.shared.fetchUserName(userID: ensembleUserID) { [weak self] userName, error in
-//            let controller = PostToWallViewController()
-//                DispatchQueue.main.async {
-//                    if let userName = userName {
-//                        DispatchQueue.main.async {
-//                            controller.url = url
-//                            controller.duration = duration
-//                            controller.ensembleUserID = ensembleUserID
-//                            controller.ensembleUserName = userName
-//                            self?.present(controller, animated: true)
-//                        }
-//                    } else if let error = error {
-//                        print("Error fetching user name: \(error)")
-//                    }
-//                }
-//        }
-//    }
+    func presentLoginViewController() {
+        let loginViewController = LoginViewController()
+        present(loginViewController, animated: true)
+    }
 }

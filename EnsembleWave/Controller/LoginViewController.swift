@@ -10,36 +10,48 @@ import FirebaseAuth
 import AuthenticationServices
 import CryptoKit
 
-class LoginViewController: UIViewController {
+protocol LoginViewControllerDelegate: AnyObject {
+    func didCompleteLogin()
+}
 
+class LoginViewController: UIViewController {
+    weak var delegate: LoginViewControllerDelegate?
+    
     fileprivate var currentNonce: String?
+    var label: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        setSignInWithAppleBtn()
+        view.backgroundColor = .black
+        setSignInWithAppleButtonAndLabel()
+        
     }
-    
-    func setSignInWithAppleBtn() {
-        let signInWithAppleBtn = ASAuthorizationAppleIDButton(authorizationButtonType: .signIn, authorizationButtonStyle: chooseAppleButtonStyle())
-        view.addSubview(signInWithAppleBtn)
-        signInWithAppleBtn.cornerRadius = 25
-        signInWithAppleBtn.addTarget(self, action: #selector(signInWithApple), for: .touchUpInside)
-        signInWithAppleBtn.translatesAutoresizingMaskIntoConstraints = false
+    func setSignInWithAppleButtonAndLabel() {
+        let signInWithAppleButton = ASAuthorizationAppleIDButton(authorizationButtonType: .signIn, authorizationButtonStyle: chooseAppleButtonStyle())
+        view.addSubview(signInWithAppleButton)
+        signInWithAppleButton.cornerRadius = 25
+        signInWithAppleButton.addTarget(self, action: #selector(signInWithApple), for: .touchUpInside)
+        signInWithAppleButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        label.text = "登入以使用 EnsembleWave 全部功能"
+        label.textColor = .white
+        view.addSubview(label)
         NSLayoutConstraint.activate([
-            signInWithAppleBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            signInWithAppleBtn.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            signInWithAppleBtn.heightAnchor.constraint(equalToConstant: 50),
-            signInWithAppleBtn.widthAnchor.constraint(equalToConstant: 280)
+            signInWithAppleButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            signInWithAppleButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            signInWithAppleButton.heightAnchor.constraint(equalToConstant: 50),
+            signInWithAppleButton.widthAnchor.constraint(equalToConstant: 280),
+            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            label.bottomAnchor.constraint(equalTo: signInWithAppleButton.topAnchor, constant: -100)
         ])
-//        signInWithAppleBtn.heightAnchor.constraint(equalToConstant: 50).isActive = true
-//        signInWithAppleBtn.widthAnchor.constraint(equalToConstant: 280).isActive = true
-//        signInWithAppleBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-//        signInWithAppleBtn.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -70).isActive = true
         print("登入按鈕設定完成")
     }
 
     func chooseAppleButtonStyle() -> ASAuthorizationAppleIDButton.Style {
-        return (UITraitCollection.current.userInterfaceStyle == .light) ? .black : .white // 淺色模式就顯示黑色的按鈕，深色模式就顯示白色的按鈕
+        return .white
     }
     @objc func signInWithApple() {
         let nonce = randomNonceString()
@@ -128,9 +140,20 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                 return
             }
             // 產生 Apple ID 登入的 Credential
-            let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
-            // 與 Firebase Auth 進行串接
-            firebaseSignInWithApple(credential: credential)
+            let credential = OAuthProvider.appleCredential(withIDToken: idTokenString, rawNonce: nonce, fullName: appleIDCredential.fullName)
+
+                Auth.auth().signIn(with: credential) { [weak self] (authResult, error) in
+                    if let error = error {
+                        // Error handling
+                        print(error.localizedDescription)
+                        return
+                    }
+                    // User is signed in to Firebase with Apple.
+                    // Delegate callback
+                    self?.dismiss(animated: true)
+                    self?.delegate?.didCompleteLogin()
+                    
+                }
         }
     }
     
@@ -139,19 +162,14 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
         switch error {
         case ASAuthorizationError.canceled:
             CustomFunc.customAlert(title: "使用者取消登入", message: "", vc: self, actionHandler: nil)
-            break
         case ASAuthorizationError.failed:
             CustomFunc.customAlert(title: "授權請求失敗", message: "", vc: self, actionHandler: nil)
-            break
         case ASAuthorizationError.invalidResponse:
             CustomFunc.customAlert(title: "授權請求無回應", message: "", vc: self, actionHandler: nil)
-            break
         case ASAuthorizationError.notHandled:
             CustomFunc.customAlert(title: "授權請求未處理", message: "", vc: self, actionHandler: nil)
-            break
         case ASAuthorizationError.unknown:
             CustomFunc.customAlert(title: "授權失敗，原因不知", message: "", vc: self, actionHandler: nil)
-            break
         default:
             break
         }
@@ -165,15 +183,33 @@ extension LoginViewController: ASAuthorizationControllerPresentationContextProvi
 }
 extension LoginViewController {
     // MARK: - 透過 Credential 與 Firebase Auth 串接
-    func firebaseSignInWithApple(credential: AuthCredential) {
-        Auth.auth().signIn(with: credential) { authResult, error in
-            guard error == nil else {
-                CustomFunc.customAlert(title: "", message: "\(String(describing: error!.localizedDescription))", vc: self, actionHandler: nil)
+    func firebaseSignInWithApple(appleIDCredential: ASAuthorizationAppleIDCredential) {
+        guard let nonce = currentNonce else {
+            fatalError("Invalid state: A login callback was received, but no login request was sent.")
+        }
+        guard let appleIDToken = appleIDCredential.identityToken else {
+            print("Unable to fetch identity token")
+            return
+        }
+        guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
+            print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
+            return
+        }
+
+        let credential = OAuthProvider.appleCredential(withIDToken: idTokenString, rawNonce: nonce, fullName: appleIDCredential.fullName)
+
+        Auth.auth().signIn(with: credential) { [weak self] (authResult, error) in
+            if let error = error {
+                // Error handling
+                print(error.localizedDescription)
                 return
             }
-            CustomFunc.customAlert(title: "登入成功！", message: "", vc: self, actionHandler: self.getFirebaseUserInfo)
+            // User is signed in to Firebase with Apple.
+            // Delegate callback or other actions
+            self?.delegate?.didCompleteLogin()
         }
     }
+
     
     // MARK: - Firebase 取得登入使用者的資訊
     func getFirebaseUserInfo() {
@@ -184,6 +220,9 @@ extension LoginViewController {
         }
         let uid = user.uid
         let email = user.email
-        CustomFunc.customAlert(title: "使用者資訊", message: "UID：\(uid)\nEmail：\(email!)", vc: self, actionHandler: nil)
+        CustomFunc.customAlert(title: "使用者資訊", message: "UID：\(uid)\nEmail：\(email!)", vc: self) {
+            self.dismiss(animated: true)
+        }
+        
     }
 }

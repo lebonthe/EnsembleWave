@@ -8,7 +8,7 @@
 import UIKit
 import FirebaseCore
 import FirebaseFirestore
-
+import FirebaseAuth
 protocol OptionsCellDelegate: AnyObject {
     func updateLikeStatus(postId: String, hasLiked: Bool)
     
@@ -17,6 +17,8 @@ protocol OptionsCellDelegate: AnyObject {
     func presentRecordingPage(postID: String)
     
     func viewControllerForPresentation() -> UIViewController?
+    
+    func presentLoginViewController()
 }
 
 class OptionsCell: UITableViewCell {
@@ -79,6 +81,10 @@ class OptionsCell: UITableViewCell {
     }
     
     @objc func reply() {
+        guard Auth.auth().currentUser != nil else {
+            delegate?.presentLoginViewController()
+            return
+            }
         guard let cellIndex = cellIndex else {
             print("no cellIndex")
             return
@@ -87,6 +93,10 @@ class OptionsCell: UITableViewCell {
         delegate?.showReplyPage(from: self, cellIndex: cellIndex.section, postID: postID)
     }
     @objc func tapLike() {
+        guard Auth.auth().currentUser != nil else {
+            delegate?.presentLoginViewController()
+            return
+            }
         if isUserLiked {
             isUserLiked = false
             heartButton.setBackgroundImage(UIImage(systemName: "heart"), for: .normal)
@@ -122,6 +132,10 @@ class OptionsCell: UITableViewCell {
         }
     }
     @objc func checkForEnsemble() {
+        guard Auth.auth().currentUser != nil else {
+            delegate?.presentLoginViewController()
+            return
+            }
         let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
        
         let actionImport = UIAlertAction(title: "輸入創作", style: .default) {_ in
