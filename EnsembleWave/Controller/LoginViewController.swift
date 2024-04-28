@@ -26,10 +26,10 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
-        setSignInWithAppleButtonAndLabel()
+        updateUI()
         
     }
-    func setSignInWithAppleButtonAndLabel() {
+    func updateUI() {
         let signInWithAppleButton = ASAuthorizationAppleIDButton(authorizationButtonType: .signIn, authorizationButtonStyle: chooseAppleButtonStyle())
         view.addSubview(signInWithAppleButton)
         signInWithAppleButton.cornerRadius = 25
@@ -39,17 +39,34 @@ class LoginViewController: UIViewController {
         label.text = "登入以使用 EnsembleWave 全部功能"
         label.textColor = .white
         view.addSubview(label)
+//        let goBackHomeButton = UIButton()
+//        goBackHomeButton.translatesAutoresizingMaskIntoConstraints = false
+//        goBackHomeButton.setTitle("Back to What's New", for: .normal)
+//        goBackHomeButton.setTitleColor(.white, for: .normal)
+//        goBackHomeButton.addTarget(self, action: #selector(dismissAndSwitchTab), for: .touchUpInside)
+//        view.addSubview(goBackHomeButton)
         NSLayoutConstraint.activate([
             signInWithAppleButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             signInWithAppleButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             signInWithAppleButton.heightAnchor.constraint(equalToConstant: 50),
             signInWithAppleButton.widthAnchor.constraint(equalToConstant: 280),
             label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            label.bottomAnchor.constraint(equalTo: signInWithAppleButton.topAnchor, constant: -100)
+            label.bottomAnchor.constraint(equalTo: signInWithAppleButton.topAnchor, constant: -100),
+//            goBackHomeButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            goBackHomeButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 100),
         ])
         print("登入按鈕設定完成")
     }
-
+//    @IBAction func dismissAndSwitchTab(_ sender: Any) {
+//        dismiss(animated: true) {
+//            guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+//                         let sceneDelegate = scene.delegate as? SceneDelegate,
+//                         let tabBarController = sceneDelegate.window?.rootViewController as? UITabBarController else {
+//                           return
+//                   }
+//                   tabBarController.selectedIndex = 0
+//        }
+//    }    
     func chooseAppleButtonStyle() -> ASAuthorizationAppleIDButton.Style {
         return .white
     }

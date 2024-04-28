@@ -25,7 +25,7 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupUI()
+//        setupUI()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -36,19 +36,21 @@ class ProfileViewController: UIViewController {
         super.viewWillLayoutSubviews()
         print("viewWillLayoutSubviews")
     }
-    func setupUI() {
-        checkLoginStatus()
-        deleteAccountButton.setTitle("刪除帳號", for: .normal)
-//         deleteAccountButton.backgroundColor = .yellow
-        view.addSubview(deleteAccountButton)
-        deleteAccountButton.addTarget(self, action: #selector(deleteCurrentUser), for: .touchUpInside)
-        NSLayoutConstraint.activate([
-            deleteAccountButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            deleteAccountButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
-            deleteAccountButton.widthAnchor.constraint(equalToConstant: 80),
-            deleteAccountButton.heightAnchor.constraint(equalToConstant: 30)
-        ])
-        
+    func updateUI() {
+        if Auth.auth().currentUser != nil {
+            deleteAccountButton.setTitle("刪除帳號", for: .normal)
+            //         deleteAccountButton.backgroundColor = .yellow
+            view.addSubview(deleteAccountButton)
+            deleteAccountButton.addTarget(self, action: #selector(deleteCurrentUser), for: .touchUpInside)
+            NSLayoutConstraint.activate([
+                deleteAccountButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                deleteAccountButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
+                deleteAccountButton.widthAnchor.constraint(equalToConstant: 80),
+                deleteAccountButton.heightAnchor.constraint(equalToConstant: 30)
+            ])
+        } else {
+            
+        }
     }
     // TODO: 繼續刪除流程，並把user資料串接，在 Profile 頁面顯示創作與名字
    
@@ -97,23 +99,26 @@ class ProfileViewController: UIViewController {
             } else {
                 self.navigationItem.rightBarButtonItem = signInButton
             }
-            presentLoginViewController()
+            for subview in view.subviews {
+                subview.removeFromSuperview()
+            }
+          
+//            presentLoginViewController()
         } else {
-            // 已登入，顯示主界面
             if #available(iOS 16.0, *) {
                 signOutButton.isHidden = false
                 signInButton.isHidden = true
             } else {
                 self.navigationItem.rightBarButtonItem = signOutButton
             }
-            //            showMainAppInterface()
+            updateUI()
             print("=========Already Login")
         }
     }
     @IBAction func presentLoginViewController() {
         let loginViewController = LoginViewController()
         loginViewController.delegate = self
-        loginViewController.modalPresentationStyle = .fullScreen
+//        loginViewController.modalPresentationStyle = .fullScreen
         present(loginViewController, animated: true)
     }
     
@@ -169,7 +174,7 @@ extension ProfileViewController: ASAuthorizationControllerDelegate {
             let user = Auth.auth().currentUser
           try await user?.delete()
             CustomFunc.customAlert(title: "使用者帳號已刪除", message: "", vc: self) {
-                self.setupUI()
+                self.checkLoginStatus()
             }
           
         } catch {
