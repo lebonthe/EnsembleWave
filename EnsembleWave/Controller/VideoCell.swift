@@ -28,7 +28,8 @@ class VideoCell: UITableViewCell {
     }()
     var playerLayer: AVPlayerLayer?
     let player = AVPlayer()
-
+    var downloadSession: AVAssetDownloadURLSession?
+    var activeDownloadTask: AVAssetDownloadTask?
 //    override func awakeFromNib() {
 //        super.awakeFromNib()
 //        setupUI()
@@ -58,19 +59,41 @@ class VideoCell: UITableViewCell {
             print("Invalid URL string")
             return
         }
+        let asset = AVURLAsset(url: url)
+        if CachingPlayerItem.isDownloaded(for: asset.url) {
+            let localURL = CachingPlayerItem.localFileURL(for: url)
+            let cachedAsset = AVURLAsset(url: url)
+            let playerItem = AVPlayerItem(asset: cachedAsset)
+            player.replaceCurrentItem(with: playerItem)
+            setupObserversForPlayerItem(playerItem, with: player)
+        } else {
+            startDownload(asset: asset)
+            let playerItem = AVPlayerItem(asset: asset)
+            player.replaceCurrentItem(with: playerItem)
+            setupObserversForPlayerItem(playerItem, with: player)
+        }
+        
         if playerLayer == nil {
             playerLayer = AVPlayerLayer(player: player)
-            playerLayer?.videoGravity = .resizeAspect
+            playerLayer?.videoGravity = .resizeAspectFill
             if let layer = playerLayer {
                 videoView.layer.addSublayer(layer)
             }
         }
         playerLayer?.frame = videoView.bounds
-        let playerItem = AVPlayerItem(url: url)
-        player.replaceCurrentItem(with: playerItem)
-        setupObserversForPlayerItem(playerItem, with: player)
+//        let playerItem = AVPlayerItem(url: url)
+//        player.replaceCurrentItem(with: playerItem)
+        
     }
-
+    func startDownload(asset: AVURLAsset) {
+        let configuration = URLSessionConfiguration.background(withIdentifier: "com.yourapp.videodownload")
+        downloadSession = AVAssetDownloadURLSession(configuration: configuration, assetDownloadDelegate: nil, delegateQueue: OperationQueue())
+        let options = [AVAssetDownloadTaskMinimumRequiredMediaBitrateKey: 265_000]
+        
+        activeDownloadTask = downloadSession?.makeAssetDownloadTask(asset: asset, assetTitle: "Video", assetArtworkData: nil, options: options)
+        activeDownloadTask?.resume()
+    }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         playerLayer?.frame = videoView.bounds
@@ -89,4 +112,16 @@ class VideoCell: UITableViewCell {
     deinit {
             NotificationCenter.default.removeObserver(self)
         }
+}
+
+class CachingPlayerItem {
+    static func isDownloaded(for url: URL) -> Bool {
+        return FileManager.default.fileExists(atPath: localFileURL(for: url).path)
+    }
+
+    static func localFileURL(for url: URL) -> URL {
+        let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let fileName = url.lastPathComponent
+        return documentsPath.appendingPathComponent(fileName)
+    }
 }

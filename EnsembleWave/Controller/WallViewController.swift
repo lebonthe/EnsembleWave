@@ -334,7 +334,6 @@ extension WallViewController: OptionsCellDelegate {
         }
     }
  
-
        func presentLoginViewController() {
            let loginViewController = LoginViewController()
            present(loginViewController, animated: true)
