@@ -115,11 +115,6 @@ extension ChooseLengthTableViewController: UIPickerViewDelegate, UIPickerViewDat
             pickerView.reloadComponent(1)
             pickerView.selectRow(0, inComponent: 1, animated: true)
             secondRow = 0
-        } else if component == 1 {
-            if minuteRow == 10 {
-                pickerView.selectRow(0, inComponent: 1, animated: true)
-                secondRow = 0
-            }
         } else if minuteRow == 0 && secondRow <= 4 {
             pickerView.selectRow(5, inComponent: 1, animated: true)
             secondRow = 5
