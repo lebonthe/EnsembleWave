@@ -36,15 +36,15 @@ class PostToWallViewController: UIViewController {
         super.viewDidLoad()
         if let ensembleUserID = ensembleUserID {
             UserManager.shared.fetchUserName(userID: ensembleUserID) { userName, error in
-                if let ensembleUserID = userName {
+                if let userName = userName {
                     self.ensembleUserNameLabel.text = userName
                     self.ensembleUserLabel.isHidden = false
                     self.ensembleUserNameLabel.isHidden = false
-                } else {
-                    self.ensembleUserLabel.isHidden = true
-                    self.ensembleUserNameLabel.isHidden = true
                 }
             }
+        } else {
+            self.ensembleUserLabel.isHidden = true
+            self.ensembleUserNameLabel.isHidden = true
         }
             
         if let url = url {
