@@ -140,7 +140,6 @@ class CreateViewController: UIViewController {
         bookEarphoneState()
         configurePlayersAndAddObservers()
         clearTemporaryVideos()
-        getCurrentSystemVolume()
         self.videoTrim.delegate = self
         addGestureRecognitionToSession()
        
@@ -150,6 +149,7 @@ class CreateViewController: UIViewController {
         if ensembleVideoURL != nil && style == 1 {
             chooseView(chooseViewButtons[0])
         }
+        getCurrentSystemVolume()
         print("===== CreateViewController viewWillAppear =====")
     }
     override func viewDidLayoutSubviews() {
