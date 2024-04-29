@@ -26,6 +26,7 @@ class PostToWallViewController: UIViewController {
     @IBOutlet weak var ensembleUserNameLabel: UILabel!
     var duration: Int?
     var url: URL?
+    var imageURL: URL?
     var replayButton = UIButton()
     let player = AVPlayer()
     let db = Firestore.firestore()
@@ -98,12 +99,14 @@ class PostToWallViewController: UIViewController {
               let contentText = contentTextView.text,
               let tagText = tagTextField.text,
               let url = url,
+              let imageURL = imageURL,
               let duration = duration else {
             print("缺少發文內容")
             return false
         }
         var post: [String: Any] = [
             "videoURL": "\(url)",
+            "imageURL": "\(imageURL)",
             "title": titleText,
             "createdTime": FieldValue.serverTimestamp(),
             "userID": "09876543",

@@ -31,6 +31,7 @@ struct Post: Decodable {
     var id: String
     var userID: String
     var videoURL: String
+    var imageURL: String?
     var content: String
     var importMusic: String?
     var duration: Int?
@@ -45,6 +46,7 @@ struct Post: Decodable {
         self.id = dic["id"] as? String ?? ""
         self.userID = dic["userID"] as? String ?? ""
         self.videoURL = dic["videoURL"] as? String ?? ""
+        self.imageURL = dic["imageURL"] as? String ?? ""
         self.content = dic["content"] as? String ?? ""
         self.importMusic = dic["importMusic"] as? String ?? ""
         self.duration = dic["duration"] as? Int ?? Int()

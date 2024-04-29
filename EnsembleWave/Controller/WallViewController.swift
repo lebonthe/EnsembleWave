@@ -11,6 +11,7 @@ import FirebaseFirestore
 import Lottie
 import AVFoundation
 import FirebaseAuth
+import Kingfisher
 class WallViewController: UIViewController {
     
     let db = Firestore.firestore()
@@ -147,6 +148,8 @@ extension WallViewController: UITableViewDataSource {
                 fatalError("error when building VideoCell")
             }
             print("====post.videoURL: \(post.videoURL)")
+            print("====post.imageURL: \(post.imageURL ?? "no")")
+            cell.imageURLString = post.imageURL
             cell.urlString = post.videoURL
             cell.setupUI()
             return cell
@@ -262,6 +265,18 @@ extension WallViewController: UITableViewDelegate {
 
         return headerView
     }
+//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+//        var urlsToPrefetch = [URL]()
+//        for index in indexPath.section..<min(indexPath.section + 5, posts.count) {
+//            if let imageURLString = posts[index].imageURL,
+//                let url = URL(string: imageURLString) {
+//                urlsToPrefetch.append(url)
+//            }
+//        }
+//        let prefetcher = ImagePrefetcher(urls: urlsToPrefetch)
+//        prefetcher.start()
+//        print("===prefetcher.start()===")
+//    }
 }
 
 extension WallViewController: OptionsCellDelegate {

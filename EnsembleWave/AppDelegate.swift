@@ -10,7 +10,7 @@ import CoreData
 import FirebaseCore
 import FirebaseFirestore
 import IQKeyboardManagerSwift
-
+import Kingfisher
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -20,9 +20,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared.enable = true
         setupNavBarAppearance()
         setupTabBarAppearance()
+        configureKingfisherCache()
         return true
     }
-    
+    private func configureKingfisherCache() {
+            let cache = ImageCache.default
+            cache.memoryStorage.config.totalCostLimit = 1024 * 1024 * 2
+            
+            cache.diskStorage.config.sizeLimit = 1024 * 1024 * 100
+        }
     // MARK: UISceneSession Lifecycle
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
