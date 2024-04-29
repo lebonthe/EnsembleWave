@@ -44,7 +44,7 @@ class WallViewController: UIViewController {
         tabBarController?.tabBar.isHidden = false
     }
     private func listenToPosts() {
-        db.collection("Posts")
+        db.collection("Posts").order(by: "createdTime")
           .addSnapshotListener { [weak self] querySnapshot, error in
             guard let self = self, let snapshot = querySnapshot else {
               print("Error listening for post updates: \(error?.localizedDescription ?? "No error")")
