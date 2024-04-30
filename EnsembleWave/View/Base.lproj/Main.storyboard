@@ -227,24 +227,7 @@
                         <viewLayoutGuide key="safeArea" id="oWT-TE-v8z"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Profile" id="XWP-ml-Xll">
-                        <rightBarButtonItems>
-                            <barButtonItem title="登出" id="Qih-Ho-7Bf">
-                                <connections>
-                                    <action selector="signOut:" destination="jvn-CK-f7R" id="zFZ-Yz-AqZ"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem title="登入" id="fSG-hy-tqO">
-                                <connections>
-                                    <action selector="presentLoginViewController" destination="jvn-CK-f7R" id="13w-Ld-FSx"/>
-                                </connections>
-                            </barButtonItem>
-                        </rightBarButtonItems>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="signInButton" destination="fSG-hy-tqO" id="Ub5-ii-kle"/>
-                        <outlet property="signOutButton" destination="Qih-Ho-7Bf" id="LM7-8R-FZD"/>
-                    </connections>
+                    <navigationItem key="navigationItem" title="Profile" id="XWP-ml-Xll"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BXK-ay-bx2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
