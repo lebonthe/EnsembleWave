@@ -512,7 +512,7 @@ class CreateViewController: UIViewController {
         
         let index = view.tag
         print("index:\(index)")
-        let controller = UIAlertController(title: "選取影片", message: nil, preferredStyle: .actionSheet)
+        let controller = UIAlertController(title: "選取影片", message: nil, preferredStyle: .alert)
         let deleteaAndRecordAction = UIAlertAction(title: "刪除並重錄", style: .default) {  [weak self] action in
             guard let self = self else { return }
             self.clearVideoView(for: index)
