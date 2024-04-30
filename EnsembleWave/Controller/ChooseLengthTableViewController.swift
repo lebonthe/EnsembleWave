@@ -19,7 +19,6 @@ class ChooseLengthTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.backgroundColor = .black
-        tableView.tintColor = .white
         pickerView.delegate = self
         pickerView.dataSource = self
         tabBarController?.tabBar.isHidden = true
@@ -44,6 +43,8 @@ class ChooseLengthTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "LengthCell", for: indexPath)
+        cell.backgroundColor = .clear
+        cell.textLabel?.textColor = .white
         if indexPath.row < 3 {
             cell.textLabel?.text = "\(lengths[indexPath.row]) sec"
         } else if indexPath.row == lengths.count - 1 {
@@ -103,12 +104,32 @@ extension ChooseLengthTableViewController: UIPickerViewDelegate, UIPickerViewDat
         }
         
     }
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if component == 0 {
-            return "\(row) 分鐘"
+//    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+//        if component == 0 {
+//            return "\(row) 分鐘"
+//        } else {
+//            return "\(row) 秒"
+//        }
+//    }
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        var label: UILabel
+        if let view = view as? UILabel {
+            label = view
         } else {
-            return "\(row) 秒"
+            label = UILabel()
         }
+        
+        label.textColor = .white  // 設置文字顏色為白色
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 22)  // 可以調整字體大小
+        
+        if component == 0 {
+            label.text = "\(row) 分鐘"
+        } else {
+            label.text = "\(row) 秒"
+        }
+
+        return label
     }
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         minuteRow = pickerView.selectedRow(inComponent: 0)
