@@ -49,7 +49,8 @@ class CreateViewController: UIViewController {
     var videoViews: [UIView] = []
     let line = UIView()
     var chooseViewButtons = [UIButton]()
-
+    let countdownButton = UIButton() // 開始前的倒數計時
+    let cameraPositionButton = UIButton()
     @IBOutlet weak var postProductionView: UIView!
     var outputFileURL: URL?
     var currentRecordingIndex = 0
@@ -142,7 +143,6 @@ class CreateViewController: UIViewController {
         clearTemporaryVideos()
         self.videoTrim.delegate = self
         addGestureRecognitionToSession()
-       
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -257,11 +257,11 @@ class CreateViewController: UIViewController {
         }
     }
 
-
     @objc func recordAgain() {
-        let cameraPositionButton = UIBarButtonItem(image: UIImage(systemName: "arrow.triangle.2.circlepath.camera"), style: .plain, target: self, action: #selector(toggleCameraPosition(_:)))
-        self.navigationItem.rightBarButtonItem = cameraPositionButton
+//        let cameraPositionButton = UIBarButtonItem(image: UIImage(systemName: "arrow.triangle.2.circlepath.camera"), style: .plain, target: self, action: #selector(toggleCameraPosition(_:)))
+//        self.navigationItem.rightBarButtonItem = cameraPositionButton
         self.navigationItem.leftBarButtonItem = nil
+        chooseView(chooseViewButtons[currentRecordingIndex])
         trimView.isHidden = true
         stopCountdownTimer()
     }
@@ -481,6 +481,14 @@ class CreateViewController: UIViewController {
             postProductionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
         shrinkScreenButton.isHidden = true
+        view.addSubview(countdownImageView)
+        NSLayoutConstraint.activate([
+            countdownImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            countdownImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            countdownImageView.heightAnchor.constraint(equalToConstant: 100),
+            countdownImageView.widthAnchor.constraint(equalToConstant: 100)
+        ])
+        countdownImageView.isHidden = true
     }
     @objc func videoViewTapped(_ sender: UITapGestureRecognizer) {
         guard let view = sender.view else {
@@ -527,7 +535,7 @@ class CreateViewController: UIViewController {
             }
         }
     }
-    func stopCountdownTimer(){
+    func stopCountdownTimer() {
         countdownTimer?.invalidate()
         countdownTimer = nil
         timerBeforePlay?.invalidate()
@@ -553,7 +561,6 @@ class CreateViewController: UIViewController {
         countBeforeRecording = true
         useHandPoseStartRecording = true
         navigationController.view.addSubview(recordingTopView)
-        let cameraPositionButton = UIButton()
         cameraPositionButton.setBackgroundImage(UIImage(systemName: "arrow.triangle.2.circlepath.camera"), for: .normal)
         cameraPositionButton.tintColor = .red
         cameraPositionButton.addTarget(self, action: #selector(toggleCameraPosition), for: .touchUpInside)
@@ -583,7 +590,6 @@ class CreateViewController: UIViewController {
             cancelButton.leadingAnchor.constraint(equalTo: recordingTopView.leadingAnchor, constant: 16)
         ])
         // 開始前的倒數計時
-        let countdownButton = UIButton()
         countdownButton.translatesAutoresizingMaskIntoConstraints = false
         countdownButton.setImage(UIImage(systemName: "clock.badge.checkmark"), for: .normal)
         countdownButton.setImage(UIImage(systemName: "clock.badge.xmark"), for: .selected)
@@ -752,6 +758,7 @@ class CreateViewController: UIViewController {
     }
     func startRecording() {
         isRecording = true
+        toggleRecordingButtons(isRecording: isRecording)
         startCountdownTimer()
         cameraButton.setBackgroundImage(UIImage(systemName: "stop.circle"), for: .normal)
         if style == 0 {
@@ -778,17 +785,19 @@ class CreateViewController: UIViewController {
         currentImageIndex = 0
     }
     func startCountdown() {
-        view.addSubview(countdownImageView)
-        countdownImageView.isHidden = true
-        NSLayoutConstraint.activate([
-            countdownImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            countdownImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            countdownImageView.heightAnchor.constraint(equalToConstant: 100),
-            countdownImageView.widthAnchor.constraint(equalToConstant: 100)
-        ])
-        countdownImageView.image = UIImage(systemName: countingImages[currentImageIndex])
+//        countdownImageView.image = UIImage(systemName: countingImages[currentImageIndex])
+        
         timerBeforePlay = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateImage), userInfo: nil, repeats: true)
+        // TODO: 解決5->4的延遲，或是乾脆不顯示5
+        countdownImageView.image = UIImage(systemName: countingImages[currentImageIndex])
+        countdownImageView.isHidden = false
         }
+    func toggleRecordingButtons(isRecording: Bool) {
+        musicButton.isHidden = isRecording
+        albumButton.isHidden = isRecording
+        countdownButton.isHidden = isRecording
+        cameraPositionButton.isHidden = isRecording
+    }
     @objc func updateImage() {
         print("currentImageIndex:\(currentImageIndex)")
         if currentImageIndex < countingImages.count {
@@ -805,12 +814,17 @@ class CreateViewController: UIViewController {
         currentImageIndex += 1
         }
     @IBAction func capture(sender: AnyObject) {
-        if !isRecording {
-            stopCountdwonBeforeRecording()
-            if countBeforeRecording {
-                startCountdown()
+        if !isRecording { // 不在錄音有分兩種，一種是還沒開始，一種是倒數計時被取消錄影
+            
+            if timerBeforePlay != nil {
+                stopCountdwonBeforeRecording()
+                toggleRecordingButtons(isRecording: false)
             } else {
-                startRecording()
+                if countBeforeRecording {
+                    startCountdown()
+                } else {
+                    startRecording()
+                }
             }
         } else {
             stopCountdownTimer()
@@ -819,6 +833,7 @@ class CreateViewController: UIViewController {
             cameraButton.layer.removeAllAnimations()
             videoFileOutput?.stopRecording()
             isRecording = false
+            toggleRecordingButtons(isRecording: isRecording)
         }
     }
 
@@ -1633,6 +1648,7 @@ extension CreateViewController: PHPickerViewControllerDelegate {
                 print("set playerVolume:\(playerVolume)")
             }
         }
+        videoURLs.append(url)
         players[currentRecordingIndex] = AVPlayer(url: url)
         playerLayers[currentRecordingIndex] = AVPlayerLayer(player: players[currentRecordingIndex])
         playerLayers[currentRecordingIndex].frame = videoViews[currentRecordingIndex].bounds
