@@ -127,6 +127,7 @@ class CreateViewController: UIViewController {
     var ensembleVideoURL: String?
     var ensembleUserID: String?
     var duration: Int?
+    lazy var handPoseButton = UIButton()
     override func viewDidLoad() {
         super.viewDidLoad()
         print("===== CreateViewController viewDidLoad =====")
@@ -142,7 +143,6 @@ class CreateViewController: UIViewController {
         configurePlayersAndAddObservers()
         clearTemporaryVideos()
         self.videoTrim.delegate = self
-        addGestureRecognitionToSession()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -150,6 +150,9 @@ class CreateViewController: UIViewController {
             chooseView(chooseViewButtons[0])
         }
         getCurrentSystemVolume()
+        if useHandPoseStartRecording {
+            addGestureRecognitionToSession()
+        }
         print("===== CreateViewController viewWillAppear =====")
     }
     override func viewDidLayoutSubviews() {
@@ -260,10 +263,17 @@ class CreateViewController: UIViewController {
     @objc func recordAgain() {
 //        let cameraPositionButton = UIBarButtonItem(image: UIImage(systemName: "arrow.triangle.2.circlepath.camera"), style: .plain, target: self, action: #selector(toggleCameraPosition(_:)))
 //        self.navigationItem.rightBarButtonItem = cameraPositionButton
+        if style == 0 {
+            startToRecordingView()
+        } else {
+            chooseView(chooseViewButtons[currentRecordingIndex])
+        }
         self.navigationItem.leftBarButtonItem = nil
-        chooseView(chooseViewButtons[currentRecordingIndex])
         trimView.isHidden = true
         stopCountdownTimer()
+        if useHandPoseStartRecording {
+            addGestureRecognitionToSession()
+        }
     }
     func setupTrimViewUI() {
         stopCountdownTimer()
@@ -601,7 +611,7 @@ class CreateViewController: UIViewController {
             countdownButton.centerYAnchor.constraint(equalTo: recordingTopView.centerYAnchor),
             countdownButton.trailingAnchor.constraint(equalTo: cameraPositionButton.leadingAnchor, constant: -16)
         ])
-        let handPoseButton = UIButton()
+        
         handPoseButton.translatesAutoresizingMaskIntoConstraints = false
         handPoseButton.setTitle("🤘", for: .normal)
         handPoseButton.setTitle("🙅‍♀️", for: .selected)
@@ -616,9 +626,13 @@ class CreateViewController: UIViewController {
     @objc func changeHandPoseMode(_ sender: UIButton) {
         useHandPoseStartRecording.toggle()
         sender.isSelected = !useHandPoseStartRecording
-        print("handPoseButton.isSelected = \(sender.isSelected)")
-        print("useHandPoseStartRecording:\(useHandPoseStartRecording)")
+        if useHandPoseStartRecording {
+            addGestureRecognitionToSession()
+        } else {
+            disableGestureRecognition()
+        }
     }
+
     @objc func changeCountdownMode(_ sender: UIButton) {
         countBeforeRecording.toggle()
         sender.isSelected = !countBeforeRecording
@@ -809,10 +823,9 @@ class CreateViewController: UIViewController {
             currentImageIndex = 0
         }
         currentImageIndex += 1
-        }
+    }
     @IBAction func capture(sender: AnyObject) {
         if !isRecording { // 不在錄音有分兩種，一種是還沒開始，一種是倒數計時被取消錄影
-            
             if timerBeforePlay != nil {
                 stopCountdwonBeforeRecording()
                 toggleRecordingButtons(isRecording: false)
@@ -825,7 +838,6 @@ class CreateViewController: UIViewController {
             }
         } else {
             stopCountdownTimer()
-            
             cameraButton.setBackgroundImage(UIImage(systemName: "record.circle"), for: .normal)
             cameraButton.layer.removeAllAnimations()
             videoFileOutput?.stopRecording()
@@ -1558,6 +1570,9 @@ extension CreateViewController: VideoTrimDelegate {
         chooseViewButtons[index].isHidden = false
     }
     @IBAction func selectMusic(_ sender: Any) {
+        recordingTopView.isHidden = true
+        stopCountdownTimer()
+        disableGestureRecognition()
         let controller = MusicViewController()
         controller.modalPresentationStyle = .fullScreen 
         controller.delegate = self
@@ -1567,6 +1582,9 @@ extension CreateViewController: VideoTrimDelegate {
 
 extension CreateViewController: PHPickerViewControllerDelegate {
     @IBAction func selectVideo(_ sender: Any) {
+        recordingTopView.isHidden = true
+        stopCountdownTimer()
+        disableGestureRecognition()
         var configuration = PHPickerConfiguration()
         configuration.filter = .videos
         let picker = PHPickerViewController(configuration: configuration)
@@ -1623,7 +1641,8 @@ extension CreateViewController: PHPickerViewControllerDelegate {
     func alertUserForShortVideo(picker: PHPickerViewController) {
         let alert = UIAlertController(title: "影片時長過短", message: "請選擇時長超過1秒的影片。", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in
-            picker.dismiss(animated: true)
+            picker.dismiss(animated: true) {
+            }
         })
         picker.present(alert, animated: true)
     }
