@@ -8,11 +8,17 @@
 import UIKit
 import FirebaseCore
 import FirebaseFirestore
-
+import FirebaseAuth
 protocol OptionsCellDelegate: AnyObject {
     func updateLikeStatus(postId: String, hasLiked: Bool)
     
     func showReplyPage(from cell: UITableViewCell, cellIndex: Int, postID: String)
+    
+    func presentRecordingPage(postID: String)
+    
+    func viewControllerForPresentation() -> UIViewController?
+    
+    func presentLoginViewController()
 }
 
 class OptionsCell: UITableViewCell {
@@ -25,7 +31,12 @@ class OptionsCell: UITableViewCell {
         return button
     }()
     var goToReplyButton: UIButton = {
-       let button = UIButton()
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    var ensembleButton: UIButton = {
+        let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -45,6 +56,13 @@ class OptionsCell: UITableViewCell {
         goToReplyButton.setBackgroundImage(UIImage(systemName: "message"), for: .normal)
         goToReplyButton.tintColor = .white
         goToReplyButton.addTarget(self, action: #selector(reply), for: .touchUpInside)
+        ensembleButton.tintColor = .green
+        ensembleButton.setImage(UIImage(systemName: "music.mic"), for: .normal)
+        ensembleButton.setTitle("共同創作", for: .normal)
+        ensembleButton.setTitleColor(.green, for: .normal)
+        ensembleButton.addTarget(self, action: #selector(checkForEnsemble), for: .touchUpInside)
+        ensembleButton.backgroundColor = .red
+        contentView.addSubview(ensembleButton)
         NSLayoutConstraint.activate([
             heartButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
             heartButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
@@ -54,12 +72,19 @@ class OptionsCell: UITableViewCell {
             goToReplyButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
             goToReplyButton.leadingAnchor.constraint(equalTo: heartButton.trailingAnchor, constant: 16),
             goToReplyButton.widthAnchor.constraint(equalToConstant: 36),
-            goToReplyButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6)
-
+            goToReplyButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6),
+            ensembleButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
+            ensembleButton.leadingAnchor.constraint(equalTo: goToReplyButton.trailingAnchor, constant: 16),
+            ensembleButton.widthAnchor.constraint(equalToConstant: 110),
+            ensembleButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6)
         ])
     }
     
     @objc func reply() {
+        guard Auth.auth().currentUser != nil else {
+            delegate?.presentLoginViewController()
+            return
+            }
         guard let cellIndex = cellIndex else {
             print("no cellIndex")
             return
@@ -68,6 +93,10 @@ class OptionsCell: UITableViewCell {
         delegate?.showReplyPage(from: self, cellIndex: cellIndex.section, postID: postID)
     }
     @objc func tapLike() {
+        guard Auth.auth().currentUser != nil else {
+            delegate?.presentLoginViewController()
+            return
+            }
         if isUserLiked {
             isUserLiked = false
             heartButton.setBackgroundImage(UIImage(systemName: "heart"), for: .normal)
@@ -102,5 +131,29 @@ class OptionsCell: UITableViewCell {
             }
         }
     }
-
+    @objc func checkForEnsemble() {
+        guard Auth.auth().currentUser != nil else {
+            delegate?.presentLoginViewController()
+            return
+            }
+        let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+       
+        let actionImport = UIAlertAction(title: "輸入創作", style: .default) {_ in
+            self.delegate?.presentRecordingPage(postID: self.postID)
+        }
+        controller.addAction(actionImport)
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel)
+        controller.addAction(cancelAction)
+        // Check if the device is iPad to configure popover presentation
+        if let popoverController = controller.popoverPresentationController {
+            let sourceView = self.contentView
+                popoverController.sourceView = sourceView
+                popoverController.sourceRect = CGRect(x: sourceView.bounds.midX, y: sourceView.bounds.maxY, width: 0, height: 0)
+                popoverController.permittedArrowDirections = [] 
+            
+        }
+        if let vc = delegate?.viewControllerForPresentation() {
+                vc.present(controller, animated: true, completion: nil)
+            }
+    }
 }

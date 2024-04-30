@@ -102,7 +102,7 @@ class ReplyViewController: UIViewController {
         }
 
         let repliesRef = db.collection("Posts").document(postID).collection("replies")
-        repliesRef.addSnapshotListener { [weak self] querySnapshot, error in
+        repliesRef.order(by: "replayTime").addSnapshotListener { [weak self] querySnapshot, error in
             guard let self = self, let snapshot = querySnapshot else {
                 print("Error listening for replies: \(error?.localizedDescription ?? "No error")")
                 return

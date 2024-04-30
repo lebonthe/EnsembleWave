@@ -49,7 +49,8 @@ class CreateViewController: UIViewController {
     var videoViews: [UIView] = []
     let line = UIView()
     var chooseViewButtons = [UIButton]()
-
+    let countdownButton = UIButton() // 開始前的倒數計時
+    let cameraPositionButton = UIButton()
     @IBOutlet weak var postProductionView: UIView!
     var outputFileURL: URL?
     var currentRecordingIndex = 0
@@ -123,25 +124,35 @@ class CreateViewController: UIViewController {
     var audioPlayer: AVAudioPlayer?
     var musicPlayer: MPMusicPlayerController?
     var animView: LottieAnimationView?
-    
+    var ensembleVideoURL: String?
+    var ensembleUserID: String?
+    var duration: Int?
+    lazy var handPoseButton = UIButton()
     override func viewDidLoad() {
         super.viewDidLoad()
         print("===== CreateViewController viewDidLoad =====")
-        withUnsafeBytes(of: &(players)) { (point) -> Void in
+        print("length:\(length)")
+        withUnsafeBytes(of: &(players)) { (point) in
             print("players 在記憶體的位置:\(point)")
         }
+        print("ensembleVideoURL:\(ensembleVideoURL ?? "no ensembleVideoURL")")
         videoURLs.removeAll()
         setupUI(style)
         setupReplayButton()
         bookEarphoneState()
         configurePlayersAndAddObservers()
         clearTemporaryVideos()
-        getCurrentSystemVolume()
         self.videoTrim.delegate = self
-        addGestureRecognitionToSession()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        if ensembleVideoURL != nil && style == 1 {
+            chooseView(chooseViewButtons[0])
+        }
+        getCurrentSystemVolume()
+        if useHandPoseStartRecording {
+            addGestureRecognitionToSession()
+        }
         print("===== CreateViewController viewWillAppear =====")
     }
     override func viewDidLayoutSubviews() {
@@ -152,6 +163,27 @@ class CreateViewController: UIViewController {
         animView?.stop()
         animView?.removeFromSuperview()
         animView = nil
+        recordingTopView.removeFromSuperview()
+        for player in players {
+            NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: player.currentItem)
+        }
+        AVAudioSession.sharedInstance().removeObserver(self, forKeyPath: "outputVolume")
+        for (player, observer) in endTimeObservers {
+            player.removeTimeObserver(observer)
+        }
+            endTimeObservers.removeAll()
+        for player in players {
+                player.pause()
+                player.replaceCurrentItem(with: nil)
+            }
+        musicPlayer?.stop()
+        musicPlayer = nil
+        audioPlayer?.stop()
+        audioPlayer = nil
+        NotificationCenter.default.removeObserver(self, name: AVAudioSession.routeChangeNotification, object: nil)
+        for layer in playerLayers {
+            layer.removeFromSuperlayer()
+        }
     }
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -182,11 +214,14 @@ class CreateViewController: UIViewController {
             }
         }
     }
-    func continuePreparedToShare(with asset: AVAsset) {
+    func setupShareButton() {
         trimView.isHidden = true
         let shareButton = UIBarButtonItem(title: "分享", style: .plain, target: self, action: #selector(pushSharePage(_:)))
         self.navigationItem.rightBarButtonItem = shareButton
         self.navigationItem.leftBarButtonItem = nil
+    }
+    func continuePreparedToShare(with asset: AVAsset) {
+        setupShareButton()
 
         let startTime = videoTrim.startTime
         let endTime = videoTrim.endTime
@@ -212,6 +247,11 @@ class CreateViewController: UIViewController {
                         self.videoViewHasContent[self.currentRecordingIndex] = true
                         self.videoViews[self.currentRecordingIndex].addGestureRecognizer(self.tapGesture)
                         print("videoViews[0].subviews:\(self.videoViews[0].subviews)")
+                        
+                        let durationInSeconds = CMTimeGetSeconds(asset.duration)
+                        self.duration = Int(durationInSeconds.rounded())
+                        print("儲存的影片長度為: \(self.duration ?? 0) 秒")
+
                     } else {
                         print("裁剪和導出失敗")
                     }
@@ -221,11 +261,22 @@ class CreateViewController: UIViewController {
     }
 
     @objc func recordAgain() {
-        let cameraPositionButton = UIBarButtonItem(image: UIImage(systemName: "arrow.triangle.2.circlepath.camera"), style: .plain, target: self, action: #selector(toggleCameraPosition(_:)))
-        self.navigationItem.rightBarButtonItem = cameraPositionButton
+//        let cameraPositionButton = UIBarButtonItem(image: UIImage(systemName: "arrow.triangle.2.circlepath.camera"), style: .plain, target: self, action: #selector(toggleCameraPosition(_:)))
+//        self.navigationItem.rightBarButtonItem = cameraPositionButton
+        if style == 0 {
+            startToRecordingView()
+        } else {
+            chooseView(chooseViewButtons[currentRecordingIndex])
+        }
         self.navigationItem.leftBarButtonItem = nil
         trimView.isHidden = true
         stopCountdownTimer()
+        self.countdownLabel.text = self.timeFormatter(sec: self.length)
+        self.clearVideoView(for: self.currentRecordingIndex)
+        self.prepareRecording(for: self.currentRecordingIndex)
+        if useHandPoseStartRecording {
+            addGestureRecognitionToSession()
+        }
     }
     func setupTrimViewUI() {
         stopCountdownTimer()
@@ -277,30 +328,26 @@ class CreateViewController: UIViewController {
         withUnsafeBytes(of: &(players)) { (point) -> Void in
             print("players 在記憶體的位置:\(point)")
         }
-        recordingTopView.removeFromSuperview()
-        for player in players {
-            NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: player.currentItem)
-        }
-        AVAudioSession.sharedInstance().removeObserver(self, forKeyPath: "outputVolume")
-        for (player, observer) in endTimeObservers {
-            player.removeTimeObserver(observer)
-        }
-            endTimeObservers.removeAll()
-        for player in players {
-                player.pause()
-                player.replaceCurrentItem(with: nil)
-            }
-        musicPlayer?.stop()
-        musicPlayer = nil
-        audioPlayer?.stop()
-        audioPlayer = nil
-        NotificationCenter.default.removeObserver(self, name: AVAudioSession.routeChangeNotification, object: nil)
-        for layer in playerLayers {
-            layer.removeFromSuperlayer()
-        }
+        
         print("===== Leave CreatViewController deinit =====")
         withUnsafeBytes(of: &(players)) { (point) -> Void in
             print("players 在記憶體的位置:\(point)")
+        }
+        clearTemporaryFiles()
+    }
+    func clearTemporaryFiles() {
+        let tempDirectoryPath = NSTemporaryDirectory()
+        
+        do {
+            let fileManager = FileManager.default
+            let tempFiles = try fileManager.contentsOfDirectory(atPath: tempDirectoryPath)
+            for file in tempFiles {
+                let filePath = (tempDirectoryPath as NSString).appendingPathComponent(file)
+                try fileManager.removeItem(atPath: filePath)
+            }
+            print("Temporary files are deleted.")
+        } catch {
+            print("Failed to delete temporary files: \(error)")
         }
     }
     func setupUI(_ style: Int) {
@@ -310,8 +357,8 @@ class CreateViewController: UIViewController {
         videoViews.removeAll()
         players.removeAll()
         playerLayers.removeAll()
-        let cameraPositionButton = UIBarButtonItem(image: UIImage(systemName: "arrow.triangle.2.circlepath.camera"), style: .plain, target: self, action: #selector(toggleCameraPosition(_:)))
-        self.navigationItem.rightBarButtonItem = cameraPositionButton
+//        let cameraPositionButton = UIBarButtonItem(image: UIImage(systemName: "arrow.triangle.2.circlepath.camera"), style: .plain, target: self, action: #selector(toggleCameraPosition(_:)))
+//        self.navigationItem.rightBarButtonItem = cameraPositionButton
         print("style in setupUI: \(style)")
         containerView.layer.borderColor = UIColor.black.cgColor
         containerView.layer.borderWidth = 2
@@ -371,10 +418,10 @@ class CreateViewController: UIViewController {
             line.backgroundColor = .black
             containerView.addSubview(line)
             
+            let button0 = UIButton()
             let button1 = UIButton()
-            let button2 = UIButton()
+            chooseViewButtons.append(button0)
             chooseViewButtons.append(button1)
-            chooseViewButtons.append(button2)
             containerView.addSubview(chooseViewButtons[0])
             containerView.addSubview(chooseViewButtons[1])
             chooseViewButtons[0].setBackgroundImage(UIImage(systemName: "plus"), for: .normal)
@@ -447,6 +494,14 @@ class CreateViewController: UIViewController {
             postProductionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
         shrinkScreenButton.isHidden = true
+        view.addSubview(countdownImageView)
+        NSLayoutConstraint.activate([
+            countdownImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            countdownImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            countdownImageView.heightAnchor.constraint(equalToConstant: 100),
+            countdownImageView.widthAnchor.constraint(equalToConstant: 100)
+        ])
+        countdownImageView.isHidden = true
     }
     @objc func videoViewTapped(_ sender: UITapGestureRecognizer) {
         guard let view = sender.view else {
@@ -457,7 +512,7 @@ class CreateViewController: UIViewController {
         
         let index = view.tag
         print("index:\(index)")
-        let controller = UIAlertController(title: "選取影片", message: nil, preferredStyle: .actionSheet)
+        let controller = UIAlertController(title: "選取影片", message: nil, preferredStyle: .alert)
         let deleteaAndRecordAction = UIAlertAction(title: "刪除並重錄", style: .default) {  [weak self] action in
             guard let self = self else { return }
             self.clearVideoView(for: index)
@@ -482,7 +537,6 @@ class CreateViewController: UIViewController {
     }
     func startCountdownTimer() {
         var remainingTime = length
-        // TODO: 解決開始倒數計時，數字圖片的延遲
         countdownTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true){ [weak self] _ in
             guard let self = self else { return }
             remainingTime -= 1
@@ -493,7 +547,7 @@ class CreateViewController: UIViewController {
             }
         }
     }
-    func stopCountdownTimer(){
+    func stopCountdownTimer() {
         countdownTimer?.invalidate()
         countdownTimer = nil
         timerBeforePlay?.invalidate()
@@ -519,7 +573,7 @@ class CreateViewController: UIViewController {
         countBeforeRecording = true
         useHandPoseStartRecording = true
         navigationController.view.addSubview(recordingTopView)
-        let cameraPositionButton = UIButton()
+        recordingTopView.isHidden = false
         cameraPositionButton.setBackgroundImage(UIImage(systemName: "arrow.triangle.2.circlepath.camera"), for: .normal)
         cameraPositionButton.tintColor = .red
         cameraPositionButton.addTarget(self, action: #selector(toggleCameraPosition), for: .touchUpInside)
@@ -549,7 +603,6 @@ class CreateViewController: UIViewController {
             cancelButton.leadingAnchor.constraint(equalTo: recordingTopView.leadingAnchor, constant: 16)
         ])
         // 開始前的倒數計時
-        let countdownButton = UIButton()
         countdownButton.translatesAutoresizingMaskIntoConstraints = false
         countdownButton.setImage(UIImage(systemName: "clock.badge.checkmark"), for: .normal)
         countdownButton.setImage(UIImage(systemName: "clock.badge.xmark"), for: .selected)
@@ -561,7 +614,7 @@ class CreateViewController: UIViewController {
             countdownButton.centerYAnchor.constraint(equalTo: recordingTopView.centerYAnchor),
             countdownButton.trailingAnchor.constraint(equalTo: cameraPositionButton.leadingAnchor, constant: -16)
         ])
-        let handPoseButton = UIButton()
+        
         handPoseButton.translatesAutoresizingMaskIntoConstraints = false
         handPoseButton.setTitle("🤘", for: .normal)
         handPoseButton.setTitle("🙅‍♀️", for: .selected)
@@ -572,13 +625,18 @@ class CreateViewController: UIViewController {
             handPoseButton.centerYAnchor.constraint(equalTo: recordingTopView.centerYAnchor),
             handPoseButton.trailingAnchor.constraint(equalTo: countdownButton.leadingAnchor, constant: -16)
         ])
+        
     }
     @objc func changeHandPoseMode(_ sender: UIButton) {
         useHandPoseStartRecording.toggle()
         sender.isSelected = !useHandPoseStartRecording
-        print("handPoseButton.isSelected = \(sender.isSelected)")
-        print("useHandPoseStartRecording:\(useHandPoseStartRecording)")
+        if useHandPoseStartRecording {
+            addGestureRecognitionToSession()
+        } else {
+            disableGestureRecognition()
+        }
     }
+
     @objc func changeCountdownMode(_ sender: UIButton) {
         countBeforeRecording.toggle()
         sender.isSelected = !countBeforeRecording
@@ -587,27 +645,53 @@ class CreateViewController: UIViewController {
         }
         print("is countBeforeRecording:\(countBeforeRecording)")
     }
+    // 按左上角x
     @objc func cancelRecording() {
         resetView()
     }
     func configure(for style: Int) {
         do {
-               let audioSession = AVAudioSession.sharedInstance()
-               try audioSession.setCategory(.playAndRecord, mode: .default, options: [.mixWithOthers, .allowBluetooth, .defaultToSpeaker])
-               try audioSession.setActive(true)
-               print("Audio session is set to allow mixing with other apps.")
-           } catch {
-               print("Failed to set audio session category: \(error)")
-           }
+            let audioSession = AVAudioSession.sharedInstance()
+            try audioSession.setCategory(.playAndRecord, mode: .default, options: [.mixWithOthers, .allowBluetooth, .defaultToSpeaker])
+            try audioSession.setActive(true)
+            print("Audio session is set to allow mixing with other apps.")
+        } catch {
+            print("Failed to set audio session category: \(error)")
+        }
         if captureSession.isRunning {
             captureSession.stopRunning()
         }
         if style == 1 && players.count > 2 {
-                players = Array(players.prefix(2))
-            }
+            players = Array(players.prefix(2))
+        }
         
         for index in 0...style {
-            if index < players.count {
+            if index == 1 && ensembleVideoURL != nil {
+                guard let url = URL(string: ensembleVideoURL!) else {
+                    print("no ensembleVideoURL")
+                    return
+                }
+                print("ensembleVideoURL:\(url)")
+                let player = AVPlayer(url: url)
+                if players.count <= index {
+                        players.append(player)
+                    } else {
+                        players[index] = player
+                    }
+               
+                let playerLayer = AVPlayerLayer(player: player)
+                playerLayer.frame = videoViews[index].bounds
+                playerLayer.videoGravity = .resizeAspectFill
+                videoViews[index].layer.addSublayer(playerLayer)
+                if playerLayers.count <= index {
+                        playerLayers.append(playerLayer)
+                    } else {
+                        playerLayers[index] = playerLayer
+                    }
+//                let playerItem = AVPlayerItem(url: URL(string: url)!)
+//                players[index].replaceCurrentItem(with: playerItem)
+                player.play()
+            } else if index < players.count {
                 if let videoURL = getVideoURL(for: index) {
                     let playerItem = AVPlayerItem(url: videoURL)
                     players[index].replaceCurrentItem(with: playerItem)
@@ -624,7 +708,7 @@ class CreateViewController: UIViewController {
             }
             print("playerLayer count:\(playerLayers.count)")
         }
-
+        
         captureSession.sessionPreset = AVCaptureSession.Preset.hd1280x720
         guard let frontDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front),
               let backDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) else {
@@ -639,7 +723,7 @@ class CreateViewController: UIViewController {
             print("Failed to set the camera input")
             return
         }
-
+        
         for input in captureSession.inputs {
             captureSession.removeInput(input)
         }
@@ -648,15 +732,15 @@ class CreateViewController: UIViewController {
         }
         
         guard let audioDevice = AVCaptureDevice.default(for: .audio) else {
-                print("Failed to get the audio device")
-                return
-            }
+            print("Failed to get the audio device")
+            return
+        }
         
         guard let audioInput = try? AVCaptureDeviceInput(device: audioDevice) else {
-                print("Failed to create audio input")
-                return
-            }
-
+            print("Failed to create audio input")
+            return
+        }
+        
         if captureSession.canAddInput(audioInput) {
             captureSession.addInput(audioInput)
         }
@@ -692,6 +776,7 @@ class CreateViewController: UIViewController {
     }
     func startRecording() {
         isRecording = true
+        toggleRecordingButtons(isRecording: isRecording)
         startCountdownTimer()
         cameraButton.setBackgroundImage(UIImage(systemName: "stop.circle"), for: .normal)
         if style == 0 {
@@ -718,17 +803,16 @@ class CreateViewController: UIViewController {
         currentImageIndex = 0
     }
     func startCountdown() {
-        view.addSubview(countdownImageView)
-        countdownImageView.isHidden = true
-        NSLayoutConstraint.activate([
-            countdownImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            countdownImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            countdownImageView.heightAnchor.constraint(equalToConstant: 100),
-            countdownImageView.widthAnchor.constraint(equalToConstant: 100)
-        ])
-        countdownImageView.image = UIImage(systemName: countingImages[currentImageIndex])
+//        countdownImageView.image = UIImage(systemName: countingImages[currentImageIndex])
+        
         timerBeforePlay = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateImage), userInfo: nil, repeats: true)
         }
+    func toggleRecordingButtons(isRecording: Bool) {
+        musicButton.isHidden = isRecording
+        albumButton.isHidden = isRecording
+        countdownButton.isHidden = isRecording
+        cameraPositionButton.isHidden = isRecording
+    }
     @objc func updateImage() {
         print("currentImageIndex:\(currentImageIndex)")
         if currentImageIndex < countingImages.count {
@@ -743,22 +827,26 @@ class CreateViewController: UIViewController {
             currentImageIndex = 0
         }
         currentImageIndex += 1
-        }
+    }
     @IBAction func capture(sender: AnyObject) {
-        if !isRecording {
-            stopCountdwonBeforeRecording()
-            if countBeforeRecording {
-                startCountdown()
+        if !isRecording { // 不在錄音有分兩種，一種是還沒開始，一種是倒數計時被取消錄影
+            if timerBeforePlay != nil {
+                stopCountdwonBeforeRecording()
+                toggleRecordingButtons(isRecording: false)
             } else {
-                startRecording()
+                if countBeforeRecording {
+                    startCountdown()
+                } else {
+                    startRecording()
+                }
             }
         } else {
             stopCountdownTimer()
-            
             cameraButton.setBackgroundImage(UIImage(systemName: "record.circle"), for: .normal)
             cameraButton.layer.removeAllAnimations()
             videoFileOutput?.stopRecording()
             isRecording = false
+            toggleRecordingButtons(isRecording: isRecording)
         }
     }
 
@@ -784,11 +872,24 @@ class CreateViewController: UIViewController {
         for (index, player) in players.enumerated() {
             print("index:\(index),player:\(player)")
             let playerLayer = playerLayers[index]
-            if let videoURL = getVideoURL(for: index) {
-                videoURLs.append(videoURL)
-                let playerItem = AVPlayerItem(url: videoURL)
+            if index == 1 && ensembleUserID != nil {
+                guard let url = URL(string: ensembleVideoURL!) else {
+                    print("ensembleUserID 轉換失敗")
+                    return
+                }
+                videoURLs.append(url)
+                let playerItem = AVPlayerItem(url: url)
                 player.replaceCurrentItem(with: playerItem)
                 setupObserversForPlayerItem(playerItem, with: player)
+            } else {
+                
+                if let videoURL = getVideoURL(for: index) {
+                    videoURLs.append(videoURL)
+                    let playerItem = AVPlayerItem(url: videoURL)
+                    player.replaceCurrentItem(with: playerItem)
+                    setupObserversForPlayerItem(playerItem, with: player)
+                }
+            }
                 player.play()
                 isPlaying = true
                 if style == 0 {
@@ -800,7 +901,7 @@ class CreateViewController: UIViewController {
                 }
                 playerLayer.videoGravity = .resizeAspectFill
             }
-        }
+            
         replayButton.isHidden = true
     }
 //    func getCropStartTime(for index: Int) -> CMTime? {
@@ -875,6 +976,7 @@ extension CreateViewController: AVCaptureFileOutputRecordingDelegate {
         let againAction = UIAlertAction(title: "重來", style: .cancel) { _ in
             self.countdownLabel.text = self.timeFormatter(sec: self.length)
             self.clearVideoView(for: self.currentRecordingIndex)
+            self.prepareRecording(for: self.currentRecordingIndex)
         }
         alertViewController.addAction(successAction)
         alertViewController.addAction(againAction)
@@ -1024,9 +1126,13 @@ extension CreateViewController {
         chooseViewButtons[0].isHidden = true
         
     }
+    // TODO: 找為什麼一開始兩個Layer 都看不到東西，錄完之後有下載影片的看得見，但錄的還是看不見
+    // TODO: 進入 trimView 之後取消，如果是錄影沒有問題，可以繼續錄。如果用相簿選影片，則 recordingTopView 會不見
     @objc func chooseView(_ sender: UIButton) {
+        print("===========recordingTopView.isHidden:\(recordingTopView.isHidden)")
         if recordingTopView.isHidden {
             recordingTopView.isHidden = false
+            navigationController?.view.bringSubviewToFront(recordingTopView)
         } else {
             setupRecordingTopView()
         }
@@ -1037,21 +1143,28 @@ extension CreateViewController {
         let viewIndex = sender == chooseViewButtons[0] ? 0 : 1
         currentRecordingIndex = viewIndex
         cameraPreviewLayer?.frame = videoViews[viewIndex].bounds
+        
         videoViews[viewIndex].layer.addSublayer(cameraPreviewLayer!)
         chooseViewButtons[viewIndex].isHidden = true
         let otherIndex = viewIndex == 0 ? 1 : 0
+
+        // 如果是 style 1
         if players.count > 1 && players.count > style {
-            if let currentItem = players[otherIndex].currentItem {
-                let otherPlayerHasItem = players[otherIndex].currentItem != nil && currentItem.duration.seconds > 0
-//                chooseViewButtons[otherIndex].isHidden = otherPlayerHasItem
-                chooseViewButtons[otherIndex].isHidden = true
-                print("otherIndex:\(otherIndex),otherPlayerHasItem:\(otherPlayerHasItem)")
-                print("players[\(otherIndex)]duration:\(currentItem.duration.seconds)")
-                print("chooseViewButtons[0].isHidden:\(chooseViewButtons[0].isHidden)")
-                print("chooseViewButtons[1].isHidden:\(chooseViewButtons[1].isHidden)")
+            
+            if let currentItemOfOtherIndex = players[otherIndex].currentItem {
+                // otherPlayerHasItem 另一個 player 是否有影片
+                let otherPlayerHasItem = players[otherIndex].currentItem != nil &&  currentItemOfOtherIndex.asset.isPlayable
+                // 另一個+是否隱藏 = 另一個 player 是否有影片
+                chooseViewButtons[otherIndex].isHidden = otherPlayerHasItem
+                // 如果另一個+顯示
+                if !chooseViewButtons[otherIndex].isHidden {
+                    // 拉到最上層
+                    containerView.bringSubviewToFront(chooseViewButtons[otherIndex])
+                }
             }
         }
     }
+    // 按左上角x
     @objc func resetView() {
         recordingTopView.isHidden = true
         postProductionView.isHidden = false
@@ -1066,7 +1179,7 @@ extension CreateViewController {
 //        }
     }
     @objc func pushSharePage(_ sender: UIBarButtonItem) {
-        guard let outputFileURL = outputFileURL, !videoURLs.isEmpty/*, !audioURLs.isEmpty*/ else {
+        guard let outputFileURL = outputFileURL, !videoURLs.isEmpty, let duration = duration/*, let ensembleUserID = ensembleUserID*/ else {
             print("點擊分享鍵，但輸出失敗")
             let alert = UIAlertController(title: "輸出失敗", message: "無法導出影片", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .cancel))
@@ -1081,6 +1194,10 @@ extension CreateViewController {
                         if success {
                             let shareVC = ShareViewController()
                             shareVC.url = outputMergedFileURL
+                            shareVC.duration = duration
+                            if let ensembleUserID = self?.ensembleUserID {
+                                shareVC.ensembleUserID = ensembleUserID
+                            }
                             print("導出成功，建立並推送 ShareViewController")
                             self?.navigationController?.pushViewController(shareVC, animated: true)
                         } else {
@@ -1093,6 +1210,7 @@ extension CreateViewController {
         } else {
             let shareVC = ShareViewController()
             shareVC.url = outputFileURL
+            shareVC.duration = duration
             navigationController?.pushViewController(shareVC, animated: true)
         }
     }
@@ -1433,12 +1551,10 @@ extension CreateViewController: VideoTrimDelegate {
     @objc func clearVideoView(for index: Int) {
         replayButton.isHidden = true
         let player = players[index]
-//        player.pause()
         stopAllVideos()
         player.replaceCurrentItem(with: nil)
-        print("index:\(index),currentItem:\(player.currentItem ?? nil)")
-        let playerLayer = playerLayers[index]
-        playerLayer.removeFromSuperlayer()
+        print("index: \(index), currentItem: \(player.currentItem ?? nil)")
+        playerLayers[index].removeFromSuperlayer()
         if let url = getVideoURL(for: index) {
             do {
                 try FileManager.default.removeItem(at: url)
@@ -1455,12 +1571,15 @@ extension CreateViewController: VideoTrimDelegate {
             }
         }
     }
-
+    // 刪除重錄回到有+的畫面
     @objc func prepareRecording(for index: Int) {
         configure(for: style)
         chooseViewButtons[index].isHidden = false
     }
     @IBAction func selectMusic(_ sender: Any) {
+        recordingTopView.isHidden = true
+        stopCountdownTimer()
+        disableGestureRecognition()
         let controller = MusicViewController()
         controller.modalPresentationStyle = .fullScreen 
         controller.delegate = self
@@ -1470,11 +1589,18 @@ extension CreateViewController: VideoTrimDelegate {
 
 extension CreateViewController: PHPickerViewControllerDelegate {
     @IBAction func selectVideo(_ sender: Any) {
-        var configuration = PHPickerConfiguration()
-        configuration.filter = .videos
-        let picker = PHPickerViewController(configuration: configuration)
-        picker.delegate = self
-        present(picker, animated: true)
+        if videoURLs.count == 0 && currentRecordingIndex == 1 {
+            CustomFunc.customAlert(title: "請先完成左側錄影", message: "", vc: self, actionHandler: nil)
+        } else {
+            recordingTopView.isHidden = true
+            stopCountdownTimer()
+            disableGestureRecognition()
+            var configuration = PHPickerConfiguration()
+            configuration.filter = .videos
+            let picker = PHPickerViewController(configuration: configuration)
+            picker.delegate = self
+            present(picker, animated: true)
+        }
     }
 
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
@@ -1482,7 +1608,26 @@ extension CreateViewController: PHPickerViewControllerDelegate {
             picker.dismiss(animated: true)
             return
         }
-        
+        if provider.hasItemConformingToTypeIdentifier(UTType.movie.identifier) {
+            provider.loadItem(forTypeIdentifier: UTType.movie.identifier, options: nil) { (item, error) in
+                guard let url = item as? URL, error == nil else {
+                    print("Error: \(error?.localizedDescription ?? "Unknown error")")
+                    return
+                }
+                
+                let asset = AVAsset(url: url)
+                let durationInSeconds = CMTimeGetSeconds(asset.duration)
+                
+                if durationInSeconds < 1 {
+                    DispatchQueue.main.async {
+                        self.alertUserForShortVideo(picker: picker)
+                    }
+                    return
+                }
+            }
+        } else {
+            picker.dismiss(animated: true)
+        }
         provider.loadFileRepresentation(forTypeIdentifier: UTType.movie.identifier) { url, error in
             guard let url = url, error == nil else {
                 print("Error: \(error?.localizedDescription ?? "Unknown error")")
@@ -1504,7 +1649,14 @@ extension CreateViewController: PHPickerViewControllerDelegate {
             }
         }
     }
-    
+    func alertUserForShortVideo(picker: PHPickerViewController) {
+        let alert = UIAlertController(title: "影片時長過短", message: "請選擇時長超過1秒的影片。", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in
+            picker.dismiss(animated: true) {
+            }
+        })
+        picker.present(alert, animated: true)
+    }
     func setupPlayer(with url: URL) {
         replayButton.isHidden = true
         if style == 0 {
@@ -1523,6 +1675,7 @@ extension CreateViewController: PHPickerViewControllerDelegate {
                 print("set playerVolume:\(playerVolume)")
             }
         }
+        videoURLs.append(url)
         players[currentRecordingIndex] = AVPlayer(url: url)
         playerLayers[currentRecordingIndex] = AVPlayerLayer(player: players[currentRecordingIndex])
         playerLayers[currentRecordingIndex].frame = videoViews[currentRecordingIndex].bounds

@@ -22,13 +22,31 @@ class PostToWallViewController: UIViewController {
     
     @IBOutlet weak var tagTextField: UITextField!
     
+    @IBOutlet weak var ensembleUserLabel: UILabel!
+    @IBOutlet weak var ensembleUserNameLabel: UILabel!
+    var duration: Int?
     var url: URL?
+    var imageURL: URL?
     var replayButton = UIButton()
     let player = AVPlayer()
     let db = Firestore.firestore()
+    var ensembleUserID: String?
+    var ensembleUserName: String?
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        if let ensembleUserID = ensembleUserID {
+            UserManager.shared.fetchUserName(userID: ensembleUserID) { userName, error in
+                if let userName = userName {
+                    self.ensembleUserNameLabel.text = userName
+                    self.ensembleUserLabel.isHidden = false
+                    self.ensembleUserNameLabel.isHidden = false
+                }
+            }
+        } else {
+            self.ensembleUserLabel.isHidden = true
+            self.ensembleUserNameLabel.isHidden = true
+        }
+            
         if let url = url {
             print("url:\(url) 傳入 PostToWallViewController")
             configure(url: url)
@@ -78,22 +96,28 @@ class PostToWallViewController: UIViewController {
     }
     func postToWall() async -> Bool{
         guard let titleText = titleTextField.text,
-           let contentText = contentTextView.text,
-           let tagText = tagTextField.text,
-              let url = url else {
+              let contentText = contentTextView.text,
+              let tagText = tagTextField.text,
+              let url = url,
+              let imageURL = imageURL,
+              let duration = duration else {
             print("缺少發文內容")
-           return false
+            return false
         }
-        let post = [
+        var post: [String: Any] = [
             "videoURL": "\(url)",
+            "imageURL": "\(imageURL)",
             "title": titleText,
             "createdTime": FieldValue.serverTimestamp(),
             "userID": "09876543",
             "content": contentText,
             "importMusic": "Music composed by AI",
-            "duration": "01:20",
+            "duration": duration,
             "tag": tagText
-        ] as [String: Any]
+        ]
+        if let ensembleUserID = ensembleUserID {
+            post["ensembleUserID"] = ensembleUserID
+        }
         do {
             let ref = try await db.collection("Posts").addDocument(data: post)
             print("Document added with ID: \(ref.documentID)")
@@ -136,4 +160,5 @@ class PostToWallViewController: UIViewController {
             }
         }
     }
+    
 }

@@ -8,7 +8,10 @@
 import UIKit
 import FirebaseCore
 import FirebaseFirestore
-
+import Lottie
+import AVFoundation
+import FirebaseAuth
+import Kingfisher
 class WallViewController: UIViewController {
     
     let db = Firestore.firestore()
@@ -18,8 +21,10 @@ class WallViewController: UIViewController {
     var postLikesCount: [String: Int] = [:]
     var postLikesStatus: [String: Bool] = [:]
     var postReplies: [String: Int] = [:]
+    var post: Post?
     @IBOutlet weak var tableView: UITableView!
-
+    var animView: LottieAnimationView?
+    var ensembleUsersNames: [String: String] = [:]
     override func viewDidLoad() {
         super.viewDidLoad()
         listenToPosts()
@@ -34,11 +39,12 @@ class WallViewController: UIViewController {
         tableView.sectionHeaderHeight = 25
         tableView.sectionIndexBackgroundColor = .clear
         tableView.backgroundColor = .black
-
     }
-
+    override func viewWillAppear(_ animated: Bool) {
+        tabBarController?.tabBar.isHidden = false
+    }
     private func listenToPosts() {
-        db.collection("Posts")
+        db.collection("Posts").order(by: "createdTime")
           .addSnapshotListener { [weak self] querySnapshot, error in
             guard let self = self, let snapshot = querySnapshot else {
               print("Error listening for post updates: \(error?.localizedDescription ?? "No error")")
@@ -53,7 +59,10 @@ class WallViewController: UIViewController {
                     let data = change.document.data()
                     let post = Post(dic: data)
                     self.fetchUserName(userID: post.userID)
-           
+                    if let ensembleUserID = post.ensembleUserID {
+                        self.fetchEnsembleUserName(userID: ensembleUserID)
+                    }
+                    
                     if change.type == .added {
                         self.posts.insert(post, at: 0)
                     } else if let index = self.posts.firstIndex(where: { $0.id == post.id }) {
@@ -110,6 +119,18 @@ class WallViewController: UIViewController {
                 }
             }
     }
+    private func fetchEnsembleUserName(userID: String) {
+        UserManager.shared.fetchUserName(userID: userID) { [weak self] userName, error in
+                DispatchQueue.main.async {
+                    if let userName = userName {
+                        self?.ensembleUsersNames[userID] = userName
+                        self?.tableView.reloadData()
+                    } else if let error = error {
+                        print("Error fetching user name: \(error)")
+                    }
+                }
+            }
+    }
 }
 extension WallViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -127,6 +148,8 @@ extension WallViewController: UITableViewDataSource {
                 fatalError("error when building VideoCell")
             }
             print("====post.videoURL: \(post.videoURL)")
+            print("====post.imageURL: \(post.imageURL ?? "no")")
+            cell.imageURLString = post.imageURL
             cell.urlString = post.videoURL
             cell.setupUI()
             return cell
@@ -178,6 +201,37 @@ extension WallViewController: UITableViewDataSource {
             fatalError("Out of cell types")
         }
     }
+    func importAnimation() {
+        if animView == nil {
+            animView = LottieAnimationView(name: "Animation00", bundle: .main)
+            animView?.frame = CGRect(x: 200, y: 350, width: 300, height: 300)
+            animView?.center = self.view.center
+            animView?.loopMode = .loop
+            animView?.animationSpeed = 2
+            self.view.addSubview(animView!)
+        }
+        animView?.play()
+    }
+    func stopAnimation() {
+            DispatchQueue.main.async { [weak self] in
+                self?.animView?.stop()
+                self?.animView?.removeFromSuperview()
+            }
+        }
+    func getVideoAndUserID(postID: String) async -> (videoURL: String, userID: String, duration: Int)? {
+        do {
+            let document = try await db.collection("Posts").document(postID).getDocument()
+            if document.exists, let data = document.data(),
+               let videoURL = data["videoURL"] as? String,
+               let userID = data["userID"] as? String,
+               let duration = data["duration"] as? Int {
+                return (videoURL, userID, duration)
+            }
+        } catch {
+            print("Error getting document: \(error)")
+        }
+        return nil
+    }
 }
 
 extension WallViewController: UITableViewDelegate {
@@ -185,7 +239,11 @@ extension WallViewController: UITableViewDelegate {
         let userID = posts[section].userID
         let title = posts[section].title
         print("usersNames:\(usersNames)")
-        return (usersNames[userID] ?? "") + " 🎙️ \(title)"
+        if let ensembleUserID = posts[section].ensembleUserID {
+            return (usersNames[userID] ?? "") + " ➕ \(ensembleUsersNames[ensembleUserID] ?? "")" + " 🎙️ \(title)"
+        } else {
+            return (usersNames[userID] ?? "") + " 🎙️ \(title)"
+        }
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let row = indexPath.row
@@ -207,17 +265,59 @@ extension WallViewController: UITableViewDelegate {
 
         return headerView
     }
+//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+//        var urlsToPrefetch = [URL]()
+//        for index in indexPath.section..<min(indexPath.section + 5, posts.count) {
+//            if let imageURLString = posts[index].imageURL,
+//                let url = URL(string: imageURLString) {
+//                urlsToPrefetch.append(url)
+//            }
+//        }
+//        let prefetcher = ImagePrefetcher(urls: urlsToPrefetch)
+//        prefetcher.start()
+//        print("===prefetcher.start()===")
+//    }
 }
 
 extension WallViewController: OptionsCellDelegate {
+    func viewControllerForPresentation() -> UIViewController? {
+            return self
+        }
+    func presentRecordingPage(postID: String) {
+        importAnimation()
+        
+        Task {
+            if let (videoURL, userID, duration) = await getVideoAndUserID(postID: postID) {
+                let length = duration
+                DispatchQueue.main.async { [weak self] in
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil) 
+                    guard let controller = storyboard.instantiateViewController(withIdentifier: "CreateViewController") as? CreateViewController else {
+                        print("Unable to instantiate CreateViewController from storyboard.")
+                        return
+                    }
+                    controller.ensembleVideoURL = videoURL
+                    controller.ensembleUserID = userID
+                    controller.style = 1
+                    controller.length = length
+                    self?.stopAnimation()
+                    self?.tabBarController?.tabBar.isHidden = true
+                    self?.navigationController?.pushViewController(controller, animated: true)
+                }
+            } else {
+                stopAnimation()
+                print("Required data not found or document does not exist.")
+            }
+        }
+    }
+    
     func showReplyPage(from cell: UITableViewCell, cellIndex: Int, postID: String) {
+        
         let controller = ReplyViewController()
 //        controller.replies = posts[cellIndex].reply
         controller.postID = postID
         self.navigationController?.pushViewController(controller, animated: true)
     }
     func updateLikeStatus(postId: String, hasLiked: Bool) {
-//        let adjustment = hasLiked ? 1 : -1
         let currentCount = postLikesCount[postId] ?? 0 // 這裡的 postLikesCount[postId] 是已經增加過的
         postLikesCount[postId] = max(0, currentCount /*+ adjustment*/)
         postLikesStatus[postId] = hasLiked
@@ -248,4 +348,9 @@ extension WallViewController: OptionsCellDelegate {
             }
         }
     }
+ 
+       func presentLoginViewController() {
+           let loginViewController = LoginViewController()
+           present(loginViewController, animated: true)
+       }
 }

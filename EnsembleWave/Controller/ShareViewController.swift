@@ -8,7 +8,7 @@
 import UIKit
 import Photos
 import FirebaseStorage
-
+import FirebaseAuth
 class ShareViewController: UIViewController {
     var url: URL?
     private let saveToAlbumButton: UIButton = {
@@ -25,10 +25,11 @@ class ShareViewController: UIViewController {
         button.setTitleColor(.black, for: .normal)
         return button
     }()
-    
+    var duration: Int?
+    var ensembleUserID: String?
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print("duration sent to ShareViewController:\(duration)")
         view.backgroundColor = .white
         setupUI()
     }
@@ -75,24 +76,40 @@ class ShareViewController: UIViewController {
         }
     }
     @objc func shareToWall() {
+        guard Auth.auth().currentUser != nil else {
+            presentLoginViewController()
+            return
+            }
         saveVideoToFirebase() { url in
-                if let url = url {
+            self.saveImageToFirebase { imageURL in
+                if let url = url,
+                   let imageURL = imageURL,
+                   let duration = self.duration {
                     print("Got the download URL: \(url)")
                     let controller = PostToWallViewController(nibName: "PostToWallViewController", bundle: nil)
                     controller.url = url
-                    self.present(controller, animated: true)
-                    
+                    controller.imageURL = imageURL
+                    controller.duration = duration
+                    if let ensembleUserID = self.ensembleUserID {
+                        controller.ensembleUserID =  ensembleUserID
+                        self.present(controller, animated: true)
+                    } else {
+                        self.present(controller, animated: true)
+                    }
+        
                 } else {
                     print("Failed to get the download URL")
                 }
             }
+            
+        }
     }
     func saveVideoToFirebase(completion: @escaping (URL?) -> Void) {
         let storage = Storage.storage()
         let storageRef = storage.reference()
         let videoRef = storageRef.child("videos/\(UUID().uuidString).mov")
         guard let url = url else {
-            print("沒有 url")
+            print("saveVideoToFirebase - 沒有 url")
             completion(nil)
             return
         }
@@ -100,33 +117,144 @@ class ShareViewController: UIViewController {
         dispatchGroup.enter()
         let uploadTask = videoRef.putFile(from: url, metadata: nil) { metadata, error in
             guard error == nil else {
-                print("putFile error:\(error?.localizedDescription ?? "error")")
+                print("saveVideoToFirebase - putFile error:\(error?.localizedDescription ?? "error")")
                 dispatchGroup.leave()
                 completion(nil)
                 return
             }
             guard let metadata = metadata else {
-                print("metadata 錯誤")
+                print("saveVideoToFirebase - metadata 錯誤")
                 dispatchGroup.leave()
                 completion(nil)
                 return
             }
-            print("Uploaded Size: \(metadata.size) bytes")
+            print("saveVideoToFirebase - Uploaded Size: \(metadata.size) bytes")
             videoRef.downloadURL { url, error in
                 defer { dispatchGroup.leave() }
                 guard error == nil else {
-                    print("downloadURL error:\(error?.localizedDescription ?? "error")")
+                    print("saveVideoToFirebase - downloadURL error:\(error?.localizedDescription ?? "error")")
                     completion(nil)
                     return
                 }
                 guard let url = url else {
-                    print("downloadURL 失敗")
+                    print("saveVideoToFirebase - downloadURL 失敗")
                     completion(nil)
                     return
                 }
-                print("downloadURL:\(url)")
+                print("saveVideoToFirebase - downloadURL:\(url)")
                 completion(url)
             }
         }
+    }
+//    func saveImageToFirebase(completion: @escaping (URL?) -> Void) {
+//        guard let url = url else {
+//            print("saveVideoToFirebase - 沒有 url")
+//            completion(nil)
+//            return
+//        }
+//        let asset = AVURLAsset(url: url, options: nil)
+//        var imageData: Data?
+//        let dispatchGroup = DispatchGroup()
+//        dispatchGroup.enter()
+//        generateThumbnail(for: asset, at: CMTime(seconds: 0.5, preferredTimescale: 600)) { [weak self] image in
+//            guard let image = image,
+//                  let thumbnailData = image.jpegData(compressionQuality: 0.75) else {
+//                print("Failed to convert UIImage to Data")
+//                return
+//            }
+//            imageData = thumbnailData
+//            print("imageData:\(imageData!)")
+//            dispatchGroup.enter()
+//            let storage = Storage.storage()
+//            let storageRef = storage.reference()
+//            let imageRef = storageRef.child("images/\(UUID().uuidString).png")
+//            
+//            guard let imageData = imageData else {
+//                print("no imageData")
+//                return
+//            }
+//            let uploadTask = imageRef.putData(imageData, metadata: nil) { metadata, error in
+//                if let error = error {
+//                    print("Error uploading image: \(error.localizedDescription)")
+//                } else {
+//                    print("Upload successful, metadata: \(String(describing: metadata))")
+//                }
+//            }
+//            imageRef.downloadURL { url, error in
+//                defer { dispatchGroup.leave() }
+//                guard error == nil else {
+//                    print("downloadURL error:\(error?.localizedDescription ?? "error")")
+//                    completion(nil)
+//                    return
+//                }
+//                guard let url = url else {
+//                    print("saveImageToFirebase - downloadURL 失敗")
+//                    completion(nil)
+//                    return
+//                }
+//                print("saveImageToFirebase - downloadURL:\(url)")
+//                completion(url)
+//            }
+//        }
+//       
+//        dispatchGroup.notify(queue: .main) {
+//            
+//        }
+//    }
+    func saveImageToFirebase(completion: @escaping (URL?) -> Void) {
+        guard let videoUrl = self.url else {
+            print("saveVideoToFirebase - 沒有 url")
+            completion(nil)
+            return
+        }
+        let asset = AVURLAsset(url: videoUrl, options: nil)
+        let storage = Storage.storage()
+        let storageRef = storage.reference()
+        let imageRef = storageRef.child("images/\(UUID().uuidString).png")
+
+        generateThumbnail(for: asset, at: CMTime(seconds: 0.5, preferredTimescale: 600)) { image in
+            guard let image = image, let imageData = image.jpegData(compressionQuality: 0.75) else {
+                print("Failed to convert UIImage to Data")
+                completion(nil)
+                return
+            }
+            
+            print("imageData ready: \(imageData.count) bytes")
+            imageRef.putData(imageData, metadata: nil) { metadata, error in
+                guard error == nil else {
+                    print("Error uploading image: \(error!.localizedDescription)")
+                    completion(nil)
+                    return
+                }
+                print("Upload successful, metadata: \(String(describing: metadata))")
+                imageRef.downloadURL { url, error in
+                    guard let url = url, error == nil else {
+                        print("downloadURL error: \(error!.localizedDescription)")
+                        completion(nil)
+                        return
+                    }
+                    print("saveImageToFirebase - downloadURL: \(url)")
+                    completion(url)
+                }
+            }
+        }
+    }
+
+    func generateThumbnail(for asset: AVAsset, at time: CMTime, completion: @escaping (UIImage?) -> Void) {
+        let imageGenerator = AVAssetImageGenerator(asset: asset)
+        imageGenerator.appliesPreferredTrackTransform = true
+        imageGenerator.generateCGImagesAsynchronously(forTimes: [NSValue(time: time)]) { _, image, _, _, error in
+            if let image = image, error == nil {
+                let thumbnail = UIImage(cgImage: image)
+                completion(thumbnail)
+            } else {
+                print("Error generating thumbnail: \(String(describing: error))")
+                completion(nil)
+            }
+        }
+    }
+    func presentLoginViewController() {
+        let loginViewController = LoginViewController()
+        present(loginViewController, animated: true)
     }
 }

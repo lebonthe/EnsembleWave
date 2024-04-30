@@ -84,4 +84,13 @@ extension CreateViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             print("Could not add video output for gesture recognition")
         }
     }
+    func disableGestureRecognition() {
+        if let videoOutput = captureSession.outputs.first(where: { $0 is AVCaptureVideoDataOutput }) as? AVCaptureVideoDataOutput {
+            captureSession.removeOutput(videoOutput)
+            print("Gesture recognition video output was removed successfully.")
+        } else {
+            print("No gesture recognition video output to remove.")
+        }
+    }
+
 }
