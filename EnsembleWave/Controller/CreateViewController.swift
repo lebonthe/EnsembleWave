@@ -960,6 +960,7 @@ extension CreateViewController: AVCaptureFileOutputRecordingDelegate {
         let againAction = UIAlertAction(title: "重來", style: .cancel) { _ in
             self.countdownLabel.text = self.timeFormatter(sec: self.length)
             self.clearVideoView(for: self.currentRecordingIndex)
+            self.prepareRecording(for: self.currentRecordingIndex)
         }
         alertViewController.addAction(successAction)
         alertViewController.addAction(againAction)
@@ -1534,8 +1535,7 @@ extension CreateViewController: VideoTrimDelegate {
         stopAllVideos()
         player.replaceCurrentItem(with: nil)
         print("index: \(index), currentItem: \(player.currentItem ?? nil)")
-        let playerLayer = playerLayers[index]
-        playerLayer.removeFromSuperlayer()
+        playerLayers[index].removeFromSuperlayer()
         if let url = getVideoURL(for: index) {
             do {
                 try FileManager.default.removeItem(at: url)
