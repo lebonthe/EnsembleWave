@@ -7,32 +7,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "45FFEAC4-A2DD-47E3-8814-1EA31A340088"
+            uuid = "6C730F12-8452-4778-B8E7-F5807F200BC8"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "EnsembleWave/Controller/WallViewController.swift"
+            filePath = "EnsembleWave/Controller/CreateViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "269"
-            endingLineNumber = "269"
-            landmarkName = "WallViewController"
-            landmarkType = "21">
+            startingLineNumber = "1134"
+            endingLineNumber = "1134"
+            landmarkName = "chooseView(_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "BB56C9D7-A8B8-406A-B5BA-9AD2B6DF301D"
+            uuid = "1FF3918F-BB63-4FD4-AF65-0DA6EC3225B2"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "EnsembleWave/Controller/PostToWallViewController.swift"
+            filePath = "EnsembleWave/Controller/CreateViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "37"
-            endingLineNumber = "37"
-            landmarkName = "viewDidLoad()"
+            startingLineNumber = "1152"
+            endingLineNumber = "1152"
+            landmarkName = "chooseView(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
