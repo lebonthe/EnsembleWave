@@ -271,6 +271,9 @@ class CreateViewController: UIViewController {
         self.navigationItem.leftBarButtonItem = nil
         trimView.isHidden = true
         stopCountdownTimer()
+        self.countdownLabel.text = self.timeFormatter(sec: self.length)
+        self.clearVideoView(for: self.currentRecordingIndex)
+        self.prepareRecording(for: self.currentRecordingIndex)
         if useHandPoseStartRecording {
             addGestureRecognitionToSession()
         }
@@ -534,7 +537,6 @@ class CreateViewController: UIViewController {
     }
     func startCountdownTimer() {
         var remainingTime = length
-        // TODO: 解決開始倒數計時，數字圖片的延遲
         countdownTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true){ [weak self] _ in
             guard let self = self else { return }
             remainingTime -= 1
@@ -571,6 +573,7 @@ class CreateViewController: UIViewController {
         countBeforeRecording = true
         useHandPoseStartRecording = true
         navigationController.view.addSubview(recordingTopView)
+        recordingTopView.isHidden = false
         cameraPositionButton.setBackgroundImage(UIImage(systemName: "arrow.triangle.2.circlepath.camera"), for: .normal)
         cameraPositionButton.tintColor = .red
         cameraPositionButton.addTarget(self, action: #selector(toggleCameraPosition), for: .touchUpInside)
@@ -622,6 +625,7 @@ class CreateViewController: UIViewController {
             handPoseButton.centerYAnchor.constraint(equalTo: recordingTopView.centerYAnchor),
             handPoseButton.trailingAnchor.constraint(equalTo: countdownButton.leadingAnchor, constant: -16)
         ])
+        
     }
     @objc func changeHandPoseMode(_ sender: UIButton) {
         useHandPoseStartRecording.toggle()
@@ -1123,9 +1127,12 @@ extension CreateViewController {
         
     }
     // TODO: 找為什麼一開始兩個Layer 都看不到東西，錄完之後有下載影片的看得見，但錄的還是看不見
+    // TODO: 進入 trimView 之後取消，如果是錄影沒有問題，可以繼續錄。如果用相簿選影片，則 recordingTopView 會不見
     @objc func chooseView(_ sender: UIButton) {
+        print("===========recordingTopView.isHidden:\(recordingTopView.isHidden)")
         if recordingTopView.isHidden {
             recordingTopView.isHidden = false
+            navigationController?.view.bringSubviewToFront(recordingTopView)
         } else {
             setupRecordingTopView()
         }
@@ -1582,14 +1589,18 @@ extension CreateViewController: VideoTrimDelegate {
 
 extension CreateViewController: PHPickerViewControllerDelegate {
     @IBAction func selectVideo(_ sender: Any) {
-        recordingTopView.isHidden = true
-        stopCountdownTimer()
-        disableGestureRecognition()
-        var configuration = PHPickerConfiguration()
-        configuration.filter = .videos
-        let picker = PHPickerViewController(configuration: configuration)
-        picker.delegate = self
-        present(picker, animated: true)
+        if videoURLs.count == 0 && currentRecordingIndex == 1 {
+            CustomFunc.customAlert(title: "請先完成左側錄影", message: "", vc: self, actionHandler: nil)
+        } else {
+            recordingTopView.isHidden = true
+            stopCountdownTimer()
+            disableGestureRecognition()
+            var configuration = PHPickerConfiguration()
+            configuration.filter = .videos
+            let picker = PHPickerViewController(configuration: configuration)
+            picker.delegate = self
+            present(picker, animated: true)
+        }
     }
 
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {

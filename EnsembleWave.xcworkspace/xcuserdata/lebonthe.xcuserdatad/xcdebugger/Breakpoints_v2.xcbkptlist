@@ -7,32 +7,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "B062E214-3A0F-415A-BFAB-B6D0F6F97CFB"
+            uuid = "6C730F12-8452-4778-B8E7-F5807F200BC8"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EnsembleWave/Controller/CreateViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "266"
-            endingLineNumber = "266"
-            landmarkName = "recordAgain()"
+            startingLineNumber = "1134"
+            endingLineNumber = "1134"
+            landmarkName = "chooseView(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "98EFDF20-7B0C-45BF-B529-151B61699374"
-            shouldBeEnabled = "No"
+            uuid = "1FF3918F-BB63-4FD4-AF65-0DA6EC3225B2"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EnsembleWave/Controller/CreateViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "148"
-            endingLineNumber = "148"
-            landmarkName = "viewWillAppear(_:)"
+            startingLineNumber = "1152"
+            endingLineNumber = "1152"
+            landmarkName = "chooseView(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
