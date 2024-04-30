@@ -61,6 +61,7 @@
 		9FAD77052BDBB23700BF7163 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD77042BDBB23700BF7163 /* TabBarController.swift */; };
 		9FAD77072BDC08D500BF7163 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD77062BDC08D500BF7163 /* ProfileViewController.swift */; };
 		9FAD77092BDDE95F00BF7163 /* CryptoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD77082BDDE95F00BF7163 /* CryptoUtils.swift */; };
+		9FC29A922BE0F540009E776C /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC29A912BE0F540009E776C /* SettingViewController.swift */; };
 		B8472009B49679B5671FB722 /* Pods_EnsembleWave.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF8A4210E4C6EB1AE602BBB5 /* Pods_EnsembleWave.framework */; };
 		E05B02D0B93EF9664C522C10 /* Pods_EnsembleWave_EnsembleWaveUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D955A00B2C7036CEEACF668 /* Pods_EnsembleWave_EnsembleWaveUITests.framework */; };
 /* End PBXBuildFile section */
@@ -143,6 +144,7 @@
 		9FAD77042BDBB23700BF7163 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		9FAD77062BDC08D500BF7163 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		9FAD77082BDDE95F00BF7163 /* CryptoUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CryptoUtils.swift; path = ../Controller/CryptoUtils.swift; sourceTree = "<group>"; };
+		9FC29A912BE0F540009E776C /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		AF8A4210E4C6EB1AE602BBB5 /* Pods_EnsembleWave.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EnsembleWave.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C368520B942DA87E09E009B4 /* Pods-EnsembleWaveTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EnsembleWaveTests.release.xcconfig"; path = "Target Support Files/Pods-EnsembleWaveTests/Pods-EnsembleWaveTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -273,6 +275,7 @@
 				9FAD76FE2BDB9EAA00BF7163 /* LoginViewController.swift */,
 				9FAD77042BDBB23700BF7163 /* TabBarController.swift */,
 				9FAD77062BDC08D500BF7163 /* ProfileViewController.swift */,
+				9FC29A912BE0F540009E776C /* SettingViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -636,6 +639,7 @@
 				9F6B5D642BCD383A00509F5F /* VideoView.swift in Sources */,
 				9FAD77012BDB9ED500BF7163 /* KeychainItem.swift in Sources */,
 				9F6FDABC2BD8FA8400315B13 /* UIColor+Extension.swift in Sources */,
+				9FC29A922BE0F540009E776C /* SettingViewController.swift in Sources */,
 				9F5A51BD2BCF9A4700070186 /* Data.swift in Sources */,
 				9F5A51BB2BCEC68900070186 /* ExportError.swift in Sources */,
 				9F6B5D602BC804FD00509F5F /* ShareViewController.swift in Sources */,
