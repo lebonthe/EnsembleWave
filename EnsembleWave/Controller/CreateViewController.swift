@@ -788,8 +788,6 @@ class CreateViewController: UIViewController {
 //        countdownImageView.image = UIImage(systemName: countingImages[currentImageIndex])
         
         timerBeforePlay = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateImage), userInfo: nil, repeats: true)
-        // TODO: 解決5->4的延遲，或是乾脆不顯示5
-        countdownImageView.image = UIImage(systemName: countingImages[currentImageIndex])
         countdownImageView.isHidden = false
         }
     func toggleRecordingButtons(isRecording: Bool) {
