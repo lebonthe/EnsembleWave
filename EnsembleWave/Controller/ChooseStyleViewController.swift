@@ -27,6 +27,7 @@ class ChooseStyleViewController: UIViewController {
         setupLayoutUI()
     }
     func setupUI() {
+        view.backgroundColor = .black
         let screenBounds = view.window?.windowScene?.screen.bounds
         print("screenBounds: \(screenBounds!)")
         styleView00.translatesAutoresizingMaskIntoConstraints = false

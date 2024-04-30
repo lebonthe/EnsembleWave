@@ -16,6 +16,8 @@ class ContentCell: UITableViewCell {
     var contentText: String = "This is what they said..."
     func setupUI() {
         contentView.addSubview(contentLabel)
+        contentView.backgroundColor = .black
+        contentLabel.textColor = .white
         contentLabel.text = contentText
         contentLabel.numberOfLines = 0
         NSLayoutConstraint.activate([

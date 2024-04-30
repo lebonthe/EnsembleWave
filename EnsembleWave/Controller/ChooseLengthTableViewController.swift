@@ -16,7 +16,8 @@ class ChooseLengthTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        tableView.backgroundColor = .black
+        tableView.tintColor = .white
         tabBarController?.tabBar.isHidden = true
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "LengthCell")
         if let index = lengths.firstIndex(of: length) {

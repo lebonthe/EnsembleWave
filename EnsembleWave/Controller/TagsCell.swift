@@ -18,6 +18,8 @@ class TagsCell: UITableViewCell {
     func setupUI() {
         contentView.addSubview(tagsLabel)
         tagsLabel.text = tagsText
+        tagsLabel.textColor = .blue
+        contentView.backgroundColor = .black
         NSLayoutConstraint.activate([
             tagsLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
             tagsLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),

@@ -17,7 +17,9 @@ class LikesCountCell: UITableViewCell {
     var likesCount = 0
     func setupUI() {
         contentView.addSubview(likeLabel)
+        contentView.backgroundColor = .black
         likeLabel.text = "\(likesCount) 讚"
+        likeLabel.textColor = .white
         NSLayoutConstraint.activate([
             likeLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
             likeLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),

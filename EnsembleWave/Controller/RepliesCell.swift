@@ -20,6 +20,7 @@ class RepliesCell: UITableViewCell {
     var cellIndex: IndexPath?
     func setupUI() {
         contentView.addSubview(replyButton)
+        contentView.backgroundColor = .black
         replyButton.setTitle("\(replyCount) 更多留言", for: .normal)
         replyButton.addTarget(self, action: #selector(reply), for: .touchUpInside)
         replyButton.setTitleColor(.blue, for: .normal)
