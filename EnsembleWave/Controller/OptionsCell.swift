@@ -14,11 +14,13 @@ protocol OptionsCellDelegate: AnyObject {
     
     func showReplyPage(from cell: UITableViewCell, cellIndex: Int, postID: String)
     
-    func presentRecordingPage(postID: String)
+    func presentRecordingPage(postID: String/*, localVideoURL: URL*/)
     
     func viewControllerForPresentation() -> UIViewController?
     
     func presentLoginViewController()
+    
+    func getLocalVideoURL(postID: String) -> URL?
 }
 
 class OptionsCell: UITableViewCell {
@@ -140,7 +142,12 @@ class OptionsCell: UITableViewCell {
         let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
        
         let actionImport = UIAlertAction(title: "輸入創作", style: .default) {_ in
-            self.delegate?.presentRecordingPage(postID: self.postID)
+//            if let localVideoURL = self.delegate?.getLocalVideoURL(postID: self.postID) {
+//                self.delegate?.presentRecordingPage(postID: self.postID, localVideoURL: localVideoURL)
+//            } else {
+//                print("Local video URL not available")
+//            }
+            self.delegate?.presentRecordingPage(postID: self.postID/*, localVideoURL: localVideoURL*/)
         }
         controller.addAction(actionImport)
         let cancelAction = UIAlertAction(title: "取消", style: .cancel)

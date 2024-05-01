@@ -280,10 +280,11 @@ extension WallViewController: UITableViewDelegate {
 }
 
 extension WallViewController: OptionsCellDelegate {
+    
     func viewControllerForPresentation() -> UIViewController? {
             return self
         }
-    func presentRecordingPage(postID: String) {
+    func presentRecordingPage(postID: String/*, localVideoURL: URL*/) {
         importAnimation()
         
         Task {
@@ -295,7 +296,7 @@ extension WallViewController: OptionsCellDelegate {
                         print("Unable to instantiate CreateViewController from storyboard.")
                         return
                     }
-                    controller.ensembleVideoURL = videoURL
+                    controller.ensembleVideoURL = videoURL//"\(localVideoURL)" // TODO: 回來改成本地檔案
                     controller.ensembleUserID = userID
                     controller.style = 1
                     controller.length = length
@@ -349,8 +350,16 @@ extension WallViewController: OptionsCellDelegate {
         }
     }
  
-       func presentLoginViewController() {
-           let loginViewController = LoginViewController()
-           present(loginViewController, animated: true)
-       }
+    func presentLoginViewController() {
+        let loginViewController = LoginViewController()
+        present(loginViewController, animated: true)
+    }
+    
+    func getLocalVideoURL(postID: String) -> URL? {
+            if let index = posts.firstIndex(where: { $0.id == postID }),
+               let cell = tableView.cellForRow(at: IndexPath(row: 0, section: index)) as? VideoCell {
+                return cell.localVideoURL
+            }
+        return nil
+    }
 }

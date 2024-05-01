@@ -282,12 +282,26 @@ class CreateViewController: UIViewController {
     func setupTrimViewUI() {
         stopCountdownTimer()
         postProductionView.isHidden = false
+//        view.bringSubviewToFront(postProductionView)
         let trimOKButton = UIBarButtonItem(image: UIImage(systemName: "checkmark.circle.fill"), style: .plain, target: self, action: #selector(preparedToShare))
         let trimCancelButton = UIBarButtonItem(image: UIImage(systemName: "xmark.circle.fill"), style: .plain, target: self, action: #selector(recordAgain))
         self.navigationItem.rightBarButtonItem = trimOKButton
         self.navigationItem.leftBarButtonItem = trimCancelButton
-        guard let videoFileURL = getVideoURL(for: currentRecordingIndex) else {
-            print("在 setupTrimViewUI 內 getVideoURL 失敗")
+        var videoFileURL: URL?
+        if style == 1 && ensembleVideoURL != nil {
+            guard let url = URL(string: ensembleVideoURL!) else {
+                print("no ensembleVideoURL")
+                return
+            }
+            videoFileURL = url
+        } else {
+            guard let url = getVideoURL(for: currentRecordingIndex) else {
+                print("在 setupTrimViewUI 內 getVideoURL 失敗")
+                return
+            }
+            videoFileURL = url
+        }
+        guard let videoFileURL = videoFileURL else {
             return
         }
         let asset = AVAsset(url: videoFileURL)
@@ -1173,7 +1187,7 @@ extension CreateViewController {
         print("sender:\(sender)")
         if recordingTopView.isHidden {
             recordingTopView.isHidden = false
-            navigationController?.view.bringSubviewToFront(recordingTopView)
+//            navigationController?.view.bringSubviewToFront(recordingTopView)
         } else {
             setupRecordingTopView()
         }
@@ -1633,7 +1647,7 @@ extension CreateViewController: PHPickerViewControllerDelegate {
         if videoURLs.count == 0 && currentRecordingIndex == 1 {
             CustomFunc.customAlert(title: "請先完成左側錄影", message: "", vc: self, actionHandler: nil)
         } else {
-            recordingTopView.isHidden = true
+//            recordingTopView.isHidden = true
             stopCountdownTimer()
             disableGestureRecognition()
             var configuration = PHPickerConfiguration()
@@ -1656,8 +1670,8 @@ extension CreateViewController: PHPickerViewControllerDelegate {
                     return
                 }
                 
-                let asset = AVAsset(url: url)
-                let durationInSeconds = CMTimeGetSeconds(asset.duration)
+//                let asset = AVAsset(url: url)
+//                let durationInSeconds = CMTimeGetSeconds(asset.duration)
                 // TODO: 修正-有時因為還沒得到 duration，先跳出警告
 //                if durationInSeconds < 1 {
 //                    DispatchQueue.main.async {
@@ -1683,7 +1697,12 @@ extension CreateViewController: PHPickerViewControllerDelegate {
                /* try FileManager.default.copyItem(at: url, to: URL(fileURLWithPath: NS*//*TemporaryDirectory() + "output\(self.currentRecordingIndex).mov"))*/
                 DispatchQueue.main.async {
                     self.setupPlayer(with: sandboxURL)
-                    picker.dismiss(animated: true)
+//                    self.playAllVideos()
+//                    self.recordingTopView.isHidden = false
+//                    self.launchTrimTopView()
+                    picker.dismiss(animated: true) {
+                        self.addGestureRecognitionToSession()
+                    }
                 }
             } catch {
                 print("檔案管理錯誤: \(error)")
@@ -1698,7 +1717,9 @@ extension CreateViewController: PHPickerViewControllerDelegate {
 //        })
 //        picker.present(alert, animated: true)
 //    }
+    // 設定相簿輸入影片的播放器
     func setupPlayer(with url: URL) {
+        recordingTopView.isHidden = false
         replayButton.isHidden = true
         if style == 0 {
             self.cameraPreviewLayer?.removeFromSuperlayer()
@@ -1722,7 +1743,10 @@ extension CreateViewController: PHPickerViewControllerDelegate {
         playerLayers[currentRecordingIndex].frame = videoViews[currentRecordingIndex].bounds
         videoViews[currentRecordingIndex].layer.addSublayer(playerLayers[currentRecordingIndex])
         playerLayers[currentRecordingIndex].videoGravity = .resizeAspectFill
-        launchTrimTopView()
+        let playerItem = AVPlayerItem(url: url) // --
+        setupObserversForPlayerItem(playerItem, with: players[currentRecordingIndex]) // --
+        
+        launchTrimTopView() // TODO: 為什麼剪輯畫面出不來？？？？？？？？
         for player in self.players {
             player.seek(to: CMTime.zero)
             player.play()

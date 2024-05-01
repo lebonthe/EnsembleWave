@@ -15,6 +15,7 @@ class VideoCell: UITableViewCell {
         }
     }
     var imageURLString: String?
+    var localVideoURL: URL?
     let videoView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -91,8 +92,12 @@ class VideoCell: UITableViewCell {
             thumbnailImageView.isHidden = true
         }
         if CachingPlayerItem.isDownloaded(for: asset.url) {
-            let localURL = CachingPlayerItem.localFileURL(for: url)
-            let cachedAsset = AVURLAsset(url: localURL)
+            localVideoURL = CachingPlayerItem.localFileURL(for: url)
+            guard let localVideoURL = localVideoURL else {
+                print("no localVideoURL")
+                return
+            }
+            let cachedAsset = AVURLAsset(url: localVideoURL)
             let playerItem = AVPlayerItem(asset: cachedAsset)
             player.replaceCurrentItem(with: playerItem)
             setupObserversForPlayerItem(playerItem, with: player)
@@ -101,8 +106,15 @@ class VideoCell: UITableViewCell {
             let playerItem = AVPlayerItem(asset: asset)
             player.replaceCurrentItem(with: playerItem)
             setupObserversForPlayerItem(playerItem, with: player)
-        }
-        
+                }
+//        guard let localVideoURL = self.localVideoURL else {
+//            print("no localVideoURL")
+//            return
+//        }
+//        let cachedAsset = AVURLAsset(url: localVideoURL)
+//        let playerItem = AVPlayerItem(asset: cachedAsset)
+//        player.replaceCurrentItem(with: playerItem)
+//        setupObserversForPlayerItem(playerItem, with: player)
         if playerLayer == nil {
             playerLayer = AVPlayerLayer(player: player)
         }
@@ -153,7 +165,33 @@ class VideoCell: UITableViewCell {
         
         activeDownloadTask = downloadSession?.makeAssetDownloadTask(asset: asset, assetTitle: "Video", assetArtworkData: nil, options: options)
         activeDownloadTask?.resume()
-    }
+        }
+//    func startDownload(asset: AVURLAsset) {
+//        let downloadTask = URLSession.shared.downloadTask(with: asset.url) { [weak self] location, response, error in
+//            guard let self = self, let location = location else {
+//                print("Download error: \(error?.localizedDescription ?? "unknown error")")
+//                return
+//            }
+//            
+//            let fileManager = FileManager.default
+//            let localURL = CachingPlayerItem.localFileURL(for: asset.url)
+//            do {
+//                if fileManager.fileExists(atPath: localURL.path) {
+//                    try fileManager.removeItem(at: localURL)
+//                }
+//                try fileManager.moveItem(at: location, to: localURL)
+//            } catch {
+//                print("File moving error: \(error)")
+//                return
+//            }
+//            
+//            DispatchQueue.main.async {
+//                self.localVideoURL = localURL
+//                self.configurePlayer()
+//            }
+//        }
+//        downloadTask.resume()
+//    }
     
     override func layoutSubviews() {
         super.layoutSubviews()
