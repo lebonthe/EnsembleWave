@@ -110,7 +110,7 @@ class CreateViewController: UIViewController {
     }()
     var timerBeforePlay: Timer?
     var handPoseRequest = VNDetectHumanHandPoseRequest()
-    var useHandPoseStartRecording: Bool = true
+    var useHandPoseStartRecording: Bool = false
     var isHeadphoneConnected: Bool = false {
         didSet {
             headphoneAlertLabel.isHidden = isHeadphoneConnected
@@ -583,7 +583,7 @@ class CreateViewController: UIViewController {
             return
         }
         countBeforeRecording = true
-        useHandPoseStartRecording = true
+        useHandPoseStartRecording = false
         navigationController.view.addSubview(recordingTopView)
         recordingTopView.isHidden = false
         cameraPositionButton.setBackgroundImage(UIImage(systemName: "arrow.triangle.2.circlepath.camera"), for: .normal)
@@ -1651,13 +1651,13 @@ extension CreateViewController: PHPickerViewControllerDelegate {
                 
                 let asset = AVAsset(url: url)
                 let durationInSeconds = CMTimeGetSeconds(asset.duration)
-                
-                if durationInSeconds < 1 {
-                    DispatchQueue.main.async {
-                        self.alertUserForShortVideo(picker: picker)
-                    }
-                    return
-                }
+                // TODO: 修正-有時因為還沒得到 duration，先跳出警告
+//                if durationInSeconds < 1 {
+//                    DispatchQueue.main.async {
+//                        self.alertUserForShortVideo(picker: picker)
+//                    }
+//                    return
+//                }
             }
         } else {
             picker.dismiss(animated: true)
@@ -1683,14 +1683,14 @@ extension CreateViewController: PHPickerViewControllerDelegate {
             }
         }
     }
-    func alertUserForShortVideo(picker: PHPickerViewController) {
-        let alert = UIAlertController(title: "影片時長過短", message: "請選擇時長超過1秒的影片。", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in
-            picker.dismiss(animated: true) {
-            }
-        })
-        picker.present(alert, animated: true)
-    }
+//    func alertUserForShortVideo(picker: PHPickerViewController) {
+//        let alert = UIAlertController(title: "影片時長過短", message: "請選擇時長超過1秒的影片。", preferredStyle: .alert)
+//        alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in
+//            picker.dismiss(animated: true) {
+//            }
+//        })
+//        picker.present(alert, animated: true)
+//    }
     func setupPlayer(with url: URL) {
         replayButton.isHidden = true
         if style == 0 {
