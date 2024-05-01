@@ -14,6 +14,7 @@ class ProfileView: UIView {
     @IBOutlet var userImageView: UIImageView!
     @IBOutlet var instrumentImageView: UIImageView!
     @IBOutlet var aboutMeLabel: UILabel!
+    @IBOutlet weak var tableView: UITableView!
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
@@ -26,6 +27,7 @@ class ProfileView: UIView {
     override func awakeFromNib() {
         super.awakeFromNib()
         configureImageView()
+        setupTableView()
     }
     private func commonInit() {
         
@@ -38,5 +40,27 @@ class ProfileView: UIView {
     private func configureImageView() {
         userImageView.layer.cornerRadius = userImageView.frame.height / 2
         userImageView.clipsToBounds = true
+    }
+    private func setupTableView() {
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+    }
+}
+extension ProfileView: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 10
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        cell.textLabel?.text = " \(indexPath.row) 行"
+        return cell
+    }
+}
+
+extension ProfileView: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("選中了行：\(indexPath.row)")
     }
 }

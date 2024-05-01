@@ -14,6 +14,7 @@
                 <outlet property="ensembleCountLabel" destination="HmP-Iq-id5" id="Nku-yw-s1w"/>
                 <outlet property="instrumentImageView" destination="eXC-eJ-LTl" id="028-al-IKl"/>
                 <outlet property="likesCountLabel" destination="YhF-B0-IL9" id="twn-6m-5mn"/>
+                <outlet property="tableView" destination="xfr-uZ-cM5" id="kpZ-i0-7PF"/>
                 <outlet property="userImageView" destination="E4D-5c-eoe" id="pQu-Zm-ENL"/>
                 <outlet property="userNameLabel" destination="HWq-7F-UCR" id="2tc-jU-93Z"/>
             </connections>
