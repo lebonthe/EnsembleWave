@@ -147,14 +147,12 @@ class CreateViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if ensembleVideoURL != nil && style == 1 {
-            chooseView(chooseViewButtons[0])
-        }
-        getCurrentSystemVolume()
-        if useHandPoseStartRecording {
-            addGestureRecognitionToSession()
-        }
         print("===== CreateViewController viewWillAppear =====")
+        print("style:\(style)")
+        getCurrentSystemVolume()
+//        if useHandPoseStartRecording {
+//            addGestureRecognitionToSession()
+//        }
     }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -164,7 +162,8 @@ class CreateViewController: UIViewController {
         animView?.stop()
         animView?.removeFromSuperview()
         animView = nil
-        recordingTopView.removeFromSuperview()
+        recordingTopView.isHidden = true
+//        recordingTopView.removeFromSuperview()
         for player in players {
             NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: player.currentItem)
         }
@@ -193,6 +192,9 @@ class CreateViewController: UIViewController {
     }
     override func viewDidAppear(_ animated: Bool) {
         print("===== CreateViewController viewDidAppear =====")
+        if ensembleVideoURL != nil && style == 1 {
+            chooseView(chooseViewButtons[0])
+        }
     }
     @objc func preparedToShare() {
         let asset = AVURLAsset(url: videoURLs[currentRecordingIndex])
@@ -569,12 +571,12 @@ class CreateViewController: UIViewController {
         countdownLabel.text = timeFormatter(sec: remainingTime)
     }
     func launchTrimTopView() {
-        guard let navigationController = navigationController else {
+        guard navigationController != nil else {
             print("There is no navigation controller")
             return
         }
-//        recordingTopView.isHidden = true
-        recordingTopView.removeFromSuperview()
+        recordingTopView.isHidden = true
+//        recordingTopView.removeFromSuperview()
         setupTrimViewUI()
     }
     func setupRecordingTopView() {
@@ -584,7 +586,10 @@ class CreateViewController: UIViewController {
         }
         countBeforeRecording = true
         useHandPoseStartRecording = false
-        navigationController.view.addSubview(recordingTopView)
+        if let navigationController = self.navigationController, !navigationController.view.subviews.contains(recordingTopView) {
+            navigationController.view.addSubview(recordingTopView)
+        }
+//        navigationController.view.addSubview(recordingTopView)
         recordingTopView.isHidden = false
         cameraPositionButton.setBackgroundImage(UIImage(systemName: "arrow.triangle.2.circlepath.camera"), for: .normal)
         cameraPositionButton.tintColor = .white
@@ -769,6 +774,7 @@ class CreateViewController: UIViewController {
             containerView.layer.addSublayer(cameraPreviewLayer!)
             cameraPreviewLayer?.frame = containerView.layer.bounds
         } else if style == 1 {
+            // 在 chooseView() 畫 cameraPreviewLayer
             postProductionView.isHidden = false
         }
         containerView.clipsToBounds = true
@@ -1163,7 +1169,8 @@ extension CreateViewController {
     // TODO: 找為什麼一開始兩個Layer 都看不到東西，錄完之後有下載影片的看得見，但錄的還是看不見
     // TODO: 進入 trimView 之後取消，如果是錄影沒有問題，可以繼續錄。如果用相簿選影片，則 recordingTopView 會不見
     @objc func chooseView(_ sender: UIButton) {
-        print("===========recordingTopView.isHidden:\(recordingTopView.isHidden)")
+        print("chooseView===========recordingTopView.isHidden:\(recordingTopView.isHidden)")
+        print("sender:\(sender)")
         if recordingTopView.isHidden {
             recordingTopView.isHidden = false
             navigationController?.view.bringSubviewToFront(recordingTopView)
@@ -1175,10 +1182,10 @@ extension CreateViewController {
         postProductionView.isHidden = true
         trimView.isHidden = true
         let viewIndex = sender == chooseViewButtons[0] ? 0 : 1
+        print("viewIndex:\(viewIndex)")
         currentRecordingIndex = viewIndex
-        cameraPreviewLayer?.frame = videoViews[viewIndex].bounds
-        
         videoViews[viewIndex].layer.addSublayer(cameraPreviewLayer!)
+        cameraPreviewLayer?.frame = videoViews[viewIndex].bounds
         chooseViewButtons[viewIndex].isHidden = true
         let otherIndex = viewIndex == 0 ? 1 : 0
 

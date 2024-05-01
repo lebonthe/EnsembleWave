@@ -408,8 +408,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Gm-ff-X0P">
-                                <rect key="frame" x="16" y="103" width="361" height="393"/>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Gm-ff-X0P">
+                                <rect key="frame" x="16" y="153" width="361" height="361"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="1Gm-ff-X0P" secondAttribute="height" multiplier="1:1" id="M50-sN-2ms"/>
                                 </constraints>
@@ -498,6 +498,7 @@
                             <constraint firstAttribute="bottom" secondItem="8Hd-ny-0OA" secondAttribute="bottom" id="SUA-Me-mAO"/>
                             <constraint firstItem="8Hd-ny-0OA" firstAttribute="leading" secondItem="qPn-bZ-lcU" secondAttribute="leading" id="aii-k2-JId"/>
                             <constraint firstAttribute="trailing" secondItem="8Hd-ny-0OA" secondAttribute="trailing" id="fYD-fJ-qq4"/>
+                            <constraint firstItem="1Gm-ff-X0P" firstAttribute="top" secondItem="qcK-jF-eKu" secondAttribute="top" constant="50" id="lEK-5U-IWs"/>
                             <constraint firstItem="1Gm-ff-X0P" firstAttribute="leading" secondItem="8Hd-ny-0OA" secondAttribute="leading" constant="16" id="sUu-0f-8rR"/>
                             <constraint firstItem="1Gm-ff-X0P" firstAttribute="trailing" secondItem="8Hd-ny-0OA" secondAttribute="trailing" constant="-16" id="uru-7I-o29"/>
                         </constraints>

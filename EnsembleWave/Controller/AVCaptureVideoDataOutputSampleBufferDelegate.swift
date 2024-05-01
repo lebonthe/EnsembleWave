@@ -53,7 +53,7 @@ extension CreateViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
                     print("🖐️")
                 }
             }
-        }catch {
+        } catch {
             print("Failed to perform HandPoseRequest: \(error)")
         }
     }
