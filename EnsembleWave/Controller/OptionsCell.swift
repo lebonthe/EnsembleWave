@@ -156,5 +156,15 @@ class OptionsCell: UITableViewCell {
         if let vc = delegate?.viewControllerForPresentation() {
                 vc.present(controller, animated: true, completion: nil)
             }
+        // TODO: 回來調整 iPad 版型
+//        if let vc = delegate?.viewControllerForPresentation() {
+//               // Set the sourceView to the tableView of the viewController
+//               if let popoverController = controller.popoverPresentationController {
+//                   popoverController.sourceView = vc.tableView // Make sure your delegate can provide the tableView
+//                   popoverController.sourceRect = CGRect(x: vc.tableView.bounds.midX, y: vc.tableView.bounds.maxY, width: 0, height: 0)
+//                   popoverController.permittedArrowDirections = [] // No arrow needed
+//               }
+//               vc.present(controller, animated: true, completion: nil)
+//           }
     }
 }

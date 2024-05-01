@@ -69,6 +69,14 @@ class ProfileViewController: UIViewController {
                 subview.removeFromSuperview()
             }
             setupSettingButton()
+            let profileView = ProfileView()
+            profileView.frame = view.bounds
+            view.addSubview(profileView)
+            profileView.userNameLabel.text = "Min"  // TODO: 回來改使用者名稱 user name
+            profileView.likesCountLabel.text = "8" // TODO: 回來改
+            profileView.ensembleCountLabel.text = "5" // TODO: 回來改
+            profileView.userImageView.image = UIImage(named: "snoopy")
+            
             print("=========Already Login")
         }
     }
