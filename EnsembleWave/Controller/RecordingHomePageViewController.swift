@@ -22,6 +22,7 @@ class RecordingHomePageViewController: UIViewController {
     
     func setupUI() {
         view.backgroundColor = CustomColor.mattBlack
+        newRecordButton.tintColor = CustomColor.red
         
     }
     /*

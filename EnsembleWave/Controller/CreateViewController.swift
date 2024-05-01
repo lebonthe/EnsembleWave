@@ -15,7 +15,7 @@ import VideoTrim // 裁切影片
 import Vision // 手勢
 import PhotosUI // 選取相簿影片
 import Lottie // 動畫
-
+import SwiftEntryKit
 class CreateViewController: UIViewController {
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var cameraButton: UIButton!
@@ -101,7 +101,7 @@ class CreateViewController: UIViewController {
     var videoViewHasContent: [Bool] = []
     lazy var tapGesture = UITapGestureRecognizer(target: self, action: #selector(videoViewTapped(_:)))
     var countBeforeRecording: Bool = true // 使用者點選相機，決定要不要倒數計時
-    let countingImages = ["5.circle", "4.circle", "3.circle", "2.circle", "1.circle"]
+    let countingImages = ["5.circle.fill", "4.circle.fill", "3.circle.fill", "2.circle.fill", "1.circle.fill"]
     var currentImageIndex = 0
     var countdownImageView: UIImageView = {
         let imageView = UIImageView()
@@ -248,11 +248,9 @@ class CreateViewController: UIViewController {
                         self.videoViewHasContent[self.currentRecordingIndex] = true
                         self.videoViews[self.currentRecordingIndex].addGestureRecognizer(self.tapGesture)
                         print("videoViews[0].subviews:\(self.videoViews[0].subviews)")
-                        
                         let durationInSeconds = CMTimeGetSeconds(asset.duration)
                         self.duration = Int(durationInSeconds.rounded())
                         print("儲存的影片長度為: \(self.duration ?? 0) 秒")
-
                     } else {
                         print("裁剪和導出失敗")
                     }
@@ -293,13 +291,13 @@ class CreateViewController: UIViewController {
         let asset = AVAsset(url: videoFileURL)
         videoTrim.asset = asset
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        trimView.backgroundColor = .red
+        trimView.backgroundColor = CustomColor.red
         trimView.isHidden = false
         self.trimView.addSubview(self.scrollView)
         self.scrollView.addSubview(self.trimContainerView)
         scrollView.backgroundColor = .blue
         self.trimContainerView.addSubview(self.videoTrim)
-        videoTrim.backgroundColor = .orange
+        videoTrim.backgroundColor = .black
         self.trimView.addConstraints([
             NSLayoutConstraint(item: self.scrollView, attribute: .leading, relatedBy: .equal, toItem: self.trimView, attribute: .leading, multiplier: 1, constant: 0),
             NSLayoutConstraint(item: self.scrollView, attribute: .trailing, relatedBy: .equal, toItem: self.trimView, attribute: .trailing, multiplier: 1, constant: 0),
@@ -352,6 +350,13 @@ class CreateViewController: UIViewController {
         }
     }
     func setupUI(_ style: Int) {
+        headphoneAlertLabel.textColor = CustomColor.red
+        cameraButton.tintColor = CustomColor.red
+        albumButton.tintColor = .white
+        musicButton.tintColor = .white
+        stretchScreenButton.tintColor = .white
+        shrinkScreenButton.tintColor = .white
+        view.backgroundColor = .black
         videoViewHasContent = Array(repeating: false, count: style + 1)
         trimView.isHidden = true
         videoViews.forEach { $0.removeFromSuperview() }
@@ -361,8 +366,10 @@ class CreateViewController: UIViewController {
 //        let cameraPositionButton = UIBarButtonItem(image: UIImage(systemName: "arrow.triangle.2.circlepath.camera"), style: .plain, target: self, action: #selector(toggleCameraPosition(_:)))
 //        self.navigationItem.rightBarButtonItem = cameraPositionButton
         print("style in setupUI: \(style)")
-        containerView.layer.borderColor = UIColor.black.cgColor
+        containerView.layer.borderColor = UIColor.white.cgColor
         containerView.layer.borderWidth = 2
+        containerView.layer.cornerRadius = 10
+        containerView.clipsToBounds = true
         containerView.translatesAutoresizingMaskIntoConstraints = false
         containerViewLeadingConstraint.constant = 16
         containerViewTrailingConstraint.constant = -16
@@ -371,7 +378,7 @@ class CreateViewController: UIViewController {
         ])
         for _ in 0...style {
             let videoView = UIView()
-            videoView.backgroundColor = .systemGray4
+            videoView.backgroundColor = CustomColor.gray2
             containerView.addSubview(videoView)
             videoViews.append(videoView)
         }
@@ -396,7 +403,7 @@ class CreateViewController: UIViewController {
             videoViews[0].addSubview(chooseViewButtons[0])
             chooseViewButtons[0].setBackgroundImage(UIImage(systemName: "plus"), for: .normal)
             chooseViewButtons[0].translatesAutoresizingMaskIntoConstraints = false
-            chooseViewButtons[0].tintColor = .black
+            chooseViewButtons[0].tintColor = .white
             chooseViewButtons[0].addTarget(self, action: #selector(startToRecordingView), for: .touchUpInside)
             NSLayoutConstraint.activate([
                 videoViews[0].topAnchor.constraint(equalTo: containerView.topAnchor),
@@ -416,7 +423,7 @@ class CreateViewController: UIViewController {
                     videoView.addGestureRecognizer(tapGesture)
                 }
             }
-            line.backgroundColor = .black
+            line.backgroundColor = .white
             containerView.addSubview(line)
             
             let button0 = UIButton()
@@ -429,8 +436,8 @@ class CreateViewController: UIViewController {
             chooseViewButtons[1].setBackgroundImage(UIImage(systemName: "plus"), for: .normal)
             chooseViewButtons[0].translatesAutoresizingMaskIntoConstraints = false
             chooseViewButtons[1].translatesAutoresizingMaskIntoConstraints = false
-            chooseViewButtons[0].tintColor = .black
-            chooseViewButtons[1].tintColor = .black
+            chooseViewButtons[0].tintColor = .white
+            chooseViewButtons[1].tintColor = .white
             videoViews[1].translatesAutoresizingMaskIntoConstraints = false
             line.translatesAutoresizingMaskIntoConstraints = false
             
@@ -466,7 +473,7 @@ class CreateViewController: UIViewController {
         postProductionView.translatesAutoresizingMaskIntoConstraints = false
         albumButton.translatesAutoresizingMaskIntoConstraints = false
         musicButton.translatesAutoresizingMaskIntoConstraints = false
-        postProductionView.backgroundColor = .white
+        postProductionView.backgroundColor = .black
         
         NSLayoutConstraint.activate([
             cameraButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -475,20 +482,20 @@ class CreateViewController: UIViewController {
             cameraButton.widthAnchor.constraint(equalToConstant: 60),
             albumButton.centerYAnchor.constraint(equalTo: cameraButton.centerYAnchor),
             albumButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
-            albumButton.heightAnchor.constraint(equalToConstant: 60),
-            albumButton.widthAnchor.constraint(equalToConstant: 60),
+            albumButton.heightAnchor.constraint(equalTo: cameraButton.heightAnchor, multiplier: 0.8),
+            albumButton.widthAnchor.constraint(equalTo: cameraButton.widthAnchor, multiplier: 0.8),
             musicButton.leadingAnchor.constraint(equalTo: albumButton.trailingAnchor, constant: 15),
             musicButton.centerYAnchor.constraint(equalTo: cameraButton.centerYAnchor),
-            musicButton.heightAnchor.constraint(equalToConstant: 60),
-            musicButton.widthAnchor.constraint(equalToConstant: 60),
+            musicButton.heightAnchor.constraint(equalTo: cameraButton.heightAnchor, multiplier: 0.8),
+            musicButton.widthAnchor.constraint(equalTo: cameraButton.widthAnchor, multiplier: 0.8),
             stretchScreenButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
-            stretchScreenButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
-            stretchScreenButton.heightAnchor.constraint(equalToConstant: 60),
-            stretchScreenButton.widthAnchor.constraint(equalToConstant: 60),
+            stretchScreenButton.centerYAnchor.constraint(equalTo: cameraButton.centerYAnchor),
+            stretchScreenButton.heightAnchor.constraint(equalTo: cameraButton.heightAnchor, multiplier: 0.8),
+            stretchScreenButton.widthAnchor.constraint(equalTo: cameraButton.widthAnchor, multiplier: 0.8),
             shrinkScreenButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
-            shrinkScreenButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
-            shrinkScreenButton.heightAnchor.constraint(equalToConstant: 60),
-            shrinkScreenButton.widthAnchor.constraint(equalToConstant: 60),
+            shrinkScreenButton.centerYAnchor.constraint(equalTo: cameraButton.centerYAnchor),
+            shrinkScreenButton.heightAnchor.constraint(equalTo: cameraButton.heightAnchor, multiplier: 0.8),
+            shrinkScreenButton.widthAnchor.constraint(equalTo: cameraButton.widthAnchor, multiplier: 0.8),
             postProductionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 8),
             postProductionView.heightAnchor.constraint(equalToConstant: 80),
             postProductionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -496,6 +503,10 @@ class CreateViewController: UIViewController {
         ])
         shrinkScreenButton.isHidden = true
         view.addSubview(countdownImageView)
+        countdownImageView.layer.cornerRadius = 50
+        countdownImageView.clipsToBounds = true
+        countdownImageView.tintColor = CustomColor.red
+        countdownImageView.backgroundColor = .white
         NSLayoutConstraint.activate([
             countdownImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             countdownImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
@@ -576,11 +587,11 @@ class CreateViewController: UIViewController {
         navigationController.view.addSubview(recordingTopView)
         recordingTopView.isHidden = false
         cameraPositionButton.setBackgroundImage(UIImage(systemName: "arrow.triangle.2.circlepath.camera"), for: .normal)
-        cameraPositionButton.tintColor = .red
+        cameraPositionButton.tintColor = .white
         cameraPositionButton.addTarget(self, action: #selector(toggleCameraPosition), for: .touchUpInside)
         let cancelButton = UIButton()
         cancelButton.setBackgroundImage(UIImage(systemName: "xmark"), for: .normal)
-        cancelButton.tintColor = .red
+        cancelButton.tintColor = .white
         cancelButton.addTarget(self, action: #selector(cancelRecording), for: .touchUpInside)
         cameraPositionButton.translatesAutoresizingMaskIntoConstraints = false
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
@@ -590,7 +601,7 @@ class CreateViewController: UIViewController {
         recordingTopView.addSubview(countdownLabel)
         recordingTopView.backgroundColor = .black
         updateCountdownLabel(length)
-        countdownLabel.textColor = .red
+        countdownLabel.textColor = CustomColor.red
         NSLayoutConstraint.activate([
             recordingTopView.topAnchor.constraint(equalTo: navigationController.view.topAnchor, constant: 30),
             recordingTopView.leadingAnchor.constraint(equalTo: navigationController.view.leadingAnchor),
@@ -607,7 +618,7 @@ class CreateViewController: UIViewController {
         countdownButton.translatesAutoresizingMaskIntoConstraints = false
         countdownButton.setImage(UIImage(systemName: "clock.badge.checkmark"), for: .normal)
         countdownButton.setImage(UIImage(systemName: "clock.badge.xmark"), for: .selected)
-        countdownButton.tintColor = .red
+        countdownButton.tintColor = .white
         countdownButton.isSelected = !countBeforeRecording
         recordingTopView.addSubview(countdownButton)
         countdownButton.addTarget(self, action: #selector(changeCountdownMode(_:)), for: .touchUpInside)
@@ -923,8 +934,8 @@ class CreateViewController: UIViewController {
             MPVolumeView.setVolume(0.0)
             print("isRecording Volume:\(0.0)")
         } else {
-            MPVolumeView.setVolume(playerVolume)
-            print("set playerVolume:\(playerVolume)")
+            MPVolumeView.setVolume(previousVolume)
+            print("set playerVolume:\(previousVolume)")
         }
     }
     func stopAllVideos() {
@@ -969,6 +980,20 @@ extension CreateViewController: AVCaptureFileOutputRecordingDelegate {
         musicPlayer?.pause()
         audioPlayer?.pause()
         print("didFinishRecording，previousVolume:\(previousVolume)")
+//        let customAlert = CustomAlertController(title: "影片錄製成功？")
+//        customAlert.setOKButtonTitle("確定")
+//        customAlert.setAgainButtonTitle("重來")
+//        customAlert.onOKPressed = {
+//            self.playAllVideos()
+//            self.launchTrimTopView()
+//        }
+//        customAlert.onAgainPressed = {
+//            self.countdownLabel.text = self.timeFormatter(sec: self.length)
+//            self.clearVideoView(for: self.currentRecordingIndex)
+//            self.prepareRecording(for: self.currentRecordingIndex)
+//        }
+//        customAlert.show()
+
         let alertViewController = UIAlertController(title: "影片錄製成功？", message: "", preferredStyle: .alert)
         let successAction = UIAlertAction(title: "OK", style: .default) { _ in
             self.playAllVideos()
@@ -1060,6 +1085,10 @@ extension CreateViewController {
         for output in route.outputs {
             if output.portType == .headphones || output.portType == .bluetoothA2DP || output.portType == .airPlay || output.portType == .usbAudio || output.portType == .HDMI {
                 isHeadphoneConnected = true
+                if previousVolume == 0 {
+                    previousVolume = 0.5
+                    MPVolumeView.setVolume(previousVolume)
+                }
                 break
             } else {
                 isHeadphoneConnected = false
@@ -1067,6 +1096,7 @@ extension CreateViewController {
         }
         NotificationCenter.default.addObserver(self, selector: #selector(handleRouteChange), name: AVAudioSession.routeChangeNotification, object: nil)
     }
+
     @objc func handleRouteChange(notification: Notification) {
         guard let userInfo = notification.userInfo,
               let reasonValue = userInfo[AVAudioSessionRouteChangeReasonKey] as? UInt,
@@ -1077,6 +1107,7 @@ extension CreateViewController {
         case .newDeviceAvailable:
             print("新增了耳機")
             headphoneAlertLabel.isHidden = true
+            isHeadphoneConnected = true
         case .oldDeviceUnavailable:
             if let previousRoute = userInfo[AVAudioSessionRouteChangeReasonKey] as? AVAudioSessionRouteDescription {
                 let wasUsingHeadPhones = previousRoute.outputs.contains {
@@ -1087,11 +1118,13 @@ extension CreateViewController {
                 }
                 if wasUsingHeadPhones || wasUsingBlueToothEarPhones {
                     print("耳機已移除")
+                    isHeadphoneConnected = false
                     headphoneAlertLabel.isHidden = false
                 }
             }
             print("無耳機")
             headphoneAlertLabel.isHidden = false
+            isHeadphoneConnected = false
             if isRecording {
                 adjustVolume(isHeadphonesConnected: false)
             }

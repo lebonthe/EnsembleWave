@@ -55,6 +55,7 @@
 		9F99AFB62BC79857003671BF /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 9F99AFB52BC79857003671BF /* FirebaseStorage */; };
 		9F99AFB82BC7B160003671BF /* (null) in Resources */ = {isa = PBXBuildFile; };
 		9F99AFBA2BC7D131003671BF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9F99AFB92BC7D131003671BF /* GoogleService-Info.plist */; };
+		9FAA99242BE23308004615EE /* CustomAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAA99232BE23308004615EE /* CustomAlertController.swift */; };
 		9FAD76FF2BDB9EAA00BF7163 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD76FE2BDB9EAA00BF7163 /* LoginViewController.swift */; };
 		9FAD77012BDB9ED500BF7163 /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD77002BDB9ED500BF7163 /* KeychainItem.swift */; };
 		9FAD77032BDBA13200BF7163 /* CustomFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD77022BDBA13200BF7163 /* CustomFunc.swift */; };
@@ -137,6 +138,7 @@
 		9F6FDABB2BD8FA8400315B13 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		9F6FDABD2BD90B9C00315B13 /* CustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		9F99AFB92BC7D131003671BF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		9FAA99232BE23308004615EE /* CustomAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertController.swift; sourceTree = "<group>"; };
 		9FAD76FB2BDB99B400BF7163 /* EnsembleWave.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EnsembleWave.entitlements; sourceTree = "<group>"; };
 		9FAD76FE2BDB9EAA00BF7163 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		9FAD77002BDB9ED500BF7163 /* KeychainItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItem.swift; sourceTree = "<group>"; };
@@ -302,6 +304,7 @@
 				9F6FDAB92BD8F96900315B13 /* CustomColor.swift */,
 				9FAD77002BDB9ED500BF7163 /* KeychainItem.swift */,
 				9FAD77022BDBA13200BF7163 /* CustomFunc.swift */,
+				9FAA99232BE23308004615EE /* CustomAlertController.swift */,
 				9FAD77082BDDE95F00BF7163 /* CryptoUtils.swift */,
 			);
 			path = Model;
@@ -615,6 +618,7 @@
 				9F5A51C52BD018C900070186 /* VideoCell.swift in Sources */,
 				9F007E672BC5107C00C22E5E /* AppDelegate.swift in Sources */,
 				9F6FDABE2BD90B9D00315B13 /* CustomButton.swift in Sources */,
+				9FAA99242BE23308004615EE /* CustomAlertController.swift in Sources */,
 				9F007EA92BC5978700C22E5E /* RecordingHomePageViewController.swift in Sources */,
 				9F5A51C92BD01AFD00070186 /* LikesCountCell.swift in Sources */,
 				9F007EA42BC51F7600C22E5E /* CreateViewController.swift in Sources */,

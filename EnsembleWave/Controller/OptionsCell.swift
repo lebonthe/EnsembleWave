@@ -50,18 +50,19 @@ class OptionsCell: UITableViewCell {
         } else {
             heartButton.setBackgroundImage(UIImage(systemName: "heart"), for: .normal)
         }
-        heartButton.tintColor = .red
+        heartButton.tintColor = .white
         heartButton.addTarget(self, action: #selector(tapLike), for: .touchUpInside)
         contentView.addSubview(goToReplyButton)
         goToReplyButton.setBackgroundImage(UIImage(systemName: "message"), for: .normal)
         goToReplyButton.tintColor = .white
         goToReplyButton.addTarget(self, action: #selector(reply), for: .touchUpInside)
-        ensembleButton.tintColor = .green
+        ensembleButton.tintColor = .white
         ensembleButton.setImage(UIImage(systemName: "music.mic"), for: .normal)
         ensembleButton.setTitle("共同創作", for: .normal)
-        ensembleButton.setTitleColor(.green, for: .normal)
+        ensembleButton.setTitleColor(.white, for: .normal)
         ensembleButton.addTarget(self, action: #selector(checkForEnsemble), for: .touchUpInside)
-        ensembleButton.backgroundColor = .red
+        ensembleButton.backgroundColor = CustomColor.red
+        ensembleButton.layer.cornerRadius = 10
         contentView.addSubview(ensembleButton)
         NSLayoutConstraint.activate([
             heartButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),

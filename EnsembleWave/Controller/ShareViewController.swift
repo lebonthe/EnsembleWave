@@ -15,14 +15,14 @@ class ShareViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("存到相簿", for: .normal)
-        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(.white, for: .normal)
         return button
     }()
     private let shareToWallButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("分享到動態牆", for: .normal)
-        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(.white, for: .normal)
         return button
     }()
     var duration: Int?
@@ -30,7 +30,7 @@ class ShareViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("duration sent to ShareViewController:\(duration)")
-        view.backgroundColor = .white
+        view.backgroundColor = .black
         setupUI()
     }
     func setupUI() {

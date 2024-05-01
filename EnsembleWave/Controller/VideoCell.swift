@@ -46,6 +46,7 @@ class VideoCell: UITableViewCell {
         contentView.backgroundColor = .black
         contentView.addSubview(videoView)
         videoView.frame = contentView.bounds
+        videoView.layer.cornerRadius = 10
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(togglePlayPause))
         videoView.addGestureRecognizer(tapGesture)
         videoView.isUserInteractionEnabled = true

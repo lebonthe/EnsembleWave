@@ -23,7 +23,8 @@ class RepliesCell: UITableViewCell {
         contentView.backgroundColor = .black
         replyButton.setTitle("\(replyCount) 更多留言", for: .normal)
         replyButton.addTarget(self, action: #selector(reply), for: .touchUpInside)
-        replyButton.setTitleColor(.blue, for: .normal)
+        replyButton.setTitleColor(.white, for: .normal)
+        replyButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         NSLayoutConstraint.activate([
             replyButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
             replyButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),

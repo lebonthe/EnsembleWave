@@ -48,7 +48,7 @@ class ChooseLengthTableViewController: UITableViewController {
         if indexPath.row < 3 {
             cell.textLabel?.text = "\(lengths[indexPath.row]) sec"
         } else if indexPath.row == lengths.count - 1 {
-            cell.textLabel?.text = "自訂時長（最多 10 分鐘）： \(minuteRow) min \(secondRow) sec"
+            cell.textLabel?.text = "自訂時長： \(minuteRow) min \(secondRow) sec"
         } else {
             cell.textLabel?.text = "\(lengths[indexPath.row] / 60) min"
         }

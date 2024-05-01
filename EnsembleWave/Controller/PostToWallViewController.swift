@@ -34,6 +34,7 @@ class PostToWallViewController: UIViewController {
     var ensembleUserName: String?
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = CustomColor.black
         if let ensembleUserID = ensembleUserID {
             UserManager.shared.fetchUserName(userID: ensembleUserID) { userName, error in
                 if let userName = userName {

@@ -18,6 +18,7 @@ class SettingViewController: UIViewController {
         tableView.reloadData()
     }
     func updateUI() {
+        tableView.backgroundColor = .black
         self.title = "Settings"
         view.backgroundColor = .lightGray
         view.addSubview(tableView)
@@ -77,14 +78,18 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
         case IndexPath(row: 0, section: 0):
             let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
             var content = cell.defaultContentConfiguration()
+            content.textProperties.color = .white
             content.text = "刪除帳號"
             cell.contentConfiguration = content
+            cell.backgroundColor = .clear
             return cell
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
             var content = cell.defaultContentConfiguration()
+            content.textProperties.color = .white
             content.text = "登出"
             cell.contentConfiguration = content
+            cell.backgroundColor = .clear
             return cell
         }
     }

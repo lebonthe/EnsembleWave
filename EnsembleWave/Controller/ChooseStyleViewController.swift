@@ -30,6 +30,8 @@ class ChooseStyleViewController: UIViewController {
         view.backgroundColor = .black
         let screenBounds = view.window?.windowScene?.screen.bounds
         print("screenBounds: \(screenBounds!)")
+        styleView00.layer.cornerRadius = 10
+        styleView01.layer.cornerRadius = 10
         styleView00.translatesAutoresizingMaskIntoConstraints = false
         styleView01.translatesAutoresizingMaskIntoConstraints = false
         styleView00.backgroundColor = .white
