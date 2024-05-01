@@ -128,6 +128,7 @@ class CreateViewController: UIViewController {
     var ensembleUserID: String?
     var duration: Int?
     lazy var handPoseButton = UIButton()
+    var restingHand = true
     override func viewDidLoad() {
         super.viewDidLoad()
         print("===== CreateViewController viewDidLoad =====")

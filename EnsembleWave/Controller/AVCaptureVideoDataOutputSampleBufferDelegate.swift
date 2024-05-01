@@ -11,41 +11,49 @@ import Vision
 
 extension CreateViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
     public func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        
         let handler = VNImageRequestHandler(cmSampleBuffer: sampleBuffer, orientation: .up, options: [:])
         do {
             try handler.perform([handPoseRequest])
             guard let observation = handPoseRequest.results?.first else {
                 return
             }
-
+            
             let indexFingerPoints = try observation.recognizedPoints(.indexFinger)
             let littleFingerPoints = try observation.recognizedPoints(.littleFinger)
             let wristPoints = try observation.recognizedPoints(.all)
-//            let middleFingerPoints = try observation.recognizedPoints(.middleFinger)
-//            let ringFingerPoints = try observation.recognizedPoints(.ringFinger)
+            //            let middleFingerPoints = try observation.recognizedPoints(.middleFinger)
+            //            let ringFingerPoints = try observation.recognizedPoints(.ringFinger)
             print("index:\(indexFingerPoints), little:\(littleFingerPoints), wrist:\(wristPoints)")
             guard let indexTipPoint = indexFingerPoints[.indexTip],
-//                  let middleTipPoint = middleFingerPoints[.middleTip],
-//                  let ringTipPoint = ringFingerPoints[.ringTip],
-                  let littleTipPoint = littleFingerPoints[.littleTip],
+                  //                  let middleTipPoint = middleFingerPoints[.middleTip],
+                  //                  let ringTipPoint = ringFingerPoints[.ringTip],
+                    let littleTipPoint = littleFingerPoints[.littleTip],
                   let wristPoint = wristPoints[.wrist] else {
                 return
             }
-
+            
             let confidenceThreshold: Float = 0.6
             if indexTipPoint.confidence > confidenceThreshold &&
-               littleTipPoint.confidence > confidenceThreshold &&
-               wristPoint.confidence > confidenceThreshold {
-
+                littleTipPoint.confidence > confidenceThreshold &&
+                wristPoint.confidence > confidenceThreshold {
+                
                 if isRockOnGesture(indexTip: indexTipPoint.location, littleTip: littleTipPoint.location, wrist: wristPoint.location) {
-                    DispatchQueue.main.async {
-                        if self.useHandPoseStartRecording {
-                            self.capture(sender: NSObject())
+                    if self.restingHand {
+                        DispatchQueue.main.async {
+                            if self.useHandPoseStartRecording {
+                                self.capture(sender: NSObject())
+                                self.restingHand = false
+                                print("🤘")
+                            }
                         }
                     }
+                } else {
+                    self.restingHand = true
+                    print("🖐️")
                 }
             }
-        } catch {
+        }catch {
             print("Failed to perform HandPoseRequest: \(error)")
         }
     }
