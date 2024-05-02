@@ -13,6 +13,9 @@ struct User: Decodable {
     var signUpTime: Date
     var userID: String
     var email: String
+    var photo: String?
+    var instrument: String?
+    var abountMe: String?
     var follow: [String] // userID
     var userBlackList: [String] // userID
     init(dic: [String: Any]) {
@@ -20,6 +23,9 @@ struct User: Decodable {
         self.signUpTime = Timestamp.dateValue(dic["signUpTime"] as? Timestamp ?? Timestamp())()
         self.userID = dic["userID"] as? String ?? ""
         self.email = dic["email"] as? String ?? ""
+        self.photo = dic["photo"] as? String ?? ""
+        self.instrument = dic["instrument"] as? String ?? ""
+        self.abountMe = dic["abountMe"] as? String ?? ""
         self.follow = dic["follow"] as? [String] ?? []
         self.userBlackList = dic["userBlackList"] as? [String] ?? []
     }

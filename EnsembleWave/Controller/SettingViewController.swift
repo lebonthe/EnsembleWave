@@ -79,6 +79,14 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
             var content = cell.defaultContentConfiguration()
             content.textProperties.color = .white
+            content.text = "編輯使用者資料"
+            cell.contentConfiguration = content
+            cell.backgroundColor = .clear
+            return cell
+        case IndexPath(row: 1, section: 0):
+            let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
+            var content = cell.defaultContentConfiguration()
+            content.textProperties.color = .white
             content.text = "刪除帳號"
             cell.contentConfiguration = content
             cell.backgroundColor = .clear
@@ -96,6 +104,11 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath {
         case IndexPath(row: 0, section: 0):
+            let controller = ProfileEditingTableViewController()
+            controller.tableView.backgroundColor = .black
+            controller.tableView.tintColor = .white
+            navigationController?.pushViewController(controller, animated: true)
+        case IndexPath(row: 1, section: 0):
             let alert = UIAlertController(title: "確定要刪除帳號？", message: "刪除帳號包含帳號擁有的所有影片與發文", preferredStyle: .alert)
             let deleteAction = UIAlertAction(title: "確定刪除", style: .destructive) { _ in
                 self.deleteCurrentUser()
