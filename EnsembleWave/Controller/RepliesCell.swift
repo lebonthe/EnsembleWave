@@ -21,7 +21,7 @@ class RepliesCell: UITableViewCell {
     func setupUI() {
         contentView.addSubview(replyButton)
         contentView.backgroundColor = .black
-        replyButton.setTitle("\(replyCount) 更多留言", for: .normal)
+        replyButton.setTitle("More Replies", for: .normal) // \(replyCount) // TODO: 回來調整同步留言數量
         replyButton.addTarget(self, action: #selector(reply), for: .touchUpInside)
         replyButton.setTitleColor(.white, for: .normal)
         replyButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)

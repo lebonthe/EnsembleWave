@@ -1516,11 +1516,17 @@ extension CreateViewController: VideoTrimDelegate {
 
     func videoTrimEndTrimChange(_ view: VideoTrim) {
         self.updateTrimTime()
-        
+        // TODO: 用相簿輸入的影片，使用剪輯整個playerLayer 會不見，
         let startTime = view.startTime
         let endTime = view.endTime
-        let editingPlayer = players[currentRecordingIndex]
-        updatePlayerRange(for: editingPlayer, withStartTime: startTime, endTime: endTime)
+        if ensembleVideoURL != nil && style == 1 {
+            let editingPlayer = players[0]
+            updatePlayerRange(for: editingPlayer, withStartTime: startTime, endTime: endTime)
+        } else {
+            let editingPlayer = players[currentRecordingIndex]
+            updatePlayerRange(for: editingPlayer, withStartTime: startTime, endTime: endTime)
+        }
+        
         isPlaying = true
         if isPlaying {
             playAllVideos()
@@ -1533,6 +1539,22 @@ extension CreateViewController: VideoTrimDelegate {
         player.seek(to: newTime, toleranceBefore: .zero, toleranceAfter: .zero)
     }
 
+//    func updatePlayerRange(for player: AVPlayer, withStartTime startTime: CMTime, endTime: CMTime) {
+//        guard let currentItem = player.currentItem else {
+//            return
+//        }
+//        let asset = currentItem.asset
+//        let newRange = CMTimeRange(start: startTime, duration: endTime - startTime)
+//        
+//        let newPlayerItem = AVPlayerItem(asset: asset)
+//        player.replaceCurrentItem(with: newPlayerItem)
+//        
+//        player.seek(to: newRange.start) { [weak self] _ in
+//            guard let self = self else { return }
+//            player.play()
+//            self.setupEndTimeObserver(for: player, startTime: startTime, endTime: endTime)
+//        }
+//    }
     func updatePlayerRange(for player: AVPlayer, withStartTime startTime: CMTime, endTime: CMTime) {
         guard let currentItem = player.currentItem else {
             return
@@ -1540,14 +1562,10 @@ extension CreateViewController: VideoTrimDelegate {
         let asset = currentItem.asset
         let newRange = CMTimeRange(start: startTime, duration: endTime - startTime)
         
-        let newPlayerItem = AVPlayerItem(asset: asset)
+        let newPlayerItem = AVPlayerItem(asset: asset, automaticallyLoadedAssetKeys: ["playable"])
+        newPlayerItem.seek(to: newRange.start, completionHandler: nil)
         player.replaceCurrentItem(with: newPlayerItem)
-        
-        player.seek(to: newRange.start) { [weak self] _ in
-            guard let self = self else { return }
-            player.play()
-            self.setupEndTimeObserver(for: player, startTime: startTime, endTime: endTime)
-        }
+        player.play()
     }
 
     func setupEndTimeObserver(for player: AVPlayer, startTime: CMTime, endTime: CMTime) {
@@ -1636,7 +1654,9 @@ extension CreateViewController: VideoTrimDelegate {
         stopCountdownTimer()
         disableGestureRecognition()
         let controller = MusicViewController()
-        controller.modalPresentationStyle = .fullScreen 
+//        controller.modalPresentationStyle = .fullScreen
+        controller.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        controller.modalPresentationStyle = .overCurrentContext
         controller.delegate = self
         present(controller, animated: true)
     }
@@ -1725,7 +1745,7 @@ extension CreateViewController: PHPickerViewControllerDelegate {
             self.cameraPreviewLayer?.removeFromSuperlayer()
         } else {
             if let cameraPreviewLayer = cameraPreviewLayer {
-                if !cameraPreviewLayer.isPreviewing {
+                if cameraPreviewLayer.isPreviewing {
                     print("isPreviewing:\(cameraPreviewLayer.isPreviewing)")
                     self.cameraPreviewLayer?.removeFromSuperlayer()
                 }
@@ -1737,16 +1757,31 @@ extension CreateViewController: PHPickerViewControllerDelegate {
                 print("set playerVolume:\(playerVolume)")
             }
         }
-        videoURLs.append(url)
-        players[currentRecordingIndex] = AVPlayer(url: url)
-        playerLayers[currentRecordingIndex] = AVPlayerLayer(player: players[currentRecordingIndex])
-        playerLayers[currentRecordingIndex].frame = videoViews[currentRecordingIndex].bounds
-        videoViews[currentRecordingIndex].layer.addSublayer(playerLayers[currentRecordingIndex])
-        playerLayers[currentRecordingIndex].videoGravity = .resizeAspectFill
-        let playerItem = AVPlayerItem(url: url) // --
-        setupObserversForPlayerItem(playerItem, with: players[currentRecordingIndex]) // --
+        if style == 1 && ensembleVideoURL != nil {
+            videoURLs.insert(url, at: 0)
+            players[0] = AVPlayer(url: url)
+            playerLayers[0] = AVPlayerLayer(player: players[currentRecordingIndex])
+            playerLayers[0].frame = videoViews[currentRecordingIndex].bounds
+            videoViews[0].layer.addSublayer(playerLayers[currentRecordingIndex])
+            playerLayers[0].videoGravity = .resizeAspectFill
+            NotificationCenter.default.addObserver(
+                    self,
+                    selector: #selector(videoDidEnd(notification:)),
+                    name: .AVPlayerItemDidPlayToEndTime,
+                    object: players[0].currentItem
+                )
+        } else {
+            videoURLs.append(url)
+            players[currentRecordingIndex] = AVPlayer(url: url)
+            playerLayers[currentRecordingIndex] = AVPlayerLayer(player: players[currentRecordingIndex])
+            playerLayers[currentRecordingIndex].frame = videoViews[currentRecordingIndex].bounds
+            videoViews[currentRecordingIndex].layer.addSublayer(playerLayers[currentRecordingIndex])
+            playerLayers[currentRecordingIndex].videoGravity = .resizeAspectFill
+        }
+//        let playerItem = AVPlayerItem(url: url) // --
+//        setupObserversForPlayerItem(playerItem, with: players[currentRecordingIndex]) // --
         
-        launchTrimTopView() // TODO: 為什麼剪輯畫面出不來？？？？？？？？
+        launchTrimTopView()
         for player in self.players {
             player.seek(to: CMTime.zero)
             player.play()

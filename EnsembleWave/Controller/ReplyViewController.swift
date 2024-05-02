@@ -28,17 +28,20 @@ class ReplyViewController: UIViewController {
     }
     
     func setupUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = .black
         self.title = "留言"
         view.addSubview(tableView)
-        textView.backgroundColor = .orange
+        textView.backgroundColor = .white
         view.addSubview(textView)
-        textField.backgroundColor = .white
+        textField.backgroundColor = CustomColor.black
+        textField.textColor = .white
         textView.addSubview(textField)
-        enterButton.backgroundColor = .brown
+        enterButton.backgroundColor = CustomColor.black
+        enterButton.tintColor = CustomColor.red
         enterButton.setBackgroundImage(UIImage(systemName: "arrow.turn.down.left"), for: .normal)
         enterButton.addTarget(self, action: #selector(sendReply), for: .touchUpInside)
         textView.addSubview(enterButton)
+        tableView.backgroundColor = .black
         tableView.translatesAutoresizingMaskIntoConstraints = false
         textView.translatesAutoresizingMaskIntoConstraints = false
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -111,7 +114,7 @@ class ReplyViewController: UIViewController {
             self.replies = snapshot.documents.compactMap { docSnapshot -> ReplyContent? in
                 var reply = ReplyContent(dic: docSnapshot.data())
                 self.fetchUserName(userID: reply.userID)
-                print("replies in listenToReplies:\(self.replies)")
+                print("replies in reply.userID listenToReplies:\(self.replies)")
                 return reply
             }
 
@@ -150,10 +153,14 @@ extension ReplyViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(ReplyDetailTableViewCell.self)", for: indexPath) as? ReplyDetailTableViewCell else {
             fatalError("Fail to build ReplyDetailTableViewCell")
         }
+        cell.contentView.backgroundColor = .black
         let reply = replies[indexPath.row]
         cell.nameLabel.text = usersNames[reply.userID] ?? "Unknown"
+        cell.nameLabel.textColor = .white
         cell.contentLabel.text = reply.replyContent
+        cell.contentLabel.textColor = .white
         cell.timeLabel.text = formatDate(reply.replyTime)
+        cell.timeLabel.textColor = .white
         cell.setupCell()
         return cell
     }

@@ -60,7 +60,7 @@ class OptionsCell: UITableViewCell {
         goToReplyButton.addTarget(self, action: #selector(reply), for: .touchUpInside)
         ensembleButton.tintColor = .white
         ensembleButton.setImage(UIImage(systemName: "music.mic"), for: .normal)
-        ensembleButton.setTitle("共同創作", for: .normal)
+        ensembleButton.setTitle("Co-Play", for: .normal)
         ensembleButton.setTitleColor(.white, for: .normal)
         ensembleButton.addTarget(self, action: #selector(checkForEnsemble), for: .touchUpInside)
         ensembleButton.backgroundColor = CustomColor.red

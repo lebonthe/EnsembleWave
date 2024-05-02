@@ -50,7 +50,7 @@ class ProfileViewController: UIViewController {
      ])
     }
     func setupSettingButton() {
-        let settingButton = UIBarButtonItem(title: "設定", style: .plain, target: self, action: #selector(pushSettingViewController))
+        let settingButton = UIBarButtonItem(title: "Settings", style: .plain, target: self, action: #selector(pushSettingViewController))
         navigationItem.rightBarButtonItem = settingButton
     }
     @objc func pushSettingViewController() {
