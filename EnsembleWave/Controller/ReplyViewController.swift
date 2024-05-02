@@ -8,6 +8,7 @@
 import UIKit
 import FirebaseCore
 import FirebaseFirestore
+import FirebaseAuth
 class ReplyViewController: UIViewController {
     var replies: [ReplyContent] = []
     var postID: String?
@@ -73,7 +74,7 @@ class ReplyViewController: UIViewController {
             return
         }
         Task {
-            let success = await postReply(postID: postID, userID: "09876543", replyContent: text)
+            let success = await postReply(postID: postID, userID: "\(String(describing: Auth.auth().currentUser?.uid))", replyContent: text)
             if success {
                 textField.text = ""
             } else {

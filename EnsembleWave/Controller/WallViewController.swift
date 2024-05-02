@@ -80,7 +80,7 @@ class WallViewController: UIViewController {
                                 return
                             }
                             let userIDs = documents.compactMap { $0.documentID }
-                            let isLiked = userIDs.contains("09876543") // TODO: 回來改使用者
+                            let isLiked = userIDs.contains("\(String(describing: Auth.auth().currentUser?.uid))")
                             self.postLikesStatus[postId] = isLiked
                             print("Post ID: \(postId), Liked by current user: \(isLiked)")
                         }

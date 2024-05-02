@@ -105,12 +105,16 @@ class PostToWallViewController: UIViewController {
             print("缺少發文內容")
             return false
         }
+        guard let user = Auth.auth().currentUser else {
+            print("尚未登入")
+            return false
+        }
         var post: [String: Any] = [
             "videoURL": "\(url)",
             "imageURL": "\(imageURL)",
             "title": titleText,
             "createdTime": FieldValue.serverTimestamp(),
-            "userID": "09876543",
+            "userID": "\(String(describing: user.uid))",
             "content": contentText,
             "importMusic": "Music composed by AI",
             "duration": duration,

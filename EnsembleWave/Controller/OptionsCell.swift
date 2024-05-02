@@ -114,8 +114,8 @@ class OptionsCell: UITableViewCell {
     }
 
     func addLike() {
-        let userLikeRef = db.collection("Posts").document(postID).collection("whoLike").document("09876543")// TODO: 回來改使用者 ID
-        userLikeRef.setData(["userID": "09876543"]) { [weak self] error in
+        let userLikeRef = db.collection("Posts").document(postID).collection("whoLike").document("\(String(describing: Auth.auth().currentUser?.uid))")
+        userLikeRef.setData(["userID": "\(String(describing: Auth.auth().currentUser?.uid))"]) { [weak self] error in
             if let error = error {
                 print("Error adding like: \(error)")
             } else {
@@ -125,7 +125,7 @@ class OptionsCell: UITableViewCell {
     }
 
     func deleteLike() {
-        let userLikeRef = db.collection("Posts").document(postID).collection("whoLike").document("09876543") // TODO: 回來改使用者 ID
+        let userLikeRef = db.collection("Posts").document(postID).collection("whoLike").document("\(String(describing: Auth.auth().currentUser?.uid))") 
         userLikeRef.delete { [weak self] error in
             if let error = error {
                 print("Error removing like: \(error)")
