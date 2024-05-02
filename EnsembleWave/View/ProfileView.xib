@@ -11,10 +11,10 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProfileView" customModule="EnsembleWave" customModuleProvider="target">
             <connections>
                 <outlet property="aboutMeLabel" destination="S6f-VN-VW4" id="DOA-Cu-xVZ"/>
+                <outlet property="collectionView" destination="Zbc-4q-sq3" id="6iw-nH-DA7"/>
                 <outlet property="ensembleCountLabel" destination="HmP-Iq-id5" id="Nku-yw-s1w"/>
                 <outlet property="instrumentImageView" destination="eXC-eJ-LTl" id="028-al-IKl"/>
                 <outlet property="likesCountLabel" destination="YhF-B0-IL9" id="twn-6m-5mn"/>
-                <outlet property="tableView" destination="xfr-uZ-cM5" id="kpZ-i0-7PF"/>
                 <outlet property="userImageView" destination="E4D-5c-eoe" id="pQu-Zm-ENL"/>
                 <outlet property="userNameLabel" destination="HWq-7F-UCR" id="2tc-jU-93Z"/>
             </connections>
@@ -126,25 +126,30 @@
                         <constraint firstItem="eXC-eJ-LTl" firstAttribute="top" secondItem="TEm-oQ-0Ut" secondAttribute="top" constant="6" id="t9P-kT-jH7"/>
                     </constraints>
                 </view>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="xfr-uZ-cM5">
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Zbc-4q-sq3">
                     <rect key="frame" x="0.0" y="220" width="375" height="447"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                </tableView>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="LS4-gb-bY5">
+                        <size key="itemSize" width="128" height="128"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                </collectionView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="TEm-oQ-0Ut" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="00W-Yj-X0B"/>
-                <constraint firstItem="xfr-uZ-cM5" firstAttribute="top" secondItem="TEm-oQ-0Ut" secondAttribute="bottom" id="3Iw-PO-VRf"/>
+                <constraint firstItem="Zbc-4q-sq3" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="8xC-H7-j3p"/>
                 <constraint firstItem="TEm-oQ-0Ut" firstAttribute="top" secondItem="Iok-hm-v5b" secondAttribute="bottom" id="F0z-dh-bvx"/>
                 <constraint firstAttribute="trailing" secondItem="Iok-hm-v5b" secondAttribute="trailing" id="FCf-3E-bjr"/>
                 <constraint firstItem="Iok-hm-v5b" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="R4k-Ld-wDA"/>
-                <constraint firstItem="xfr-uZ-cM5" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="bjj-vz-X7I"/>
                 <constraint firstItem="Iok-hm-v5b" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="gD4-Qs-thd"/>
-                <constraint firstAttribute="bottom" secondItem="xfr-uZ-cM5" secondAttribute="bottom" id="i1s-jV-LLK"/>
-                <constraint firstItem="xfr-uZ-cM5" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="lwt-Se-1dc"/>
+                <constraint firstItem="Zbc-4q-sq3" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="gR0-kN-xQd"/>
                 <constraint firstItem="TEm-oQ-0Ut" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="n0J-DO-RIC"/>
+                <constraint firstItem="Zbc-4q-sq3" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="nnU-lJ-Ie9"/>
+                <constraint firstItem="Zbc-4q-sq3" firstAttribute="top" secondItem="TEm-oQ-0Ut" secondAttribute="bottom" id="wSg-Qi-V65"/>
             </constraints>
             <point key="canvasLocation" x="88.799999999999997" y="-0.44977511244377816"/>
         </view>

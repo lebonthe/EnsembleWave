@@ -14,7 +14,7 @@ class ProfileView: UIView {
     @IBOutlet var userImageView: UIImageView!
     @IBOutlet var instrumentImageView: UIImageView!
     @IBOutlet var aboutMeLabel: UILabel!
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var collectionView: UICollectionView!
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
@@ -27,7 +27,7 @@ class ProfileView: UIView {
     override func awakeFromNib() {
         super.awakeFromNib()
         configureImageView()
-        setupTableView()
+        collectionView.collectionViewLayout = configureCollectionViewLayout()
     }
     private func commonInit() {
         
@@ -41,26 +41,19 @@ class ProfileView: UIView {
         userImageView.layer.cornerRadius = userImageView.frame.height / 2
         userImageView.clipsToBounds = true
     }
-    private func setupTableView() {
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-    }
-}
-extension ProfileView: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
-    }
+    private func configureCollectionViewLayout() -> UICollectionViewCompositionalLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalWidth(0.5))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        let section = NSCollectionLayoutSection(group: group)
+        return UICollectionViewCompositionalLayout(section: section)
+        }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = " \(indexPath.row) 行"
-        return cell
-    }
+//    private func setupCollectionView() {
+//        collectionView.dataSource = self
+//        collectionView.delegate = self
+//        collectionView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+//    }
 }
 
-extension ProfileView: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("選中了行：\(indexPath.row)")
-    }
-}

@@ -60,6 +60,8 @@
 		9FAA992A2BE2BE8B004615EE /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAA99292BE2BE8B004615EE /* ProfileView.swift */; };
 		9FAA992E2BE37F03004615EE /* ProfileEditingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAA992D2BE37F03004615EE /* ProfileEditingTableViewController.swift */; };
 		9FAA99302BE3810B004615EE /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAA992F2BE3810B004615EE /* ImageCell.swift */; };
+		9FAA99342BE39228004615EE /* UserVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAA99332BE39228004615EE /* UserVideoCell.swift */; };
+		9FAA99362BE39506004615EE /* UserVideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAA99352BE39506004615EE /* UserVideoPlayerView.swift */; };
 		9FAD76FF2BDB9EAA00BF7163 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD76FE2BDB9EAA00BF7163 /* LoginViewController.swift */; };
 		9FAD77012BDB9ED500BF7163 /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD77002BDB9ED500BF7163 /* KeychainItem.swift */; };
 		9FAD77032BDBA13200BF7163 /* CustomFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD77022BDBA13200BF7163 /* CustomFunc.swift */; };
@@ -147,6 +149,8 @@
 		9FAA99292BE2BE8B004615EE /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		9FAA992D2BE37F03004615EE /* ProfileEditingTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditingTableViewController.swift; sourceTree = "<group>"; };
 		9FAA992F2BE3810B004615EE /* ImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
+		9FAA99332BE39228004615EE /* UserVideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserVideoCell.swift; sourceTree = "<group>"; };
+		9FAA99352BE39506004615EE /* UserVideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserVideoPlayerView.swift; sourceTree = "<group>"; };
 		9FAD76FB2BDB99B400BF7163 /* EnsembleWave.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EnsembleWave.entitlements; sourceTree = "<group>"; };
 		9FAD76FE2BDB9EAA00BF7163 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		9FAD77002BDB9ED500BF7163 /* KeychainItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItem.swift; sourceTree = "<group>"; };
@@ -288,6 +292,7 @@
 				9FC29A912BE0F540009E776C /* SettingViewController.swift */,
 				9FAA992D2BE37F03004615EE /* ProfileEditingTableViewController.swift */,
 				9FAA992F2BE3810B004615EE /* ImageCell.swift */,
+				9FAA99332BE39228004615EE /* UserVideoCell.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -302,6 +307,7 @@
 				9F6FDABD2BD90B9C00315B13 /* CustomButton.swift */,
 				9FAA99272BE2B8FE004615EE /* ProfileView.xib */,
 				9FAA99292BE2BE8B004615EE /* ProfileView.swift */,
+				9FAA99352BE39506004615EE /* UserVideoPlayerView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -648,6 +654,7 @@
 				9F5A51CB2BD01B3300070186 /* ContentCell.swift in Sources */,
 				9F5A51C32BD004C100070186 /* WallViewController.swift in Sources */,
 				9F3FD9F82BD12C0000A03E22 /* LengthCell.swift in Sources */,
+				9FAA99362BE39506004615EE /* UserVideoPlayerView.swift in Sources */,
 				9F5A51B92BCE1D0A00070186 /* AVAsset+Extension.swift in Sources */,
 				9F5A51CD2BD01B7600070186 /* TagsCell.swift in Sources */,
 				9FAD77052BDBB23700BF7163 /* TabBarController.swift in Sources */,
@@ -666,6 +673,7 @@
 				9F4462BA2BD503BB00462C44 /* ReplyDetailTableViewCell.swift in Sources */,
 				9F007EA72BC520DA00C22E5E /* Style.swift in Sources */,
 				9FAD77072BDC08D500BF7163 /* ProfileViewController.swift in Sources */,
+				9FAA99342BE39228004615EE /* UserVideoCell.swift in Sources */,
 				9F007E712BC5107C00C22E5E /* EnsembleWave.xcdatamodeld in Sources */,
 				9FAA992E2BE37F03004615EE /* ProfileEditingTableViewController.swift in Sources */,
 				9F6FDABA2BD8F96900315B13 /* CustomColor.swift in Sources */,
