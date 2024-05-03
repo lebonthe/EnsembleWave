@@ -95,6 +95,7 @@ class ProfileViewController: UIViewController {
             self.userInfo = userData
         }
     }
+   
 }
 extension ProfileViewController: LoginViewControllerDelegate {
     func didCompleteLogin() {

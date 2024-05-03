@@ -109,15 +109,15 @@ class WallViewController: UIViewController {
 
     private func fetchUserName(userID: String) {
         FirebaseManager.shared.fetchUserName(userID: userID) { [weak self] userName, error in
-                DispatchQueue.main.async {
-                    if let userName = userName {
-                        self?.usersNames[userID] = userName
-                        self?.tableView.reloadData()
-                    } else if let error = error {
-                        print("Error fetching user name: \(error)")
-                    }
+            DispatchQueue.main.async {
+                if let userName = userName {
+                    self?.usersNames[userID] = userName
+                    self?.tableView.reloadData()
+                } else if let error = error {
+                    print("Error fetching user name: \(error)")
                 }
             }
+        }
     }
     private func fetchEnsembleUserName(userID: String) {
         FirebaseManager.shared.fetchUserName(userID: userID) { [weak self] userName, error in

@@ -15,6 +15,7 @@ class SettingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         updateUI()
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell")
         tableView.reloadData()
     }
     func updateUI() {
@@ -24,7 +25,6 @@ class SettingViewController: UIViewController {
         view.addSubview(tableView)
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell")
         tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -82,6 +82,7 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
             content.text = "編輯使用者資料"
             cell.contentConfiguration = content
             cell.backgroundColor = .clear
+            cell.selectionStyle = .none
             return cell
         case IndexPath(row: 1, section: 0):
             let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
@@ -90,6 +91,7 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
             content.text = "刪除帳號"
             cell.contentConfiguration = content
             cell.backgroundColor = .clear
+            cell.selectionStyle = .none
             return cell
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
@@ -98,15 +100,16 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
             content.text = "登出"
             cell.contentConfiguration = content
             cell.backgroundColor = .clear
+            cell.selectionStyle = .none
             return cell
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath {
         case IndexPath(row: 0, section: 0):
-            let controller = ProfileEditingTableViewController()
-            controller.tableView.backgroundColor = .black
-            controller.tableView.tintColor = .white
+            let controller = ProfileEditingViewViewController()
+            controller.view.backgroundColor = .black
+            controller.view.tintColor = .white
             navigationController?.pushViewController(controller, animated: true)
         case IndexPath(row: 1, section: 0):
             let alert = UIAlertController(title: "確定要刪除帳號？", message: "刪除帳號包含帳號擁有的所有影片與發文", preferredStyle: .alert)

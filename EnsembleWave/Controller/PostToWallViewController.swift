@@ -95,7 +95,7 @@ class PostToWallViewController: UIViewController {
             }
         }
     }
-    func postToWall() async -> Bool{
+    func postToWall() async -> Bool {
         guard let titleText = titleTextField.text,
               let contentText = contentTextView.text,
               let tagText = tagTextField.text,

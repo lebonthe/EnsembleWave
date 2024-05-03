@@ -48,50 +48,6 @@ class FirebaseManager {
             }
         }
     }
-    func listenToPosts() {
-        db.collection("Posts").order(by: "createdTime")
-            .addSnapshotListener { [weak self] querySnapshot, error in
-                guard let self = self, let snapshot = querySnapshot else {
-                    print("Error listening for post updates: \(error?.localizedDescription ?? "No error")")
-                    return
-                }
-                
-                snapshot.documentChanges.forEach { change in
-                    let postId = change.document.documentID
-                    
-                    switch change.type {
-                    case .added, .modified:
-                        let data = change.document.data()
-                        let post = Post(dic: data)
-                        
-                        // Fetch the user name asynchronously using fetchUserName method
-                        self.fetchUserName(userID: post.userID) { userName, error in
-                            if let userName = userName {
-                                print("Fetched user name: \(userName)")
-                            } else if let error = error {
-                                print("Error fetching user name: \(error.localizedDescription)")
-                            }
-                        }
-                        
-                        if let ensembleUserID = post.ensembleUserID {
-                            // Optionally fetch another user related to the post
-                            self.fetchUserName(userID: ensembleUserID) { userName, error in
-                                if let userName = userName {
-                                    print("Fetched ensemble user name: \(userName)")
-                                } else if let error = error {
-                                    print("Error fetching ensemble user name: \(error.localizedDescription)")
-                                }
-                            }
-                        }
-                        
-                    case .removed:
-                        self.posts.removeAll { $0.id == postId }
-                        self.postLikesStatus.removeValue(forKey: postId)
-                        self.postReplies.removeValue(forKey: postId)
-                    }
-                }
-            }
-    }
     
     func listenToUser(userId: String, completion: @escaping (User) -> Void) {
         db.collection("Users").document(userId)
