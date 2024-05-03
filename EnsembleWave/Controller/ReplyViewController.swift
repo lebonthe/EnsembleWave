@@ -126,7 +126,7 @@ class ReplyViewController: UIViewController {
     }
     
     private func fetchUserName(userID: String) {
-        UserManager.shared.fetchUserName(userID: userID) { [weak self] userName, error in
+        FirebaseManager.shared.fetchUserName(userID: userID) { [weak self] userName, error in
             DispatchQueue.main.async {
                 if let userName = userName {
                     self?.usersNames[userID] = userName

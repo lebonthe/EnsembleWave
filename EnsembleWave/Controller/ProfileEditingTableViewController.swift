@@ -11,6 +11,7 @@ import FirebaseFirestore
 import FirebaseAuth
 class ProfileEditingTableViewController: UITableViewController {
     let db = Firestore.firestore()
+    let user = Auth.auth().currentUser
     var userInfo: User?
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +26,13 @@ class ProfileEditingTableViewController: UITableViewController {
 
     // MARK: - Table view data source
     func getUserInfo() {
-        db.collection("Users")
+        guard let user = user else {
+            print("無法取得 user")
+            return
+        }
+        FirebaseManager.shared.fetchUserDetails(userID: user.uid) { userData in
+            self.userInfo = userData
+        }
     }
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections

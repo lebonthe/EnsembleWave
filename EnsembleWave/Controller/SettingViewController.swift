@@ -70,7 +70,7 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
         1
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        2
+        3
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -133,53 +133,53 @@ extension SettingViewController: ASAuthorizationControllerPresentationContextPro
     func displayError(_ error: Error) {
         DispatchQueue.main.async {
             let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+            print("Error:\(error.localizedDescription)")
             alert.addAction(UIAlertAction(title: "OK", style: .default))
             self.present(alert, animated: true)
         }
     }
-
 }
 
 extension SettingViewController: ASAuthorizationControllerDelegate {
 
     func authorizationController(controller: ASAuthorizationController,
                                  didCompleteWithAuthorization authorization: ASAuthorization) {
-      guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential
-      else {
-        print("Unable to retrieve AppleIDCredential")
-        return
-      }
-
-      guard let _ = currentNonce else {
-        fatalError("Invalid state: A login callback was received, but no login request was sent.")
-      }
-
-      guard let appleAuthCode = appleIDCredential.authorizationCode else {
-        print("Unable to fetch authorization code")
-        return
-      }
-
-      guard let authCodeString = String(data: appleAuthCode, encoding: .utf8) else {
-        print("Unable to serialize auth code string from data: \(appleAuthCode.debugDescription)")
-        return
-      }
-
-      Task {
-        do {
-          try await Auth.auth().revokeToken(withAuthorizationCode: authCodeString)
-            let user = Auth.auth().currentUser
-          try await user?.delete()
-            CustomFunc.customAlert(title: "使用者帳號已刪除", message: "", vc: self) {
-                self.navigationController?.popViewController(animated: true)
-            }
-        } catch {
-          self.displayError(error)
+        guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential
+        else {
+            print("Unable to retrieve AppleIDCredential")
+            return
         }
-      }
-    }
+        
+        guard let _ = currentNonce else {
+            fatalError("Invalid state: A login callback was received, but no login request was sent.")
+        }
+        
+        guard let appleAuthCode = appleIDCredential.authorizationCode else {
+            print("Unable to fetch authorization code")
+            return
+        }
+        
+        guard let authCodeString = String(data: appleAuthCode, encoding: .utf8) else {
+            print("Unable to serialize auth code string from data: \(appleAuthCode.debugDescription)")
+            return
+        }
 
-  func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-    // Handle error.
-    print("Sign in with Apple errored: \(error)")
-  }
+        Task {
+            do {
+                try await Auth.auth().revokeToken(withAuthorizationCode: authCodeString)
+                let user = Auth.auth().currentUser
+                try await user?.delete()
+                CustomFunc.customAlert(title: "使用者帳號已刪除", message: "", vc: self) {
+                    self.navigationController?.popViewController(animated: true)
+                }
+            } catch {
+                self.displayError(error)
+            }
+        }
+    }
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        // Handle error.
+        print("Sign in with Apple errored: \(error)")
+    }
 }

@@ -11,7 +11,8 @@ import CryptoKit
 import AuthenticationServices
 
 class ProfileViewController: UIViewController {
-    
+    let user = Auth.auth().currentUser
+    var userInfo: User?
     let deleteAccountButton: UIButton = {
        let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -35,8 +36,6 @@ class ProfileViewController: UIViewController {
     }
 
     // TODO: 繼續刪除流程，並把user資料串接，在 Profile 頁面顯示創作與名字
-   
-    
     func setupLoginButton() {
         let loginButton = UIButton()
          loginButton.translatesAutoresizingMaskIntoConstraints = false
@@ -87,6 +86,15 @@ class ProfileViewController: UIViewController {
         present(loginViewController, animated: true)
     }
     
+    func listenUserInfo() {
+        guard let user = user else {
+            print("無法取得 user")
+            return
+        }
+        FirebaseManager.shared.fetchUserDetails(userID: user.uid) { userData in
+            self.userInfo = userData
+        }
+    }
 }
 extension ProfileViewController: LoginViewControllerDelegate {
     func didCompleteLogin() {
