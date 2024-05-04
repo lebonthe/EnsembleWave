@@ -55,4 +55,5 @@ class UserVideoPlayerView: UIView {
         super.layoutSubviews()
         playerLayer?.frame = bounds
     }
+    
 }

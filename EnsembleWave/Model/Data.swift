@@ -31,7 +31,7 @@ struct User: Decodable {
     }
 }
 
-struct Post: Decodable {
+struct Post: Decodable, Hashable {
     var title: String
     var createdTime: Date
     var id: String
@@ -61,6 +61,12 @@ struct Post: Decodable {
         self.replies = dic["replay"] as? [ReplyContent] ?? []
         self.report = dic["Report"] as? [Report] ?? []
         self.ensembleUserID = dic["ensembleUserID"] as? String ?? nil
+    }
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    static func == (lhs: Post, rhs: Post) -> Bool {
+        lhs.id == rhs.id
     }
 }
 

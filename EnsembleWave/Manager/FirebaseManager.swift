@@ -10,14 +10,14 @@ import Firebase
 class FirebaseManager {
     static let shared = FirebaseManager()
     private let db = Firestore.firestore()
-    var posts = [Post]() {
-        didSet {
-            onPostsUpdated?(posts)
-        }
-    }
-    var onPostsUpdated: (([Post]) -> Void)?
-    private var postLikesStatus = [String: Bool]()
-    private var postReplies = [String: Int]()
+//    var posts = [Post]() {
+//        didSet {
+//            onPostsUpdated?(posts)
+//        }
+//    }
+//    var onPostsUpdated: (([Post]) -> Void)?
+//    private var postLikesStatus = [String: Bool]()
+//    private var postReplies = [String: Int]()
     
     private init() {}
 
@@ -59,5 +59,33 @@ class FirebaseManager {
                 let user = User(dic: snapshot.data() ?? [:])
                 completion(user)
             }
+    }
+    func listenToPosts(userID: String, posts: [Post], completion: @escaping ([Post]) -> Void) {
+        var posts = posts
+        db.collection("Posts").whereField(userID, isEqualTo: true).order(by: "createdTime")
+          .addSnapshotListener { [weak self] querySnapshot, error in
+            guard let self = self, let snapshot = querySnapshot else {
+              print("Error listening for post updates: \(error?.localizedDescription ?? "No error")")
+              return
+            }
+
+            snapshot.documentChanges.forEach { change in
+                let postId = change.document.documentID
+//                var posts: [Post] = []
+                switch change.type {
+                case .added, .modified:
+                    let data = change.document.data()
+                    var post = Post(dic: data)
+                    
+                    if change.type == .added {
+                        posts.insert(post, at: 0)
+                    } else if let index = posts.firstIndex(where: { $0.id == post.id }) {
+                        posts[index] = post
+                    }
+                case .removed:
+                    posts.removeAll { $0.id == postId }
+                }
+            }
+        }
     }
 }

@@ -62,6 +62,7 @@
 		9FAA99362BE39506004615EE /* UserVideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAA99352BE39506004615EE /* UserVideoPlayerView.swift */; };
 		9FAA99382BE483B5004615EE /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAA99372BE483B5004615EE /* FirebaseManager.swift */; };
 		9FAA993E2BE4C095004615EE /* ProfileEditingViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAA993D2BE4C095004615EE /* ProfileEditingViewViewController.swift */; };
+		9FAA99402BE4EB21004615EE /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAA993F2BE4EB21004615EE /* Section.swift */; };
 		9FAD76FF2BDB9EAA00BF7163 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD76FE2BDB9EAA00BF7163 /* LoginViewController.swift */; };
 		9FAD77012BDB9ED500BF7163 /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD77002BDB9ED500BF7163 /* KeychainItem.swift */; };
 		9FAD77032BDBA13200BF7163 /* CustomFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD77022BDBA13200BF7163 /* CustomFunc.swift */; };
@@ -151,6 +152,7 @@
 		9FAA99352BE39506004615EE /* UserVideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserVideoPlayerView.swift; sourceTree = "<group>"; };
 		9FAA99372BE483B5004615EE /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		9FAA993D2BE4C095004615EE /* ProfileEditingViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditingViewViewController.swift; sourceTree = "<group>"; };
+		9FAA993F2BE4EB21004615EE /* Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
 		9FAD76FB2BDB99B400BF7163 /* EnsembleWave.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EnsembleWave.entitlements; sourceTree = "<group>"; };
 		9FAD76FE2BDB9EAA00BF7163 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		9FAD77002BDB9ED500BF7163 /* KeychainItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItem.swift; sourceTree = "<group>"; };
@@ -324,6 +326,7 @@
 				9FAD77022BDBA13200BF7163 /* CustomFunc.swift */,
 				9FAA99232BE23308004615EE /* CustomAlertController.swift */,
 				9FAD77082BDDE95F00BF7163 /* CryptoUtils.swift */,
+				9FAA993F2BE4EB21004615EE /* Section.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -647,6 +650,7 @@
 				9F4462B82BD4434200462C44 /* ReplyViewController.swift in Sources */,
 				9FAA992A2BE2BE8B004615EE /* ProfileView.swift in Sources */,
 				9F6FDA902BD7C2E700315B13 /* ViewController+Extension.swift in Sources */,
+				9FAA99402BE4EB21004615EE /* Section.swift in Sources */,
 				9F5A51C72BD01A8100070186 /* OptionsCell.swift in Sources */,
 				9FAD77032BDBA13200BF7163 /* CustomFunc.swift in Sources */,
 				9F007E692BC5107C00C22E5E /* SceneDelegate.swift in Sources */,
