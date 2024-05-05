@@ -34,20 +34,28 @@ class UserVideoPlayerView: UIView {
     }
 
     private func setupPlayPauseButton() {
-        playPauseButton.frame = CGRect(x: 20, y: 20, width: 60, height: 30)
-        playPauseButton.setTitle("播放", for: .normal)
-        playPauseButton.backgroundColor = .blue
+        playPauseButton.frame = CGRect(x: 20, y: 20, width: 60, height: 60)
+        playPauseButton.setImage(UIImage(systemName: "play"), for: .normal)
+//        playPauseButton.setTitle("播放", for: .normal)
+//        playPauseButton.backgroundColor = .blue
         playPauseButton.addTarget(self, action: #selector(togglePlayPause), for: .touchUpInside)
         addSubview(playPauseButton)
+        playPauseButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            playPauseButton.topAnchor.constraint(equalTo: self.topAnchor),
+            playPauseButton.trailingAnchor.constraint(equalTo: self.trailingAnchor)
+        ])
     }
 
     @objc func togglePlayPause() {
         if player?.rate == 0 {
             player?.play()
-            playPauseButton.setTitle("暫停", for: .normal)
+//            playPauseButton.setTitle("暫停", for: .normal)
+            playPauseButton.setImage(UIImage(systemName: "pause"), for: .normal)
         } else {
             player?.pause()
-            playPauseButton.setTitle("播放", for: .normal)
+//            playPauseButton.setTitle("播放", for: .normal)
+            playPauseButton.setImage(UIImage(systemName: "play"), for: .normal)
         }
     }
 

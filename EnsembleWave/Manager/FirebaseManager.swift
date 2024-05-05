@@ -62,29 +62,34 @@ class FirebaseManager {
     }
     func listenToPosts(userID: String, posts: [Post], completion: @escaping ([Post]) -> Void) {
         var posts = posts
-        db.collection("Posts").whereField(userID, isEqualTo: true).order(by: "createdTime")
+        db.collection("Posts")
+            .whereField("userID", isEqualTo: userID).order(by: "createdTime", descending: false)
           .addSnapshotListener { [weak self] querySnapshot, error in
             guard let self = self, let snapshot = querySnapshot else {
               print("Error listening for post updates: \(error?.localizedDescription ?? "No error")")
               return
             }
-
+              print("snapshot:\(snapshot)")
             snapshot.documentChanges.forEach { change in
+                print("change:\(change)")
                 let postId = change.document.documentID
 //                var posts: [Post] = []
                 switch change.type {
                 case .added, .modified:
                     let data = change.document.data()
                     var post = Post(dic: data)
-                    
+                    print("post:\(post)")
                     if change.type == .added {
                         posts.insert(post, at: 0)
                     } else if let index = posts.firstIndex(where: { $0.id == post.id }) {
                         posts[index] = post
                     }
+
                 case .removed:
                     posts.removeAll { $0.id == postId }
+                    
                 }
+                completion(posts)
             }
         }
     }

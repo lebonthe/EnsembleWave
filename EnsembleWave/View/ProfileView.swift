@@ -30,6 +30,7 @@ class ProfileView: UIView {
     }
     override func awakeFromNib() {
         super.awakeFromNib()
+        updateUserPosts()
         configureImageView()
         collectionView.collectionViewLayout = configureCollectionViewLayout()
         collectionView.register(UserVideoCell.self, forCellWithReuseIdentifier: "UserVideoCell")
@@ -41,16 +42,29 @@ class ProfileView: UIView {
 //            collectionView.rightAnchor.constraint(equalTo: rightAnchor),
 //            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
 //        ])
-        collectionView.backgroundColor = CustomColor.gray2
+        collectionView.backgroundColor = CustomColor.black
     }
     private func updateUserPosts() {
         guard let user = Auth.auth().currentUser else {
             print("查無此人")
             return
         }
-        FirebaseManager.shared.listenToPosts(userID: user.uid, posts: posts) { posts in
-            self.posts = posts
-//            self.collectionView.reloadData()
+        FirebaseManager.shared.listenToPosts(userID: user.uid, posts: posts) { /*[weak self]*/ newPosts in
+            print("Closure is called with newPosts: \(newPosts)")
+//            guard let strongSelf = self else {
+//                print("self is nil")
+//                return
+            //            }
+            print("New posts ready to assign: \(newPosts)")
+            self.posts = newPosts
+            print("strongSelf.posts:\(self.posts)")
+            DispatchQueue.main.async {
+                var snapshot = NSDiffableDataSourceSnapshot<Section, Post>()
+                snapshot.appendSections([.main])
+                snapshot.appendItems(self.posts)
+                self.dataSource.apply(snapshot, animatingDifferences: true)
+                print("apply snapshot:\(snapshot)")
+            }
         }
     }
     private func commonInit() {
@@ -60,7 +74,6 @@ class ProfileView: UIView {
 //            
 //        }
     }
-    // TODO: 修復沒東西顯示出來的問題
     func configure(with userInfo: User) {
         userNameLabel.text = userInfo.name
         if let imageURLString =  userInfo.photoURL,
@@ -76,9 +89,10 @@ class ProfileView: UIView {
         userImageView.clipsToBounds = true
     }
     private func configureCollectionViewLayout() -> UICollectionViewCompositionalLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalWidth(0.5))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalWidth(0.5))
+        item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(0.5))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
         return UICollectionViewCompositionalLayout(section: section)
