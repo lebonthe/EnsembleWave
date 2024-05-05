@@ -53,7 +53,6 @@
 		9F99AFB42BC79857003671BF /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9F99AFB32BC79857003671BF /* FirebaseFirestoreSwift */; };
 		9F99AFB62BC79857003671BF /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 9F99AFB52BC79857003671BF /* FirebaseStorage */; };
 		9F99AFB82BC7B160003671BF /* (null) in Resources */ = {isa = PBXBuildFile; };
-		9F99AFBA2BC7D131003671BF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9F99AFB92BC7D131003671BF /* GoogleService-Info.plist */; };
 		9FAA99242BE23308004615EE /* CustomAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAA99232BE23308004615EE /* CustomAlertController.swift */; };
 		9FAA99282BE2B8FE004615EE /* ProfileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FAA99272BE2B8FE004615EE /* ProfileView.xib */; };
 		9FAA992A2BE2BE8B004615EE /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAA99292BE2BE8B004615EE /* ProfileView.swift */; };
@@ -64,6 +63,7 @@
 		9FAA993E2BE4C095004615EE /* ProfileEditingViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAA993D2BE4C095004615EE /* ProfileEditingViewViewController.swift */; };
 		9FAA99402BE4EB21004615EE /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAA993F2BE4EB21004615EE /* Section.swift */; };
 		9FAD4F522BE7863800142EBE /* UserWallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD4F512BE7863800142EBE /* UserWallViewController.swift */; };
+		9FAD4F542BE7956F00142EBE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9FAD4F532BE7956F00142EBE /* GoogleService-Info.plist */; };
 		9FAD76FF2BDB9EAA00BF7163 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD76FE2BDB9EAA00BF7163 /* LoginViewController.swift */; };
 		9FAD77012BDB9ED500BF7163 /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD77002BDB9ED500BF7163 /* KeychainItem.swift */; };
 		9FAD77032BDBA13200BF7163 /* CustomFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD77022BDBA13200BF7163 /* CustomFunc.swift */; };
@@ -144,7 +144,6 @@
 		9F6FDAB92BD8F96900315B13 /* CustomColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColor.swift; sourceTree = "<group>"; };
 		9F6FDABB2BD8FA8400315B13 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		9F6FDABD2BD90B9C00315B13 /* CustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
-		9F99AFB92BC7D131003671BF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9FAA99232BE23308004615EE /* CustomAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertController.swift; sourceTree = "<group>"; };
 		9FAA99272BE2B8FE004615EE /* ProfileView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileView.xib; sourceTree = "<group>"; };
 		9FAA99292BE2BE8B004615EE /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
@@ -155,6 +154,7 @@
 		9FAA993D2BE4C095004615EE /* ProfileEditingViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditingViewViewController.swift; sourceTree = "<group>"; };
 		9FAA993F2BE4EB21004615EE /* Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
 		9FAD4F512BE7863800142EBE /* UserWallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserWallViewController.swift; sourceTree = "<group>"; };
+		9FAD4F532BE7956F00142EBE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9FAD76FB2BDB99B400BF7163 /* EnsembleWave.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EnsembleWave.entitlements; sourceTree = "<group>"; };
 		9FAD76FE2BDB9EAA00BF7163 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		9FAD77002BDB9ED500BF7163 /* KeychainItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItem.swift; sourceTree = "<group>"; };
@@ -246,7 +246,7 @@
 				9F007E742BC5107E00C22E5E /* LaunchScreen.storyboard */,
 				9F26D0682BD74E6C00C69465 /* Animation00.json */,
 				9F007E772BC5107E00C22E5E /* Info.plist */,
-				9F99AFB92BC7D131003671BF /* GoogleService-Info.plist */,
+				9FAD4F532BE7956F00142EBE /* GoogleService-Info.plist */,
 				9F007E6F2BC5107C00C22E5E /* EnsembleWave.xcdatamodeld */,
 			);
 			path = EnsembleWave;
@@ -488,13 +488,13 @@
 			files = (
 				9F26D0692BD74E6C00C69465 /* Animation00.json in Resources */,
 				9F007E732BC5107E00C22E5E /* Assets.xcassets in Resources */,
+				9FAD4F542BE7956F00142EBE /* GoogleService-Info.plist in Resources */,
 				9F007E762BC5107E00C22E5E /* Base in Resources */,
 				9F99AFB82BC7B160003671BF /* (null) in Resources */,
 				9F5A51C02BCFC2C300070186 /* PostToWallViewController.xib in Resources */,
 				9FAA99282BE2B8FE004615EE /* ProfileView.xib in Resources */,
 				9F007E6E2BC5107C00C22E5E /* Base in Resources */,
 				9F007EA22BC51BFC00C22E5E /* RecordingStoryboard.storyboard in Resources */,
-				9F99AFBA2BC7D131003671BF /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
