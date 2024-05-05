@@ -64,6 +64,7 @@
 		9FAA99402BE4EB21004615EE /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAA993F2BE4EB21004615EE /* Section.swift */; };
 		9FAD4F522BE7863800142EBE /* UserWallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD4F512BE7863800142EBE /* UserWallViewController.swift */; };
 		9FAD4F542BE7956F00142EBE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9FAD4F532BE7956F00142EBE /* GoogleService-Info.plist */; };
+		9FAD4F562BE7CC7700142EBE /* PlayManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD4F552BE7CC7700142EBE /* PlayManager.swift */; };
 		9FAD76FF2BDB9EAA00BF7163 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD76FE2BDB9EAA00BF7163 /* LoginViewController.swift */; };
 		9FAD77012BDB9ED500BF7163 /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD77002BDB9ED500BF7163 /* KeychainItem.swift */; };
 		9FAD77032BDBA13200BF7163 /* CustomFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD77022BDBA13200BF7163 /* CustomFunc.swift */; };
@@ -155,6 +156,7 @@
 		9FAA993F2BE4EB21004615EE /* Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
 		9FAD4F512BE7863800142EBE /* UserWallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserWallViewController.swift; sourceTree = "<group>"; };
 		9FAD4F532BE7956F00142EBE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		9FAD4F552BE7CC7700142EBE /* PlayManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayManager.swift; sourceTree = "<group>"; };
 		9FAD76FB2BDB99B400BF7163 /* EnsembleWave.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EnsembleWave.entitlements; sourceTree = "<group>"; };
 		9FAD76FE2BDB9EAA00BF7163 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		9FAD77002BDB9ED500BF7163 /* KeychainItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItem.swift; sourceTree = "<group>"; };
@@ -338,6 +340,7 @@
 			isa = PBXGroup;
 			children = (
 				9FAA99372BE483B5004615EE /* FirebaseManager.swift */,
+				9FAD4F552BE7CC7700142EBE /* PlayManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -683,6 +686,7 @@
 				9F007EA72BC520DA00C22E5E /* Style.swift in Sources */,
 				9FAD77072BDC08D500BF7163 /* ProfileViewController.swift in Sources */,
 				9FAA99342BE39228004615EE /* UserVideoCell.swift in Sources */,
+				9FAD4F562BE7CC7700142EBE /* PlayManager.swift in Sources */,
 				9F007E712BC5107C00C22E5E /* EnsembleWave.xcdatamodeld in Sources */,
 				9F6FDABA2BD8F96900315B13 /* CustomColor.swift in Sources */,
 			);

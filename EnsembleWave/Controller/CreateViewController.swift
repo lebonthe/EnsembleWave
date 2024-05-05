@@ -1180,7 +1180,6 @@ extension CreateViewController {
         chooseViewButtons[0].isHidden = true
         
     }
-    // TODO: 找為什麼一開始兩個Layer 都看不到東西，錄完之後有下載影片的看得見，但錄的還是看不見
     // TODO: 進入 trimView 之後取消，如果是錄影沒有問題，可以繼續錄。如果用相簿選影片，則 recordingTopView 會不見
     @objc func chooseView(_ sender: UIButton) {
         print("chooseView===========recordingTopView.isHidden:\(recordingTopView.isHidden)")
