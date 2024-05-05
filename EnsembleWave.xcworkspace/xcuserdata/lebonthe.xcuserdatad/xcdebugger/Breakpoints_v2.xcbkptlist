@@ -14,40 +14,74 @@
             filePath = "EnsembleWave/Controller/CreateViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1522"
-            endingLineNumber = "1522"
+            startingLineNumber = "1526"
+            endingLineNumber = "1526"
             landmarkName = "updatePlayerRange(for:withStartTime:endTime:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "E2957ECF-67FB-49AA-BFFC-4FC4B353CD0D - fee0aa60b9e130ba"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "EnsembleWave.CreateViewController.videoTrimEndTrimChange(VideoTrim.VideoTrim) -&gt; ()"
-                  moduleName = "EnsembleWave"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lebonthe/Documents/ios/School/Solo%20Project/EnsembleWave/EnsembleWave/Controller/CreateViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1522"
-                  endingLineNumber = "1522">
-               </Location>
-               <Location
-                  uuid = "E2957ECF-67FB-49AA-BFFC-4FC4B353CD0D - 689e629fc81507e7"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "EnsembleWave.CreateViewController.updatePlayerRange(for: __C.AVPlayer, withStartTime: __C.CMTime, endTime: __C.CMTime) -&gt; ()"
-                  moduleName = "EnsembleWave"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lebonthe/Documents/ios/School/Solo%20Project/EnsembleWave/EnsembleWave/Controller/CreateViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1522"
-                  endingLineNumber = "1522">
-               </Location>
-            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BEE49370-D6AD-4350-A2D8-A582422F7244"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "EnsembleWave/Controller/LoginViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "260"
+            endingLineNumber = "260"
+            landmarkName = "unknown"
+            landmarkType = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "898BFE16-A971-4FB0-92B3-4738547B0B4F"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "EnsembleWave/Controller/LoginViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "154"
+            endingLineNumber = "154"
+            landmarkName = "postToUser()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "32056E14-F282-4649-B6AA-FD7D4D852E04"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "EnsembleWave/Controller/LoginViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "144"
+            endingLineNumber = "144"
+            landmarkName = "postToUser()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FCAB88C4-1B30-4D2D-9E92-B7222B1726C2"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "EnsembleWave/Controller/LoginViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "248"
+            endingLineNumber = "248"
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

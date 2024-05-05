@@ -367,6 +367,7 @@ class CreateViewController: UIViewController {
     }
     func setupUI(_ style: Int) {
         headphoneAlertLabel.textColor = CustomColor.red
+        headphoneAlertLabel.numberOfLines = 0
         cameraButton.tintColor = CustomColor.red
         albumButton.tintColor = .white
         musicButton.tintColor = .white
@@ -1096,10 +1097,13 @@ extension CreateViewController {
     }
 
     func bookEarphoneState() {
+        
         headphoneAlertLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             headphoneAlertLabel.topAnchor.constraint(equalTo: containerView.bottomAnchor, constant: 20),
-            headphoneAlertLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor)
+            headphoneAlertLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+            headphoneAlertLabel.heightAnchor.constraint(equalToConstant: 80),
+            headphoneAlertLabel.widthAnchor.constraint(equalTo: containerView.widthAnchor)
         ])
         let route = AVAudioSession.sharedInstance().currentRoute
         for output in route.outputs {

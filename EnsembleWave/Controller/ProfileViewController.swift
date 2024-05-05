@@ -92,7 +92,6 @@ class ProfileViewController: UIViewController {
 //                       profileView.userImageView.image = UIImage(named: "snoopy")
         }
     }
-
     @objc func presentLoginViewController() {
         let loginViewController = LoginViewController()
         loginViewController.delegate = self
@@ -121,6 +120,8 @@ class ProfileViewController: UIViewController {
             print("無法取得 user")
             return
         }
+        print("Try to get user info of:\(user)")
+        print("userUID:\(user.uid)")
         FirebaseManager.shared.fetchUserDetails(userID: user.uid) { userData in
             DispatchQueue.main.async {
                 if let userData = userData {
