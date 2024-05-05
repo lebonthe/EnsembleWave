@@ -18,43 +18,41 @@ class ProfileView: UIView {
     @IBOutlet weak var collectionView: UICollectionView!
     lazy var posts = [Post]()
     var dataSource: UICollectionViewDiffableDataSource<Section, Post>!
-
+    var userID: String?
     override init(frame: CGRect) {
         super.init(frame: frame)
-        commonInit()
+//        commonInit()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        commonInit()
+//        commonInit()
     }
     override func awakeFromNib() {
         super.awakeFromNib()
-        updateUserPosts()
-        configureImageView()
-        collectionView.collectionViewLayout = configureCollectionViewLayout()
-        collectionView.register(UserVideoCell.self, forCellWithReuseIdentifier: "UserVideoCell")
-        configureDataSource()
-//        collectionView.translatesAutoresizingMaskIntoConstraints = false
-//        NSLayoutConstraint.activate([
-//            collectionView.topAnchor.constraint(equalTo: topAnchor),
-//            collectionView.leftAnchor.constraint(equalTo: leftAnchor),
-//            collectionView.rightAnchor.constraint(equalTo: rightAnchor),
-//            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
-//        ])
-        collectionView.backgroundColor = CustomColor.black
+//        updateUserPosts()
+//        configureImageView()
+//        collectionView.collectionViewLayout = configureCollectionViewLayout()
+//        collectionView.register(UserVideoCell.self, forCellWithReuseIdentifier: "UserVideoCell")
+//        configureDataSource()
+//        collectionView.backgroundColor = CustomColor.black
     }
+    func configureWithUserID(userID: String) {
+          self.userID = userID
+          updateUserPosts()
+          configureImageView()
+          collectionView.collectionViewLayout = configureCollectionViewLayout()
+          collectionView.register(UserVideoCell.self, forCellWithReuseIdentifier: "UserVideoCell")
+          configureDataSource()
+          collectionView.backgroundColor = CustomColor.black
+      }
     private func updateUserPosts() {
-        guard let user = Auth.auth().currentUser else {
+        guard let userID = userID else {
             print("查無此人")
             return
         }
-        FirebaseManager.shared.listenToPosts(userID: user.uid, posts: posts) { /*[weak self]*/ newPosts in
+        FirebaseManager.shared.listenToPosts(userID: userID, posts: posts) { /*[weak self]*/ newPosts in
             print("Closure is called with newPosts: \(newPosts)")
-//            guard let strongSelf = self else {
-//                print("self is nil")
-//                return
-            //            }
             print("New posts ready to assign: \(newPosts)")
             self.posts = newPosts
             print("strongSelf.posts:\(self.posts)")
@@ -81,6 +79,8 @@ class ProfileView: UIView {
             userImageView.kf.setImage(
                 with: imageURL
             )
+        } else {
+            userImageView.image = UIImage(named: "music_headphone_side_man")
         }
     }
     private func configureImageView() {
@@ -104,7 +104,6 @@ class ProfileView: UIView {
                 fatalError("Cannot create new cell")
             }
             let item = indexPath.item
-//            cell.urlString = self.posts[item].videoURL
             cell.urlString = post.videoURL
             return cell
         }
@@ -114,9 +113,4 @@ class ProfileView: UIView {
         initialSnapshot.appendItems(posts)
         dataSource.apply(initialSnapshot, animatingDifferences: false)
     }
-//    private func setupCollectionView() {
-//        collectionView.dataSource = self
-//        collectionView.delegate = self
-//        collectionView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-//    }
 }

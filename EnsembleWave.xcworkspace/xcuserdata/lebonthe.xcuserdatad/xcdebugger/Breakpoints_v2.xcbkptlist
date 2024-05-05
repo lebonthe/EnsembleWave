@@ -7,31 +7,47 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "19D3D10F-4F76-442A-AB9F-51CEA4C3585C"
+            uuid = "CD61D874-FDDD-44AF-8CF9-5DD4E6ECBC77"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "EnsembleWave/Controller/ProfileViewController.swift"
+            filePath = "EnsembleWave/Controller/WallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "70"
-            endingLineNumber = "70"
-            landmarkName = "checkLoginStatus()"
+            startingLineNumber = "143"
+            endingLineNumber = "143"
+            landmarkName = "pushProfileViewForUser(userID:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "DC3F0F15-D96F-4514-A437-51FE412AE173"
-            shouldBeEnabled = "Yes"
+            uuid = "41553CA8-A414-4B6E-8D44-93A2FF0243EC"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "EnsembleWave/Controller/UserWallViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "17"
+            endingLineNumber = "17"
+            landmarkName = "viewDidLoad()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "EF5C5CEC-FB34-4E0C-BB96-0165BDB2735F"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EnsembleWave/View/ProfileView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "52"
-            endingLineNumber = "52"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
             landmarkName = "updateUserPosts()"
             landmarkType = "7">
          </BreakpointContent>
@@ -39,48 +55,48 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "01FF8CFD-3FEE-49F0-8BE7-827B2CA1CB4A"
+            uuid = "BBE30806-0BF6-4397-B6BF-7ABBAC6FC057"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "EnsembleWave/Manager/FirebaseManager.swift"
+            filePath = "EnsembleWave/View/ProfileView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "77"
-            endingLineNumber = "77"
-            landmarkName = "listenToPosts(userID:posts:completion:)"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "updateUserPosts()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "6F01CF44-16D8-4775-A338-4367F7B8A9E4"
+            uuid = "F07A6574-17FB-42A2-BA11-4172738CC367"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "EnsembleWave/Manager/FirebaseManager.swift"
+            filePath = "EnsembleWave/Controller/ProfileViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "73"
-            endingLineNumber = "73"
-            landmarkName = "listenToPosts(userID:posts:completion:)"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
+            landmarkName = "checkLoginStatus()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "45ADA72B-9BEF-492B-B4AA-79440CFAE7BA"
+            uuid = "26877EFE-BB4F-4D1E-A019-E80019FE30DB"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "EnsembleWave/Manager/FirebaseManager.swift"
+            filePath = "EnsembleWave/Controller/ProfileViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "82"
-            endingLineNumber = "82"
-            landmarkName = "listenToPosts(userID:posts:completion:)"
+            startingLineNumber = "79"
+            endingLineNumber = "79"
+            landmarkName = "checkLoginStatus()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

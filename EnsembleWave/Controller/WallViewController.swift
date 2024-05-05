@@ -131,6 +131,25 @@ class WallViewController: UIViewController {
                 }
             }
     }
+    private func pushProfileViewForUser(userID: String) {
+//        guard let profileView = Bundle.main.loadNibNamed("ProfileView", owner: self, options: nil)?.first as? ProfileView else {
+//            print("無法加載 ProfileView")
+//            return
+//        }
+//       
+        let userWallViewController = UserWallViewController()
+//        profileViewController.view.addSubview(profileView)
+        userWallViewController.userID = userID
+//        profileView.frame = profileViewController.view.bounds
+        navigationController?.pushViewController(userWallViewController, animated: true)
+    }
+    @objc private func handleHeaderTap(_ gesture: UITapGestureRecognizer) {
+        if let section = gesture.view?.tag {
+            let userID = posts[section].userID
+            pushProfileViewForUser(userID: userID)
+        }
+    }
+
 }
 extension WallViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -262,9 +281,12 @@ extension WallViewController: UITableViewDelegate {
         headerLabel.textColor = UIColor.white 
         headerLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
         headerView.addSubview(headerLabel)
-
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleHeaderTap(_:)))
+        headerView.addGestureRecognizer(tapGesture)
+        headerView.tag = section
         return headerView
     }
+    
 //    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 //        var urlsToPrefetch = [URL]()
 //        for index in indexPath.section..<min(indexPath.section + 5, posts.count) {

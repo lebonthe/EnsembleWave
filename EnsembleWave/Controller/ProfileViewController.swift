@@ -64,16 +64,20 @@ class ProfileViewController: UIViewController {
         } else {
             user = Auth.auth().currentUser
             for subview in view.subviews {
-                            subview.removeFromSuperview()
-                        }
+                subview.removeFromSuperview()
+            }
             setupSettingButton()
             if view.subviews.contains(where: { $0 is ProfileView }) == false {
                 if let profileView = Bundle.main.loadNibNamed("ProfileView", owner: self, options: nil)?.first as? ProfileView {
                     profileView.frame = self.view.bounds
                     print("Adding profileView to the view hierarchy")
+                    profileView.userID = user?.uid
                     self.view.addSubview(profileView)
+                    if let userID = user?.uid {
+                        profileView.configureWithUserID(userID: userID)
+                    }
                     print("ProfileView added successfully")
-
+                    
                 } else {
                     print("無法加載 ProfileView")
                 }
