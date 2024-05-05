@@ -1514,21 +1514,30 @@ extension CreateViewController: VideoTrimDelegate {
     }
 
     func videoTrimEndTrimChange(_ view: VideoTrim) {
-        self.updateTrimTime()
-        // TODO: 用相簿輸入的影片，使用剪輯整個playerLayer 會不見，
         let startTime = view.startTime
         let endTime = view.endTime
-        if ensembleVideoURL != nil && style == 1 {
-            let editingPlayer = players[0]
-            updatePlayerRange(for: editingPlayer, withStartTime: startTime, endTime: endTime)
-        } else {
-            let editingPlayer = players[currentRecordingIndex]
-            updatePlayerRange(for: editingPlayer, withStartTime: startTime, endTime: endTime)
+        updatePlayerRange(for: players[currentRecordingIndex], withStartTime: startTime, endTime: endTime)
+    }
+
+    func updatePlayerRange(for player: AVPlayer, withStartTime startTime: CMTime, endTime: CMTime) {
+        guard let currentItem = player.currentItem else {
+            return
+        }
+        let asset = currentItem.asset
+        
+        let duration = CMTimeSubtract(endTime, startTime)
+        if CMTimeCompare(duration, .zero) <= 0 {
+            print("結束時間必須大於開始時間")
+            return
         }
         
-        isPlaying = true
-        if isPlaying {
-            playAllVideos()
+        let newRange = CMTimeRange(start: startTime, duration: duration)
+        
+        let newPlayerItem = AVPlayerItem(asset: asset)
+        newPlayerItem.forwardPlaybackEndTime = endTime
+        player.replaceCurrentItem(with: newPlayerItem)
+        player.seek(to: startTime, toleranceBefore: .zero, toleranceAfter: .zero) { _ in
+            player.play()
         }
     }
 
@@ -1536,35 +1545,6 @@ extension CreateViewController: VideoTrimDelegate {
         let newTime = CMTime(value: CMTimeValue(view.playTime.value + view.startTime.value), timescale: view.playTime.timescale)
         let player = players[currentRecordingIndex]
         player.seek(to: newTime, toleranceBefore: .zero, toleranceAfter: .zero)
-    }
-
-//    func updatePlayerRange(for player: AVPlayer, withStartTime startTime: CMTime, endTime: CMTime) {
-//        guard let currentItem = player.currentItem else {
-//            return
-//        }
-//        let asset = currentItem.asset
-//        let newRange = CMTimeRange(start: startTime, duration: endTime - startTime)
-//        
-//        let newPlayerItem = AVPlayerItem(asset: asset)
-//        player.replaceCurrentItem(with: newPlayerItem)
-//        
-//        player.seek(to: newRange.start) { [weak self] _ in
-//            guard let self = self else { return }
-//            player.play()
-//            self.setupEndTimeObserver(for: player, startTime: startTime, endTime: endTime)
-//        }
-//    }
-    func updatePlayerRange(for player: AVPlayer, withStartTime startTime: CMTime, endTime: CMTime) {
-        guard let currentItem = player.currentItem else {
-            return
-        }
-        let asset = currentItem.asset
-        let newRange = CMTimeRange(start: startTime, duration: endTime - startTime)
-        
-        let newPlayerItem = AVPlayerItem(asset: asset, automaticallyLoadedAssetKeys: ["playable"])
-        newPlayerItem.seek(to: newRange.start, completionHandler: nil)
-        player.replaceCurrentItem(with: newPlayerItem)
-        player.play()
     }
 
     func setupEndTimeObserver(for player: AVPlayer, startTime: CMTime, endTime: CMTime) {
