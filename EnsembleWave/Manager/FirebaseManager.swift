@@ -42,7 +42,7 @@ class FirebaseManager {
                     let user = User(dic: userData)
                     completion(user)
                 } else {
-                    print("Error fetching user details: \(error?.localizedDescription ?? "No error")")
+                    print("fetchUserDetails - Error fetching user details: \(error?.localizedDescription ?? "No error")")
                     completion(nil)
                 }
             }
@@ -53,7 +53,7 @@ class FirebaseManager {
         db.collection("Users").document(userId)
             .addSnapshotListener { documentSnapshot, error in
                 guard let snapshot = documentSnapshot else {
-                    print("Error fetching user details: \(error?.localizedDescription ?? "No error")")
+                    print("listenToUser - Error fetching user details: \(error?.localizedDescription ?? "No error")")
                     return
                 }
                 let user = User(dic: snapshot.data() ?? [:])

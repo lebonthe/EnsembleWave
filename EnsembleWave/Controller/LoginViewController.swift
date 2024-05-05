@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 import FirebaseAuth
 import AuthenticationServices
 import CryptoKit
@@ -16,13 +17,14 @@ protocol LoginViewControllerDelegate: AnyObject {
 
 class LoginViewController: UIViewController {
     weak var delegate: LoginViewControllerDelegate?
-    
     fileprivate var currentNonce: String?
     var label: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+    private let db = Firestore.firestore()
+    var dataToSave = [String: Any] ()
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
@@ -139,6 +141,23 @@ class LoginViewController: UIViewController {
             }
         }
     }
+    private func postToUser() async -> Bool {
+        guard let user = Auth.auth().currentUser else {
+            print("尚未登入")
+            return false
+        }
+        let email = user.email
+        dataToSave["email"] = email
+        do {
+            let ref = db.collection("Users").document("\(user.uid)")
+            print("Document added with UID: \(ref.documentID)")
+            try await ref.setData(dataToSave, merge: true)
+            return true
+        } catch {
+            print("Error adding document: \(error)")
+            return false
+        }
+    }
 }
 
 extension LoginViewController: ASAuthorizationControllerDelegate {
@@ -167,6 +186,17 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                     }
                     // User is signed in to Firebase with Apple.
                     // Delegate callback
+                    Task {
+                        guard let self = self else {
+                            fatalError("no self")
+                        }
+                        let success = await self.postToUser()
+                        if success {
+                            self.delegate?.didCompleteLogin()
+                        } else {
+                            print("上傳使用者 email 失敗")
+                        }
+                    }
                     self?.dismiss(animated: true)
                     self?.delegate?.didCompleteLogin()
                     
@@ -198,48 +228,59 @@ extension LoginViewController: ASAuthorizationControllerPresentationContextProvi
         return view.window!
     }
 }
-extension LoginViewController {
-    // MARK: - 透過 Credential 與 Firebase Auth 串接
-    func firebaseSignInWithApple(appleIDCredential: ASAuthorizationAppleIDCredential) {
-        guard let nonce = currentNonce else {
-            fatalError("Invalid state: A login callback was received, but no login request was sent.")
-        }
-        guard let appleIDToken = appleIDCredential.identityToken else {
-            print("Unable to fetch identity token")
-            return
-        }
-        guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
-            print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
-            return
-        }
-
-        let credential = OAuthProvider.appleCredential(withIDToken: idTokenString, rawNonce: nonce, fullName: appleIDCredential.fullName)
-
-        Auth.auth().signIn(with: credential) { [weak self] (authResult, error) in
-            if let error = error {
-                // Error handling
-                print(error.localizedDescription)
-                return
-            }
-            // User is signed in to Firebase with Apple.
-            // Delegate callback or other actions
-            self?.delegate?.didCompleteLogin()
-        }
-    }
-
-    
-    // MARK: - Firebase 取得登入使用者的資訊
-    func getFirebaseUserInfo() {
-        let currentUser = Auth.auth().currentUser
-        guard let user = currentUser else {
-            CustomFunc.customAlert(title: "無法取得使用者資料！", message: "", vc: self, actionHandler: nil)
-            return
-        }
-        let uid = user.uid
-        let email = user.email
-        CustomFunc.customAlert(title: "使用者資訊", message: "UID：\(uid)\nEmail：\(email!)", vc: self) {
-            self.dismiss(animated: true)
-        }
-        
-    }
-}
+//extension LoginViewController {
+//    // MARK: - 透過 Credential 與 Firebase Auth 串接
+//    func firebaseSignInWithApple(appleIDCredential: ASAuthorizationAppleIDCredential) {
+//        guard let nonce = currentNonce else {
+//            fatalError("Invalid state: A login callback was received, but no login request was sent.")
+//        }
+//        guard let appleIDToken = appleIDCredential.identityToken else {
+//            print("Unable to fetch identity token")
+//            return
+//        }
+//        guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
+//            print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
+//            return
+//        }
+//
+//        let credential = OAuthProvider.appleCredential(withIDToken: idTokenString, rawNonce: nonce, fullName: appleIDCredential.fullName)
+//
+//        Auth.auth().signIn(with: credential) { [weak self] (authResult, error) in
+//            if let error = error {
+//                // Error handling
+//                print(error.localizedDescription)
+//                return
+//            }
+//            // User is signed in to Firebase with Apple.
+//            // Delegate callback or other actions
+//            Task {
+//                guard let self = self else {
+//                    fatalError("no self")
+//                }
+//                let success = await self.postToUser()
+//                if success {
+//                    self.delegate?.didCompleteLogin()
+//                } else {
+//                    print("上傳使用者 email 失敗")
+//                }
+//            }
+//            
+//        }
+//    }
+//
+//    
+//    // MARK: - Firebase 取得登入使用者的資訊
+//    func getFirebaseUserInfo() {
+//        let currentUser = Auth.auth().currentUser
+//        guard let user = currentUser else {
+//            CustomFunc.customAlert(title: "無法取得使用者資料！", message: "", vc: self, actionHandler: nil)
+//            return
+//        }
+//        let uid = user.uid
+//        let email = user.email
+//        CustomFunc.customAlert(title: "使用者資訊", message: "UID：\(uid)\nEmail：\(email!)", vc: self) {
+//            self.dismiss(animated: true)
+//        }
+//        
+//    }
+//}

@@ -73,7 +73,12 @@ class ProfileView: UIView {
 //        }
     }
     func configure(with userInfo: User) {
-        userNameLabel.text = userInfo.name
+        if userInfo.name == "" {
+            userNameLabel.text = "Change name in settings."
+        } else {
+            userNameLabel.text = userInfo.name
+        }
+        print("userInfo.name:\(userInfo.name)")
         if let imageURLString =  userInfo.photoURL,
            let imageURL = URL(string: imageURLString) {
             userImageView.kf.setImage(
