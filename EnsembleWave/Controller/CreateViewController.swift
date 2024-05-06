@@ -861,6 +861,7 @@ class CreateViewController: UIViewController {
         albumButton.isHidden = isRecording
         countdownButton.isHidden = isRecording
         cameraPositionButton.isHidden = isRecording
+        handPoseButton.isHidden = isRecording
     }
     @objc func updateImage() {
         print("currentImageIndex:\(currentImageIndex)")
