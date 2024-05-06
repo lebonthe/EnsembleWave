@@ -166,9 +166,9 @@ extension WallViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(VideoCell.self)", for: indexPath) as? VideoCell else {
                 fatalError("error when building VideoCell")
             }
-            print("====post.videoURL: \(post.videoURL)")
             print("====post.imageURL: \(post.imageURL ?? "no")")
             cell.imageURLString = post.imageURL
+            print("====post.videoURL: \(post.videoURL)")
             cell.urlString = post.videoURL
             cell.setupUI()
             return cell

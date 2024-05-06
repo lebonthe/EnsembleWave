@@ -4,7 +4,7 @@
 //
 //  Created by Min Hu on 2024/4/17.
 //
-
+// TODO: 改善圖片的顯示速度
 import UIKit
 import AVFoundation
 import Kingfisher
@@ -14,7 +14,12 @@ class VideoCell: UITableViewCell {
             configurePlayer()
         }
     }
-    var imageURLString: String?
+    var imageURLString: String? {
+        didSet {
+            configureImageView() 
+        }
+    }
+    
     var localVideoURL: URL?
     let videoView: UIView = {
         let view = UIView()
@@ -47,9 +52,10 @@ class VideoCell: UITableViewCell {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(togglePlayPause))
         videoView.addGestureRecognizer(tapGesture)
         videoView.isUserInteractionEnabled = true
+        contentView.addSubview(videoView)
         contentView.addSubview(thumbnailImageView)
         contentView.addSubview(replayButton)
-        contentView.addSubview(videoView)
+        thumbnailImageView.clipsToBounds = true
         replayButton.isHidden = false
         replayButton.addTarget(self, action: #selector(play), for: .touchUpInside)
         NSLayoutConstraint.activate([
@@ -69,20 +75,13 @@ class VideoCell: UITableViewCell {
         videoView.backgroundColor = .black
         videoView.layer.cornerRadius = 15
         videoView.clipsToBounds = true
+        videoView.layer.masksToBounds = true
         contentView.backgroundColor = .black
+        contentView.tintColor = .black
         contentView.layer.cornerRadius = 15
         contentView.clipsToBounds = true
     }
-
-    func configurePlayer() {
-        guard let urlString = urlString,
-              let url = URL(string: urlString)
-             
-        else {
-            print("Invalid URL string")
-            return
-        }
-        let asset = AVURLAsset(url: url, options: nil)
+    func configureImageView() {
         if let imageURLString =  imageURLString,
            let imageURL = URL(string: imageURLString) {
             thumbnailImageView.isHidden = false
@@ -93,6 +92,15 @@ class VideoCell: UITableViewCell {
             thumbnailImageView.image = nil
             thumbnailImageView.isHidden = true
         }
+    }
+    func configurePlayer() {
+        guard let urlString = urlString,
+              let url = URL(string: urlString) else {
+            print("Invalid URL string")
+            return
+        }
+        let asset = AVURLAsset(url: url, options: nil)
+       
         if CachingPlayerItem.isDownloaded(for: asset.url) {
             localVideoURL = CachingPlayerItem.localFileURL(for: url)
             guard let localVideoURL = localVideoURL else {
@@ -125,6 +133,7 @@ class VideoCell: UITableViewCell {
         
         if let layer = playerLayer {
             videoView.layer.addSublayer(layer)
+            layer.masksToBounds = true
         }
         
         if let currentTime = currentTime {
@@ -198,6 +207,7 @@ class VideoCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         playerLayer?.frame = videoView.bounds
+        contentView.clipsToBounds = true
     }
 
     @objc func play() {
