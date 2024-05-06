@@ -1254,9 +1254,16 @@ extension CreateViewController {
 //        }
     }
     @objc func pushSharePage(_ sender: UIBarButtonItem) {
-        guard let outputFileURL = outputFileURL, !videoURLs.isEmpty, let duration = duration/*, let ensembleUserID = ensembleUserID*/ else {
+        guard !videoURLs.isEmpty else {
+            print("videoURLs 空的")
+            let alert = UIAlertController(title: "請先錄影", message: "點擊 + 鍵開始錄製", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel))
+            present(alert, animated: true, completion: nil)
+            return
+        }
+        guard let outputFileURL = outputFileURL, let duration = duration/*, let ensembleUserID = ensembleUserID*/ else {
             print("點擊分享鍵，但輸出失敗")
-            let alert = UIAlertController(title: "輸出失敗", message: "無法導出影片", preferredStyle: .alert)
+            let alert = UIAlertController(title: "背景輸出中", message: "請稍等片刻，再嘗試分享", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .cancel))
             present(alert, animated: true, completion: nil)
             return
