@@ -18,7 +18,8 @@ class ContentCell: UITableViewCell {
         contentView.addSubview(contentLabel)
         contentView.backgroundColor = .black
         contentLabel.textColor = .white
-        contentLabel.text = contentText
+//        contentLabel.text = contentText
+        contentLabel.attributedText = attributedTextForm(content: contentText, size: 18, kern: 0, color: .white)
         contentLabel.numberOfLines = 0
         NSLayoutConstraint.activate([
             contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),

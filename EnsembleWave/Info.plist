@@ -4,6 +4,16 @@
 <dict>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>NotoSansTC-VariableFont_wght.ttf</string>
+		<string>NotoSansTC.ttf</string>
+		<string>NotoSansTC-Medium.ttf</string>
+		<string>Noto Sans TC.ttf</string>
+		<string>NotoSansTC-ExtraBold.ttf</string>
+		<string>NotoSansTC-Regular.ttf</string>
+		<string>NotoSansTC-Light.ttf</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

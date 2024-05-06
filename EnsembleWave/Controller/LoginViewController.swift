@@ -38,8 +38,9 @@ class LoginViewController: UIViewController {
         signInWithAppleButton.addTarget(self, action: #selector(signInWithApple), for: .touchUpInside)
         signInWithAppleButton.translatesAutoresizingMaskIntoConstraints = false
         
-        label.text = "登入以使用 EnsembleWave 全部功能"
-        label.textColor = .white
+//        label.text = "登入以使用 EnsembleWave 全部功能"
+//        label.textColor = .white
+        label.attributedText = attributedTextForm(content: "登入以使用 EnsembleWave 全部功能", size: 18, kern: 0, color: .white)
         view.addSubview(label)
 //        let goBackHomeButton = UIButton()
 //        goBackHomeButton.translatesAutoresizingMaskIntoConstraints = false

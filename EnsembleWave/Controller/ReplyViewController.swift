@@ -156,12 +156,15 @@ extension ReplyViewController: UITableViewDataSource {
         }
         cell.contentView.backgroundColor = .black
         let reply = replies[indexPath.row]
-        cell.nameLabel.text = usersNames[reply.userID] ?? "Unknown"
-        cell.nameLabel.textColor = .white
-        cell.contentLabel.text = reply.replyContent
-        cell.contentLabel.textColor = .white
-        cell.timeLabel.text = formatDate(reply.replyTime)
-        cell.timeLabel.textColor = .white
+//        cell.nameLabel.text = usersNames[reply.userID] ?? "Unknown"
+//        cell.nameLabel.textColor = .white
+        cell.nameLabel.attributedText = attributedTextForm(content: usersNames[reply.userID] ?? "Unknown", size: 16, kern: 0, color: .white)
+//        cell.contentLabel.text = reply.replyContent
+//        cell.contentLabel.textColor = .white
+        cell.contentLabel.attributedText = attributedTextForm(content: reply.replyContent, size: 16, kern: 0, color: .white)
+//        cell.timeLabel.text = /*formatDate(reply.replyTime)*/
+//        cell.timeLabel.textColor = .white
+        cell.timeLabel.attributedText = attributedTextForm(content: formatDate(reply.replyTime), size: 16, kern: 0, color: .white)
         cell.setupCell()
         return cell
     }

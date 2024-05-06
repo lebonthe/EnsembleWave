@@ -74,9 +74,11 @@ class ProfileView: UIView {
     }
     func configure(with userInfo: User) {
         if userInfo.name == "" {
-            userNameLabel.text = "Change name in settings."
+//            userNameLabel.text = "Change name in settings."
+            userNameLabel.attributedText = attributedTextForm(content: "Change name in settings.", size: 18, kern: 0, color: .white)
         } else {
-            userNameLabel.text = userInfo.name
+//            userNameLabel.text = userInfo.name
+            userNameLabel.attributedText = attributedTextForm(content: userInfo.name, size: 18, kern: 0, color: .white)
         }
         print("userInfo.name:\(userInfo.name)")
         if let imageURLString =  userInfo.photoURL,

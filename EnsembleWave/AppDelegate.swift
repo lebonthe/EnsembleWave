@@ -100,17 +100,29 @@ extension AppDelegate {
         UITabBar.appearance().unselectedItemTintColor = .gray
         UITabBar.appearance().barTintColor = CustomColor.mattBlack
 
-        let attributesNormal: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.systemGray5]
-        let attributesSelected: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.white]
+        if let tabBarItemFont = UIFont(name: "NotoSansTC-Medium", size: 10) {
+            let attributesNormal: [NSAttributedString.Key: Any] = [
+                .foregroundColor: UIColor.systemGray5,
+                .font: tabBarItemFont
+            ]
+            let attributesSelected: [NSAttributedString.Key: Any] = [
+                .foregroundColor: UIColor.white,
+                .font: tabBarItemFont
+            ]
 
-        UITabBarItem.appearance().setTitleTextAttributes(attributesNormal, for: .normal)
-        UITabBarItem.appearance().setTitleTextAttributes(attributesSelected, for: .selected)
+            UITabBarItem.appearance().setTitleTextAttributes(attributesNormal, for: .normal)
+            UITabBarItem.appearance().setTitleTextAttributes(attributesSelected, for: .selected)
+        }
     }
+
     func setupNavBarAppearance() {
         let navigationBarAppearance = UINavigationBarAppearance()
         navigationBarAppearance.configureWithOpaqueBackground()
         navigationBarAppearance.backgroundColor = CustomColor.mattBlack
-        navigationBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        navigationBarAppearance.titleTextAttributes = [
+            .foregroundColor: UIColor.white,
+            .font: UIFont(name: "NotoSansTC-Medium", size: 18)!
+        ]
         UINavigationBar.appearance().standardAppearance = navigationBarAppearance
         UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
         UINavigationBar.appearance().tintColor = .white

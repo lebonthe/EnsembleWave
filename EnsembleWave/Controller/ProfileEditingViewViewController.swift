@@ -27,6 +27,8 @@ class ProfileEditingViewViewController: UIViewController {
     }
     func updateUI() {
         let saveButton = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(saveButtonTapped))
+        let font = UIFont(name: "NotoSansTC-Regular", size: 18)!
+        saveButton.setTitleTextAttributes([.font: font], for: .normal)
         self.navigationItem.rightBarButtonItem = saveButton
         view.addSubview(imageView)
         if let imageURLString =  userInfo?.photoURL,
@@ -41,19 +43,22 @@ class ProfileEditingViewViewController: UIViewController {
         }
         let choosePhotoButton = UIButton()
         choosePhotoButton.translatesAutoresizingMaskIntoConstraints = false
-        choosePhotoButton.setTitle("從相簿選擇", for: .normal)
+//        choosePhotoButton.setTitle("從相簿選擇", for: .normal)
+        choosePhotoButton.setAttributedTitle(attributedTextForm(content: "Select from album", size: 18, kern: 0, color: UIColor.white), for: .normal)
         choosePhotoButton.addTarget(self, action: #selector(selectPhoto), for: .touchUpInside)
         choosePhotoButton.setTitleColor(.white, for: .normal)
         view.addSubview(choosePhotoButton)
         let takePhotoButton = UIButton()
         takePhotoButton.translatesAutoresizingMaskIntoConstraints = false
-        takePhotoButton.setTitle("拍照", for: .normal)
+//        takePhotoButton.setTitle("拍照", for: .normal)
+        takePhotoButton.setAttributedTitle(attributedTextForm(content: "Take a photo", size: 18, kern: 0, color: UIColor.white), for: .normal)
         takePhotoButton.addTarget(self, action: #selector(takePhoto), for: .touchUpInside)
         takePhotoButton.setTitleColor(.white, for: .normal)
         view.addSubview(takePhotoButton)
         let nameLabel = UILabel()
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.text = "Your Name"
+        nameLabel.attributedText = attributedTextForm(content: "Your Name", size: 18, kern: 0, color: .white)
         nameLabel.textAlignment = .center
         nameLabel.textColor = .white
         view.addSubview(nameLabel)

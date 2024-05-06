@@ -4,14 +4,13 @@
 //
 //  Created by Min Hu on 2024/4/26.
 
-
 import UIKit
 import FirebaseAuth
 class TabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.selectedIndex = 1
         self.delegate = self
     }
     func presentLoginViewController() {

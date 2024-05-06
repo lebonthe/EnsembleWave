@@ -60,7 +60,8 @@ class OptionsCell: UITableViewCell {
         goToReplyButton.addTarget(self, action: #selector(reply), for: .touchUpInside)
         ensembleButton.tintColor = .white
         ensembleButton.setImage(UIImage(systemName: "music.mic"), for: .normal)
-        ensembleButton.setTitle("Co-Play", for: .normal)
+//        ensembleButton.setTitle("Co-Play", for: .normal)
+        ensembleButton.setAttributedTitle(attributedTextForm(content: "Co-Play", size: 18, kern: 0, color: UIColor.white), for: .normal)
         ensembleButton.setTitleColor(.white, for: .normal)
         ensembleButton.addTarget(self, action: #selector(checkForEnsemble), for: .touchUpInside)
         ensembleButton.backgroundColor = CustomColor.red
@@ -78,7 +79,7 @@ class OptionsCell: UITableViewCell {
             goToReplyButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6),
             ensembleButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
             ensembleButton.leadingAnchor.constraint(equalTo: goToReplyButton.trailingAnchor, constant: 16),
-            ensembleButton.widthAnchor.constraint(equalToConstant: 110),
+            ensembleButton.widthAnchor.constraint(equalToConstant: 150),
             ensembleButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6)
         ])
     }

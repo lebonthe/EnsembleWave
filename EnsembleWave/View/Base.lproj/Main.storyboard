@@ -25,7 +25,7 @@
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" red="0.082352941176470587" green="0.082352941176470587" blue="0.082352941176470587" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="53b-2B-3pR" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="6SX-mb-mwV"/>
                             <constraint firstItem="53b-2B-3pR" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="S4h-Yr-9T8"/>
@@ -70,22 +70,25 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="USr-NR-ioj">
-                                <rect key="frame" x="149.66666666666666" y="336" width="94" height="35"/>
+                                <rect key="frame" x="149.66666666666666" y="338" width="94" height="35"/>
                                 <color key="tintColor" name="AccentColor"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="加入合奏"/>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KM4-60-FKo" customClass="CustomButton" customModule="EnsembleWave" customModuleProvider="target">
-                                <rect key="frame" x="22" y="405" width="343" height="50"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KM4-60-FKo" customClass="CustomButton" customModule="EnsembleWave" customModuleProvider="target">
+                                <rect key="frame" x="121.66666666666669" y="408" width="150" height="36"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="36" id="OLL-R7-TCG"/>
+                                    <constraint firstAttribute="width" constant="150" id="h1F-Nh-coz"/>
+                                </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled">
                                     <attributedString key="attributedTitle">
                                         <fragment content="New Record">
                                             <attributes>
                                                 <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                <font key="NSFont" metaFont="system" size="22"/>
-                                                <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                <font key="NSFont" size="22" name="NotoSansTC-ExtraBold"/>
                                             </attributes>
                                         </fragment>
                                     </attributedString>
@@ -173,7 +176,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="tkO-FP-Sj1">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="OkQ-zr-1m8" sceneMemberID="viewController">
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="OkQ-zr-1m8" customClass="TabBarController" customModule="EnsembleWave" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="HRE-Ed-ZpL">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>

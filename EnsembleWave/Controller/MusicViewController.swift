@@ -53,10 +53,12 @@ class MusicViewController: UIViewController {
     }
     func setupUI() {
         view.backgroundColor = .black
-        titleLabel.text = "錄影時一邊播放音樂作為參考"
-        titleLabel.textColor = .white
-        pickMusicButton.setTitle("選取音樂", for: .normal)
-        pickMusicButton.tintColor = .white
+//        titleLabel.text = "錄影時一邊播放音樂作為參考"
+        titleLabel.attributedText = attributedTextForm(content: "錄影時一邊播放音樂作為參考", size: 18, kern: 0, color: .white)
+//        titleLabel.textColor = .white
+//        pickMusicButton.setTitle("選取音樂", for: .normal)
+        pickMusicButton.setAttributedTitle(attributedTextForm(content: "選取音樂", size: 18, kern: 0, color: UIColor.white), for: .normal)
+//        pickMusicButton.tintColor = .white
         pickMusicButton.layer.cornerRadius = 8
         pickMusicButton.backgroundColor = CustomColor.finance2
         pickMusicButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
@@ -64,11 +66,11 @@ class MusicViewController: UIViewController {
         songTitleLabel.text = ""
         songTitleLabel.textColor = .white
         songTitleLabel.numberOfLines = 0
-        view.addSubview(titleLabel)
-        view.addSubview(pickMusicButton)
-        view.addSubview(musicImageView)
-        view.addSubview(songTitleLabel)
-        view.addSubview(playButton)
+//        view.addSubview(titleLabel)
+//        view.addSubview(pickMusicButton)
+//        view.addSubview(musicImageView)
+//        view.addSubview(songTitleLabel)
+//        view.addSubview(playButton)
         playButton.setTitle("Play", for: .normal)
         playButton.setImage(UIImage(systemName: "play.circle"), for: .normal)
         playButton.backgroundColor = .white
@@ -76,7 +78,7 @@ class MusicViewController: UIViewController {
         playButton.setTitleColor(.black, for: .normal)
         playButton.tintColor = CustomColor.finance2
         playButton.addTarget(self, action: #selector(playAudio), for: .touchUpInside)
-        view.addSubview(pauseButton)
+//        view.addSubview(pauseButton)
         pauseButton.setTitle("Pause", for: .normal)
         pauseButton.backgroundColor = .white
         pauseButton.tintColor = CustomColor.finance2
@@ -86,13 +88,13 @@ class MusicViewController: UIViewController {
         pauseButton.addTarget(self, action: #selector(pauseAudio), for: .touchUpInside)
         progressSlider.addTarget(self, action: #selector(sliderValueChanged(_:)), for: .valueChanged)
         progressSlider.tintColor = CustomColor.gray2
-        view.addSubview(progressSlider)
-        view.addSubview(exitButton)
+//        view.addSubview(progressSlider)
+//        view.addSubview(exitButton)
         exitButton.setBackgroundImage(UIImage(systemName: "xmark"), for: .normal)
 //        exitButton.backgroundColor = .gray
         exitButton.tintColor = CustomColor.red
         exitButton.addTarget(self, action: #selector(leave), for: .touchUpInside)
-        view.addSubview(toggleMusicButton)
+//        view.addSubview(toggleMusicButton)
         toggleMusicButton.isOn = true
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         pickMusicButton.translatesAutoresizingMaskIntoConstraints = false
@@ -118,10 +120,11 @@ class MusicViewController: UIViewController {
         theView.addSubview(pauseButton)
         theView.addSubview(progressSlider)
         NSLayoutConstraint.activate([
-            theView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 716),
+            theView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             theView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             theView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            theView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            theView.heightAnchor.constraint(equalToConstant: 500),
+//            theView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             exitButton.topAnchor.constraint(equalTo: theView.topAnchor, constant: 16),
             exitButton.leadingAnchor.constraint(equalTo: theView.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             exitButton.heightAnchor.constraint(equalToConstant: 30),

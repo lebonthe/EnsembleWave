@@ -278,13 +278,19 @@ extension WallViewController: UITableViewDelegate {
         headerView.backgroundColor = UIColor.clear
 
         let headerLabel = UILabel(frame: CGRect(x: 16, y: 0, width: tableView.bounds.size.width, height: 30))
-        headerLabel.textColor = UIColor.white 
-        headerLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
+        headerLabel.textColor = UIColor.white
+        if let text = self.tableView(tableView, titleForHeaderInSection: section) {
+            headerLabel.attributedText = attributedTextForm(content: text, size: 18, kern: 0, color: .white)
+        }
         headerView.addSubview(headerLabel)
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleHeaderTap(_:)))
         headerView.addGestureRecognizer(tapGesture)
         headerView.tag = section
         return headerView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        30
     }
     
 //    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {

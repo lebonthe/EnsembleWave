@@ -53,16 +53,23 @@ class SettingViewController: UIViewController {
     }
     
     func signOut() {
-        let firebaseAuth = Auth.auth()
-        do {
-            try firebaseAuth.signOut()
-            CustomFunc.customAlert(title: "已成功登出", message: "", vc: self) {
-                print("sign out")
-                self.navigationController?.popViewController(animated: true)
+        let alert = UIAlertController(title: "確定要登出？", message: "", preferredStyle: .alert)
+        let yesAction = UIAlertAction(title: "確定登出", style: .destructive) { _ in
+            let firebaseAuth = Auth.auth()
+            do {
+                try firebaseAuth.signOut()
+                CustomFunc.customAlert(title: "已成功登出", message: "", vc: self) {
+                    print("sign out")
+                    self.navigationController?.popViewController(animated: true)
+                }
+            } catch let signOutError as NSError {
+                print("Error signing out: %@", signOutError)
             }
-        } catch let signOutError as NSError {
-            print("Error signing out: %@", signOutError)
         }
+        let noAction = UIAlertAction(title: "算了", style: .cancel)
+        alert.addAction(yesAction)
+        alert.addAction(noAction)
+        present(alert, animated: true)
     }
 }
 extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
@@ -79,7 +86,8 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
             var content = cell.defaultContentConfiguration()
             content.textProperties.color = .white
-            content.text = "編輯使用者資料"
+//            content.text = "編輯使用者資料"
+            content.attributedText = attributedTextForm(content: "編輯使用者資料", size: 18, kern: 0, color: .white)
             cell.contentConfiguration = content
             cell.backgroundColor = .clear
             cell.selectionStyle = .none
@@ -88,7 +96,8 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
             var content = cell.defaultContentConfiguration()
             content.textProperties.color = .white
-            content.text = "刪除帳號"
+//            content.text = "刪除帳號"
+            content.attributedText = attributedTextForm(content: "刪除帳號", size: 18, kern: 0, color: .white)
             cell.contentConfiguration = content
             cell.backgroundColor = .clear
             cell.selectionStyle = .none
@@ -97,7 +106,8 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
             var content = cell.defaultContentConfiguration()
             content.textProperties.color = .white
-            content.text = "登出"
+//            content.text = "登出"
+            content.attributedText = attributedTextForm(content: "登出", size: 18, kern: 0, color: .white)
             cell.contentConfiguration = content
             cell.backgroundColor = .clear
             cell.selectionStyle = .none

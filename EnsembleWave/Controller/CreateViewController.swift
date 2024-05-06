@@ -366,7 +366,9 @@ class CreateViewController: UIViewController {
         }
     }
     func setupUI(_ style: Int) {
-        headphoneAlertLabel.textColor = CustomColor.red
+//        headphoneAlertLabel.textColor = CustomColor.red
+        let headphoneText = "Headphones are not detected, sound cannot be played during recording!"
+        headphoneAlertLabel.attributedText = attributedTextForm(content: headphoneText, size: 15, kern: 0, color: CustomColor.red ?? .red)
         headphoneAlertLabel.numberOfLines = 0
         cameraButton.tintColor = CustomColor.red
         albumButton.tintColor = .white
@@ -583,7 +585,8 @@ class CreateViewController: UIViewController {
         timerBeforePlay = nil
     }
     func updateCountdownLabel(_ remainingTime: Int) {
-        countdownLabel.text = timeFormatter(sec: remainingTime)
+//        countdownLabel.text = timeFormatter(sec: remainingTime)
+        countdownLabel.attributedText = attributedTextForm(content: timeFormatter(sec: remainingTime), size: 18, kern: 0, color: CustomColor.red ?? .red)
     }
     func launchTrimTopView() {
         guard navigationController != nil else {
@@ -621,7 +624,7 @@ class CreateViewController: UIViewController {
         recordingTopView.addSubview(countdownLabel)
         recordingTopView.backgroundColor = .black
         updateCountdownLabel(length)
-        countdownLabel.textColor = CustomColor.red
+//        countdownLabel.textColor = CustomColor.red
         NSLayoutConstraint.activate([
             recordingTopView.topAnchor.constraint(equalTo: navigationController.view.topAnchor, constant: 30),
             recordingTopView.leadingAnchor.constraint(equalTo: navigationController.view.leadingAnchor),

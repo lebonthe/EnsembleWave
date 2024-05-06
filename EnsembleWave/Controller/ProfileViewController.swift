@@ -48,6 +48,8 @@ class ProfileViewController: UIViewController {
     }
     func setupSettingButton() {
         let settingButton = UIBarButtonItem(title: "Settings", style: .plain, target: self, action: #selector(pushSettingViewController))
+        let font = UIFont(name: "NotoSansTC-Regular", size: 18)!
+        settingButton.setTitleTextAttributes([.font: font], for: .normal)
         navigationItem.rightBarButtonItem = settingButton
     }
     @objc func pushSettingViewController() {
