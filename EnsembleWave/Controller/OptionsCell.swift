@@ -61,26 +61,29 @@ class OptionsCell: UITableViewCell {
         ensembleButton.tintColor = .white
         ensembleButton.setImage(UIImage(systemName: "music.mic"), for: .normal)
 //        ensembleButton.setTitle("Co-Play", for: .normal)
-        ensembleButton.setAttributedTitle(attributedTextForm(content: "Co-Play", size: 18, kern: 0, color: UIColor.white), for: .normal)
+        ensembleButton.setAttributedTitle(attributedTextForm(content: "Co-Play", size: 16, kern: 0, color: UIColor.white), for: .normal)
         ensembleButton.setTitleColor(.white, for: .normal)
         ensembleButton.addTarget(self, action: #selector(checkForEnsemble), for: .touchUpInside)
         ensembleButton.backgroundColor = CustomColor.red
-        ensembleButton.layer.cornerRadius = 10
+        ensembleButton.layer.cornerRadius = 8
         contentView.addSubview(ensembleButton)
+        let buttonSize = 28.0
         NSLayoutConstraint.activate([
             heartButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
             heartButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            heartButton.widthAnchor.constraint(equalToConstant: 36),
-            heartButton.heightAnchor.constraint(equalToConstant: 36),
-            heartButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6),
+            heartButton.widthAnchor.constraint(equalToConstant: buttonSize),
+            heartButton.heightAnchor.constraint(equalToConstant: buttonSize),
+//            heartButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6),
             goToReplyButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
             goToReplyButton.leadingAnchor.constraint(equalTo: heartButton.trailingAnchor, constant: 16),
-            goToReplyButton.widthAnchor.constraint(equalToConstant: 36),
-            goToReplyButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6),
+            goToReplyButton.widthAnchor.constraint(equalToConstant: buttonSize),
+            goToReplyButton.heightAnchor.constraint(equalToConstant: buttonSize),
+//            goToReplyButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6),
             ensembleButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
             ensembleButton.leadingAnchor.constraint(equalTo: goToReplyButton.trailingAnchor, constant: 16),
             ensembleButton.widthAnchor.constraint(equalToConstant: 150),
-            ensembleButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6)
+            ensembleButton.heightAnchor.constraint(equalToConstant: buttonSize)
+//            ensembleButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6)
         ])
     }
     

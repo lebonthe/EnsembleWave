@@ -129,6 +129,8 @@ class CreateViewController: UIViewController {
     var duration: Int?
     lazy var handPoseButton = UIButton()
     var restingHand = true
+    
+    @IBOutlet weak var cameraBottomView: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
         print("===== CreateViewController viewDidLoad =====")
@@ -397,7 +399,7 @@ class CreateViewController: UIViewController {
         ])
         for _ in 0...style {
             let videoView = UIView()
-            videoView.backgroundColor = CustomColor.gray2
+            videoView.backgroundColor = CustomColor.mattBlack
             containerView.addSubview(videoView)
             videoViews.append(videoView)
         }
@@ -501,20 +503,20 @@ class CreateViewController: UIViewController {
             cameraButton.widthAnchor.constraint(equalToConstant: 60),
             albumButton.centerYAnchor.constraint(equalTo: cameraButton.centerYAnchor),
             albumButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
-            albumButton.heightAnchor.constraint(equalTo: cameraButton.heightAnchor, multiplier: 0.8),
-            albumButton.widthAnchor.constraint(equalTo: cameraButton.widthAnchor, multiplier: 0.8),
+            albumButton.heightAnchor.constraint(equalTo: cameraButton.heightAnchor, multiplier: 0.6),
+            albumButton.widthAnchor.constraint(equalTo: cameraButton.widthAnchor, multiplier: 0.6),
             musicButton.leadingAnchor.constraint(equalTo: albumButton.trailingAnchor, constant: 15),
             musicButton.centerYAnchor.constraint(equalTo: cameraButton.centerYAnchor),
-            musicButton.heightAnchor.constraint(equalTo: cameraButton.heightAnchor, multiplier: 0.8),
-            musicButton.widthAnchor.constraint(equalTo: cameraButton.widthAnchor, multiplier: 0.8),
+            musicButton.heightAnchor.constraint(equalTo: cameraButton.heightAnchor, multiplier: 0.6),
+            musicButton.widthAnchor.constraint(equalTo: cameraButton.widthAnchor, multiplier: 0.6),
             stretchScreenButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
             stretchScreenButton.centerYAnchor.constraint(equalTo: cameraButton.centerYAnchor),
-            stretchScreenButton.heightAnchor.constraint(equalTo: cameraButton.heightAnchor, multiplier: 0.8),
-            stretchScreenButton.widthAnchor.constraint(equalTo: cameraButton.widthAnchor, multiplier: 0.8),
+            stretchScreenButton.heightAnchor.constraint(equalTo: cameraButton.heightAnchor, multiplier: 0.5),
+            stretchScreenButton.widthAnchor.constraint(equalTo: cameraButton.widthAnchor, multiplier: 0.5),
             shrinkScreenButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
             shrinkScreenButton.centerYAnchor.constraint(equalTo: cameraButton.centerYAnchor),
-            shrinkScreenButton.heightAnchor.constraint(equalTo: cameraButton.heightAnchor, multiplier: 0.8),
-            shrinkScreenButton.widthAnchor.constraint(equalTo: cameraButton.widthAnchor, multiplier: 0.8),
+            shrinkScreenButton.heightAnchor.constraint(equalTo: cameraButton.heightAnchor, multiplier: 0.5),
+            shrinkScreenButton.widthAnchor.constraint(equalTo: cameraButton.widthAnchor, multiplier: 0.5),
             postProductionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 8),
             postProductionView.heightAnchor.constraint(equalToConstant: 80),
             postProductionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -586,7 +588,7 @@ class CreateViewController: UIViewController {
     }
     func updateCountdownLabel(_ remainingTime: Int) {
 //        countdownLabel.text = timeFormatter(sec: remainingTime)
-        countdownLabel.attributedText = attributedTextForm(content: timeFormatter(sec: remainingTime), size: 18, kern: 0, color: CustomColor.red ?? .red)
+        countdownLabel.attributedText = attributedTextForm(content: timeFormatter(sec: remainingTime), size: 22, kern: 0, color: CustomColor.red ?? .red)
     }
     func launchTrimTopView() {
         guard navigationController != nil else {
@@ -625,6 +627,7 @@ class CreateViewController: UIViewController {
         recordingTopView.backgroundColor = .black
         updateCountdownLabel(length)
 //        countdownLabel.textColor = CustomColor.red
+        let buttonSize = 28.0
         NSLayoutConstraint.activate([
             recordingTopView.topAnchor.constraint(equalTo: navigationController.view.topAnchor, constant: 30),
             recordingTopView.leadingAnchor.constraint(equalTo: navigationController.view.leadingAnchor),
@@ -632,22 +635,29 @@ class CreateViewController: UIViewController {
             recordingTopView.heightAnchor.constraint(equalToConstant: 50),
             countdownLabel.centerXAnchor.constraint(equalTo: recordingTopView.centerXAnchor),
             countdownLabel.centerYAnchor.constraint(equalTo: recordingTopView.centerYAnchor),
+            countdownLabel.heightAnchor.constraint(equalToConstant: buttonSize),
             cameraPositionButton.centerYAnchor.constraint(equalTo: recordingTopView.centerYAnchor),
             cameraPositionButton.trailingAnchor.constraint(equalTo: recordingTopView.trailingAnchor, constant: -16),
+            cameraPositionButton.heightAnchor.constraint(equalToConstant: buttonSize),
+            cameraPositionButton.widthAnchor.constraint(equalToConstant: buttonSize),
             cancelButton.centerYAnchor.constraint(equalTo: recordingTopView.centerYAnchor),
-            cancelButton.leadingAnchor.constraint(equalTo: recordingTopView.leadingAnchor, constant: 16)
+            cancelButton.leadingAnchor.constraint(equalTo: recordingTopView.leadingAnchor, constant: 16),
+            cancelButton.heightAnchor.constraint(equalToConstant: buttonSize),
+            cancelButton.widthAnchor.constraint(equalToConstant: buttonSize)
         ])
         // 開始前的倒數計時
         countdownButton.translatesAutoresizingMaskIntoConstraints = false
-        countdownButton.setImage(UIImage(systemName: "clock.badge.checkmark"), for: .normal)
-        countdownButton.setImage(UIImage(systemName: "clock.badge.xmark"), for: .selected)
+        countdownButton.setBackgroundImage(UIImage(systemName: "clock.badge.checkmark"), for: .normal)
+        countdownButton.setBackgroundImage(UIImage(systemName: "clock.badge.xmark"), for: .selected)
         countdownButton.tintColor = .white
         countdownButton.isSelected = !countBeforeRecording
         recordingTopView.addSubview(countdownButton)
         countdownButton.addTarget(self, action: #selector(changeCountdownMode(_:)), for: .touchUpInside)
         NSLayoutConstraint.activate([
             countdownButton.centerYAnchor.constraint(equalTo: recordingTopView.centerYAnchor),
-            countdownButton.trailingAnchor.constraint(equalTo: cameraPositionButton.leadingAnchor, constant: -16)
+            countdownButton.trailingAnchor.constraint(equalTo: cameraPositionButton.leadingAnchor, constant: -16),
+            countdownButton.heightAnchor.constraint(equalToConstant: buttonSize),
+            countdownButton.widthAnchor.constraint(equalToConstant: buttonSize)
         ])
         
         handPoseButton.translatesAutoresizingMaskIntoConstraints = false
@@ -658,7 +668,9 @@ class CreateViewController: UIViewController {
         handPoseButton.addTarget(self, action: #selector(changeHandPoseMode(_:)), for: .touchUpInside)
         NSLayoutConstraint.activate([
             handPoseButton.centerYAnchor.constraint(equalTo: recordingTopView.centerYAnchor),
-            handPoseButton.trailingAnchor.constraint(equalTo: countdownButton.leadingAnchor, constant: -16)
+            handPoseButton.trailingAnchor.constraint(equalTo: countdownButton.leadingAnchor, constant: -16),
+            handPoseButton.heightAnchor.constraint(equalToConstant: buttonSize),
+            handPoseButton.widthAnchor.constraint(equalToConstant: buttonSize)
         ])
         
     }
@@ -814,7 +826,8 @@ class CreateViewController: UIViewController {
         isRecording = true
         toggleRecordingButtons(isRecording: isRecording)
         startCountdownTimer()
-        cameraButton.setBackgroundImage(UIImage(systemName: "stop.circle"), for: .normal)
+//        cameraButton.setBackgroundImage(UIImage(systemName: "stop.circle"), for: .normal)
+        cameraButton.setBackgroundImage(UIImage(named: "stopButton"), for: .normal)
         if style == 0 {
             if let cameraPreviewLayer = cameraPreviewLayer {
                 videoViews[0].layer.addSublayer(cameraPreviewLayer)
@@ -878,7 +891,8 @@ class CreateViewController: UIViewController {
             }
         } else {
             stopCountdownTimer()
-            cameraButton.setBackgroundImage(UIImage(systemName: "record.circle"), for: .normal)
+//            cameraButton.setBackgroundImage(UIImage(systemName: "record.circle"), for: .normal)
+            cameraButton.setBackgroundImage(UIImage(named: "recordingButton"), for: .normal)
             cameraButton.layer.removeAllAnimations()
             videoFileOutput?.stopRecording()
             isRecording = false

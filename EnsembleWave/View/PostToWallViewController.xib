@@ -5,7 +5,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -26,7 +25,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="tag" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8wt-B7-oGO">
-                    <rect key="frame" x="16" y="667" width="361" height="22"/>
+                    <rect key="frame" x="16" y="639" width="361" height="22"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="22" id="zQU-BZ-KjD"/>
                     </constraints>
@@ -43,14 +42,14 @@
                     </constraints>
                 </containerView>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ejD-NC-5g8">
-                    <rect key="frame" x="16" y="423" width="361" height="224"/>
-                    <color key="backgroundColor" systemColor="labelColor"/>
+                    <rect key="frame" x="16" y="423" width="361" height="196"/>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
                 <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eii-ah-I3p">
-                    <rect key="frame" x="16" y="695" width="361" height="34"/>
+                    <rect key="frame" x="16" y="667" width="361" height="34"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="34" id="R8W-Sz-Cct"/>
@@ -60,7 +59,7 @@
                     <textInputTraits key="textInputTraits"/>
                 </textField>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FJv-lw-1Mi">
-                    <rect key="frame" x="16" y="811" width="361" height="35"/>
+                    <rect key="frame" x="16" y="783" width="361" height="35"/>
                     <state key="normal" title="Button"/>
                     <buttonConfiguration key="configuration" style="filled" title="Share to the Wall"/>
                     <connections>
@@ -97,7 +96,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ebw-lJ-ZcB">
-                    <rect key="frame" x="16" y="773" width="361" height="22"/>
+                    <rect key="frame" x="16" y="745" width="361" height="22"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="22" id="FBT-kk-6HR"/>
                     </constraints>
@@ -106,7 +105,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Co-Player" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5v2-zA-9wh">
-                    <rect key="frame" x="16" y="745" width="361" height="22"/>
+                    <rect key="frame" x="16" y="717" width="361" height="22"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="22" id="8la-FA-REE"/>
                     </constraints>
@@ -124,7 +123,7 @@
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="qcD-yI-NyS" secondAttribute="trailing" constant="16" id="3WV-QB-7wi"/>
                 <constraint firstItem="FcM-2m-tOR" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="5rs-Ll-Wg8"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="ejD-NC-5g8" secondAttribute="trailing" constant="16" id="6R7-3V-BEu"/>
-                <constraint firstAttribute="bottom" secondItem="FJv-lw-1Mi" secondAttribute="bottom" constant="6" id="CDe-WQ-TNf"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="FJv-lw-1Mi" secondAttribute="bottom" id="CDe-WQ-TNf"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="5v2-zA-9wh" secondAttribute="trailing" constant="16" id="DF4-cR-N1i"/>
                 <constraint firstItem="HOS-sH-7s9" firstAttribute="top" secondItem="FcM-2m-tOR" secondAttribute="bottom" constant="20" id="Ddd-Zv-G8s"/>
                 <constraint firstItem="ebw-lJ-ZcB" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="IMy-eL-Cvw"/>
@@ -152,9 +151,4 @@
             <point key="canvasLocation" x="90.839694656488547" y="-1.4084507042253522"/>
         </view>
     </objects>
-    <resources>
-        <systemColor name="labelColor">
-            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-    </resources>
 </document>

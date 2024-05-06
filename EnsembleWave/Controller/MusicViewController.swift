@@ -136,7 +136,6 @@ class MusicViewController: UIViewController {
             pickMusicButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             pickMusicButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             pickMusicButton.heightAnchor.constraint(equalToConstant: 30),
-            
             musicImageView.topAnchor.constraint(equalTo: pickMusicButton.bottomAnchor, constant: 16),
             musicImageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             musicImageView.widthAnchor.constraint(equalToConstant: 30),

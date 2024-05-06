@@ -16,6 +16,7 @@ class ShareViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("存到相簿", for: .normal)
         button.setTitleColor(.white, for: .normal)
+
         return button
     }()
     private let shareToWallButton: UIButton = {
@@ -34,6 +35,8 @@ class ShareViewController: UIViewController {
         setupUI()
     }
     func setupUI() {
+        saveToAlbumButton.setAttributedTitle(attributedTextForm(content: "存到相簿", size: 18, kern: 0, color: UIColor.white), for: .normal)
+        shareToWallButton.setAttributedTitle(attributedTextForm(content: "分享到動態牆", size: 18, kern: 0, color: UIColor.white), for: .normal)
         view.addSubview(saveToAlbumButton)
         view.addSubview(shareToWallButton)
         NSLayoutConstraint.activate([

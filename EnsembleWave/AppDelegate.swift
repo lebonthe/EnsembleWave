@@ -118,7 +118,7 @@ extension AppDelegate {
     func setupNavBarAppearance() {
         let navigationBarAppearance = UINavigationBarAppearance()
         navigationBarAppearance.configureWithOpaqueBackground()
-        navigationBarAppearance.backgroundColor = CustomColor.mattBlack
+        navigationBarAppearance.backgroundColor = .black
         navigationBarAppearance.titleTextAttributes = [
             .foregroundColor: UIColor.white,
             .font: UIFont(name: "NotoSansTC-Medium", size: 18)!

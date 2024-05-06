@@ -42,18 +42,14 @@ class VideoCell: UITableViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
-
     func setupUI() {
-        contentView.backgroundColor = .black
-        contentView.addSubview(videoView)
         videoView.frame = contentView.bounds
-        videoView.layer.cornerRadius = 10
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(togglePlayPause))
         videoView.addGestureRecognizer(tapGesture)
         videoView.isUserInteractionEnabled = true
-       
         contentView.addSubview(thumbnailImageView)
         contentView.addSubview(replayButton)
+        contentView.addSubview(videoView)
         replayButton.isHidden = false
         replayButton.addTarget(self, action: #selector(play), for: .touchUpInside)
         NSLayoutConstraint.activate([
@@ -70,6 +66,12 @@ class VideoCell: UITableViewCell {
             replayButton.widthAnchor.constraint(equalToConstant: 60),
             replayButton.heightAnchor.constraint(equalToConstant: 60)
         ])
+        videoView.backgroundColor = .black
+        videoView.layer.cornerRadius = 15
+        videoView.clipsToBounds = true
+        contentView.backgroundColor = .black
+        contentView.layer.cornerRadius = 15
+        contentView.clipsToBounds = true
     }
 
     func configurePlayer() {

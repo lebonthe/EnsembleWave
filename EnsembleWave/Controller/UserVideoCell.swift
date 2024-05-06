@@ -30,6 +30,8 @@ class UserVideoCell: UICollectionViewCell {
             contentView.addSubview(videoPlayView)
         }
         videoPlayView?.frame = contentView.bounds
+        videoPlayView?.layer.cornerRadius = 8
+        videoPlayView?.clipsToBounds = true
     }
     override func layoutSubviews() {
             super.layoutSubviews()

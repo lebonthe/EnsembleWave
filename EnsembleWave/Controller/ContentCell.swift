@@ -22,10 +22,10 @@ class ContentCell: UITableViewCell {
         contentLabel.attributedText = attributedTextForm(content: contentText, size: 18, kern: 0, color: .white)
         contentLabel.numberOfLines = 0
         NSLayoutConstraint.activate([
-            contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
+            contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
             contentLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             contentLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            contentLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6)
+            contentLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
 }
