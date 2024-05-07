@@ -14,6 +14,7 @@ class UserVideoPlayerView: UIView {
 
     init(frame: CGRect, urlString: String) {
             super.init(frame: frame)
+        self.backgroundColor = .black
             setupPlayer(urlString: urlString)
             setupPlayPauseButton()
         }

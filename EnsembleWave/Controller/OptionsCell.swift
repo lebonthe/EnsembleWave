@@ -21,12 +21,20 @@ protocol OptionsCellDelegate: AnyObject {
     func presentLoginViewController()
     
     func getLocalVideoURL(postID: String) -> URL?
+    
+    func presentReportPage(postID: String, userID: String)
+    
+    func blockUser(postID: String, userID: String)
 }
 
 class OptionsCell: UITableViewCell {
     weak var delegate: OptionsCellDelegate?
     let db = Firestore.firestore()
-    var postID: String = ""
+    var postID: String = "" {
+        didSet {
+            print("postID did set: \(postID)")
+        }
+    }
     var heartButton: UIButton = {
        let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -44,6 +52,11 @@ class OptionsCell: UITableViewCell {
     }()
     var isUserLiked: Bool = false
     var cellIndex: IndexPath?
+    var reportButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
     func setupUI() {
         contentView.backgroundColor = .black
         contentView.addSubview(heartButton)
@@ -67,6 +80,10 @@ class OptionsCell: UITableViewCell {
         ensembleButton.backgroundColor = CustomColor.red
         ensembleButton.layer.cornerRadius = 8
         contentView.addSubview(ensembleButton)
+        reportButton.setBackgroundImage(UIImage(systemName: "ellipsis"), for: .normal)
+        reportButton.tintColor = CustomColor.gray2
+        reportButton.addTarget(self, action: #selector(showReportSheet), for: .touchUpInside)
+        contentView.addSubview(reportButton)
         let buttonSize = 28.0
         NSLayoutConstraint.activate([
             heartButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
@@ -82,8 +99,12 @@ class OptionsCell: UITableViewCell {
             ensembleButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
             ensembleButton.leadingAnchor.constraint(equalTo: goToReplyButton.trailingAnchor, constant: 16),
             ensembleButton.widthAnchor.constraint(equalToConstant: 150),
-            ensembleButton.heightAnchor.constraint(equalToConstant: buttonSize)
+            ensembleButton.heightAnchor.constraint(equalToConstant: buttonSize),
 //            ensembleButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6)
+            reportButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
+            reportButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            reportButton.widthAnchor.constraint(equalToConstant: buttonSize),
+            reportButton.heightAnchor.constraint(equalToConstant: buttonSize)
         ])
     }
     
@@ -118,8 +139,14 @@ class OptionsCell: UITableViewCell {
     }
 
     func addLike() {
-        let userLikeRef = db.collection("Posts").document(postID).collection("whoLike").document("\(String(describing: Auth.auth().currentUser?.uid))")
-        userLikeRef.setData(["userID": "\(String(describing: Auth.auth().currentUser?.uid))"]) { [weak self] error in
+        print("=== postID: \(postID)")
+        
+        guard let user = Auth.auth().currentUser else {
+            return
+        }
+        print("=== UserUid: \(String(user.uid))")
+        let userLikeRef = db.collection("Posts").document(postID).collection("whoLike").document("\(String(describing: user.uid))")
+        userLikeRef.setData(["userID": "\(String(describing: user.uid))"]) { [weak self] error in
             if let error = error {
                 print("Error adding like: \(error)")
             } else {
@@ -177,5 +204,32 @@ class OptionsCell: UITableViewCell {
 //               }
 //               vc.present(controller, animated: true, completion: nil)
 //           }
+    }
+    @objc func showReportSheet() {
+        guard let user = Auth.auth().currentUser else {
+            delegate?.presentLoginViewController()
+            return
+            }
+        let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let reportAction = UIAlertAction(title: "回報問題", style: .default) {_ in
+            self.delegate?.presentReportPage(postID: self.postID, userID: user.uid)
+        }
+        controller.addAction(reportAction)
+        let blockAction = UIAlertAction(title: "封鎖此帳號發佈的內容", style: .default){_ in
+            self.delegate?.blockUser(postID: self.postID, userID: user.uid)
+        }
+        controller.addAction(blockAction)
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel)
+        controller.addAction(cancelAction)
+        // Check if the device is iPad to configure popover presentation
+        if let popoverController = controller.popoverPresentationController {
+            let sourceView = self.contentView
+                popoverController.sourceView = sourceView
+                popoverController.sourceRect = CGRect(x: sourceView.bounds.midX, y: sourceView.bounds.maxY, width: 0, height: 0)
+                popoverController.permittedArrowDirections = []
+        }
+        if let vc = delegate?.viewControllerForPresentation() {
+                vc.present(controller, animated: true, completion: nil)
+            }
     }
 }

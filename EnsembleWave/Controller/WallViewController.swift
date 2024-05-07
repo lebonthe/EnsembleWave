@@ -37,7 +37,7 @@ class WallViewController: UIViewController {
         tableView.register(TagsCell.self, forCellReuseIdentifier: "\(TagsCell.self)")
         tableView.register(RepliesCell.self, forCellReuseIdentifier: "\(RepliesCell.self)")
         tableView.sectionHeaderHeight = 25
-        tableView.sectionIndexBackgroundColor = .clear
+        tableView.sectionIndexBackgroundColor = .black
         tableView.backgroundColor = .black
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -161,6 +161,7 @@ extension WallViewController: UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let post = posts[indexPath.section]
+        print("post:\(post)")
         switch indexPath.row {
         case 0:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(VideoCell.self)", for: indexPath) as? VideoCell else {
@@ -179,6 +180,8 @@ extension WallViewController: UITableViewDataSource {
             cell.delegate = self
             cell.isUserLiked = self.postLikesStatus[post.id] ?? false
             cell.postID = post.id
+            print("post: \(post)")
+            print("cell did sent cell.postID: \(cell.postID)")
             cell.cellIndex = indexPath
             cell.setupUI()
             return cell
@@ -275,7 +278,7 @@ extension WallViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView()
-        headerView.backgroundColor = UIColor.clear
+        headerView.backgroundColor = UIColor.black
 
         let headerLabel = UILabel(frame: CGRect(x: 16, y: 0, width: tableView.bounds.size.width, height: 30))
         headerLabel.textColor = UIColor.white
@@ -308,6 +311,17 @@ extension WallViewController: UITableViewDelegate {
 }
 
 extension WallViewController: OptionsCellDelegate {
+    func presentReportPage(postID: String, userID: String) {
+        let controller = ReportTableViewController()
+        present(controller, animated: true)
+        // TODO: 回報的 post
+    }
+    
+    func blockUser(postID: String, userID: String) {
+        let controller = ReportTableViewController()
+        present(controller, animated: true)
+        // TODO: 封鎖的 post & get
+    }
     
     func viewControllerForPresentation() -> UIViewController? {
             return self

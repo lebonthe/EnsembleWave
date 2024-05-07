@@ -20,14 +20,14 @@ class VideoView: UIView {
     let containerView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .clear
+        view.backgroundColor = .black
         return view
     }()
 
     private let playerContainerView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .clear
+        view.backgroundColor = .black
         return view
     }()
 
@@ -297,7 +297,7 @@ extension VideoView {
             } else {
                 let maskLayer = CAShapeLayer()
                 maskLayer.fillRule = CAShapeLayerFillRule.evenOdd
-                maskLayer.backgroundColor = UIColor.clear.cgColor
+                maskLayer.backgroundColor = UIColor.black.cgColor
                 maskLayer.path = path
                 self.layer.mask = maskLayer
             }

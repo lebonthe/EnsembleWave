@@ -75,7 +75,7 @@ struct Report: Decodable {
     var detail: String
 }
 
-enum ReportType: Decodable {
+enum ReportType: Decodable, CaseIterable {
     case spam, insult, mistakeInfo, violence, revealIdentity, other
 }
 

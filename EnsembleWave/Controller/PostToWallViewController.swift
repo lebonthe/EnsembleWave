@@ -109,6 +109,7 @@ class PostToWallViewController: UIViewController {
             print("尚未登入")
             return false
         }
+        
         var post: [String: Any] = [
             "videoURL": "\(url)",
             "imageURL": "\(imageURL)",

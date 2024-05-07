@@ -52,6 +52,7 @@
 		9F77C1BF2BE945A8002706F8 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F77C1BE2BE945A8002706F8 /* UIImage+Extension.swift */; };
 		9F77C1C12BE9DB13002706F8 /* Animation01.json in Resources */ = {isa = PBXBuildFile; fileRef = 9F77C1C02BE9DB13002706F8 /* Animation01.json */; };
 		9F77C1C32BE9DDA4002706F8 /* Animation02.json in Resources */ = {isa = PBXBuildFile; fileRef = 9F77C1C22BE9DDA4002706F8 /* Animation02.json */; };
+		9F77C1C72BEA13DE002706F8 /* ReportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F77C1C62BEA13DE002706F8 /* ReportTableViewController.swift */; };
 		9F99AFB22BC79857003671BF /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 9F99AFB12BC79857003671BF /* FirebaseAuth */; };
 		9F99AFB42BC79857003671BF /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9F99AFB32BC79857003671BF /* FirebaseFirestoreSwift */; };
 		9F99AFB62BC79857003671BF /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 9F99AFB52BC79857003671BF /* FirebaseStorage */; };
@@ -161,6 +162,7 @@
 		9F77C1BE2BE945A8002706F8 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		9F77C1C02BE9DB13002706F8 /* Animation01.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Animation01.json; sourceTree = "<group>"; };
 		9F77C1C22BE9DDA4002706F8 /* Animation02.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Animation02.json; sourceTree = "<group>"; };
+		9F77C1C62BEA13DE002706F8 /* ReportTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTableViewController.swift; sourceTree = "<group>"; };
 		9FAA99232BE23308004615EE /* CustomAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertController.swift; sourceTree = "<group>"; };
 		9FAA99272BE2B8FE004615EE /* ProfileView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileView.xib; sourceTree = "<group>"; };
 		9FAA99292BE2BE8B004615EE /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
@@ -337,6 +339,7 @@
 				9FAA99332BE39228004615EE /* UserVideoCell.swift */,
 				9FAA993D2BE4C095004615EE /* ProfileEditingViewViewController.swift */,
 				9FAD4F512BE7863800142EBE /* UserWallViewController.swift */,
+				9F77C1C62BEA13DE002706F8 /* ReportTableViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -728,6 +731,7 @@
 				9F6B5D642BCD383A00509F5F /* VideoView.swift in Sources */,
 				9FAD77012BDB9ED500BF7163 /* KeychainItem.swift in Sources */,
 				9F6FDABC2BD8FA8400315B13 /* UIColor+Extension.swift in Sources */,
+				9F77C1C72BEA13DE002706F8 /* ReportTableViewController.swift in Sources */,
 				9FC29A922BE0F540009E776C /* SettingViewController.swift in Sources */,
 				9F5A51BD2BCF9A4700070186 /* Data.swift in Sources */,
 				9F5A51BB2BCEC68900070186 /* ExportError.swift in Sources */,
