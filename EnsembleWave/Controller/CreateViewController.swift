@@ -118,7 +118,6 @@ class CreateViewController: UIViewController {
         }
     }
     @IBOutlet weak var albumButton: UIButton!
-    
     @IBOutlet weak var musicButton: UIButton!
     var selectedMusic: MusicType?
     var audioPlayer: AVAudioPlayer?
@@ -205,6 +204,10 @@ class CreateViewController: UIViewController {
         }
     }
     @objc func preparedToShare() {
+        let otherIndex = currentImageIndex == 0 ? 1 : 0
+        if players[otherIndex].currentItem?.asset.isPlayable == false {
+            chooseViewButtons[otherIndex].isHidden = false
+        }
         mergingAnimation()
         let asset = AVURLAsset(url: videoURLs[currentRecordingIndex])
         let keys = ["tracks"]
@@ -287,7 +290,7 @@ class CreateViewController: UIViewController {
         stopCountdownTimer()
         self.countdownLabel.text = self.timeFormatter(sec: self.length)
         self.clearVideoView(for: self.currentRecordingIndex)
-        self.prepareRecording(for: self.currentRecordingIndex)
+//        self.prepareRecording(for: self.currentRecordingIndex)
         if useHandPoseStartRecording {
             addGestureRecognitionToSession()
         } else {
@@ -295,6 +298,8 @@ class CreateViewController: UIViewController {
         }
     }
     func setupTrimViewUI() {
+        let otherIndex = currentRecordingIndex == 0 ? 1 : 0
+        chooseViewButtons[otherIndex].isHidden = true
         stopCountdownTimer()
         postProductionView.isHidden = false
         //        view.bringSubviewToFront(postProductionView)
@@ -329,6 +334,7 @@ class CreateViewController: UIViewController {
         guard let videoFileURL = videoFileURL else {
             return
         }
+        
         let asset = AVAsset(url: videoFileURL)
         videoTrim.asset = asset
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -1698,7 +1704,27 @@ extension CreateViewController: VideoTrimDelegate {
                 print("清除影片檔案失敗: \(error)")
             }
         }
-        
+        if index == 0 {
+            if let url = video0URL {
+                do {
+                    try FileManager.default.removeItem(at: url)
+                    print("成功清除影片檔案")
+                    self.videoViewHasContent[self.currentRecordingIndex] = false
+                } catch {
+                    print("清除影片檔案失敗: \(error)")
+                }
+            }
+        } else if index == 1 {
+            if let url = video1URL {
+                do {
+                    try FileManager.default.removeItem(at: url)
+                    print("成功清除影片檔案")
+                    self.videoViewHasContent[self.currentRecordingIndex] = false
+                } catch {
+                    print("清除影片檔案失敗: \(error)")
+                }
+            }
+        }
         videoViews[index].subviews.forEach { subview in
             if let button = subview as? UIButton, chooseViewButtons.contains(button) {
                 button.isHidden = false
