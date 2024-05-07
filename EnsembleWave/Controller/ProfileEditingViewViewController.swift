@@ -79,7 +79,7 @@ class ProfileEditingViewViewController: UIViewController {
             imageView.heightAnchor.constraint(equalToConstant: 150),
             choosePhotoButton.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8),
             choosePhotoButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            choosePhotoButton.widthAnchor.constraint(equalToConstant: 120),
+            choosePhotoButton.widthAnchor.constraint(equalToConstant: 200),
             choosePhotoButton.heightAnchor.constraint(equalToConstant: 30),
             takePhotoButton.topAnchor.constraint(equalTo: choosePhotoButton.bottomAnchor, constant: 8),
             takePhotoButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),

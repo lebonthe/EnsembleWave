@@ -8,6 +8,7 @@ import UIKit
 import FirebaseAuth
 import CryptoKit
 import AuthenticationServices
+import MessageUI
 class SettingViewController: UIViewController {
 
     let tableView = UITableView()
@@ -74,10 +75,17 @@ class SettingViewController: UIViewController {
 }
 extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
-        1
+        2
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        3
+        switch section {
+        case 0:
+            3
+        case 1:
+            1
+        default:
+            0
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -86,8 +94,7 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
             var content = cell.defaultContentConfiguration()
             content.textProperties.color = .white
-//            content.text = "編輯使用者資料"
-            content.attributedText = attributedTextForm(content: "編輯使用者資料", size: 18, kern: 0, color: .white)
+            content.attributedText = attributedTextForm(content: "Personal Information", size: 18, kern: 0, color: .white)
             cell.contentConfiguration = content
             cell.backgroundColor = .clear
             cell.selectionStyle = .none
@@ -96,21 +103,31 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
             var content = cell.defaultContentConfiguration()
             content.textProperties.color = .white
-//            content.text = "刪除帳號"
-            content.attributedText = attributedTextForm(content: "刪除帳號", size: 18, kern: 0, color: .white)
+            content.attributedText = attributedTextForm(content: "Delete Account", size: 18, kern: 0, color: .white)
+            cell.contentConfiguration = content
+            cell.backgroundColor = .clear
+            cell.selectionStyle = .none
+            return cell
+        case IndexPath(row: 2, section: 0):
+            let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
+            var content = cell.defaultContentConfiguration()
+            content.textProperties.color = .white
+            content.attributedText = attributedTextForm(content: "Sign Out", size: 18, kern: 0, color: .white)
+            cell.contentConfiguration = content
+            cell.backgroundColor = .clear
+            cell.selectionStyle = .none
+            return cell
+        case IndexPath(row: 0, section: 1):
+            let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
+            var content = cell.defaultContentConfiguration()
+            content.textProperties.color = .white
+            content.attributedText = attributedTextForm(content: "Contact With Us", size: 18, kern: 0, color: .white)
             cell.contentConfiguration = content
             cell.backgroundColor = .clear
             cell.selectionStyle = .none
             return cell
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
-            var content = cell.defaultContentConfiguration()
-            content.textProperties.color = .white
-//            content.text = "登出"
-            content.attributedText = attributedTextForm(content: "登出", size: 18, kern: 0, color: .white)
-            cell.contentConfiguration = content
-            cell.backgroundColor = .clear
-            cell.selectionStyle = .none
             return cell
         }
     }
@@ -130,12 +147,26 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
             alert.addAction(deleteAction)
             alert.addAction(cancelAction)
             self.present(alert, animated: true)
+        case IndexPath(row: 2, section: 0):
+            signOut()
+        case IndexPath(row: 0, section: 1):
+            sendEmail()
         default:
             signOut()
         }
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         60
+    }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        25
+    }
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            "Personal Info"
+        } else {
+            "About EnsembleWave"
+        }
     }
 }
 extension SettingViewController: ASAuthorizationControllerPresentationContextProviding {
@@ -154,7 +185,7 @@ extension SettingViewController: ASAuthorizationControllerPresentationContextPro
 }
 
 extension SettingViewController: ASAuthorizationControllerDelegate {
-
+    
     func authorizationController(controller: ASAuthorizationController,
                                  didCompleteWithAuthorization authorization: ASAuthorization) {
         guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential
@@ -176,7 +207,7 @@ extension SettingViewController: ASAuthorizationControllerDelegate {
             print("Unable to serialize auth code string from data: \(appleAuthCode.debugDescription)")
             return
         }
-
+        
         Task {
             do {
                 try await Auth.auth().revokeToken(withAuthorizationCode: authCodeString)
@@ -192,7 +223,46 @@ extension SettingViewController: ASAuthorizationControllerDelegate {
     }
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-        // Handle error.
         print("Sign in with Apple errored: \(error)")
+    }
+}
+extension SettingViewController: MFMailComposeViewControllerDelegate {
+    func sendEmail() {
+        if MFMailComposeViewController.canSendMail() {
+            
+            let mail = MFMailComposeViewController()
+            mail.mailComposeDelegate = self
+            mail.setToRecipients(["ensemblewaveservice@gmail.com"])
+            mail.setSubject("A message from [Your Name]")
+            if let user = Auth.auth().currentUser {
+                mail.setMessageBody("<p>Sent from user id: \(user.uid)</p>", isHTML: true)
+            }
+            present(mail, animated: true)
+        } else {
+            CustomFunc.customAlert(title: "目前無法寄信", message: "請檢查您的信箱是否處於登入狀態", vc: self, actionHandler: nil)
+        }
+    }
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true) {
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
+            } else {
+                switch result {
+                case .cancelled:
+                    print("Mail cancelled")
+                case .saved:
+                    print("Mail saved")
+                    CustomFunc.customAlert(title: "信件已儲存", message: "", vc: self, actionHandler: nil)
+                case .sent:
+                    print("Mail sent")
+                    CustomFunc.customAlert(title: "信件已寄出", message: "感謝您的來信", vc: self, actionHandler: nil)
+                case .failed:
+                    print("Mail sent failure")
+                    CustomFunc.customAlert(title: "信件寄送失敗", message: "請檢查您的網路狀態", vc: self, actionHandler: nil)
+                default:
+                    break
+                }
+            }
+        }
     }
 }
