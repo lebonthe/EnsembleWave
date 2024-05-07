@@ -64,6 +64,7 @@ class ProfileEditingViewViewController: UIViewController {
         view.addSubview(nameLabel)
         nameTextField.translatesAutoresizingMaskIntoConstraints = false
         nameTextField.backgroundColor = .white
+        nameTextField.textColor = .black
         nameLabel.layer.cornerRadius = 10
         if let userInfo = userInfo {
             nameTextField.text = userInfo.name
