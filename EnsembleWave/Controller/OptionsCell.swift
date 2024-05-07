@@ -157,7 +157,10 @@ class OptionsCell: UITableViewCell {
     }
 
     func deleteLike() {
-        let userLikeRef = db.collection("Posts").document(postID).collection("whoLike").document("\(String(describing: Auth.auth().currentUser?.uid))") 
+        guard let user = Auth.auth().currentUser else {
+            return
+        }
+        let userLikeRef = db.collection("Posts").document(postID).collection("whoLike").document("\(String(describing: user.uid))")
         userLikeRef.delete { [weak self] error in
             if let error = error {
                 print("Error removing like: \(error)")

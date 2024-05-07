@@ -80,9 +80,11 @@ class WallViewController: UIViewController {
                                 return
                             }
                             let userIDs = documents.compactMap { $0.documentID }
-                            let isLiked = userIDs.contains("\(String(describing: Auth.auth().currentUser?.uid))")
-                            self.postLikesStatus[postId] = isLiked
-                            print("Post ID: \(postId), Liked by current user: \(isLiked)")
+                            if let user = Auth.auth().currentUser {
+                                let isLiked = userIDs.contains("\(String(describing: user.uid))")
+                                self.postLikesStatus[postId] = isLiked
+                                print("Post ID: \(postId), Liked by current user: \(isLiked)")
+                            }
                         }
                     }
                     let repiesRef = self.db.collection("Posts").document(postId).collection("replies")
