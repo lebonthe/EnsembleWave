@@ -160,10 +160,13 @@ class CreateViewController: UIViewController {
         super.viewDidLayoutSubviews()
         print("===== CreateViewController viewDidLayoutSubviews =====")
     }
-    override func viewWillDisappear(_ animated: Bool) {
+    func stopAnim() {
         animView?.stop()
         animView?.removeFromSuperview()
         animView = nil
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        stopAnim()
         recordingTopView.isHidden = true
 //        recordingTopView.removeFromSuperview()
         for player in players {
@@ -201,6 +204,7 @@ class CreateViewController: UIViewController {
         }
     }
     @objc func preparedToShare() {
+        mergingAnimation()
         let asset = AVURLAsset(url: videoURLs[currentRecordingIndex])
         let keys = ["tracks"]
         
@@ -257,8 +261,11 @@ class CreateViewController: UIViewController {
                         let durationInSeconds = CMTimeGetSeconds(asset.duration)
                         self.duration = Int(durationInSeconds.rounded())
                         print("儲存的影片長度為: \(self.duration ?? 0) 秒")
+                        self.stopAnim()
                     } else {
                         print("裁剪和導出失敗")
+                        self.stopAnim()
+                        CustomFunc.customAlert(title: "裁剪和導出失敗", message: "再試一次", vc: self, actionHandler: nil)
                     }
                 }
             }
@@ -768,7 +775,7 @@ class CreateViewController: UIViewController {
             print("playerLayer count:\(playerLayers.count)")
         }
         
-        captureSession.sessionPreset = AVCaptureSession.Preset.hd1280x720
+        captureSession.sessionPreset = AVCaptureSession.Preset.medium/*hd1280x720*/
         guard let frontDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front),
               let backDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) else {
             print("Failed to get the camera device")
@@ -1289,6 +1296,7 @@ extension CreateViewController {
 //        }
     }
     @objc func pushSharePage(_ sender: UIBarButtonItem) {
+        mergingAnimation()
         guard !videoURLs.isEmpty else {
             print("videoURLs 空的")
             let alert = UIAlertController(title: "請先錄影", message: "點擊 + 鍵開始錄製", preferredStyle: .alert)
@@ -1303,7 +1311,6 @@ extension CreateViewController {
             present(alert, animated: true, completion: nil)
             return
         }
-        mergingAnimation()
         let outputMergedFileURL = URL(fileURLWithPath: NSTemporaryDirectory() + "mergedOutput.mov")
         if style > 0 {
             mergeMedia(videoURLs: videoURLs, audioURLs: audioURLs, outputURL: outputMergedFileURL) { [weak self] success in
@@ -1332,13 +1339,23 @@ extension CreateViewController {
         }
     }
     func mergingAnimation() {
+        
         if animView == nil {
-            animView = LottieAnimationView(name: "Animation00", bundle: .main)
-            animView?.frame = CGRect(x: 200, y: 350, width: 300, height: 300)
-            animView?.center = self.view.center
-            animView?.loopMode = .loop
-            animView?.animationSpeed = 2
-            self.view.addSubview(animView!)
+            animView = LottieAnimationView(name: "Animation02", bundle: .main)
+            guard let animView = animView else {
+                print("AnimView doesn't work.")
+                return
+            }
+            animView.frame = CGRect(x: 200, y: 350, width: 300, height: 300)
+            animView.center = self.view.center
+            animView.loopMode = .loop
+            animView.animationSpeed = 1
+            self.view.addSubview(animView)
+            let label = UILabel(frame: CGRect(x: Int(animView.bounds.minX + 50), y: Int(animView.bounds.midY), width: 200, height: 30))
+            label.attributedText = attributedTextForm(content: "Video Processing...", size: 20, kern: 0, color: .white)
+            label.textColor = .white
+            animView.addSubview(label)
+            animView.bringSubviewToFront(animView)
         }
         animView?.play()
     }
@@ -1386,6 +1403,10 @@ extension CreateViewController {
 
         if captureSession.canAddInput(newInput) {
             captureSession.addInput(newInput)
+            // 前鏡頭鏡向
+//            if let connection = videoFileOutput.connection(with: .video), connection.isVideoMirroringSupported {
+//                connection.isVideoMirrored = isFrontCamera
+//            }
         } else {
             print("Can't add new video input to the session.")
         }
