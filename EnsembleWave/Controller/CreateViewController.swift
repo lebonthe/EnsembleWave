@@ -135,9 +135,9 @@ class CreateViewController: UIViewController {
         super.viewDidLoad()
         print("===== CreateViewController viewDidLoad =====")
         print("length:\(length)")
-        withUnsafeBytes(of: &(players)) { (point) in
-            print("players 在記憶體的位置:\(point)")
-        }
+//        withUnsafeBytes(of: &(players)) { (point) in
+//            print("players 在記憶體的位置:\(point)")
+//        }
         print("ensembleVideoURL:\(ensembleVideoURL ?? "no ensembleVideoURL")")
         videoURLs.removeAll()
         setupUI(style)
@@ -173,7 +173,7 @@ class CreateViewController: UIViewController {
         for (player, observer) in endTimeObservers {
             player.removeTimeObserver(observer)
         }
-            endTimeObservers.removeAll()
+        endTimeObservers.removeAll()
         for player in players {
                 player.pause()
                 player.replaceCurrentItem(with: nil)
@@ -186,6 +186,8 @@ class CreateViewController: UIViewController {
         for layer in playerLayers {
             layer.removeFromSuperlayer()
         }
+        replayButton.isHidden = true
+        videoViewHasContent = Array(repeating: false, count: style + 1)
     }
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -863,10 +865,12 @@ class CreateViewController: UIViewController {
     }
     func startCountdown() {
 //        countdownImageView.image = UIImage(systemName: countingImages[currentImageIndex])
-        if let emojiImage = UIImage.from(text: "🤘", font: UIFont.systemFont(ofSize: 50)) {
-            countdownImageView.image = emojiImage
-            countdownImageView.backgroundColor = .clear
-            countdownImageView.isHidden = false
+        if useHandPoseStartRecording {
+            if let emojiImage = UIImage.from(text: "🤘", font: UIFont.systemFont(ofSize: 50)) {
+                countdownImageView.image = emojiImage
+                countdownImageView.backgroundColor = .clear
+                countdownImageView.isHidden = false
+            }
         }
         timerBeforePlay = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateImage), userInfo: nil, repeats: true)
         }
@@ -1215,6 +1219,7 @@ extension CreateViewController {
     @objc func startToRecordingView() {
         if recordingTopView.isHidden {
             recordingTopView.isHidden = false
+            updateCountdownLabel(length)
         } else {
             setupRecordingTopView()
         }
@@ -1233,6 +1238,7 @@ extension CreateViewController {
         print("sender:\(sender)")
         if recordingTopView.isHidden {
             recordingTopView.isHidden = false
+            updateCountdownLabel(length)
             if useHandPoseStartRecording {
                 addGestureRecognitionToSession()
             }
@@ -1682,7 +1688,7 @@ extension CreateViewController: VideoTrimDelegate {
     }
     // 刪除重錄回到有+的畫面
     @objc func prepareRecording(for index: Int) {
-        configure(for: style)
+//        configure(for: style)
         chooseViewButtons[index].isHidden = false
     }
     @IBAction func selectMusic(_ sender: Any) {
