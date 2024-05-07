@@ -110,7 +110,9 @@ class PostToWallViewController: UIViewController {
             return false
         }
         
+        let newDocumentID = db.collection("Posts").document().documentID
         var post: [String: Any] = [
+            "id": newDocumentID,
             "videoURL": "\(url)",
             "imageURL": "\(imageURL)",
             "title": titleText,
@@ -125,12 +127,12 @@ class PostToWallViewController: UIViewController {
             post["ensembleUserID"] = ensembleUserID
         }
         do {
-            let ref = try await db.collection("Posts").addDocument(data: post)
-            print("Document added with ID: \(ref.documentID)")
-            let id = ref.documentID
-            try await db.collection("Posts").document(id).updateData([
-                "id": id
-            ])
+            let ref = try await db.collection("Posts").document(newDocumentID).setData(post)
+            print("Document added with ID: \(newDocumentID)")
+//            let id = ref.documentID
+//            try await db.collection("Posts").document(id).updateData([
+//                "id": id
+//            ])
             return true
         } catch {
             print("Error adding document: \(error)")
