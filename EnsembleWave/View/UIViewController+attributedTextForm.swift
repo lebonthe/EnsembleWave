@@ -7,7 +7,7 @@
 
 import UIKit
 extension UIViewController {
-    func attributedTextForm(content: String, size: CGFloat, kern: CGFloat, color: UIColor) -> NSAttributedString {
+    func attributedTextForm(content: String, size: CGFloat, kern: CGFloat, color: UIColor, font: String = "NotoSansTC-Medium") -> NSAttributedString {
         var attributedTitleString = NSAttributedString()
         guard let font = UIFont(name: "NotoSansTC-Medium", size: size) else { return attributedTitleString }
         let titleAttributes: [NSAttributedString.Key: Any] = [
@@ -20,7 +20,7 @@ extension UIViewController {
     }
 }
 //extension UITableViewCell {
-//    func attributedTextForm(content: String, size: CGFloat, kern: CGFloat, color: UIColor) -> NSAttributedString {
+//    func attributedTextForm(content: String, size: CGFloat, kern: CGFloat, color: UIColor, font: String = "NotoSansTC-Medium") -> NSAttributedString {
 //        var attributedTitleString = NSAttributedString()
 //        guard let font = UIFont(name: "NotoSansTC-Medium", size: size) else { return attributedTitleString }
 //        let titleAttributes: [NSAttributedString.Key: Any] = [
@@ -33,7 +33,7 @@ extension UIViewController {
 //    }
 //}
 extension UIView {
-    func attributedTextForm(content: String, size: CGFloat, kern: CGFloat, color: UIColor) -> NSAttributedString {
+    func attributedTextForm(content: String, size: CGFloat, kern: CGFloat, color: UIColor, font: String = "NotoSansTC-Medium") -> NSAttributedString {
         var attributedTitleString = NSAttributedString()
         guard let font = UIFont(name: "NotoSansTC-Medium", size: size) else { return attributedTitleString }
         let titleAttributes: [NSAttributedString.Key: Any] = [

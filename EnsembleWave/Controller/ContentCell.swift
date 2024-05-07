@@ -14,12 +14,22 @@ class ContentCell: UITableViewCell {
         return label
     }()
     var contentText: String = "This is what they said..."
+    var title: String = "Title"
     func setupUI() {
         contentView.addSubview(contentLabel)
         contentView.backgroundColor = .black
         contentLabel.textColor = .white
-//        contentLabel.text = contentText
-        contentLabel.attributedText = attributedTextForm(content: contentText, size: 18, kern: 0, color: .white)
+        let titleAttributes: [NSAttributedString.Key: Any] = [
+                .font: UIFont(name: "NotoSansTC-Bold", size: 20) ?? UIFont.boldSystemFont(ofSize: 20),
+                .foregroundColor: UIColor.white,
+                .kern: 1.5
+            ]
+        let titleAttributedString = NSAttributedString(string: title + " ", attributes: titleAttributes)
+        let contentAttributedString = attributedTextForm(content: contentText, size: 18, kern: 0, color: .white, font: "NotoSansTC-Regular")
+        let combinedAttributedString = NSMutableAttributedString()
+            combinedAttributedString.append(titleAttributedString)
+            combinedAttributedString.append(contentAttributedString)
+        contentLabel.attributedText = combinedAttributedString
         contentLabel.numberOfLines = 0
         NSLayoutConstraint.activate([
             contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor),

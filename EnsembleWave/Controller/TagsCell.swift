@@ -19,7 +19,7 @@ class TagsCell: UITableViewCell {
         contentView.addSubview(tagsLabel)
 //        tagsLabel.text = tagsText
 //        tagsLabel.textColor = .lightGray
-        tagsLabel.attributedText = attributedTextForm(content: tagsText, size: 18, kern: 0, color: CustomColor.gray2 ?? UIColor.lightGray)
+        tagsLabel.attributedText = attributedTextForm(content: tagsText, size: 18, kern: 0, color: UIColor.lightGray)
         contentView.backgroundColor = .black
         NSLayoutConstraint.activate([
             tagsLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),

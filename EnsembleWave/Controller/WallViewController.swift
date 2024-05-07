@@ -198,6 +198,7 @@ extension WallViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(ContentCell.self)", for: indexPath) as? ContentCell else {
                 fatalError("error when building OptionsCell")
             }
+            cell.title = post.title
             cell.contentText = post.content
             cell.setupUI()
             return cell
@@ -262,9 +263,9 @@ extension WallViewController: UITableViewDelegate {
         let title = posts[section].title
         print("usersNames:\(usersNames)")
         if let ensembleUserID = posts[section].ensembleUserID {
-            return (usersNames[userID] ?? "") + " ➕ \(ensembleUsersNames[ensembleUserID] ?? "")" + " 🎙️ \(title)"
+            return (usersNames[userID] ?? "") + " ➕ \(ensembleUsersNames[ensembleUserID] ?? "")" + " 🎙️ " // \(title)
         } else {
-            return (usersNames[userID] ?? "") + " 🎙️ \(title)"
+            return (usersNames[userID] ?? "") + " 🎙️ " //  \(title)
         }
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

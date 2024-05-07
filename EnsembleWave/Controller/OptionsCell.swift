@@ -80,7 +80,8 @@ class OptionsCell: UITableViewCell {
         ensembleButton.backgroundColor = CustomColor.red
         ensembleButton.layer.cornerRadius = 8
         contentView.addSubview(ensembleButton)
-        reportButton.setBackgroundImage(UIImage(systemName: "ellipsis"), for: .normal)
+        reportButton.setImage(UIImage(systemName: "ellipsis"), for: .normal)
+//        reportButton.backgroundColor = .red
         reportButton.tintColor = CustomColor.gray2
         reportButton.addTarget(self, action: #selector(showReportSheet), for: .touchUpInside)
         contentView.addSubview(reportButton)
@@ -102,7 +103,7 @@ class OptionsCell: UITableViewCell {
             ensembleButton.heightAnchor.constraint(equalToConstant: buttonSize),
 //            ensembleButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6)
             reportButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
-            reportButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            reportButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -6),
             reportButton.widthAnchor.constraint(equalToConstant: buttonSize),
             reportButton.heightAnchor.constraint(equalToConstant: buttonSize)
         ])

@@ -28,7 +28,7 @@ class UserVideoPlayerView: UIView {
         player = AVPlayer(url: videoURL)
         playerLayer = AVPlayerLayer(player: player)
         playerLayer?.frame = bounds
-        playerLayer?.videoGravity = .resizeAspect
+        playerLayer?.videoGravity = .resizeAspectFill
         if let playerLayer = playerLayer {
             layer.addSublayer(playerLayer)
         }
