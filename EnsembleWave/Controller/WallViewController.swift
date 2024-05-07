@@ -27,7 +27,6 @@ class WallViewController: UIViewController {
     var ensembleUsersNames: [String: String] = [:]
     override func viewDidLoad() {
         super.viewDidLoad()
-        listenToPosts()
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(VideoCell.self, forCellReuseIdentifier: "\(VideoCell.self)")
@@ -42,6 +41,7 @@ class WallViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.tabBar.isHidden = false
+        listenToPosts()
     }
     private func listenToPosts() {
         db.collection("Posts").order(by: "createdTime")
