@@ -280,6 +280,7 @@ class CreateViewController: UIViewController {
             startToRecordingView()
         } else {
             chooseView(chooseViewButtons[currentRecordingIndex])
+            chooseViewButtons[currentRecordingIndex].isHidden = true
         }
         self.navigationItem.leftBarButtonItem = nil
         trimView.isHidden = true

@@ -357,7 +357,7 @@ extension WallViewController: OptionsCellDelegate {
     func showReplyPage(from cell: UITableViewCell, cellIndex: Int, postID: String) {
         
         let controller = ReplyViewController()
-//        controller.replies = posts[cellIndex].reply
+        controller.replies = posts[cellIndex].replies
         controller.postID = postID
         self.navigationController?.pushViewController(controller, animated: true)
     }
