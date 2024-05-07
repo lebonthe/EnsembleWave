@@ -49,6 +49,7 @@
 		9F6FDABA2BD8F96900315B13 /* CustomColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6FDAB92BD8F96900315B13 /* CustomColor.swift */; };
 		9F6FDABC2BD8FA8400315B13 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6FDABB2BD8FA8400315B13 /* UIColor+Extension.swift */; };
 		9F6FDABE2BD90B9D00315B13 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6FDABD2BD90B9C00315B13 /* CustomButton.swift */; };
+		9F77C1BF2BE945A8002706F8 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F77C1BE2BE945A8002706F8 /* UIImage+Extension.swift */; };
 		9F99AFB22BC79857003671BF /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 9F99AFB12BC79857003671BF /* FirebaseAuth */; };
 		9F99AFB42BC79857003671BF /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9F99AFB32BC79857003671BF /* FirebaseFirestoreSwift */; };
 		9F99AFB62BC79857003671BF /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 9F99AFB52BC79857003671BF /* FirebaseStorage */; };
@@ -155,6 +156,7 @@
 		9F6FDAB92BD8F96900315B13 /* CustomColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColor.swift; sourceTree = "<group>"; };
 		9F6FDABB2BD8FA8400315B13 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		9F6FDABD2BD90B9C00315B13 /* CustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		9F77C1BE2BE945A8002706F8 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		9FAA99232BE23308004615EE /* CustomAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertController.swift; sourceTree = "<group>"; };
 		9FAA99272BE2B8FE004615EE /* ProfileView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileView.xib; sourceTree = "<group>"; };
 		9FAA99292BE2BE8B004615EE /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
@@ -381,6 +383,7 @@
 				9F6FDA8F2BD7C2E700315B13 /* ViewController+Extension.swift */,
 				9FAD4F832BE8A2F600142EBE /* UIViewController+attributedTextForm.swift */,
 				9F6FDABB2BD8FA8400315B13 /* UIColor+Extension.swift */,
+				9F77C1BE2BE945A8002706F8 /* UIImage+Extension.swift */,
 			);
 			name = Extensions;
 			path = View;
@@ -697,6 +700,7 @@
 				9FAA992A2BE2BE8B004615EE /* ProfileView.swift in Sources */,
 				9F6FDA902BD7C2E700315B13 /* ViewController+Extension.swift in Sources */,
 				9FAA99402BE4EB21004615EE /* Section.swift in Sources */,
+				9F77C1BF2BE945A8002706F8 /* UIImage+Extension.swift in Sources */,
 				9F5A51C72BD01A8100070186 /* OptionsCell.swift in Sources */,
 				9FAD77032BDBA13200BF7163 /* CustomFunc.swift in Sources */,
 				9F007E692BC5107C00C22E5E /* SceneDelegate.swift in Sources */,

@@ -279,6 +279,8 @@ class CreateViewController: UIViewController {
         self.prepareRecording(for: self.currentRecordingIndex)
         if useHandPoseStartRecording {
             addGestureRecognitionToSession()
+        } else {
+//            disableGestureRecognition()
         }
     }
     func setupTrimViewUI() {
@@ -425,7 +427,7 @@ class CreateViewController: UIViewController {
             chooseViewButtons[0].setBackgroundImage(UIImage(systemName: "plus"), for: .normal)
             chooseViewButtons[0].translatesAutoresizingMaskIntoConstraints = false
             chooseViewButtons[0].tintColor = .white
-            chooseViewButtons[0].addTarget(self, action: #selector(startToRecordingView), for: .touchUpInside)
+            chooseViewButtons[0].addTarget(self, action: #selector(startToRecordingView), for: .touchDown)
             NSLayoutConstraint.activate([
                 videoViews[0].topAnchor.constraint(equalTo: containerView.topAnchor),
                 videoViews[0].leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
@@ -485,7 +487,7 @@ class CreateViewController: UIViewController {
                 chooseViewButtons[1].heightAnchor.constraint(equalToConstant: 40)
             ])
             for chooseViewButton in chooseViewButtons {
-                chooseViewButton.addTarget(self, action: #selector(chooseView(_:)), for: .touchUpInside)
+                chooseViewButton.addTarget(self, action: #selector(chooseView(_:)), for: .touchDown)
             }
         }
         cameraButton.translatesAutoresizingMaskIntoConstraints = false
@@ -613,11 +615,11 @@ class CreateViewController: UIViewController {
         recordingTopView.isHidden = false
         cameraPositionButton.setBackgroundImage(UIImage(systemName: "arrow.triangle.2.circlepath.camera"), for: .normal)
         cameraPositionButton.tintColor = .white
-        cameraPositionButton.addTarget(self, action: #selector(toggleCameraPosition), for: .touchUpInside)
+        cameraPositionButton.addTarget(self, action: #selector(toggleCameraPosition), for: .touchDown)
         let cancelButton = UIButton()
         cancelButton.setBackgroundImage(UIImage(systemName: "xmark"), for: .normal)
         cancelButton.tintColor = .white
-        cancelButton.addTarget(self, action: #selector(cancelRecording), for: .touchUpInside)
+        cancelButton.addTarget(self, action: #selector(cancelRecording), for: .touchDown)
         cameraPositionButton.translatesAutoresizingMaskIntoConstraints = false
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
         recordingTopView.translatesAutoresizingMaskIntoConstraints = false
@@ -652,7 +654,7 @@ class CreateViewController: UIViewController {
         countdownButton.tintColor = .white
         countdownButton.isSelected = !countBeforeRecording
         recordingTopView.addSubview(countdownButton)
-        countdownButton.addTarget(self, action: #selector(changeCountdownMode(_:)), for: .touchUpInside)
+        countdownButton.addTarget(self, action: #selector(changeCountdownMode(_:)), for: .touchDown)
         NSLayoutConstraint.activate([
             countdownButton.centerYAnchor.constraint(equalTo: recordingTopView.centerYAnchor),
             countdownButton.trailingAnchor.constraint(equalTo: cameraPositionButton.leadingAnchor, constant: -16),
@@ -661,11 +663,11 @@ class CreateViewController: UIViewController {
         ])
         
         handPoseButton.translatesAutoresizingMaskIntoConstraints = false
-        handPoseButton.setTitle("🤘", for: .normal)
-        handPoseButton.setTitle("🙅‍♀️", for: .selected)
-        handPoseButton.isSelected = !useHandPoseStartRecording
+//        handPoseButton.setTitle("🤘", for: .normal)
+        handPoseButton.setTitle("🙅‍♀️", for: .normal)
+//        handPoseButton.isSelected = !useHandPoseStartRecording
         recordingTopView.addSubview(handPoseButton)
-        handPoseButton.addTarget(self, action: #selector(changeHandPoseMode(_:)), for: .touchUpInside)
+        handPoseButton.addTarget(self, action: #selector(changeHandPoseMode(_:)), for: .touchDown)
         NSLayoutConstraint.activate([
             handPoseButton.centerYAnchor.constraint(equalTo: recordingTopView.centerYAnchor),
             handPoseButton.trailingAnchor.constraint(equalTo: countdownButton.leadingAnchor, constant: -16),
@@ -675,13 +677,21 @@ class CreateViewController: UIViewController {
         
     }
     @objc func changeHandPoseMode(_ sender: UIButton) {
-        useHandPoseStartRecording.toggle()
-        sender.isSelected = !useHandPoseStartRecording
-        if useHandPoseStartRecording {
+        if handPoseButton.title(for: .normal) == "🙅‍♀️" {
+            handPoseButton.setTitle("🤘", for: .normal)
             addGestureRecognitionToSession()
+            
         } else {
+            handPoseButton.setTitle("🙅‍♀️", for: .normal)
             disableGestureRecognition()
         }
+        useHandPoseStartRecording.toggle()
+//        sender.isSelected = !useHandPoseStartRecording
+//        if useHandPoseStartRecording {
+//            addGestureRecognitionToSession()
+//        } else {
+//            disableGestureRecognition()
+//        }
     }
 
     @objc func changeCountdownMode(_ sender: UIButton) {
@@ -853,7 +863,11 @@ class CreateViewController: UIViewController {
     }
     func startCountdown() {
 //        countdownImageView.image = UIImage(systemName: countingImages[currentImageIndex])
-        
+        if let emojiImage = UIImage.from(text: "🤘", font: UIFont.systemFont(ofSize: 50)) {
+            countdownImageView.image = emojiImage
+            countdownImageView.backgroundColor = .clear
+            countdownImageView.isHidden = false
+        }
         timerBeforePlay = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateImage), userInfo: nil, repeats: true)
         }
     func toggleRecordingButtons(isRecording: Bool) {
@@ -867,6 +881,7 @@ class CreateViewController: UIViewController {
         print("currentImageIndex:\(currentImageIndex)")
         if currentImageIndex < countingImages.count {
             countdownImageView.isHidden = currentImageIndex == 0
+            countdownImageView.backgroundColor = .white
             countdownImageView.image = UIImage(systemName: countingImages[currentImageIndex])
         } else {
             print("invalidate")
@@ -879,18 +894,25 @@ class CreateViewController: UIViewController {
         currentImageIndex += 1
     }
     @IBAction func capture(sender: AnyObject) {
-        if !isRecording { // 不在錄音有分兩種，一種是還沒開始，一種是倒數計時被取消錄影
-            if timerBeforePlay != nil {
+        if !isRecording { // 不在錄影有分兩種，一種是還沒開始，一種是倒數計時被取消錄影
+            if timerBeforePlay != nil { // 倒數計時被取消錄影
                 stopCountdwonBeforeRecording()
                 toggleRecordingButtons(isRecording: false)
-            } else {
-                if countBeforeRecording {
+                if useHandPoseStartRecording {
+                    addGestureRecognitionToSession()
+                }
+            } else {// 還沒開始
+//                addGestureRecognitionToSession()
+                if useHandPoseStartRecording {
+                    disableGestureRecognition()
+                }
+                if countBeforeRecording { // 要倒數計時
                     startCountdown()
-                } else {
+                } else { // 不要倒數計時
                     startRecording()
                 }
             }
-        } else {
+        } else { // 正在錄影
             stopCountdownTimer()
 //            cameraButton.setBackgroundImage(UIImage(systemName: "record.circle"), for: .normal)
             cameraButton.setBackgroundImage(UIImage(named: "recordingButton"), for: .normal)
@@ -1039,6 +1061,9 @@ extension CreateViewController: AVCaptureFileOutputRecordingDelegate {
             self.launchTrimTopView()
         }
         let againAction = UIAlertAction(title: "重來", style: .cancel) { _ in
+            if self.useHandPoseStartRecording {
+                self.addGestureRecognitionToSession()
+            }
             self.countdownLabel.text = self.timeFormatter(sec: self.length)
             self.clearVideoView(for: self.currentRecordingIndex)
             self.prepareRecording(for: self.currentRecordingIndex)
@@ -1052,7 +1077,7 @@ extension CreateViewController: AVCaptureFileOutputRecordingDelegate {
 extension CreateViewController {
     func setupReplayButton() {
         replayButton.setBackgroundImage(UIImage(systemName: "play.circle"), for: .normal)
-        replayButton.addTarget(self, action: #selector(replayVideo), for: .touchUpInside)
+        replayButton.addTarget(self, action: #selector(replayVideo), for: .touchDown)
         containerView.addSubview(replayButton)
         replayButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -1208,6 +1233,9 @@ extension CreateViewController {
         print("sender:\(sender)")
         if recordingTopView.isHidden {
             recordingTopView.isHidden = false
+            if useHandPoseStartRecording {
+                addGestureRecognitionToSession()
+            }
 //            navigationController?.view.bringSubviewToFront(recordingTopView)
         } else {
             setupRecordingTopView()
@@ -1669,7 +1697,7 @@ extension CreateViewController: VideoTrimDelegate {
         present(controller, animated: true)
     }
 }
-
+// TODO: 繼續解手勢為什麼被移除？
 extension CreateViewController: PHPickerViewControllerDelegate {
     @IBAction func selectVideo(_ sender: Any) {
         if videoURLs.count == 0 && currentRecordingIndex == 1 {

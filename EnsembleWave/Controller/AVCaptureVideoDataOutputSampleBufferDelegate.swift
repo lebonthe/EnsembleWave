@@ -39,17 +39,17 @@ extension CreateViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
                 wristPoint.confidence > confidenceThreshold {
                 
                 if isRockOnGesture(indexTip: indexTipPoint.location, littleTip: littleTipPoint.location, wrist: wristPoint.location) {
-                    if self.restingHand {
+//                    if self.restingHand {
                         DispatchQueue.main.async {
                             if self.useHandPoseStartRecording {
                                 self.capture(sender: NSObject())
-                                self.restingHand = false
+//                                self.restingHand = false
                                 print("🤘")
                             }
                         }
-                    }
+//                    }
                 } else {
-                    self.restingHand = true
+//                    self.restingHand = true
                     print("🖐️")
                 }
             }

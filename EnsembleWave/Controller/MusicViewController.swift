@@ -28,7 +28,6 @@ class MusicViewController: UIViewController {
     var playButton = UIButton()
     var pauseButton = UIButton()
     var progressSlider = UISlider()
-//
 //    var engine = AudioEngine()
 //    var player: AudioPlayer!
 //    var waveformView: WaveformView!
@@ -53,49 +52,34 @@ class MusicViewController: UIViewController {
     }
     func setupUI() {
         view.backgroundColor = .black
-//        titleLabel.text = "錄影時一邊播放音樂作為參考"
         titleLabel.attributedText = attributedTextForm(content: "錄影時一邊播放音樂作為參考", size: 18, kern: 0, color: .white)
-//        titleLabel.textColor = .white
-//        pickMusicButton.setTitle("選取音樂", for: .normal)
         pickMusicButton.setAttributedTitle(attributedTextForm(content: "選取音樂", size: 18, kern: 0, color: UIColor.white), for: .normal)
-//        pickMusicButton.tintColor = .white
         pickMusicButton.layer.cornerRadius = 8
-        pickMusicButton.backgroundColor = CustomColor.finance2
+        pickMusicButton.backgroundColor = CustomColor.red
         pickMusicButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         musicImageView.image = UIImage(systemName: "music.note")
         songTitleLabel.text = ""
         songTitleLabel.textColor = .white
         songTitleLabel.numberOfLines = 0
-//        view.addSubview(titleLabel)
-//        view.addSubview(pickMusicButton)
-//        view.addSubview(musicImageView)
-//        view.addSubview(songTitleLabel)
-//        view.addSubview(playButton)
         playButton.setTitle("Play", for: .normal)
-        playButton.setImage(UIImage(systemName: "play.circle"), for: .normal)
-        playButton.backgroundColor = .white
+        playButton.setImage(UIImage(named: "playButton"), for: .normal)
+        playButton.backgroundColor = .clear
         playButton.layer.cornerRadius = 10
         playButton.setTitleColor(.black, for: .normal)
-        playButton.tintColor = CustomColor.finance2
         playButton.addTarget(self, action: #selector(playAudio), for: .touchUpInside)
-//        view.addSubview(pauseButton)
         pauseButton.setTitle("Pause", for: .normal)
-        pauseButton.backgroundColor = .white
-        pauseButton.tintColor = CustomColor.finance2
+        pauseButton.backgroundColor = .clear
         pauseButton.layer.cornerRadius = 10
         pauseButton.setTitleColor(.black, for: .normal)
-        pauseButton.setImage(UIImage(systemName: "pause.circle"), for: .normal)
+        pauseButton.setImage(UIImage(named: "pauseButton"), for: .normal)
         pauseButton.addTarget(self, action: #selector(pauseAudio), for: .touchUpInside)
         progressSlider.addTarget(self, action: #selector(sliderValueChanged(_:)), for: .valueChanged)
         progressSlider.tintColor = CustomColor.gray2
-//        view.addSubview(progressSlider)
-//        view.addSubview(exitButton)
-        exitButton.setBackgroundImage(UIImage(systemName: "xmark"), for: .normal)
-//        exitButton.backgroundColor = .gray
+        exitButton.setBackgroundImage(UIImage(systemName: "xmark.circle"), for: .normal)
         exitButton.tintColor = CustomColor.red
         exitButton.addTarget(self, action: #selector(leave), for: .touchUpInside)
-//        view.addSubview(toggleMusicButton)
         toggleMusicButton.isOn = true
+        toggleMusicButton.onTintColor = CustomColor.red
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         pickMusicButton.translatesAutoresizingMaskIntoConstraints = false
         musicImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -124,10 +108,10 @@ class MusicViewController: UIViewController {
             theView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             theView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             theView.heightAnchor.constraint(equalToConstant: 500),
-//            theView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             exitButton.topAnchor.constraint(equalTo: theView.topAnchor, constant: 16),
             exitButton.leadingAnchor.constraint(equalTo: theView.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             exitButton.heightAnchor.constraint(equalToConstant: 30),
+            exitButton.widthAnchor.constraint(equalToConstant: 30),
             titleLabel.topAnchor.constraint(equalTo: exitButton.bottomAnchor, constant: 16),
             titleLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             toggleMusicButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
@@ -140,21 +124,31 @@ class MusicViewController: UIViewController {
             musicImageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             musicImageView.widthAnchor.constraint(equalToConstant: 30),
             musicImageView.heightAnchor.constraint(equalToConstant: 30),
-            
             songTitleLabel.centerYAnchor.constraint(equalTo: musicImageView.centerYAnchor),
             songTitleLabel.leadingAnchor.constraint(equalTo: musicImageView.trailingAnchor, constant: 16),
             songTitleLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             playButton.topAnchor.constraint(equalTo: songTitleLabel.bottomAnchor, constant: 16),
             playButton.leadingAnchor.constraint(equalTo: musicImageView.trailingAnchor, constant: 16),
-            playButton.widthAnchor.constraint(equalToConstant: 80),
+            playButton.widthAnchor.constraint(equalToConstant: 30),
+            playButton.heightAnchor.constraint(equalToConstant: 30),
             pauseButton.topAnchor.constraint(equalTo: songTitleLabel.bottomAnchor, constant: 16),
-            pauseButton.widthAnchor.constraint(equalToConstant: 80),
-            
+            pauseButton.widthAnchor.constraint(equalToConstant: 30),
+            pauseButton.heightAnchor.constraint(equalToConstant: 30),
             pauseButton.leadingAnchor.constraint(equalTo: playButton.trailingAnchor, constant: 16),
             progressSlider.topAnchor.constraint(equalTo: playButton.bottomAnchor, constant: 16),
             progressSlider.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             progressSlider.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
         ])
+        musicImageView.isHidden = true
+        playButton.isHidden = true
+        pauseButton.isHidden = true
+        progressSlider.isHidden = true
+    }
+    func afterImportMusic() {
+        musicImageView.isHidden = false
+        playButton.isHidden = false
+        pauseButton.isHidden = false
+        progressSlider.isHidden = false
     }
     @objc func buttonTapped(_ sender: UIButton) {
         let controller = UIAlertController(title: "播放音樂來源", message: nil, preferredStyle: .actionSheet)
@@ -311,12 +305,13 @@ extension MusicViewController: UIDocumentPickerDelegate, AVAudioPlayerDelegate {
            
             audioPlayer?.delegate = self
             audioPlayer?.prepareToPlay()
-            progressSlider.isHidden = false
             progressSlider.maximumValue = Float(audioPlayer?.duration ?? 0.0)
             
             songTitleLabel.text = url.lastPathComponent
             
             audioFile = try AVAudioFile(forReading: url)
+            
+            afterImportMusic()
             
         } catch {
             print("Error loading audio: \(error.localizedDescription)")
