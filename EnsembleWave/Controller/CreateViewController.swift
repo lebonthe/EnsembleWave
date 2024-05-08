@@ -204,10 +204,6 @@ class CreateViewController: UIViewController {
         }
     }
     @objc func preparedToShare() {
-        let otherIndex = currentImageIndex == 0 ? 1 : 0
-        if players[otherIndex].currentItem?.asset.isPlayable == false {
-            chooseViewButtons[otherIndex].isHidden = false
-        }
         mergingAnimation()
         let asset = AVURLAsset(url: videoURLs[currentRecordingIndex])
         let keys = ["tracks"]
@@ -260,6 +256,17 @@ class CreateViewController: UIViewController {
                         self.setupObserversForPlayerItem(playerItem, with: self.players[self.currentRecordingIndex])
                         print("裁剪和導出成功")
                         self.videoViewHasContent[self.currentRecordingIndex] = true
+                        if self.style > 0 {
+                            let otherIndex = self.currentRecordingIndex == 0 ? 1 : 0
+                            if self.videoViewHasContent[otherIndex] == false {
+                                self.chooseViewButtons[otherIndex].isHidden = false
+                            } else {
+                                self.videoViews[otherIndex].addGestureRecognizer(self.tapGesture)
+                            }
+                            print("preparedToShare self.videoViewHasContent[otherIndex]:\(self.videoViewHasContent[otherIndex])")
+                        }
+                        
+                        
                         self.videoViews[self.currentRecordingIndex].addGestureRecognizer(self.tapGesture)
                         print("videoViews[0].subviews:\(self.videoViews[0].subviews)")
                         let durationInSeconds = CMTimeGetSeconds(asset.duration)
@@ -298,8 +305,10 @@ class CreateViewController: UIViewController {
         }
     }
     func setupTrimViewUI() {
-        let otherIndex = currentRecordingIndex == 0 ? 1 : 0
-        chooseViewButtons[otherIndex].isHidden = true
+        if style > 0 {
+            let otherIndex = currentRecordingIndex == 0 ? 1 : 0
+            chooseViewButtons[otherIndex].isHidden = true
+        }
         stopCountdownTimer()
         postProductionView.isHidden = false
         //        view.bringSubviewToFront(postProductionView)
@@ -1086,7 +1095,8 @@ extension CreateViewController: AVCaptureFileOutputRecordingDelegate {
             }
             self.countdownLabel.text = self.timeFormatter(sec: self.length)
             self.clearVideoView(for: self.currentRecordingIndex)
-            self.prepareRecording(for: self.currentRecordingIndex)
+            self.chooseView(self.chooseViewButtons[self.currentRecordingIndex])
+//            self.prepareRecording(for: self.currentRecordingIndex)
         }
         alertViewController.addAction(successAction)
         alertViewController.addAction(againAction)
