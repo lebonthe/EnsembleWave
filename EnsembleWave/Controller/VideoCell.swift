@@ -4,7 +4,7 @@
 //
 //  Created by Min Hu on 2024/4/17.
 //
-// TODO: 改善圖片的顯示速度
+// TODO: 改善 cache 重複載入的問題
 import UIKit
 import AVFoundation
 import Kingfisher
