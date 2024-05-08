@@ -26,6 +26,8 @@
 		9F26D0662BD746E800C69465 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 9F26D0652BD746E800C69465 /* Lottie */; };
 		9F26D0692BD74E6C00C69465 /* Animation00.json in Resources */ = {isa = PBXBuildFile; fileRef = 9F26D0682BD74E6C00C69465 /* Animation00.json */; };
 		9F3FD9F82BD12C0000A03E22 /* LengthCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3FD9F72BD12C0000A03E22 /* LengthCell.swift */; };
+		9F428EAA2BEB7A9B00F359C9 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9F428EA92BEB7A9B00F359C9 /* FirebaseAnalyticsSwift */; };
+		9F428EAC2BEB7A9B00F359C9 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 9F428EAB2BEB7A9B00F359C9 /* FirebaseCrashlytics */; };
 		9F4462B62BD39FBB00462C44 /* AVCaptureVideoDataOutputSampleBufferDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4462B52BD39FBB00462C44 /* AVCaptureVideoDataOutputSampleBufferDelegate.swift */; };
 		9F4462B82BD4434200462C44 /* ReplyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4462B72BD4434200462C44 /* ReplyViewController.swift */; };
 		9F4462BA2BD503BB00462C44 /* ReplyDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4462B92BD503BB00462C44 /* ReplyDetailTableViewCell.swift */; };
@@ -202,8 +204,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9F428EAA2BEB7A9B00F359C9 /* FirebaseAnalyticsSwift in Frameworks */,
 				9F26D0662BD746E800C69465 /* Lottie in Frameworks */,
 				B8472009B49679B5671FB722 /* Pods_EnsembleWave.framework in Frameworks */,
+				9F428EAC2BEB7A9B00F359C9 /* FirebaseCrashlytics in Frameworks */,
 				9F99AFB62BC79857003671BF /* FirebaseStorage in Frameworks */,
 				9F99AFB22BC79857003671BF /* FirebaseAuth in Frameworks */,
 				9F99AFB42BC79857003671BF /* FirebaseFirestoreSwift in Frameworks */,
@@ -424,6 +428,7 @@
 				9F007E612BC5107C00C22E5E /* Resources */,
 				9F99AFAD2BC777AB003671BF /* ShellScript */,
 				7FDF7F4140437A279669848E /* [CP] Embed Pods Frameworks */,
+				9F428EAD2BEB7B1200F359C9 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -435,6 +440,8 @@
 				9F99AFB32BC79857003671BF /* FirebaseFirestoreSwift */,
 				9F99AFB52BC79857003671BF /* FirebaseStorage */,
 				9F26D0652BD746E800C69465 /* Lottie */,
+				9F428EA92BEB7A9B00F359C9 /* FirebaseAnalyticsSwift */,
+				9F428EAB2BEB7A9B00F359C9 /* FirebaseCrashlytics */,
 			);
 			productName = EnsembleWave;
 			productReference = 9F007E632BC5107C00C22E5E /* EnsembleWave.app */;
@@ -609,6 +616,25 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EnsembleWave/Pods-EnsembleWave-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		9F428EAD2BEB7B1200F359C9 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${BUILD_DIR%Build/*}SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
 		};
 		9F99AFAD2BC777AB003671BF /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -928,6 +954,7 @@
 				CODE_SIGN_ENTITLEMENTS = EnsembleWave/EnsembleWave.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = T4VR973TMF;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1135,6 +1162,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9F26D0642BD746E800C69465 /* XCRemoteSwiftPackageReference "lottie-spm" */;
 			productName = Lottie;
+		};
+		9F428EA92BEB7A9B00F359C9 /* FirebaseAnalyticsSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9F99AFB02BC79857003671BF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsSwift;
+		};
+		9F428EAB2BEB7A9B00F359C9 /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9F99AFB02BC79857003671BF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
 		};
 		9F99AFB12BC79857003671BF /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
