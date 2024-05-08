@@ -94,29 +94,51 @@ class VideoCell: UITableViewCell {
         }
     }
     func configurePlayer() {
-        guard let urlString = urlString,
-              let url = URL(string: urlString) else {
-            print("Invalid URL string")
-            return
-        }
-        let asset = AVURLAsset(url: url, options: nil)
-       
-        if CachingPlayerItem.isDownloaded(for: asset.url) {
-            localVideoURL = CachingPlayerItem.localFileURL(for: url)
-            guard let localVideoURL = localVideoURL else {
-                print("no localVideoURL")
+//        guard let urlString = urlString,
+//              let url = URL(string: urlString) else {
+//            print("Invalid URL string")
+//            return
+//        }
+//        
+//        let asset = AVURLAsset(url: url, options: nil)
+//        if CachingPlayerItem.isDownloaded(for: url) {
+//            
+//            localVideoURL = CachingPlayerItem.localFileURL(for: asset.url)
+//            guard let localVideoURL = localVideoURL else {
+//                print("no localVideoURL")
+//                return
+//            }
+//            let cachedAsset = AVURLAsset(url: localVideoURL)
+//            let playerItem = AVPlayerItem(asset: cachedAsset)
+//            player.replaceCurrentItem(with: playerItem)
+//            setupObserversForPlayerItem(playerItem, with: player)
+//        } else {
+//            startDownload(asset: asset)
+//            let playerItem = AVPlayerItem(asset: asset)
+//            player.replaceCurrentItem(with: playerItem)
+//            setupObserversForPlayerItem(playerItem, with: player)
+//                }
+        guard let urlString = urlString, let url = URL(string: urlString) else {
+                print("Invalid URL string")
                 return
             }
-            let cachedAsset = AVURLAsset(url: localVideoURL)
-            let playerItem = AVPlayerItem(asset: cachedAsset)
-            player.replaceCurrentItem(with: playerItem)
-            setupObserversForPlayerItem(playerItem, with: player)
-        } else {
-            startDownload(asset: asset)
-            let playerItem = AVPlayerItem(asset: asset)
-            player.replaceCurrentItem(with: playerItem)
-            setupObserversForPlayerItem(playerItem, with: player)
-                }
+
+            let localURL = CachingPlayerItem.localFileURL(for: url)
+        print("url:\(url)")
+        print("localURL:\(localURL)")
+        
+            if CachingPlayerItem.isDownloaded(for: url) {
+                let cachedAsset = AVURLAsset(url: localURL, options: nil)
+                let playerItem = AVPlayerItem(asset: cachedAsset)
+                player.replaceCurrentItem(with: playerItem)
+                setupObserversForPlayerItem(playerItem, with: player)
+            } else {
+                let asset = AVURLAsset(url: url, options: nil)
+                startDownload(asset: asset)
+                let playerItem = AVPlayerItem(asset: asset)
+                player.replaceCurrentItem(with: playerItem)
+                setupObserversForPlayerItem(playerItem, with: player)
+            }
 //        guard let localVideoURL = self.localVideoURL else {
 //            print("no localVideoURL")
 //            return
@@ -238,15 +260,31 @@ class VideoCell: UITableViewCell {
         }
 }
 
+//class CachingPlayerItem {
+//    static func isDownloaded(for url: URL) -> Bool {
+//        return FileManager.default.fileExists(atPath: localFileURL(for: url).path)
+//    }
+////    static func localFileURL(for url: URL) -> URL {
+////        let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+////        let fileName = url.lastPathComponent
+////        print("localFileURL:\(documentsPath.appendingPathComponent(fileName))")
+////        return documentsPath.appendingPathComponent(fileName)
+////    }
+//    static func localFileURL(for url: URL) -> URL {
+//        let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+//        let fileName = "\(url.hashValue).mov"
+//        return documentsPath.appendingPathComponent(fileName)
+//    }
+//
+//}
 class CachingPlayerItem {
-    static func isDownloaded(for url: URL) -> Bool {
-        return FileManager.default.fileExists(atPath: localFileURL(for: url).path)
-    }
-
     static func localFileURL(for url: URL) -> URL {
         let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let fileName = url.lastPathComponent
-        print("localFileURL:\(documentsPath.appendingPathComponent(fileName))")
+        let fileName = url.absoluteString.md5 + ".mov"
         return documentsPath.appendingPathComponent(fileName)
+    }
+
+    static func isDownloaded(for url: URL) -> Bool {
+        return FileManager.default.fileExists(atPath: localFileURL(for: url).path)
     }
 }

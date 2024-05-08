@@ -55,6 +55,7 @@
 		9F77C1C12BE9DB13002706F8 /* Animation01.json in Resources */ = {isa = PBXBuildFile; fileRef = 9F77C1C02BE9DB13002706F8 /* Animation01.json */; };
 		9F77C1C32BE9DDA4002706F8 /* Animation02.json in Resources */ = {isa = PBXBuildFile; fileRef = 9F77C1C22BE9DDA4002706F8 /* Animation02.json */; };
 		9F77C1C72BEA13DE002706F8 /* ReportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F77C1C62BEA13DE002706F8 /* ReportTableViewController.swift */; };
+		9F96B8C82BEB945100FF13AA /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F96B8C72BEB945100FF13AA /* String+Extension.swift */; };
 		9F99AFB22BC79857003671BF /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 9F99AFB12BC79857003671BF /* FirebaseAuth */; };
 		9F99AFB42BC79857003671BF /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9F99AFB32BC79857003671BF /* FirebaseFirestoreSwift */; };
 		9F99AFB62BC79857003671BF /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 9F99AFB52BC79857003671BF /* FirebaseStorage */; };
@@ -165,6 +166,7 @@
 		9F77C1C02BE9DB13002706F8 /* Animation01.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Animation01.json; sourceTree = "<group>"; };
 		9F77C1C22BE9DDA4002706F8 /* Animation02.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Animation02.json; sourceTree = "<group>"; };
 		9F77C1C62BEA13DE002706F8 /* ReportTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTableViewController.swift; sourceTree = "<group>"; };
+		9F96B8C72BEB945100FF13AA /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		9FAA99232BE23308004615EE /* CustomAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertController.swift; sourceTree = "<group>"; };
 		9FAA99272BE2B8FE004615EE /* ProfileView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileView.xib; sourceTree = "<group>"; };
 		9FAA99292BE2BE8B004615EE /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
@@ -397,6 +399,7 @@
 				9FAD4F832BE8A2F600142EBE /* UIViewController+attributedTextForm.swift */,
 				9F6FDABB2BD8FA8400315B13 /* UIColor+Extension.swift */,
 				9F77C1BE2BE945A8002706F8 /* UIImage+Extension.swift */,
+				9F96B8C72BEB945100FF13AA /* String+Extension.swift */,
 			);
 			name = Extensions;
 			path = View;
@@ -752,6 +755,7 @@
 				9FAD77052BDBB23700BF7163 /* TabBarController.swift in Sources */,
 				9FAA99302BE3810B004615EE /* ImageCell.swift in Sources */,
 				9FAA993E2BE4C095004615EE /* ProfileEditingViewViewController.swift in Sources */,
+				9F96B8C82BEB945100FF13AA /* String+Extension.swift in Sources */,
 				9FAD76FF2BDB9EAA00BF7163 /* LoginViewController.swift in Sources */,
 				9F5A51C12BCFC2C300070186 /* PostToWallViewController.swift in Sources */,
 				9F6B5D642BCD383A00509F5F /* VideoView.swift in Sources */,
