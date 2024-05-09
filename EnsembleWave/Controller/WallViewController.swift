@@ -316,6 +316,8 @@ extension WallViewController: UITableViewDelegate {
 extension WallViewController: OptionsCellDelegate {
     func presentReportPage(postID: String, userID: String) {
         let controller = ReportTableViewController()
+        controller.view.backgroundColor = .black
+        controller.postID = postID
         present(controller, animated: true)
         // TODO: 回報的 post
     }

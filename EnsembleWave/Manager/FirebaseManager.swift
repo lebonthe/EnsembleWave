@@ -93,4 +93,19 @@ class FirebaseManager {
             }
         }
     }
+    func addReportToPost(postID: String, reportType: ReportType, completion: @escaping (Bool, Error?) -> Void) {
+           let postRef = db.collection("Posts").document(postID)
+           postRef.updateData([
+               "report": FieldValue.arrayUnion([reportType.rawValue])
+           ]) { error in
+               if let error = error {
+                   print("Error updating report: \(error.localizedDescription)")
+                   completion(false, error)
+               } else {
+                   print("Report updated successfully.")
+                   completion(true, nil)
+               }
+           }
+       }
 }
+

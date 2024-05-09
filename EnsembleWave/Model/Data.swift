@@ -44,7 +44,7 @@ struct Post: Decodable, Hashable {
     var tag: String
     var whoLike: [String]
     var replies: [ReplyContent]
-    var report: [Report]
+    var reports: [ReportType]
     var ensembleUserID: String?
     init(dic: [String: Any]) {
         self.title = dic["title"] as? String ?? ""
@@ -59,7 +59,7 @@ struct Post: Decodable, Hashable {
         self.tag = dic["tag"] as? String ?? ""
         self.whoLike = dic["whoLike"] as? [String] ?? []
         self.replies = dic["replay"] as? [ReplyContent] ?? []
-        self.report = dic["Report"] as? [Report] ?? []
+        self.reports = dic["reports"] as? [ReportType] ?? []
         self.ensembleUserID = dic["ensembleUserID"] as? String ?? nil
     }
     func hash(into hasher: inout Hasher) {
@@ -70,13 +70,18 @@ struct Post: Decodable, Hashable {
     }
 }
 
-struct Report: Decodable {
-    var reportType: ReportType
-    var detail: String
-}
+//struct Report: Decodable {
+//    var reportType: ReportType
+//    var detail: String
+//}
 
-enum ReportType: Decodable, CaseIterable {
-    case spam, insult, mistakeInfo, violence, revealIdentity, other
+enum ReportType: String, Codable, CaseIterable {
+    case spam = "spam"
+    case insult = "insult"
+    case mistakeInfo = "mistakeInfo"
+    case violence = "violence"
+    case revealIdentity = "revealIdentity"
+    case other = "other"
 }
 
 struct ReplyContent: Decodable {
