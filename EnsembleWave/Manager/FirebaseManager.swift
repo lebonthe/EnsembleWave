@@ -60,7 +60,7 @@ class FirebaseManager {
                 completion(user)
             }
     }
-    func listenToPosts(userID: String, posts: [Post], completion: @escaping ([Post]) -> Void) {
+    func listenToUserPosts(userID: String, posts: [Post], completion: @escaping ([Post]) -> Void) {
         var posts = posts
         db.collection("Posts")
             .whereField("userID", isEqualTo: userID).order(by: "createdTime", descending: false)
@@ -107,5 +107,52 @@ class FirebaseManager {
                }
            }
        }
+    func addToUserBlackList(currentUserID: String, blockUserID: String, completion: @escaping (Bool, Error?) -> Void) {
+            let userRef = db.collection("Users").document(currentUserID)
+            userRef.updateData([
+                "userBlackList": FieldValue.arrayUnion([blockUserID])
+            ]) { error in
+                if let error = error {
+                    print("Error adding user to blacklist: \(error.localizedDescription)")
+                    completion(false, error)
+                } else {
+                    print("User added to blacklist successfully.")
+                    completion(true, nil)
+                }
+            }
+        }
+    func fetchUserBlackList(userID: String, completion: @escaping ([String]?, Error?) -> Void) {
+        let userRef = db.collection("Users").document(userID)
+        userRef.getDocument { document, error in
+            DispatchQueue.main.async {
+                if let document = document, document.exists {
+                    let userBlackList = document.data()?["userBlackList"] as? [String] ?? []
+                    completion(userBlackList, nil)
+                } else {
+                    completion(nil, error)
+                }
+            }
+        }
+    }
+    func fetchUserID(fromPostID postID: String, completion: @escaping (String?, Error?) -> Void) {
+            let postRef = db.collection("Posts").document(postID)
+            postRef.getDocument { document, error in
+                if let error = error {
+                    print("Error fetching post: \(error.localizedDescription)")
+                    completion(nil, error)
+                } else if let document = document, document.exists {
+                    let userID = document.data()?["userID"] as? String
+                    if let userID = userID {
+                        completion(userID, nil)
+                    } else {
+                        print("UserID not found in the document")
+                        completion(nil, nil)
+                    }
+                } else {
+                    print("No document found with postID: \(postID)")
+                    completion(nil, nil)
+                }
+            }
+        }
 }
 

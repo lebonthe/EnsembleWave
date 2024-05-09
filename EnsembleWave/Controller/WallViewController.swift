@@ -44,16 +44,39 @@ class WallViewController: UIViewController {
         listenToPosts()
     }
     private func listenToPosts() {
-        db.collection("Posts").order(by: "createdTime")
-          .addSnapshotListener { [weak self] querySnapshot, error in
+        if let currentUser = Auth.auth().currentUser {
+            let userID = currentUser.uid
+            FirebaseManager.shared.fetchUserBlackList(userID: userID) { [weak self] blackListIDs, error in
+                guard let self = self else { return }
+                if let error = error {
+                    print("Error fetching user blacklist: \(error.localizedDescription)")
+                    return
+                }
+                
+                let filterIDs = blackListIDs ?? []
+                print("BlackList: \(filterIDs)")
+                self.setupPostListener(withBlackList: filterIDs)
+            }
+        } else {
+            setupPostListener(withBlackList: [])
+        }
+    }
+
+    private func setupPostListener(withBlackList blackListIDs: [String]) {
+        var query = db.collection("Posts").order(by: "createdTime")
+        if !blackListIDs.isEmpty {
+            query = query.whereField("userID", notIn: blackListIDs)
+        }
+
+        query.addSnapshotListener { [weak self] querySnapshot, error in
             guard let self = self, let snapshot = querySnapshot else {
-              print("Error listening for post updates: \(error?.localizedDescription ?? "No error")")
-              return
+                print("Error listening for post updates: \(error?.localizedDescription ?? "No error")")
+                return
             }
 
             snapshot.documentChanges.forEach { change in
                 let postId = change.document.documentID
-    
+
                 switch change.type {
                 case .added, .modified:
                     let data = change.document.data()
@@ -69,45 +92,110 @@ class WallViewController: UIViewController {
                         self.posts[index] = post
                     }
 
-                    // Set up or update the listener for the whoLike collection of this post
                     self.setupLikesListener(for: postId)
-                    
-                    let whoLikeRef = self.db.collection("Posts").document(postId).collection("whoLike")
-                    whoLikeRef.getDocuments { (querySnapshot, error) in
-                        DispatchQueue.main.async {
-                            guard let documents = querySnapshot?.documents else {
-                                print("Error fetching whoLike documents: \(error?.localizedDescription ?? "No error")")
-                                return
-                            }
-                            let userIDs = documents.compactMap { $0.documentID }
-                            if let user = Auth.auth().currentUser {
-                                let isLiked = userIDs.contains("\(String(describing: user.uid))")
-                                self.postLikesStatus[postId] = isLiked
-                                print("Post ID: \(postId), Liked by current user: \(isLiked)")
-                            }
-                        }
-                    }
-                    let repiesRef = self.db.collection("Posts").document(postId).collection("replies")
-                    repiesRef.getDocuments { (querySnapshot, error) in
-                        DispatchQueue.main.async {
-                            guard let documents = querySnapshot?.documents else {
-                                print("Error fetching replies documents: \(error?.localizedDescription ?? "No error")")
-                                return
-                            }
-                            let count = documents.count
-                            print("replies documents.count: \(documents.count)")
-                            self.postReplies[postId] = count
-                        }
-                    }
+                    self.updateLikeAndReplyDetails(for: postId)
                 case .removed:
                     self.posts.removeAll { $0.id == postId }
-                    self.postLikesCount.removeValue(forKey: postId)
                     self.postLikesStatus.removeValue(forKey: postId)
                 }
             }
             self.tableView.reloadData()
         }
     }
+
+private func updateLikeAndReplyDetails(for postId: String) {
+    let whoLikeRef = self.db.collection("Posts").document(postId).collection("whoLike")
+    whoLikeRef.getDocuments { (querySnapshot, error) in
+        DispatchQueue.main.async {
+            guard let documents = querySnapshot?.documents else {
+                print("Error fetching whoLike documents: \(error?.localizedDescription ?? "No error")")
+                return
+            }
+            let userIDs = documents.compactMap { $0.documentID }
+            if let user = Auth.auth().currentUser {
+                let isLiked = userIDs.contains("\(String(describing: user.uid))")
+                self.postLikesStatus[postId] = isLiked
+            }
+        }
+    }
+    let repliesRef = self.db.collection("Posts").document(postId).collection("replies")
+    repliesRef.getDocuments { (querySnapshot, error) in
+        DispatchQueue.main.async {
+            guard let documents = querySnapshot?.documents else {
+                print("Error fetching replies documents: \(error?.localizedDescription ?? "No error")")
+                return
+            }
+            let count = documents.count
+            self.postReplies[postId] = count
+        }
+    }
+}
+
+//    private func listenToPosts() {
+//        db.collection("Posts").order(by: "createdTime")
+//          .addSnapshotListener { [weak self] querySnapshot, error in
+//            guard let self = self, let snapshot = querySnapshot else {
+//              print("Error listening for post updates: \(error?.localizedDescription ?? "No error")")
+//              return
+//            }
+//
+//            snapshot.documentChanges.forEach { change in
+//                let postId = change.document.documentID
+//    
+//                switch change.type {
+//                case .added, .modified:
+//                    let data = change.document.data()
+//                    let post = Post(dic: data)
+//                    self.fetchUserName(userID: post.userID)
+//                    if let ensembleUserID = post.ensembleUserID {
+//                        self.fetchEnsembleUserName(userID: ensembleUserID)
+//                    }
+//                    
+//                    if change.type == .added {
+//                        self.posts.insert(post, at: 0)
+//                    } else if let index = self.posts.firstIndex(where: { $0.id == post.id }) {
+//                        self.posts[index] = post
+//                    }
+//
+//                    // Set up or update the listener for the whoLike collection of this post
+//                    self.setupLikesListener(for: postId)
+//                    
+//                    let whoLikeRef = self.db.collection("Posts").document(postId).collection("whoLike")
+//                    whoLikeRef.getDocuments { (querySnapshot, error) in
+//                        DispatchQueue.main.async {
+//                            guard let documents = querySnapshot?.documents else {
+//                                print("Error fetching whoLike documents: \(error?.localizedDescription ?? "No error")")
+//                                return
+//                            }
+//                            let userIDs = documents.compactMap { $0.documentID }
+//                            if let user = Auth.auth().currentUser {
+//                                let isLiked = userIDs.contains("\(String(describing: user.uid))")
+//                                self.postLikesStatus[postId] = isLiked
+//                                print("Post ID: \(postId), Liked by current user: \(isLiked)")
+//                            }
+//                        }
+//                    }
+//                    let repiesRef = self.db.collection("Posts").document(postId).collection("replies")
+//                    repiesRef.getDocuments { (querySnapshot, error) in
+//                        DispatchQueue.main.async {
+//                            guard let documents = querySnapshot?.documents else {
+//                                print("Error fetching replies documents: \(error?.localizedDescription ?? "No error")")
+//                                return
+//                            }
+//                            let count = documents.count
+//                            print("replies documents.count: \(documents.count)")
+//                            self.postReplies[postId] = count
+//                        }
+//                    }
+//                case .removed:
+//                    self.posts.removeAll { $0.id == postId }
+//                    self.postLikesCount.removeValue(forKey: postId)
+//                    self.postLikesStatus.removeValue(forKey: postId)
+//                }
+//            }
+//            self.tableView.reloadData()
+//        }
+//    }
 
     private func fetchUserName(userID: String) {
         FirebaseManager.shared.fetchUserName(userID: userID) { [weak self] userName, error in
@@ -298,19 +386,6 @@ extension WallViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         30
     }
-    
-//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//        var urlsToPrefetch = [URL]()
-//        for index in indexPath.section..<min(indexPath.section + 5, posts.count) {
-//            if let imageURLString = posts[index].imageURL,
-//                let url = URL(string: imageURLString) {
-//                urlsToPrefetch.append(url)
-//            }
-//        }
-//        let prefetcher = ImagePrefetcher(urls: urlsToPrefetch)
-//        prefetcher.start()
-//        print("===prefetcher.start()===")
-//    }
 }
 
 extension WallViewController: OptionsCellDelegate {
@@ -319,13 +394,31 @@ extension WallViewController: OptionsCellDelegate {
         controller.view.backgroundColor = .black
         controller.postID = postID
         present(controller, animated: true)
-        // TODO: 回報的 post
     }
     
     func blockUser(postID: String, userID: String) {
-        let controller = ReportTableViewController()
-        present(controller, animated: true)
-        // TODO: 封鎖的 post & get
+        let alert = UIAlertController(title: "確定要封鎖該使用者？", message: "一經封鎖，之後您將看不到該使用者的影片與發文", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default) {_ in
+            guard let user = Auth.auth().currentUser else {
+                print("未登入")
+                return
+            }
+            FirebaseManager.shared.addToUserBlackList(currentUserID: user.uid, blockUserID: userID) { success, error in
+                if error != nil {
+                    print("addToUserBlackList error: \(error?.localizedDescription ?? "不明原因錯誤")")
+                    return
+                }
+                DispatchQueue.main.async {
+                    CustomFunc.customAlert(title: "已封鎖", message: "已封鎖該名使用者的全部貼文與回覆", vc: self) {
+                        self.listenToPosts()
+                    }
+                }
+            }
+        }
+        let cancelAction = UIAlertAction(title: "cancel", style: .cancel)
+        alert.addAction(okAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true)
     }
     
     func viewControllerForPresentation() -> UIViewController? {

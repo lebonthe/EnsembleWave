@@ -51,7 +51,7 @@ class ProfileView: UIView {
             print("查無此人")
             return
         }
-        FirebaseManager.shared.listenToPosts(userID: userID, posts: posts) { /*[weak self]*/ newPosts in
+        FirebaseManager.shared.listenToUserPosts(userID: userID, posts: posts) { /*[weak self]*/ newPosts in
             print("Closure is called with newPosts: \(newPosts)")
             print("New posts ready to assign: \(newPosts)")
             self.posts = newPosts

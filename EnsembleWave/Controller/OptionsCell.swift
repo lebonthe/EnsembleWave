@@ -219,8 +219,16 @@ class OptionsCell: UITableViewCell {
             self.delegate?.presentReportPage(postID: self.postID, userID: user.uid)
         }
         controller.addAction(reportAction)
-        let blockAction = UIAlertAction(title: "封鎖此帳號發佈的內容", style: .default){_ in
-            self.delegate?.blockUser(postID: self.postID, userID: user.uid)
+        let blockAction = UIAlertAction(title: "封鎖此帳號發佈的內容", style: .default) {_ in
+            FirebaseManager.shared.fetchUserID(fromPostID: self.postID) { userID, error in
+                if let error = error {
+                    return
+                }
+                guard let userID = userID else {
+                    return
+                }
+                self.delegate?.blockUser(postID: self.postID, userID: userID)
+            }
         }
         controller.addAction(blockAction)
         let cancelAction = UIAlertAction(title: "取消", style: .cancel)

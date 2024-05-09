@@ -14,22 +14,15 @@ class ReportTableViewController: UITableViewController {
         title = "檢舉"
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "ReportCell")
         tableView.tintColor = .white
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return ReportType.allCases.count
     }
 
@@ -45,9 +38,6 @@ class ReportTableViewController: UITableViewController {
         cell.accessoryType = .disclosureIndicator
         return cell
     }
-//    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        "您為何要檢舉這則貼文？"
-//    }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedReportType = ReportType.allCases[indexPath.row]
         let postID = postID  
@@ -73,9 +63,7 @@ class ReportTableViewController: UITableViewController {
         return header
     }
 
-    // 設定 header 的高度
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 30
     }
-
 }
