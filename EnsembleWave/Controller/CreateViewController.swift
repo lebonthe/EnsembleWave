@@ -1181,6 +1181,7 @@ extension CreateViewController {
         let route = AVAudioSession.sharedInstance().currentRoute
         for output in route.outputs {
             if output.portType == .headphones || output.portType == .bluetoothA2DP || output.portType == .airPlay || output.portType == .usbAudio || output.portType == .HDMI {
+                headphoneAlertLabel.isHidden = true
                 isHeadphoneConnected = true
                 if previousVolume == 0 {
                     previousVolume = 0.5
@@ -1202,7 +1203,21 @@ extension CreateViewController {
         }
         switch reason {
         case .newDeviceAvailable:
-            print("新增了耳機")
+            let session = AVAudioSession.sharedInstance()
+            let currentRoute = session.currentRoute
+            for output in currentRoute.outputs {
+                if output.portType == .headphones {
+                    print("耳機已連接：\(output.portType.rawValue)")
+                } else if output.portType == .bluetoothA2DP {
+                    print("藍牙耳機已連接：\(output.portType.rawValue)")
+                } else if output.portType == .airPlay {
+                    print("AirPlay 已連接：\(output.portType.rawValue)")
+                } else if output.portType == .usbAudio {
+                    print("USB 已連接：\(output.portType.rawValue)")
+                } else if output.portType == .HDMI {
+                    print("HDMI 已連接：\(output.portType.rawValue)")
+                }
+            }
             headphoneAlertLabel.isHidden = true
             isHeadphoneConnected = true
         case .oldDeviceUnavailable:
