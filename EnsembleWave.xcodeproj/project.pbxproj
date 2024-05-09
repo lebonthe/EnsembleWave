@@ -963,9 +963,9 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = EnsembleWave/Info.plist;
-				INFOPLIST_KEY_NSAppleMusicUsageDescription = "請授權存取音樂資料庫";
-				INFOPLIST_KEY_NSCameraUsageDescription = "請授權使用相機以開始創作";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "請授權使用麥克風以收音";
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = "請授權存取音樂資料庫，以在錄影的時候，能在耳機中播放參考音樂";
+				INFOPLIST_KEY_NSCameraUsageDescription = "請授權使用相機以開始創作，進行影片錄製";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "請授權使用麥克風以收音，以進行影片的錄製";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "請授權將影片儲存到相簿";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -980,6 +980,10 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = MinsWorks.EnsembleWave;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -999,9 +1003,9 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = EnsembleWave/Info.plist;
-				INFOPLIST_KEY_NSAppleMusicUsageDescription = "請授權存取音樂資料庫";
-				INFOPLIST_KEY_NSCameraUsageDescription = "請授權使用相機以開始創作";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "請授權使用麥克風以收音";
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = "請授權存取音樂資料庫，以在錄影的時候，能在耳機中播放參考音樂";
+				INFOPLIST_KEY_NSCameraUsageDescription = "請授權使用相機以開始創作，進行影片錄製";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "請授權使用麥克風以收音，以進行影片的錄製";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "請授權將影片儲存到相簿";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -1015,6 +1019,10 @@
 				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = MinsWorks.EnsembleWave;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
