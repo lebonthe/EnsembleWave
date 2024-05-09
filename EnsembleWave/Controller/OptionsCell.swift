@@ -222,6 +222,7 @@ class OptionsCell: UITableViewCell {
         let blockAction = UIAlertAction(title: "封鎖此帳號發佈的內容", style: .default) {_ in
             FirebaseManager.shared.fetchUserID(fromPostID: self.postID) { userID, error in
                 if let error = error {
+                    print("blockAction fetchUserID error: \(error.localizedDescription)")
                     return
                 }
                 guard let userID = userID else {

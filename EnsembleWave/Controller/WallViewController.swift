@@ -331,6 +331,7 @@ extension WallViewController: UITableViewDataSource {
                 self?.animView?.removeFromSuperview()
             }
         }
+    // 取得合奏模式的影片 url 影片長度與 userID
     func getVideoAndUserID(postID: String) async -> (videoURL: String, userID: String, duration: Int)? {
         do {
             let document = try await db.collection("Posts").document(postID).getDocument()

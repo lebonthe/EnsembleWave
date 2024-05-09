@@ -240,6 +240,7 @@ class CreateViewController: UIViewController {
         if let outputURL = getVideoURL(for: currentRecordingIndex) {
             print("開始導出到: \(outputURL)")
             do {
+                // 如果這個位置已經有檔案存在，導出會失敗，因此要先刪除
                 try FileManager.default.removeItem(at: outputURL)
             } catch {
                 print("清除舊檔案失敗: \(error.localizedDescription)")
@@ -265,7 +266,6 @@ class CreateViewController: UIViewController {
                             }
                             print("preparedToShare self.videoViewHasContent[otherIndex]:\(self.videoViewHasContent[otherIndex])")
                         }
-                        
                         
                         self.videoViews[self.currentRecordingIndex].addGestureRecognizer(self.tapGesture)
                         print("videoViews[0].subviews:\(self.videoViews[0].subviews)")
@@ -1713,8 +1713,7 @@ extension CreateViewController: VideoTrimDelegate {
             } catch {
                 print("清除影片檔案失敗: \(error)")
             }
-        }
-        if index == 0 {
+        } else if index == 0 {
             if let url = video0URL {
                 do {
                     try FileManager.default.removeItem(at: url)
@@ -1782,7 +1781,8 @@ extension CreateViewController: PHPickerViewControllerDelegate {
         }
         if provider.hasItemConformingToTypeIdentifier(UTType.movie.identifier) {
             provider.loadItem(forTypeIdentifier: UTType.movie.identifier, options: nil) { (item, error) in
-                guard let url = item as? URL, error == nil else {
+                guard let url = item as? URL,
+                        error == nil else {
                     print("Error: \(error?.localizedDescription ?? "Unknown error")")
                     return
                 }

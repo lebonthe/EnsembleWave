@@ -78,40 +78,10 @@
             filePath = "EnsembleWave/Controller/WallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "406"
-            endingLineNumber = "406"
+            startingLineNumber = "407"
+            endingLineNumber = "407"
             landmarkName = "blockUser(postID:userID:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "B24F1B69-747E-45D5-86E3-3FB2D1BF8176 - eb96a0818d65dc2a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (__C.UIAlertAction) -&gt; () in EnsembleWave.WallViewController.blockUser(postID: Swift.String, userID: Swift.String) -&gt; ()"
-                  moduleName = "EnsembleWave"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lebonthe/Documents/ios/School/Solo%20Project/EnsembleWave/EnsembleWave/Controller/WallViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "420"
-                  endingLineNumber = "420">
-               </Location>
-               <Location
-                  uuid = "B24F1B69-747E-45D5-86E3-3FB2D1BF8176 - 5a69505dc61054f6"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Bool, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in closure #1 (__C.UIAlertAction) -&gt; () in EnsembleWave.WallViewController.blockUser(postID: Swift.String, userID: Swift.String) -&gt; ()"
-                  moduleName = "EnsembleWave"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lebonthe/Documents/ios/School/Solo%20Project/EnsembleWave/EnsembleWave/Controller/WallViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "420"
-                  endingLineNumber = "420">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -124,40 +94,26 @@
             filePath = "EnsembleWave/Controller/WallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "411"
-            endingLineNumber = "411"
+            startingLineNumber = "412"
+            endingLineNumber = "412"
             landmarkName = "blockUser(postID:userID:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "217522A4-0638-419A-94CD-27FCEB86967E - 5a69505dc6105438"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Bool, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in closure #1 (__C.UIAlertAction) -&gt; () in EnsembleWave.WallViewController.blockUser(postID: Swift.String, userID: Swift.String) -&gt; ()"
-                  moduleName = "EnsembleWave"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lebonthe/Documents/ios/School/Solo%20Project/EnsembleWave/EnsembleWave/Controller/WallViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "426"
-                  endingLineNumber = "426">
-               </Location>
-               <Location
-                  uuid = "217522A4-0638-419A-94CD-27FCEB86967E - 1b1e2a9b46036fa"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 @Swift.MainActor () -&gt; () in closure #1 (Swift.Bool, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in closure #1 (__C.UIAlertAction) -&gt; () in EnsembleWave.WallViewController.blockUser(postID: Swift.String, userID: Swift.String) -&gt; ()"
-                  moduleName = "EnsembleWave"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lebonthe/Documents/ios/School/Solo%20Project/EnsembleWave/EnsembleWave/Controller/WallViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "426"
-                  endingLineNumber = "426">
-               </Location>
-            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E5CE6CFD-3E3E-46BF-95D3-15D48AF39B4D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "EnsembleWave/Controller/ShareViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
+            landmarkName = "willMove(toParent:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

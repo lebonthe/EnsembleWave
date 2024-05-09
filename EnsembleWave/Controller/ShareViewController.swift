@@ -16,7 +16,7 @@ class ShareViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("存到相簿", for: .normal)
         button.setTitleColor(.white, for: .normal)
-
+        
         return button
     }()
     private let shareToWallButton: UIButton = {
@@ -33,6 +33,37 @@ class ShareViewController: UIViewController {
         print("duration sent to ShareViewController:\(duration)")
         view.backgroundColor = .black
         setupUI()
+        setupReturnButton()
+    }
+    func setupReturnButton() {
+        let returnButton = UIBarButtonItem(title: "返回首頁", style: .plain, target: self, action: #selector(returnToRootViewController))
+        self.navigationItem.leftBarButtonItem = returnButton
+    }
+    @objc func returnToRootViewController() {
+        let alertViewController = UIAlertController(title: "影片儲存或發佈了嗎？", message: "一返回首頁，影片檔案將會清除", preferredStyle: .alert)
+        let successAction = UIAlertAction(title: "沒問題", style: .default) { _ in
+            self.navigationController?.popToRootViewController(animated: true)
+        }
+        let againAction = UIAlertAction(title: "不離開了", style: .cancel)
+        
+        alertViewController.addAction(successAction)
+        alertViewController.addAction(againAction)
+        present(alertViewController, animated: true)
+        
+    }
+    override func willMove(toParent parent: UIViewController?) {
+        if parent == nil {
+            if let viewControllers = self.navigationController?.viewControllers {
+                
+                for viewController in viewControllers {
+                    if let firstViewController = viewController as? RecordingHomePageViewController {
+                        tabBarController?.tabBar.isHidden = false
+                        self.navigationController?.popToViewController(firstViewController, animated: true)
+                        return
+                    }
+                }
+            }
+        }
     }
     func setupUI() {
         saveToAlbumButton.setAttributedTitle(attributedTextForm(content: "存到相簿", size: 18, kern: 0, color: UIColor.white), for: .normal)
