@@ -138,7 +138,7 @@ class CreateViewController: UIViewController {
         //        withUnsafeBytes(of: &(players)) { (point) in
         //            print("players 在記憶體的位置:\(point)")
         //        }
-        print("ensembleVideoURL:\(ensembleVideoURL ?? "no ensembleVideoURL")")
+        print("viewDidLoad ensembleVideoURL:\(ensembleVideoURL ?? "no ensembleVideoURL")")
         videoURLs.removeAll()
         setupUI(style)
         setupReplayButton()
@@ -209,8 +209,8 @@ class CreateViewController: UIViewController {
         let keys = ["tracks"]
         
         asset.loadValuesAsynchronously(forKeys: keys) {
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
+//            DispatchQueue.main.async { [weak self] in
+//                guard let self = self else { return }
                 var error: NSError?
                 let status = asset.statusOfValue(forKey: "tracks", error: &error)
                 if status == .loaded {
@@ -222,7 +222,7 @@ class CreateViewController: UIViewController {
                 } else {
                     print("資源的軌道加載未成功: \(error?.localizedDescription ?? "未知錯誤")")
                 }
-            }
+//            }
         }
     }
     func setupShareButton() {
@@ -325,11 +325,11 @@ class CreateViewController: UIViewController {
             videoFileURL = url
         } else {
             if currentRecordingIndex == 0 && video0URL != nil {
-                if let video0URL = video0URL{
+                if let video0URL = video0URL {
                     videoFileURL = video0URL
                 }
             } else if currentRecordingIndex == 1 && video1URL != nil {
-                if let video1URL = video1URL{
+                if let video1URL = video1URL {
                     videoFileURL = video1URL
                 }
             } else {
@@ -847,8 +847,12 @@ class CreateViewController: UIViewController {
         cameraPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         if style == 0 {
             postProductionView.isHidden = true
-            containerView.layer.addSublayer(cameraPreviewLayer!)
-            cameraPreviewLayer?.frame = containerView.layer.bounds
+            if let cameraPreviewLayer = cameraPreviewLayer {
+                containerView.layer.addSublayer(cameraPreviewLayer)
+                cameraPreviewLayer.frame = containerView.layer.bounds
+            } else {
+                print("no cameraPreviewLayer")
+            }
         } else if style == 1 {
             // 在 chooseView() 畫 cameraPreviewLayer
             postProductionView.isHidden = false
@@ -1255,7 +1259,6 @@ extension CreateViewController {
             }
         }
     }
-    // TODO: 解決 containerView 跟 startToRecordingView 的位置衝突
     // style 0 的準備錄影（還不是錄影）介面
     @objc func startToRecordingView() {
         if recordingTopView.isHidden {
@@ -1269,7 +1272,11 @@ extension CreateViewController {
         postProductionView.isHidden = true
         trimView.isHidden = true
         cameraPreviewLayer?.frame = videoViews[0].bounds
-        videoViews[0].layer.addSublayer(cameraPreviewLayer!)
+        if let cameraPreviewLayer = cameraPreviewLayer {
+            videoViews[0].layer.addSublayer(cameraPreviewLayer)
+        } else {
+            print("no cameraPreviewLayer")
+        }
         chooseViewButtons[0].isHidden = true
         
     }
@@ -1294,26 +1301,58 @@ extension CreateViewController {
         let viewIndex = sender == chooseViewButtons[0] ? 0 : 1
         print("viewIndex:\(viewIndex)")
         currentRecordingIndex = viewIndex
-        videoViews[viewIndex].layer.addSublayer(cameraPreviewLayer!)
-        cameraPreviewLayer?.frame = videoViews[viewIndex].bounds
+        if let cameraPreviewLayer = cameraPreviewLayer {
+            videoViews[viewIndex].layer.addSublayer(cameraPreviewLayer)
+            cameraPreviewLayer.frame = videoViews[viewIndex].bounds
+        } else {
+            print("no cameraPreviewLayer")
+        }
         chooseViewButtons[viewIndex].isHidden = true
         let otherIndex = viewIndex == 0 ? 1 : 0
         
         // 如果是 style 1
+//        if players.count > 1 && players.count > style {
+//            
+//            if let currentItemOfOtherIndex = players[otherIndex].currentItem {
+//                // otherPlayerHasItem 另一個 player 是否有影片，出現 Main thread blocked 警告
+//                let otherPlayerHasItem = players[otherIndex].currentItem != nil &&  currentItemOfOtherIndex.asset.isPlayable
+//                // 另一個+是否隱藏 = 另一個 player 是否有影片
+//                chooseViewButtons[otherIndex].isHidden = otherPlayerHasItem
+//                // 如果另一個+顯示
+//                if !chooseViewButtons[otherIndex].isHidden {
+//                    // 拉到最上層
+//                    containerView.bringSubviewToFront(chooseViewButtons[otherIndex])
+//                }
+//            }
+//        }
+        // 如果是 style 1
         if players.count > 1 && players.count > style {
-            
             if let currentItemOfOtherIndex = players[otherIndex].currentItem {
-                // otherPlayerHasItem 另一個 player 是否有影片
-                let otherPlayerHasItem = players[otherIndex].currentItem != nil &&  currentItemOfOtherIndex.asset.isPlayable
-                // 另一個+是否隱藏 = 另一個 player 是否有影片
-                chooseViewButtons[otherIndex].isHidden = otherPlayerHasItem
-                // 如果另一個+顯示
-                if !chooseViewButtons[otherIndex].isHidden {
-                    // 拉到最上層
-                    containerView.bringSubviewToFront(chooseViewButtons[otherIndex])
+                let asset = currentItemOfOtherIndex.asset
+                asset.loadValuesAsynchronously(forKeys: ["playable"]) {
+                    var error: NSError? = nil
+                    let status = asset.statusOfValue(forKey: "playable", error: &error)
+                    DispatchQueue.main.async {
+                        if status == .loaded {
+                            let otherPlayerHasItem = currentItemOfOtherIndex != nil && asset.isPlayable
+                            self.chooseViewButtons[otherIndex].isHidden = otherPlayerHasItem
+                            if !self.chooseViewButtons[otherIndex].isHidden {
+                                self.containerView.bringSubviewToFront(self.chooseViewButtons[otherIndex])
+                            }
+                        } else {
+                            print("Failed to load 'playable' status for asset: \(error?.localizedDescription ?? "unknown error")")
+                            self.chooseViewButtons[otherIndex].isHidden = true
+                        }
+                    }
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.chooseViewButtons[otherIndex].isHidden = false
+                    self.containerView.bringSubviewToFront(self.chooseViewButtons[otherIndex])
                 }
             }
         }
+
     }
     // 按左上角x
     @objc func resetView() {
@@ -1477,6 +1516,8 @@ extension CreateViewController {
                   let audioTrack = videoAsset.tracks(withMediaType: .audio).first else {
                 continue
             }
+            print("Video Track Count: \(videoAsset.tracks(withMediaType: .video).count)")
+            print("Audio Track Count: \(videoAsset.tracks(withMediaType: .audio).count)")
             videoAsset.loadTracks(withMediaType: .video) { tracks, error in
                 
                 guard let videoTrack = tracks?.first
@@ -1489,6 +1530,7 @@ extension CreateViewController {
                 
                 do {
                     if let compositionVideoTrack = mixComposition.addMutableTrack(withMediaType: .video, preferredTrackID: kCMPersistentTrackID_Invalid) {
+                        print("Video track added successfully.")
                         try compositionVideoTrack.insertTimeRange(CMTimeRange(start: .zero, duration: videoAsset.duration), of: videoTrack, at: .zero)
                         if let compositionAudioTrack = mixComposition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid) {
                             try? compositionAudioTrack.insertTimeRange(CMTimeRange(start: .zero, duration: videoAsset.duration), of: audioTrack, at: .zero)
@@ -1520,6 +1562,12 @@ extension CreateViewController {
                         print("index:\(index),layerInstruction:\(layerInstruction)")
                         instructions.append(layerInstruction)
                         print("Current number of layerInstructions: \(instructions.count)")
+                        print("Scale to fit ratio (Width): \(scaleToFitRatioWidth), (Height): \(scaleToFitRatioHeight)")
+                        print("Transform applied: \(transformWithScale)")
+                        print("Translation applied: \(translation)")
+                        print("Final Transform: \(finalTransform)")
+                    } else {
+                        print("Failed to add video track.")
                     }
                 } catch {
                     print("Error with inserting video into composition: \(error)")
@@ -1534,7 +1582,7 @@ extension CreateViewController {
             mainInstruction.timeRange = CMTimeRange(start: .zero, duration: mixComposition.duration)
             mainInstruction.layerInstructions = instructions
             
-            print("mainInstruction.layerInstructions:\(mainInstruction.layerInstructions)")
+            print("Final video composition instructions: \(mainInstruction.layerInstructions)")
             let videoComposition = AVMutableVideoComposition()
             videoComposition.renderSize = CGSize(width: self.containerView.frame.width, height: self.containerView.frame.height)
             print("videoComposition.renderSize: \(videoComposition.renderSize)")
@@ -1553,6 +1601,8 @@ extension CreateViewController {
             print("exporter.videoComposition:\(exporter.videoComposition)")
             exporter.exportAsynchronously {
                 DispatchQueue.main.async {
+                    print("Export Status: \(exporter.status)")
+                    print("Export Session Error: \(String(describing: exporter.error))")
                     switch exporter.status {
                     case .completed:
                         print("導出完成")
