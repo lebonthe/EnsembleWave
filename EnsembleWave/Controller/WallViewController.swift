@@ -13,7 +13,7 @@ import AVFoundation
 import FirebaseAuth
 import Kingfisher
 class WallViewController: UIViewController {
-    
+    var listenerRegistration: ListenerRegistration?
     let db = Firestore.firestore()
     var posts = [Post]()
     var userInfo: User?
@@ -43,7 +43,12 @@ class WallViewController: UIViewController {
         tabBarController?.tabBar.isHidden = false
         listenToPosts()
     }
-    private func listenToPosts() {
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        listenerRegistration?.remove()
+    }
+    func listenToPosts() {
+        print("=========listenToPosts==========")
         if let currentUser = Auth.auth().currentUser {
             let userID = currentUser.uid
             FirebaseManager.shared.fetchUserBlackList(userID: userID) { [weak self] blackListIDs, error in
@@ -61,14 +66,19 @@ class WallViewController: UIViewController {
             setupPostListener(withBlackList: [])
         }
     }
-
+    func scrollToTop() {
+        if !self.posts.isEmpty {
+                let indexPath = IndexPath(row: 0, section: 0)
+                self.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+            }
+    }
     private func setupPostListener(withBlackList blackListIDs: [String]) {
         var query = db.collection("Posts").order(by: "createdTime")
         if !blackListIDs.isEmpty {
             query = query.whereField("userID", notIn: blackListIDs)
         }
 
-        query.addSnapshotListener { [weak self] querySnapshot, error in
+        listenerRegistration = query.addSnapshotListener { [weak self] querySnapshot, error in
             guard let self = self, let snapshot = querySnapshot else {
                 print("Error listening for post updates: \(error?.localizedDescription ?? "No error")")
                 return
@@ -86,8 +96,15 @@ class WallViewController: UIViewController {
                         self.fetchEnsembleUserName(userID: ensembleUserID)
                     }
                     
+//                    if change.type == .added {
+//                        self.posts.insert(post, at: 0)
+//                    } else if let index = self.posts.firstIndex(where: { $0.id == post.id }) {
+//                        self.posts[index] = post
+//                    }
                     if change.type == .added {
-                        self.posts.insert(post, at: 0)
+                        if !self.posts.contains(where: { $0.id == post.id }) {
+                            self.posts.insert(post, at: 0)
+                        }
                     } else if let index = self.posts.firstIndex(where: { $0.id == post.id }) {
                         self.posts[index] = post
                     }
@@ -239,7 +256,6 @@ private func updateLikeAndReplyDetails(for postId: String) {
             pushProfileViewForUser(userID: userID)
         }
     }
-
 }
 extension WallViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {

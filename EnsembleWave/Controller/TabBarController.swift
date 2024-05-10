@@ -30,6 +30,14 @@ extension TabBarController: UITabBarControllerDelegate {
                 return true
             }
         }
+        if let selectedVC = tabBarController.selectedViewController, selectedVC == viewController {
+                if let navVC = viewController as? UINavigationController,
+                   let wallVC = navVC.viewControllers.first as? WallViewController {
+//                    wallVC.listenToPosts()
+                    wallVC.scrollToTop()
+                }
+                return false
+            }
         return true
     }
 }
