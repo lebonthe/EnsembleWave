@@ -12,6 +12,7 @@ import Lottie
 import AVFoundation
 import FirebaseAuth
 import Kingfisher
+import MJRefresh
 class WallViewController: UIViewController {
     var listenerRegistration: ListenerRegistration?
     let db = Firestore.firestore()
@@ -27,6 +28,7 @@ class WallViewController: UIViewController {
     var ensembleUsersNames: [String: String] = [:]
     override func viewDidLoad() {
         super.viewDidLoad()
+        listenToPosts()
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(VideoCell.self, forCellReuseIdentifier: "\(VideoCell.self)")
@@ -38,10 +40,11 @@ class WallViewController: UIViewController {
         tableView.sectionHeaderHeight = 25
         tableView.sectionIndexBackgroundColor = .black
         tableView.backgroundColor = .black
+        refresh()
     }
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.tabBar.isHidden = false
-        listenToPosts()
+        
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
@@ -71,6 +74,15 @@ class WallViewController: UIViewController {
                 let indexPath = IndexPath(row: 0, section: 0)
                 self.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
             }
+    }
+    func refresh() {
+        tableView.mj_header = MJRefreshNormalHeader {
+            self.posts.removeAll()
+            self.listenToPosts()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.tableView.mj_header?.endRefreshing()
+            }
+        }
     }
     private func setupPostListener(withBlackList blackListIDs: [String]) {
         var query = db.collection("Posts").order(by: "createdTime")

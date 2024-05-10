@@ -14,6 +14,7 @@ target 'EnsembleWave' do
 	pod 'IQKeyboardManagerSwift'
 	pod 'Kingfisher'
 	pod 'SwiftEntryKit'
+	pod 'MJRefresh'
   target 'EnsembleWaveTests' do
     inherit! :search_paths
     # Pods for testing

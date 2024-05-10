@@ -1,6 +1,7 @@
 PODS:
   - IQKeyboardManagerSwift (7.0.2)
   - Kingfisher (7.11.0)
+  - MJRefresh (3.7.9)
   - SwiftEntryKit (2.0.0)
   - SwiftLint (0.54.0)
   - VideoConverter (0.1.5)
@@ -9,6 +10,7 @@ PODS:
 DEPENDENCIES:
   - IQKeyboardManagerSwift
   - Kingfisher
+  - MJRefresh
   - SwiftEntryKit
   - SwiftLint
   - VideoConverter
@@ -18,6 +20,7 @@ SPEC REPOS:
   trunk:
     - IQKeyboardManagerSwift
     - Kingfisher
+    - MJRefresh
     - SwiftEntryKit
     - SwiftLint
     - VideoConverter
@@ -26,11 +29,12 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   IQKeyboardManagerSwift: d338c11a896e9f29603443700c4567e32f830c22
   Kingfisher: b9c985d864d43515f404f1ef4a8ce7d802ace3ac
+  MJRefresh: ff9e531227924c84ce459338414550a05d2aea78
   SwiftEntryKit: 61b5fa36f34a97dd8013e48a7345bc4c4720be9a
   SwiftLint: c1de071d9d08c8aba837545f6254315bc900e211
   VideoConverter: 9b3d34e7c0987b85cbd80b3c50043a4291f934aa
   VideoTrim: 5f0192644a7189d95c76061fd36425e3e827383a
 
-PODFILE CHECKSUM: 5856d723c47df8f417f67924998f9ca45d2905a1
+PODFILE CHECKSUM: 64834dc9a33b6c8d84b3d528cb9bf5c55d04fd2e
 
 COCOAPODS: 1.15.2
