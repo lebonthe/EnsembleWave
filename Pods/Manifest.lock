@@ -1,5 +1,5 @@
 PODS:
-  - IQKeyboardManagerSwift (7.0.2)
+  - IQKeyboardManagerSwift (7.0.3)
   - Kingfisher (7.11.0)
   - MJRefresh (3.7.9)
   - SwiftEntryKit (2.0.0)
@@ -27,7 +27,7 @@ SPEC REPOS:
     - VideoTrim
 
 SPEC CHECKSUMS:
-  IQKeyboardManagerSwift: d338c11a896e9f29603443700c4567e32f830c22
+  IQKeyboardManagerSwift: f9c5dc36cba16ddd2e51fa7d51c34a2e083029b5
   Kingfisher: b9c985d864d43515f404f1ef4a8ce7d802ace3ac
   MJRefresh: ff9e531227924c84ce459338414550a05d2aea78
   SwiftEntryKit: 61b5fa36f34a97dd8013e48a7345bc4c4720be9a

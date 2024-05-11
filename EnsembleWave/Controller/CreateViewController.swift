@@ -146,6 +146,9 @@ class CreateViewController: UIViewController {
         configurePlayersAndAddObservers()
         clearTemporaryVideos()
         self.videoTrim.delegate = self
+//        if ensembleUserID != nil {
+//            animView = AnimationManager.shared.playAnimation(view: self.view, animationName: "Animation02", loopMode: .loop)
+//        }
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -166,7 +169,7 @@ class CreateViewController: UIViewController {
         animView = nil
     }
     override func viewWillDisappear(_ animated: Bool) {
-        stopAnim()
+//        stopAnim()
         recordingTopView.isHidden = true
         //        recordingTopView.removeFromSuperview()
         for player in players {
@@ -217,7 +220,9 @@ class CreateViewController: UIViewController {
                     if asset.tracks(withMediaType: .video).isEmpty {
                         print("asset 中沒有影片 tracks")
                     } else {
-                        self.continuePreparedToShare(with: asset)
+                        DispatchQueue.main.async {
+                            self.continuePreparedToShare(with: asset)
+                        }
                     }
                 } else {
                     print("資源的軌道加載未成功: \(error?.localizedDescription ?? "未知錯誤")")
@@ -1339,9 +1344,15 @@ extension CreateViewController {
                             if !self.chooseViewButtons[otherIndex].isHidden {
                                 self.containerView.bringSubviewToFront(self.chooseViewButtons[otherIndex])
                             }
+//                            if let animView = self.animView {
+//                                AnimationManager.shared.stopAnimation(animView: animView)
+//                            }
                         } else {
                             print("Failed to load 'playable' status for asset: \(error?.localizedDescription ?? "unknown error")")
                             self.chooseViewButtons[otherIndex].isHidden = true
+//                            if let animView = self.animView {
+//                                AnimationManager.shared.stopAnimation(animView: animView)
+//                            }
                         }
                     }
                 }

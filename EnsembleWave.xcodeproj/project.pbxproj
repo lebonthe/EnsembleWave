@@ -23,6 +23,7 @@
 		9F007EA42BC51F7600C22E5E /* CreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F007EA32BC51F7500C22E5E /* CreateViewController.swift */; };
 		9F007EA72BC520DA00C22E5E /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F007EA62BC520DA00C22E5E /* Style.swift */; };
 		9F007EA92BC5978700C22E5E /* RecordingHomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F007EA82BC5978700C22E5E /* RecordingHomePageViewController.swift */; };
+		9F077B3C2BEE3EEC00153125 /* AnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F077B3B2BEE3EEC00153125 /* AnimationManager.swift */; };
 		9F26D0662BD746E800C69465 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 9F26D0652BD746E800C69465 /* Lottie */; };
 		9F26D0692BD74E6C00C69465 /* Animation00.json in Resources */ = {isa = PBXBuildFile; fileRef = 9F26D0682BD74E6C00C69465 /* Animation00.json */; };
 		9F3FD9F82BD12C0000A03E22 /* LengthCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3FD9F72BD12C0000A03E22 /* LengthCell.swift */; };
@@ -137,6 +138,7 @@
 		9F007EA32BC51F7500C22E5E /* CreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateViewController.swift; sourceTree = "<group>"; };
 		9F007EA62BC520DA00C22E5E /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		9F007EA82BC5978700C22E5E /* RecordingHomePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingHomePageViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		9F077B3B2BEE3EEC00153125 /* AnimationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationManager.swift; sourceTree = "<group>"; };
 		9F26D0682BD74E6C00C69465 /* Animation00.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Animation00.json; sourceTree = "<group>"; };
 		9F3FD9F72BD12C0000A03E22 /* LengthCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LengthCell.swift; sourceTree = "<group>"; };
 		9F4462B52BD39FBB00462C44 /* AVCaptureVideoDataOutputSampleBufferDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVCaptureVideoDataOutputSampleBufferDelegate.swift; sourceTree = "<group>"; };
@@ -387,6 +389,7 @@
 			children = (
 				9FAA99372BE483B5004615EE /* FirebaseManager.swift */,
 				9FAD4F552BE7CC7700142EBE /* PlayManager.swift */,
+				9F077B3B2BEE3EEC00153125 /* AnimationManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -725,6 +728,7 @@
 			files = (
 				9F007E9A2BC519D100C22E5E /* ChooseStyleViewController.swift in Sources */,
 				9F4463282BD6653B00462C44 /* MusicType.swift in Sources */,
+				9F077B3C2BEE3EEC00153125 /* AnimationManager.swift in Sources */,
 				9F5A51C52BD018C900070186 /* VideoCell.swift in Sources */,
 				9F007E672BC5107C00C22E5E /* AppDelegate.swift in Sources */,
 				9F6FDABE2BD90B9D00315B13 /* CustomButton.swift in Sources */,

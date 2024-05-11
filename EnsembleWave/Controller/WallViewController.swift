@@ -342,23 +342,6 @@ extension WallViewController: UITableViewDataSource {
             fatalError("Out of cell types")
         }
     }
-    func importAnimation() {
-        if animView == nil {
-            animView = LottieAnimationView(name: "Animation00", bundle: .main)
-            animView?.frame = CGRect(x: 200, y: 350, width: 300, height: 300)
-            animView?.center = self.view.center
-            animView?.loopMode = .loop
-            animView?.animationSpeed = 2
-            self.view.addSubview(animView!)
-        }
-        animView?.play()
-    }
-    func stopAnimation() {
-            DispatchQueue.main.async { [weak self] in
-                self?.animView?.stop()
-                self?.animView?.removeFromSuperview()
-            }
-        }
     // 取得合奏模式的影片 url 影片長度與 userID
     func getVideoAndUserID(postID: String) async -> (videoURL: String, userID: String, duration: Int)? {
         do {
@@ -454,7 +437,7 @@ extension WallViewController: OptionsCellDelegate {
             return self
         }
     func presentRecordingPage(postID: String/*, localVideoURL: URL*/) {
-        importAnimation()
+        animView = AnimationManager.shared.playAnimation(view: self.view, animationName: "Animation02", loopMode: .loop)
         
         Task {
             if let (videoURL, userID, duration) = await getVideoAndUserID(postID: postID) {
@@ -469,12 +452,16 @@ extension WallViewController: OptionsCellDelegate {
                     controller.ensembleUserID = userID
                     controller.style = 1
                     controller.length = length
-                    self?.stopAnimation()
+                    if let animView = self?.animView {
+                        AnimationManager.shared.stopAnimation(animView: animView)
+                    }
                     self?.tabBarController?.tabBar.isHidden = true
                     self?.navigationController?.pushViewController(controller, animated: true)
                 }
             } else {
-                stopAnimation()
+                if let animView = self.animView {
+                    AnimationManager.shared.stopAnimation(animView: animView)
+                }
                 print("Required data not found or document does not exist.")
             }
         }
