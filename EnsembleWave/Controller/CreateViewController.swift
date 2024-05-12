@@ -4,7 +4,6 @@
 //
 //  Created by Min Hu on 2024/4/9.
 //
-// TODO: 如果在 recordingTopView 時，不能對另一個 videoView 按刪除並重錄
 import UIKit
 import AVFoundation // 錄影
 import AVKit // 播放影像 access to AVPlayer
@@ -98,7 +97,7 @@ class CreateViewController: UIViewController {
         return label
     }()
     var countdownTimer: Timer?
-    var videoViewHasContent: [Bool] = []
+    var videoViewHasContent: [Int: Bool] = [:]
     lazy var tapGesture00 = UITapGestureRecognizer(target: self, action: #selector(videoViewTapped(_:)))
     lazy var tapGesture01 = UITapGestureRecognizer(target: self, action: #selector(videoViewTapped(_:)))
     var countBeforeRecording: Bool = true // 使用者點選相機，決定要不要倒數計時
@@ -194,7 +193,6 @@ class CreateViewController: UIViewController {
             layer.removeFromSuperlayer()
         }
         replayButton.isHidden = true
-        videoViewHasContent = Array(repeating: false, count: style + 1)
     }
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -265,16 +263,27 @@ class CreateViewController: UIViewController {
                         self.videoViewHasContent[self.currentRecordingIndex] = true
                         if self.style > 0 {
                             let otherIndex = self.currentRecordingIndex == 0 ? 1 : 0
-                            if self.videoViewHasContent[otherIndex] == false {
-                                self.chooseViewButtons[otherIndex].isHidden = false
-                            } else {
+                            if let hasContent = self.videoViewHasContent[otherIndex], hasContent {
                                 if otherIndex == 0 {
                                     self.videoViews[otherIndex].addGestureRecognizer(self.tapGesture00)
                                 } else if otherIndex == 1 {
                                     self.videoViews[otherIndex].addGestureRecognizer(self.tapGesture01)
                                 }
+                                print("preparedToShare self.videoViewHasContent[otherIndex]:\(hasContent)")
+                            } else {
+                                self.chooseViewButtons[otherIndex].isHidden = false
+                                print("preparedToShare self.videoViewHasContent[otherIndex]: no")
                             }
-                            print("preparedToShare self.videoViewHasContent[otherIndex]:\(self.videoViewHasContent[otherIndex])")
+//                            if self.videoViewHasContent[otherIndex] == false {
+//                                self.chooseViewButtons[otherIndex].isHidden = false
+//                            } else {
+//                                if otherIndex == 0 {
+//                                    self.videoViews[otherIndex].addGestureRecognizer(self.tapGesture00)
+//                                } else if otherIndex == 1 {
+//                                    self.videoViews[otherIndex].addGestureRecognizer(self.tapGesture01)
+//                                }
+//                            }
+                            
                         }
                         if self.currentRecordingIndex == 0 {
                             self.videoViews[self.currentRecordingIndex].addGestureRecognizer(self.tapGesture00)
@@ -431,7 +440,6 @@ class CreateViewController: UIViewController {
         stretchScreenButton.tintColor = .white
         shrinkScreenButton.tintColor = .white
         view.backgroundColor = .black
-        videoViewHasContent = Array(repeating: false, count: style + 1)
         trimView.isHidden = true
         videoViews.forEach { $0.removeFromSuperview() }
         videoViews.removeAll()
@@ -466,8 +474,9 @@ class CreateViewController: UIViewController {
         ])
         
         if style == 0 {
+            videoViewHasContent[0] = false
             videoViews[0].tag = 0
-            if videoViewHasContent[0] {
+            if let hasContent = videoViewHasContent[0], hasContent {
                 videoViews[0].addGestureRecognizer(tapGesture00)
             }
             videoViews[0].isUserInteractionEnabled = true
@@ -490,10 +499,12 @@ class CreateViewController: UIViewController {
                 chooseViewButtons[0].heightAnchor.constraint(equalToConstant: 40)
             ])
         } else if style == 1 {
+            videoViewHasContent[0] = false
+            videoViewHasContent[1] = false
             for (index, videoView) in videoViews.enumerated() {
                 videoView.tag = index
                 videoView.isUserInteractionEnabled = true
-                if videoViewHasContent[index] {
+                if let hasContent = videoViewHasContent[index], hasContent {
                     if index == 0 {
                         videoView.addGestureRecognizer(tapGesture00)
                     } else if index == 1 {
@@ -1347,29 +1358,45 @@ extension CreateViewController {
         // 如果是 style 1
         if players.count > 1 && players.count > style {
             if let currentItemOfOtherIndex = players[otherIndex].currentItem {
-                let asset = currentItemOfOtherIndex.asset
-                asset.loadValuesAsynchronously(forKeys: ["playable"]) {
-                    var error: NSError? = nil
-                    let status = asset.statusOfValue(forKey: "playable", error: &error)
-                    DispatchQueue.main.async {
-                        if status == .loaded {
-                            let otherPlayerHasItem = currentItemOfOtherIndex != nil && asset.isPlayable
-                            self.chooseViewButtons[otherIndex].isHidden = otherPlayerHasItem
-                            if !self.chooseViewButtons[otherIndex].isHidden {
-                                self.containerView.bringSubviewToFront(self.chooseViewButtons[otherIndex])
-                            }
-//                            if let animView = self.animView {
-//                                AnimationManager.shared.stopAnimation(animView: animView)
-//                            }
-                        } else {
-                            print("Failed to load 'playable' status for asset: \(error?.localizedDescription ?? "unknown error")")
-                            self.chooseViewButtons[otherIndex].isHidden = true
-//                            if let animView = self.animView {
-//                                AnimationManager.shared.stopAnimation(animView: animView)
-//                            }
-                        }
-                    }
+//                let asset = currentItemOfOtherIndex.asset
+//                asset.loadValuesAsynchronously(forKeys: ["playable"]) {
+//                    var error: NSError? = nil
+//                    let status = asset.statusOfValue(forKey: "playable", error: &error)
+//                    DispatchQueue.main.async {
+                        //                        if status == .loaded {
+                        //                            let otherPlayerHasItem = currentItemOfOtherIndex != nil && asset.isPlayable
+                        //                            self.chooseViewButtons[otherIndex].isHidden = otherPlayerHasItem
+                        //                            if !self.chooseViewButtons[otherIndex].isHidden {
+                        //                                self.containerView.bringSubviewToFront(self.chooseViewButtons[otherIndex])
+                        //                            }
+                        ////                            if let animView = self.animView {
+                        ////                                AnimationManager.shared.stopAnimation(animView: animView)
+                        ////                            }
+                //                        let isPlayable = status == .loaded && asset.isPlayable
+                if let hasContent = videoViewHasContent[otherIndex], hasContent {
+                    self.chooseViewButtons[otherIndex].isHidden = hasContent
+                } else {
+                    self.containerView.bringSubviewToFront(self.chooseViewButtons[otherIndex])
                 }
+//                let isPlayable = videoViewHasContent[otherIndex]
+//                self.chooseViewButtons[otherIndex].isHidden = isPlayable
+                //            self.chooseViewButtons[otherIndex].isHidden = videoViewHasContent
+              // if !isPlayable {
+                    //                            print("Asset is not playable: \(error?.localizedDescription ?? "unknown error")")
+//                    self.containerView.bringSubviewToFront(self.chooseViewButtons[otherIndex])
+//                } else {
+//                    print("Failed to load 'playable' status for asset.")
+//                    self.chooseViewButtons[otherIndex].isHidden = true
+//                    if !self.chooseViewButtons[otherIndex].isHidden {
+//                        self.containerView.bringSubviewToFront(self.chooseViewButtons[otherIndex])
+//                    }
+                    //                            self.containerView.bringSubviewToFront(self.chooseViewButtons[otherIndex])
+                    //                            if let animView = self.animView {
+//                                AnimationManager.shared.stopAnimation(animView: animView)
+//                            }
+//                        }
+//                    }
+//                }
             } else {
                 DispatchQueue.main.async {
                     self.chooseViewButtons[otherIndex].isHidden = false
@@ -1789,13 +1816,23 @@ extension CreateViewController: VideoTrimDelegate {
         }
     }
     @objc func clearVideoView(for index: Int) {
-        replayButton.isHidden = true
-        if let tapGesture = videoViews[index].gestureRecognizers?.first(where: { $0 is UITapGestureRecognizer }) {
-            if index == 0 {
-                videoViews[index].removeGestureRecognizer(tapGesture00)
-            } else if index == 1 {
-                videoViews[index].removeGestureRecognizer(tapGesture01)
+        if style == 0 {
+            replayButton.isHidden = true
+        } else {
+            let otherIndex = index == 0 ? 1 : 0
+            if let hasContent = videoViewHasContent[otherIndex], hasContent {
+                replayButton.isHidden = false
+            } else {
+                replayButton.isHidden = true
             }
+        }
+        print("=====status of replayButton isHidden: \(replayButton.isHidden)==========")
+        if let tapGesture = videoViews[index].gestureRecognizers?.first(where: { $0 is UITapGestureRecognizer }) {
+//            if index == 0 {
+                videoViews[index].removeGestureRecognizer(tapGesture)
+//            } else if index == 1 {
+//                videoViews[index].removeGestureRecognizer(tapGesture)
+//            }
         }
         let player = players[index]
         stopAllVideos()
@@ -1806,7 +1843,8 @@ extension CreateViewController: VideoTrimDelegate {
             do {
                 try FileManager.default.removeItem(at: url)
                 print("成功清除影片檔案")
-                self.videoViewHasContent[self.currentRecordingIndex] = false
+                self.videoViewHasContent[index] = false
+                print(" self.videoViewHasContent[self.currentRecordingIndex] :\(self.videoViewHasContent[self.currentRecordingIndex] )")
             } catch {
                 print("清除影片檔案失敗: \(error)")
             }
@@ -1815,7 +1853,7 @@ extension CreateViewController: VideoTrimDelegate {
                 do {
                     try FileManager.default.removeItem(at: url)
                     print("成功清除影片檔案")
-                    self.videoViewHasContent[self.currentRecordingIndex] = false
+                    self.videoViewHasContent[index] = false
                 } catch {
                     print("清除影片檔案失敗: \(error)")
                 }
@@ -1825,12 +1863,15 @@ extension CreateViewController: VideoTrimDelegate {
                 do {
                     try FileManager.default.removeItem(at: url)
                     print("成功清除影片檔案")
-                    self.videoViewHasContent[self.currentRecordingIndex] = false
+                    self.videoViewHasContent[index] = false
                 } catch {
                     print("清除影片檔案失敗: \(error)")
                 }
             }
+        } else {
+            self.videoViewHasContent[index] = false
         }
+        print("clearViewView videoViewHasContent- index:\(index), videoViewHasContent:\(self.videoViewHasContent[index])")
         videoViews[index].subviews.forEach { subview in
             if let button = subview as? UIButton, chooseViewButtons.contains(button) {
                 button.isHidden = false
