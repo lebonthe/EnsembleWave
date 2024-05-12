@@ -1776,6 +1776,9 @@ extension CreateViewController: VideoTrimDelegate {
     }
     @objc func clearVideoView(for index: Int) {
         replayButton.isHidden = true
+        if let tapGesture = videoViews[index].gestureRecognizers?.first(where: { $0 is UITapGestureRecognizer }) {
+            videoViews[index].removeGestureRecognizer(tapGesture)
+        }
         let player = players[index]
         stopAllVideos()
         player.replaceCurrentItem(with: nil)

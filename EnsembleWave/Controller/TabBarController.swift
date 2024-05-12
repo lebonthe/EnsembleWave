@@ -19,7 +19,7 @@ class TabBarController: UITabBarController {
     }
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         if let selectedViewController = selectedViewController {
-            return selectedViewController.supportedInterfaceOrientations
+            return .portrait /*selectedViewController.supportedInterfaceOrientations*/
         }
         return .portrait
     }
