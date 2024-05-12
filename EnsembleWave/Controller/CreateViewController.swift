@@ -4,7 +4,7 @@
 //
 //  Created by Min Hu on 2024/4/9.
 //
-
+// TODO: 如果在 recordingTopView 時，不能對另一個 videoView 按刪除並重錄
 import UIKit
 import AVFoundation // 錄影
 import AVKit // 播放影像 access to AVPlayer
@@ -99,7 +99,8 @@ class CreateViewController: UIViewController {
     }()
     var countdownTimer: Timer?
     var videoViewHasContent: [Bool] = []
-    lazy var tapGesture = UITapGestureRecognizer(target: self, action: #selector(videoViewTapped(_:)))
+    lazy var tapGesture00 = UITapGestureRecognizer(target: self, action: #selector(videoViewTapped(_:)))
+    lazy var tapGesture01 = UITapGestureRecognizer(target: self, action: #selector(videoViewTapped(_:)))
     var countBeforeRecording: Bool = true // 使用者點選相機，決定要不要倒數計時
     let countingImages = ["5.circle.fill", "4.circle.fill", "3.circle.fill", "2.circle.fill", "1.circle.fill"]
     var currentImageIndex = 0
@@ -267,12 +268,21 @@ class CreateViewController: UIViewController {
                             if self.videoViewHasContent[otherIndex] == false {
                                 self.chooseViewButtons[otherIndex].isHidden = false
                             } else {
-                                self.videoViews[otherIndex].addGestureRecognizer(self.tapGesture)
+                                if otherIndex == 0 {
+                                    self.videoViews[otherIndex].addGestureRecognizer(self.tapGesture00)
+                                } else if otherIndex == 1 {
+                                    self.videoViews[otherIndex].addGestureRecognizer(self.tapGesture01)
+                                }
                             }
                             print("preparedToShare self.videoViewHasContent[otherIndex]:\(self.videoViewHasContent[otherIndex])")
                         }
-                        
-                        self.videoViews[self.currentRecordingIndex].addGestureRecognizer(self.tapGesture)
+                        if self.currentRecordingIndex == 0 {
+                            self.videoViews[self.currentRecordingIndex].addGestureRecognizer(self.tapGesture00)
+                            self.videoViews[1].isUserInteractionEnabled = true
+                        } else if self.currentRecordingIndex == 1 {
+                            self.videoViews[self.currentRecordingIndex].addGestureRecognizer(self.tapGesture01)
+                            self.videoViews[0].isUserInteractionEnabled = true
+                        }
                         print("videoViews[0].subviews:\(self.videoViews[0].subviews)")
                         let durationInSeconds = CMTimeGetSeconds(asset.duration)
                         self.duration = Int(durationInSeconds.rounded())
@@ -458,7 +468,7 @@ class CreateViewController: UIViewController {
         if style == 0 {
             videoViews[0].tag = 0
             if videoViewHasContent[0] {
-                videoViews[0].addGestureRecognizer(tapGesture)
+                videoViews[0].addGestureRecognizer(tapGesture00)
             }
             videoViews[0].isUserInteractionEnabled = true
             videoViews[0].frame = containerView.bounds
@@ -484,7 +494,11 @@ class CreateViewController: UIViewController {
                 videoView.tag = index
                 videoView.isUserInteractionEnabled = true
                 if videoViewHasContent[index] {
-                    videoView.addGestureRecognizer(tapGesture)
+                    if index == 0 {
+                        videoView.addGestureRecognizer(tapGesture00)
+                    } else if index == 1 {
+                        videoView.addGestureRecognizer(tapGesture01)
+                    }
                 }
             }
             line.backgroundColor = .white
@@ -1314,7 +1328,7 @@ extension CreateViewController {
         }
         chooseViewButtons[viewIndex].isHidden = true
         let otherIndex = viewIndex == 0 ? 1 : 0
-        
+        videoViews[otherIndex].isUserInteractionEnabled = false
         // 如果是 style 1
 //        if players.count > 1 && players.count > style {
 //            
@@ -1777,7 +1791,11 @@ extension CreateViewController: VideoTrimDelegate {
     @objc func clearVideoView(for index: Int) {
         replayButton.isHidden = true
         if let tapGesture = videoViews[index].gestureRecognizers?.first(where: { $0 is UITapGestureRecognizer }) {
-            videoViews[index].removeGestureRecognizer(tapGesture)
+            if index == 0 {
+                videoViews[index].removeGestureRecognizer(tapGesture00)
+            } else if index == 1 {
+                videoViews[index].removeGestureRecognizer(tapGesture01)
+            }
         }
         let player = players[index]
         stopAllVideos()

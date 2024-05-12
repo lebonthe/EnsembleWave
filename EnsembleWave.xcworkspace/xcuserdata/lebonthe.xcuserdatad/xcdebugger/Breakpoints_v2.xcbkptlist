@@ -14,8 +14,8 @@
             filePath = "EnsembleWave/Controller/CreateViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1099"
-            endingLineNumber = "1099"
+            startingLineNumber = "1113"
+            endingLineNumber = "1113"
             landmarkName = "fileOutput(_:didFinishRecordingTo:from:error:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -30,8 +30,8 @@
             filePath = "EnsembleWave/Controller/CreateViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "313"
-            endingLineNumber = "313"
+            startingLineNumber = "323"
+            endingLineNumber = "323"
             landmarkName = "setupTrimViewUI()"
             landmarkType = "7">
          </BreakpointContent>
@@ -46,8 +46,8 @@
             filePath = "EnsembleWave/Controller/CreateViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "348"
-            endingLineNumber = "348"
+            startingLineNumber = "358"
+            endingLineNumber = "358"
             landmarkName = "setupTrimViewUI()"
             landmarkType = "7">
          </BreakpointContent>
@@ -62,8 +62,8 @@
             filePath = "EnsembleWave/Controller/CreateViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1382"
-            endingLineNumber = "1382"
+            startingLineNumber = "1396"
+            endingLineNumber = "1396"
             landmarkName = "pushSharePage(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -78,8 +78,8 @@
             filePath = "EnsembleWave/Controller/CreateViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1391"
-            endingLineNumber = "1391"
+            startingLineNumber = "1405"
+            endingLineNumber = "1405"
             landmarkName = "pushSharePage(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -94,8 +94,8 @@
             filePath = "EnsembleWave/Controller/CreateViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1399"
-            endingLineNumber = "1399"
+            startingLineNumber = "1413"
+            endingLineNumber = "1413"
             landmarkName = "pushSharePage(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -146,36 +146,6 @@
             endingLineNumber = "21"
             landmarkName = "supportedInterfaceOrientations"
             landmarkType = "24">
-            <Locations>
-               <Location
-                  uuid = "8B027A8F-5963-46F9-B201-8D3DFDE7E958 - c8356087015c5d0d"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "EnsembleWave.TabBarController.supportedInterfaceOrientations.getter : __C.UIInterfaceOrientationMask"
-                  moduleName = "EnsembleWave"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lebonthe/Documents/ios/School/Solo%20Project/EnsembleWave/EnsembleWave/Controller/TabBarController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "21"
-                  endingLineNumber = "21">
-               </Location>
-               <Location
-                  uuid = "8B027A8F-5963-46F9-B201-8D3DFDE7E958 - c8356087015c5d0d"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "EnsembleWave.TabBarController.supportedInterfaceOrientations.getter : __C.UIInterfaceOrientationMask"
-                  moduleName = "EnsembleWave"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lebonthe/Documents/ios/School/Solo%20Project/EnsembleWave/EnsembleWave/Controller/TabBarController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "21"
-                  endingLineNumber = "21">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -204,54 +174,10 @@
             filePath = "EnsembleWave/Controller/CreateViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1779"
-            endingLineNumber = "1779"
+            startingLineNumber = "1793"
+            endingLineNumber = "1793"
             landmarkName = "clearVideoView(for:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "E9D02C7C-F3FE-4F6F-8A57-F816755651AC - a8285c9c48089174"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "EnsembleWave.CreateViewController.clearVideoView(for: Swift.Int) -&gt; ()"
-                  moduleName = "EnsembleWave"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lebonthe/Documents/ios/School/Solo%20Project/EnsembleWave/EnsembleWave/Controller/CreateViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1779"
-                  endingLineNumber = "1779">
-               </Location>
-               <Location
-                  uuid = "E9D02C7C-F3FE-4F6F-8A57-F816755651AC - a8285c9c48089174"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "EnsembleWave.CreateViewController.clearVideoView(for: Swift.Int) -&gt; ()"
-                  moduleName = "EnsembleWave"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lebonthe/Documents/ios/School/Solo%20Project/EnsembleWave/EnsembleWave/Controller/CreateViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1779"
-                  endingLineNumber = "1779">
-               </Location>
-               <Location
-                  uuid = "E9D02C7C-F3FE-4F6F-8A57-F816755651AC - 353a9f0ef5a1ed5"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (__C.UIGestureRecognizer) -&gt; Swift.Bool in EnsembleWave.CreateViewController.clearVideoView(for: Swift.Int) -&gt; ()"
-                  moduleName = "EnsembleWave"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lebonthe/Documents/ios/School/Solo%20Project/EnsembleWave/EnsembleWave/Controller/CreateViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1779"
-                  endingLineNumber = "1779">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
