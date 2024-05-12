@@ -90,6 +90,8 @@
 		9FAD77072BDC08D500BF7163 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD77062BDC08D500BF7163 /* ProfileViewController.swift */; };
 		9FAD77092BDDE95F00BF7163 /* CryptoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD77082BDDE95F00BF7163 /* CryptoUtils.swift */; };
 		9FC29A922BE0F540009E776C /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC29A912BE0F540009E776C /* SettingViewController.swift */; };
+		9FD319E92BF09E4E0068E08E /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD319E82BF09E4E0068E08E /* NavigationController.swift */; };
+		9FD319EB2BF0A1280068E08E /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD319EA2BF0A1280068E08E /* BaseViewController.swift */; };
 		B8472009B49679B5671FB722 /* Pods_EnsembleWave.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF8A4210E4C6EB1AE602BBB5 /* Pods_EnsembleWave.framework */; };
 		E05B02D0B93EF9664C522C10 /* Pods_EnsembleWave_EnsembleWaveUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D955A00B2C7036CEEACF668 /* Pods_EnsembleWave_EnsembleWaveUITests.framework */; };
 /* End PBXBuildFile section */
@@ -199,6 +201,8 @@
 		9FAD77062BDC08D500BF7163 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		9FAD77082BDDE95F00BF7163 /* CryptoUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CryptoUtils.swift; path = ../Controller/CryptoUtils.swift; sourceTree = "<group>"; };
 		9FC29A912BE0F540009E776C /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		9FD319E82BF09E4E0068E08E /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
+		9FD319EA2BF0A1280068E08E /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		AF8A4210E4C6EB1AE602BBB5 /* Pods_EnsembleWave.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EnsembleWave.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C368520B942DA87E09E009B4 /* Pods-EnsembleWaveTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EnsembleWaveTests.release.xcconfig"; path = "Target Support Files/Pods-EnsembleWaveTests/Pods-EnsembleWaveTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -340,7 +344,6 @@
 				9F4462B92BD503BB00462C44 /* ReplyDetailTableViewCell.swift */,
 				9F4463252BD65E4900462C44 /* MusicViewController.swift */,
 				9FAD76FE2BDB9EAA00BF7163 /* LoginViewController.swift */,
-				9FAD77042BDBB23700BF7163 /* TabBarController.swift */,
 				9FAD77062BDC08D500BF7163 /* ProfileViewController.swift */,
 				9FC29A912BE0F540009E776C /* SettingViewController.swift */,
 				9FAA992F2BE3810B004615EE /* ImageCell.swift */,
@@ -348,6 +351,9 @@
 				9FAA993D2BE4C095004615EE /* ProfileEditingViewViewController.swift */,
 				9FAD4F512BE7863800142EBE /* UserWallViewController.swift */,
 				9F77C1C62BEA13DE002706F8 /* ReportTableViewController.swift */,
+				9FAD77042BDBB23700BF7163 /* TabBarController.swift */,
+				9FD319E82BF09E4E0068E08E /* NavigationController.swift */,
+				9FD319EA2BF0A1280068E08E /* BaseViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -739,6 +745,7 @@
 				9F007EA42BC51F7600C22E5E /* CreateViewController.swift in Sources */,
 				9FAD77092BDDE95F00BF7163 /* CryptoUtils.swift in Sources */,
 				9F4463262BD65E4900462C44 /* MusicViewController.swift in Sources */,
+				9FD319E92BF09E4E0068E08E /* NavigationController.swift in Sources */,
 				9F4462B62BD39FBB00462C44 /* AVCaptureVideoDataOutputSampleBufferDelegate.swift in Sources */,
 				9F4462B82BD4434200462C44 /* ReplyViewController.swift in Sources */,
 				9FAA992A2BE2BE8B004615EE /* ProfileView.swift in Sources */,
@@ -760,6 +767,7 @@
 				9FAA99302BE3810B004615EE /* ImageCell.swift in Sources */,
 				9FAA993E2BE4C095004615EE /* ProfileEditingViewViewController.swift in Sources */,
 				9F96B8C82BEB945100FF13AA /* String+Extension.swift in Sources */,
+				9FD319EB2BF0A1280068E08E /* BaseViewController.swift in Sources */,
 				9FAD76FF2BDB9EAA00BF7163 /* LoginViewController.swift in Sources */,
 				9F5A51C12BCFC2C300070186 /* PostToWallViewController.swift in Sources */,
 				9F6B5D642BCD383A00509F5F /* VideoView.swift in Sources */,
@@ -974,7 +982,8 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1014,7 +1023,8 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

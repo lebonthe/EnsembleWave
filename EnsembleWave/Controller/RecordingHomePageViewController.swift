@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RecordingHomePageViewController: UIViewController {
+class RecordingHomePageViewController: BaseViewController {
 
     @IBOutlet weak var newRecordButton: CustomButton!
     override func viewDidLoad() {

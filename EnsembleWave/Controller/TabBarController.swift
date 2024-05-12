@@ -17,6 +17,15 @@ class TabBarController: UITabBarController {
         let loginViewController = LoginViewController()
         present(loginViewController, animated: true)
     }
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        if let selectedViewController = selectedViewController {
+            return selectedViewController.supportedInterfaceOrientations
+        }
+        return .portrait
+    }
+    override var shouldAutorotate: Bool {
+        return selectedViewController?.shouldAutorotate ?? false
+    }
 }
 extension TabBarController: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
