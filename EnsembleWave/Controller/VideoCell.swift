@@ -30,8 +30,8 @@ class VideoCell: UITableViewCell {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setBackgroundImage(UIImage(systemName: "play.fill"), for: .normal)
-        button.alpha = 0.5
-        button.tintColor = .gray
+        button.alpha = 0.35
+        button.tintColor = .lightGray
         return button
     }()
     var playerLayer: AVPlayerLayer?
@@ -73,14 +73,17 @@ class VideoCell: UITableViewCell {
             replayButton.heightAnchor.constraint(equalToConstant: 60)
         ])
         videoView.backgroundColor = .black
-        videoView.layer.cornerRadius = 15
+        
         videoView.clipsToBounds = true
         videoView.layer.masksToBounds = true
         contentView.backgroundColor = .black
         contentView.tintColor = .black
-        contentView.layer.cornerRadius = 15
         contentView.clipsToBounds = true
+        contentView.layer.cornerRadius = 15
+        videoView.layer.cornerRadius = 15
+        thumbnailImageView.layer.cornerRadius = 15
     }
+    
     func configureImageView() {
         if let imageURLString =  imageURLString,
            let imageURL = URL(string: imageURLString) {
@@ -93,6 +96,7 @@ class VideoCell: UITableViewCell {
             thumbnailImageView.isHidden = true
         }
     }
+    
     func configurePlayer() {
 //        guard let urlString = urlString,
 //              let url = URL(string: urlString) else {

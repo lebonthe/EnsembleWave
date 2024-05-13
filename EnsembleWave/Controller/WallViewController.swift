@@ -287,6 +287,7 @@ extension WallViewController: UITableViewDataSource {
                 fatalError("error when building VideoCell")
             }
             print("====post.imageURL: \(post.imageURL ?? "no")")
+            cell.backgroundColor = .black
             cell.imageURLString = post.imageURL
             print("====post.videoURL: \(post.videoURL)")
             cell.urlString = post.videoURL
