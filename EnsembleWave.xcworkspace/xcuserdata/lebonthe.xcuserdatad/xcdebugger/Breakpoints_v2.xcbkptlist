@@ -16,7 +16,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1409"
             endingLineNumber = "1409"
-            landmarkName = "pushSharePage(_:)"
+            landmarkName = "configurePlayersAndAddObservers()"
             landmarkType = "7">
             <Locations>
                <Location
@@ -104,7 +104,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1722"
             endingLineNumber = "1722"
-            landmarkName = "videoTrimPlayTimeChange(_:)"
+            landmarkName = "clearVideoView(for:)"
             landmarkType = "7">
             <Locations>
                <Location

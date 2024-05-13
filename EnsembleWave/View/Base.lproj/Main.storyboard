@@ -489,7 +489,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9ED-LC-btW" userLabel="Trim View">
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9ED-LC-btW" userLabel="Trim View" customClass="TrimView" customModule="EnsembleWave" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="652" width="393" height="200"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -520,7 +520,7 @@
                         <outlet property="postProductionView" destination="OMG-sP-MWp" id="3dX-Dp-RkM"/>
                         <outlet property="shrinkScreenButton" destination="fXX-Nn-CrJ" id="qSY-ZX-3fh"/>
                         <outlet property="stretchScreenButton" destination="BGx-Uc-Yan" id="I1f-8w-pcR"/>
-                        <outlet property="trimView" destination="9ED-LC-btW" id="mku-kF-NS8"/>
+                        <outlet property="trimView" destination="9ED-LC-btW" id="Ok9-zv-0up"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nIe-dP-pLZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -547,10 +547,10 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGray4Color">
-            <color red="0.81960784310000001" green="0.81960784310000001" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

@@ -27,19 +27,23 @@ class ReplyViewController: UIViewController {
         listenToReplies()
         tableView.register(ReplyDetailTableViewCell.self, forCellReuseIdentifier: "\(ReplyDetailTableViewCell.self)")
     }
-    
+    override func viewIsAppearing(_ animated: Bool) {
+        super.viewIsAppearing(true)
+        textField.layer.cornerRadius = 10
+        enterButton.layer.cornerRadius = 10
+    }
     func setupUI() {
         view.backgroundColor = .black
         self.title = "留言"
         view.addSubview(tableView)
-        textView.backgroundColor = .white
+        textView.backgroundColor = .black
         view.addSubview(textView)
-        textField.backgroundColor = CustomColor.black
-        textField.textColor = .white
+        textField.backgroundColor = .white
+        textField.textColor = .black
         textView.addSubview(textField)
-        enterButton.backgroundColor = CustomColor.black
-        enterButton.tintColor = CustomColor.red
-        enterButton.setBackgroundImage(UIImage(systemName: "arrow.turn.down.left"), for: .normal)
+        enterButton.backgroundColor = CustomColor.red
+        enterButton.tintColor = .white
+        enterButton.setImage(UIImage(systemName: "arrow.turn.down.left"), for: .normal)
         enterButton.addTarget(self, action: #selector(sendReply), for: .touchUpInside)
         textView.addSubview(enterButton)
         tableView.backgroundColor = .black
@@ -51,7 +55,7 @@ class ReplyViewController: UIViewController {
             textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             textView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             textView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            textView.heightAnchor.constraint(equalToConstant: 60),
+            textView.heightAnchor.constraint(equalToConstant: 50),
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
@@ -59,7 +63,7 @@ class ReplyViewController: UIViewController {
             enterButton.topAnchor.constraint(equalTo: textView.topAnchor, constant: 6),
             enterButton.trailingAnchor.constraint(equalTo: textView.trailingAnchor, constant: -6),
             enterButton.bottomAnchor.constraint(equalTo: textView.bottomAnchor, constant: -6),
-            enterButton.widthAnchor.constraint(equalToConstant: 60),
+            enterButton.widthAnchor.constraint(equalToConstant: 50),
             textField.topAnchor.constraint(equalTo: textView.topAnchor, constant: 6),
             textField.leadingAnchor.constraint(equalTo: textView.leadingAnchor, constant: 6),
             textField.trailingAnchor.constraint(equalTo: enterButton.leadingAnchor, constant: -6),
@@ -68,18 +72,23 @@ class ReplyViewController: UIViewController {
     }
     
     @objc func sendReply() {
-        guard let text = textField.text,
-        let postID = postID,
-        let user = Auth.auth().currentUser else {
-            print("留言轉換失敗")
+        if textField.text == "" {
+            CustomFunc.customAlert(title: "請留言", message: "再回覆喔", vc: self, actionHandler: nil)
             return
-        }
-        Task {
-            let success = await postReply(postID: postID, userID: "\(String(describing: user.uid))", replyContent: text)
-            if success {
-                textField.text = ""
-            } else {
-                print("請稍後再試")
+        } else {
+            guard let text = textField.text,
+                  let postID = postID,
+                  let user = Auth.auth().currentUser else {
+                print("留言轉換失敗")
+                return
+            }
+            Task {
+                let success = await postReply(postID: postID, userID: "\(String(describing: user.uid))", replyContent: text)
+                if success {
+                    textField.text = ""
+                } else {
+                    print("請稍後再試")
+                }
             }
         }
     }

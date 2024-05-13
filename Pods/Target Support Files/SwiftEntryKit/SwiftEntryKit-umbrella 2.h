@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double KingfisherVersionNumber;
-FOUNDATION_EXPORT const unsigned char KingfisherVersionString[];
+FOUNDATION_EXPORT double SwiftEntryKitVersionNumber;
+FOUNDATION_EXPORT const unsigned char SwiftEntryKitVersionString[];
 

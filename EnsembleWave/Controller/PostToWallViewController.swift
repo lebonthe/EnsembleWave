@@ -69,7 +69,7 @@ class PostToWallViewController: UIViewController {
         IQKeyboardManager.shared.keyboardDistanceFromTextField = 200
     }
     @IBAction func postButtonTapped(_ sender: UIButton) {
-        if titleTextField.text == nil || contentTextView.text == nil || tagTextField.text == nil {
+        if titleTextField.text == "" || contentTextView.text == "" || tagTextField.text == "" {
             let alertViewController = UIAlertController(title: "請完成所有欄位", message: "跟大家分享你的創作想法", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .cancel)
             alertViewController.addAction(okAction)
