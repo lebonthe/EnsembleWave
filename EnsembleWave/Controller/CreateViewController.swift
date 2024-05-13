@@ -203,6 +203,9 @@ class CreateViewController: UIViewController {
         print("===== CreateViewController viewDidAppear =====")
         if ensembleVideoURL != nil && style == 1 {
             chooseView(chooseViewButtons[0])
+            chooseViewButtons[1].isHidden = true
+            videoViewHasContent[1] = true
+            videoViews[1].addGestureRecognizer(tapGesture01)
         }
     }
     @objc func preparedToShare() {
@@ -308,6 +311,7 @@ class CreateViewController: UIViewController {
     }
     
     @objc func recordAgain() {
+        stopAllVideos()
         //        let cameraPositionButton = UIBarButtonItem(image: UIImage(systemName: "arrow.triangle.2.circlepath.camera"), style: .plain, target: self, action: #selector(toggleCameraPosition(_:)))
         //        self.navigationItem.rightBarButtonItem = cameraPositionButton
         if style == 0 {
@@ -801,7 +805,9 @@ class CreateViewController: UIViewController {
                 } else {
                     players[index] = player
                 }
-                
+                if let currentItem = player.currentItem {
+                    setupObserversForPlayerItem(currentItem, with: player)
+                }
                 let playerLayer = AVPlayerLayer(player: player)
                 playerLayer.frame = videoViews[index].bounds
                 playerLayer.videoGravity = .resizeAspectFill
@@ -818,11 +824,15 @@ class CreateViewController: UIViewController {
                 if let videoURL = getVideoURL(for: index) {
                     let playerItem = AVPlayerItem(url: videoURL)
                     players[index].replaceCurrentItem(with: playerItem)
+                    setupObserversForPlayerItem(playerItem, with: players[index])
                     print("In configure, players[\(players[index])] playerItem:\(playerItem)")
                 }
             } else {
                 let player = AVPlayer()
                 players.append(player)
+                if let currentItem = player.currentItem {
+                    setupObserversForPlayerItem(currentItem, with: player)
+                }
                 let playerLayer = AVPlayerLayer(player: player)
                 playerLayer.frame = videoViews[index].bounds
                 playerLayer.videoGravity = .resizeAspectFill
@@ -1312,6 +1322,7 @@ extension CreateViewController {
     }
     // TODO: 進入 trimView 之後取消，如果是錄影沒有問題，可以繼續錄。如果用相簿選影片，則 recordingTopView 會不見
     @objc func chooseView(_ sender: UIButton) {
+        stopAllVideos()
         print("chooseView===========recordingTopView.isHidden:\(recordingTopView.isHidden)")
         print("sender:\(sender)")
         if recordingTopView.isHidden {
@@ -1408,6 +1419,7 @@ extension CreateViewController {
     }
     // 按左上角x
     @objc func resetView() {
+        stopCountdwonBeforeRecording()
         recordingTopView.isHidden = true
         postProductionView.isHidden = false
         trimView.isHidden = true
@@ -1415,10 +1427,29 @@ extension CreateViewController {
         for chooseViewButton in chooseViewButtons {
             chooseViewButton.isHidden = false
         }
-        //        if players.count > 1 {
-        //            let otherPlayerHasItem = players[otherIndex].currentItem != nil && players[otherIndex].currentItem?.duration.seconds ?? 0 > 0
-        //            chooseViewButtons[otherIndex].isHidden = otherPlayerHasItem
-        //        }
+        if players.count > 1 {
+            if let hasContent = videoViewHasContent[0], hasContent {
+                chooseViewButtons[0].isHidden = true
+                replayButton.isHidden = false
+                if let tapGesture = videoViews[0].gestureRecognizers?.first(where: { $0 is UITapGestureRecognizer }) {
+                    videoViews[0].isUserInteractionEnabled = true
+                } else {
+                    videoViews[0].addGestureRecognizer(tapGesture00)
+                }
+            }
+            if let hasContent = videoViewHasContent[1], hasContent {
+                chooseViewButtons[1].isHidden = true
+                replayButton.isHidden = false
+                if let tapGesture = videoViews[1].gestureRecognizers?.first(where: { $0 is UITapGestureRecognizer }) {
+                    videoViews[1].isUserInteractionEnabled = true
+                } else {
+                    videoViews[1].addGestureRecognizer(tapGesture01)
+                }
+                
+            }
+        }
+        stopAllVideos()
+        playAllVideos()
     }
     @objc func pushSharePage(_ sender: UIBarButtonItem) {
         mergingAnimation()
