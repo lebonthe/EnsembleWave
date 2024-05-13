@@ -68,18 +68,23 @@ class ReplyViewController: UIViewController {
     }
     
     @objc func sendReply() {
-        guard let text = textField.text,
-        let postID = postID,
-        let user = Auth.auth().currentUser else {
-            print("留言轉換失敗")
+        if textField.text == "" {
+            CustomFunc.customAlert(title: "請留言", message: "再回覆喔", vc: self, actionHandler: nil)
             return
-        }
-        Task {
-            let success = await postReply(postID: postID, userID: "\(String(describing: user.uid))", replyContent: text)
-            if success {
-                textField.text = ""
-            } else {
-                print("請稍後再試")
+        } else {
+            guard let text = textField.text,
+                  let postID = postID,
+                  let user = Auth.auth().currentUser else {
+                print("留言轉換失敗")
+                return
+            }
+            Task {
+                let success = await postReply(postID: postID, userID: "\(String(describing: user.uid))", replyContent: text)
+                if success {
+                    textField.text = ""
+                } else {
+                    print("請稍後再試")
+                }
             }
         }
     }
