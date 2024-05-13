@@ -9,7 +9,6 @@ import AVFoundation // 錄影
 import AVKit // 播放影像 access to AVPlayer
 import Photos // 儲存影像
 import MediaPlayer // 改變音量
-import VideoConverter // 裁切影片
 import VideoTrim // 裁切影片
 import Vision // 手勢
 import PhotosUI // 選取相簿影片
@@ -58,34 +57,11 @@ class CreateViewController: UIViewController {
     var audioURLs: [URL] = []
     var playerVolume: Float = 0.5
     var previousVolume: Float = 0.5
-    
-    @IBOutlet weak var trimView: UIView!
+    @IBOutlet weak var trimView: TrimView!
     var endTimeObservers: [AVPlayer: Any] = [:]
-    private let scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        return scrollView
-    }()
-    
-    private let trimContainerView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .black
-        return view
-    }()
-    private let videoTrim: VideoTrim = {
-        let videoTrim = VideoTrim()
-        videoTrim.translatesAutoresizingMaskIntoConstraints = false
-        videoTrim.topMargin = 4
-        videoTrim.bottomMargin = 8
-        return videoTrim
-    }()
-    
-    private var videoConverter: VideoConverter?
     private var isPlaying = false
     private var preset: String?
     var endTimeObserver: Any?
-    
     private let recordingTopView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -135,9 +111,6 @@ class CreateViewController: UIViewController {
         super.viewDidLoad()
         print("===== CreateViewController viewDidLoad =====")
         print("length:\(length)")
-        //        withUnsafeBytes(of: &(players)) { (point) in
-        //            print("players 在記憶體的位置:\(point)")
-        //        }
         print("viewDidLoad ensembleVideoURL:\(ensembleVideoURL ?? "no ensembleVideoURL")")
         videoURLs.removeAll()
         setupUI(style)
@@ -145,19 +118,12 @@ class CreateViewController: UIViewController {
         bookEarphoneState()
         configurePlayersAndAddObservers()
         clearTemporaryVideos()
-        self.videoTrim.delegate = self
-//        if ensembleUserID != nil {
-//            animView = AnimationManager.shared.playAnimation(view: self.view, animationName: "Animation02", loopMode: .loop)
-//        }
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print("===== CreateViewController viewWillAppear =====")
         print("style:\(style)")
         getCurrentSystemVolume()
-        //        if useHandPoseStartRecording {
-        //            addGestureRecognitionToSession()
-        //        }
     }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -214,8 +180,6 @@ class CreateViewController: UIViewController {
         let keys = ["tracks"]
         
         asset.loadValuesAsynchronously(forKeys: keys) {
-//            DispatchQueue.main.async { [weak self] in
-//                guard let self = self else { return }
                 var error: NSError?
                 let status = asset.statusOfValue(forKey: "tracks", error: &error)
                 if status == .loaded {
@@ -229,7 +193,6 @@ class CreateViewController: UIViewController {
                 } else {
                     print("資源的軌道加載未成功: \(error?.localizedDescription ?? "未知錯誤")")
                 }
-//            }
         }
     }
     func setupShareButton() {
@@ -241,8 +204,8 @@ class CreateViewController: UIViewController {
     func continuePreparedToShare(with asset: AVAsset) {
         setupShareButton()
         
-        let startTime = videoTrim.startTime
-        let endTime = videoTrim.endTime
+        let startTime = trimView.videoTrim.startTime
+        let endTime = trimView.videoTrim.endTime
         
         if let outputURL = getVideoURL(for: currentRecordingIndex) {
             print("開始導出到: \(outputURL)")
@@ -332,14 +295,13 @@ class CreateViewController: UIViewController {
             //            disableGestureRecognition()
         }
     }
-    func setupTrimViewUI() {
+    private func setupTrimView() {
+        stopCountdownTimer()
+        postProductionView.isHidden = false
         if style > 0 {
             let otherIndex = currentRecordingIndex == 0 ? 1 : 0
             chooseViewButtons[otherIndex].isHidden = true
         }
-        stopCountdownTimer()
-        postProductionView.isHidden = false
-        //        view.bringSubviewToFront(postProductionView)
         let trimOKButton = UIBarButtonItem(image: UIImage(systemName: "checkmark.circle.fill"), style: .plain, target: self, action: #selector(preparedToShare))
         let trimCancelButton = UIBarButtonItem(image: UIImage(systemName: "xmark.circle.fill"), style: .plain, target: self, action: #selector(recordAgain))
         self.navigationItem.rightBarButtonItem = trimOKButton
@@ -362,7 +324,7 @@ class CreateViewController: UIViewController {
                 }
             } else {
                 guard let url = getVideoURL(for: currentRecordingIndex) else {
-                    print("在 setupTrimViewUI 內 getVideoURL 失敗")
+                    print("在 setupTrimView 內 getVideoURL 失敗")
                     return
                 }
                 videoFileURL = url
@@ -373,37 +335,9 @@ class CreateViewController: UIViewController {
         }
         
         let asset = AVAsset(url: videoFileURL)
-        videoTrim.asset = asset
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        trimView.backgroundColor = CustomColor.red
+        trimView.configure(with: asset)
         trimView.isHidden = false
-        self.trimView.addSubview(self.scrollView)
-        self.scrollView.addSubview(self.trimContainerView)
-        scrollView.backgroundColor = .blue
-        self.trimContainerView.addSubview(self.videoTrim)
-        videoTrim.backgroundColor = .black
-        self.trimView.addConstraints([
-            NSLayoutConstraint(item: self.scrollView, attribute: .leading, relatedBy: .equal, toItem: self.trimView, attribute: .leading, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: self.scrollView, attribute: .trailing, relatedBy: .equal, toItem: self.trimView, attribute: .trailing, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: self.scrollView, attribute: .top, relatedBy: .equal, toItem: self.trimView, attribute: .top, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: self.scrollView, attribute: .bottom, relatedBy: .equal, toItem: self.trimView, attribute: .bottom, multiplier: 1, constant: 0)
-        ])
-        let containerViewHeightConstraint = NSLayoutConstraint(item: self.trimContainerView, attribute: .height, relatedBy: .equal, toItem: self.scrollView, attribute: .height, multiplier: 1, constant: 0)
-        containerViewHeightConstraint.priority = UILayoutPriority(rawValue: 1)
-        self.scrollView.addConstraints([
-            NSLayoutConstraint(item: self.trimContainerView, attribute: .leading, relatedBy: .equal, toItem: self.scrollView, attribute: .leading, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: self.trimContainerView, attribute: .trailing, relatedBy: .equal, toItem: self.scrollView, attribute: .trailing, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: self.trimContainerView, attribute: .top, relatedBy: .equal, toItem: self.scrollView, attribute: .top, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: self.trimContainerView, attribute: .bottom, relatedBy: .equal, toItem: self.scrollView, attribute: .bottom, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: self.trimContainerView, attribute: .width, relatedBy: .equal, toItem: self.scrollView, attribute: .width, multiplier: 1, constant: 0),
-            containerViewHeightConstraint
-        ])
-        self.trimContainerView.addConstraints([
-            NSLayoutConstraint(item: self.videoTrim, attribute: .top, relatedBy: .equal, toItem: self.trimContainerView, attribute: .top, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: self.videoTrim, attribute: .leading, relatedBy: .equal, toItem: self.trimContainerView, attribute: .leading, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: self.videoTrim, attribute: .trailing, relatedBy: .equal, toItem: self.trimContainerView, attribute: .trailing, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: self.videoTrim, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 100)
-        ])
+        trimView.videoTrim.delegate = self
     }
     
     deinit {
@@ -669,7 +603,7 @@ class CreateViewController: UIViewController {
         }
         recordingTopView.isHidden = true
         //        recordingTopView.removeFromSuperview()
-        setupTrimViewUI()
+        setupTrimView()
     }
     func setupRecordingTopView() {
         guard let navigationController = navigationController else {
@@ -1318,9 +1252,8 @@ extension CreateViewController {
             print("no cameraPreviewLayer")
         }
         chooseViewButtons[0].isHidden = true
-        
     }
-    // TODO: 進入 trimView 之後取消，如果是錄影沒有問題，可以繼續錄。如果用相簿選影片，則 recordingTopView 會不見
+    
     @objc func chooseView(_ sender: UIButton) {
         stopAllVideos()
         print("chooseView===========recordingTopView.isHidden:\(recordingTopView.isHidden)")
@@ -1352,62 +1285,13 @@ extension CreateViewController {
         let otherIndex = viewIndex == 0 ? 1 : 0
         videoViews[otherIndex].isUserInteractionEnabled = false
         // 如果是 style 1
-//        if players.count > 1 && players.count > style {
-//            
-//            if let currentItemOfOtherIndex = players[otherIndex].currentItem {
-//                // otherPlayerHasItem 另一個 player 是否有影片，出現 Main thread blocked 警告
-//                let otherPlayerHasItem = players[otherIndex].currentItem != nil &&  currentItemOfOtherIndex.asset.isPlayable
-//                // 另一個+是否隱藏 = 另一個 player 是否有影片
-//                chooseViewButtons[otherIndex].isHidden = otherPlayerHasItem
-//                // 如果另一個+顯示
-//                if !chooseViewButtons[otherIndex].isHidden {
-//                    // 拉到最上層
-//                    containerView.bringSubviewToFront(chooseViewButtons[otherIndex])
-//                }
-//            }
-//        }
-        // 如果是 style 1
         if players.count > 1 && players.count > style {
             if let currentItemOfOtherIndex = players[otherIndex].currentItem {
-//                let asset = currentItemOfOtherIndex.asset
-//                asset.loadValuesAsynchronously(forKeys: ["playable"]) {
-//                    var error: NSError? = nil
-//                    let status = asset.statusOfValue(forKey: "playable", error: &error)
-//                    DispatchQueue.main.async {
-                        //                        if status == .loaded {
-                        //                            let otherPlayerHasItem = currentItemOfOtherIndex != nil && asset.isPlayable
-                        //                            self.chooseViewButtons[otherIndex].isHidden = otherPlayerHasItem
-                        //                            if !self.chooseViewButtons[otherIndex].isHidden {
-                        //                                self.containerView.bringSubviewToFront(self.chooseViewButtons[otherIndex])
-                        //                            }
-                        ////                            if let animView = self.animView {
-                        ////                                AnimationManager.shared.stopAnimation(animView: animView)
-                        ////                            }
-                //                        let isPlayable = status == .loaded && asset.isPlayable
                 if let hasContent = videoViewHasContent[otherIndex], hasContent {
                     self.chooseViewButtons[otherIndex].isHidden = hasContent
                 } else {
                     self.containerView.bringSubviewToFront(self.chooseViewButtons[otherIndex])
                 }
-//                let isPlayable = videoViewHasContent[otherIndex]
-//                self.chooseViewButtons[otherIndex].isHidden = isPlayable
-                //            self.chooseViewButtons[otherIndex].isHidden = videoViewHasContent
-              // if !isPlayable {
-                    //                            print("Asset is not playable: \(error?.localizedDescription ?? "unknown error")")
-//                    self.containerView.bringSubviewToFront(self.chooseViewButtons[otherIndex])
-//                } else {
-//                    print("Failed to load 'playable' status for asset.")
-//                    self.chooseViewButtons[otherIndex].isHidden = true
-//                    if !self.chooseViewButtons[otherIndex].isHidden {
-//                        self.containerView.bringSubviewToFront(self.chooseViewButtons[otherIndex])
-//                    }
-                    //                            self.containerView.bringSubviewToFront(self.chooseViewButtons[otherIndex])
-                    //                            if let animView = self.animView {
-//                                AnimationManager.shared.stopAnimation(animView: animView)
-//                            }
-//                        }
-//                    }
-//                }
             } else {
                 DispatchQueue.main.async {
                     self.chooseViewButtons[otherIndex].isHidden = false
@@ -1415,7 +1299,6 @@ extension CreateViewController {
                 }
             }
         }
-
     }
     // 按左上角x
     @objc func resetView() {
@@ -1445,7 +1328,6 @@ extension CreateViewController {
                 } else {
                     videoViews[1].addGestureRecognizer(tapGesture01)
                 }
-                
             }
         }
         stopAllVideos()
@@ -1559,10 +1441,6 @@ extension CreateViewController {
         
         if captureSession.canAddInput(newInput) {
             captureSession.addInput(newInput)
-            // 前鏡頭鏡向
-            //            if let connection = videoFileOutput.connection(with: .video), connection.isVideoMirroringSupported {
-            //                connection.isVideoMirrored = isFrontCamera
-            //            }
         } else {
             print("Can't add new video input to the session.")
         }
@@ -1658,7 +1536,6 @@ extension CreateViewController {
                 dispatchGroup.leave()
             }
         }
-        
         dispatchGroup.notify(queue: .main) {
             print("Final instructions count: \(instructions.count)")
             let mainInstruction = AVMutableVideoCompositionInstruction()
@@ -1718,17 +1595,7 @@ extension CreateViewController {
             playerVolume = volumeChange
             print("playerVolume: \(playerVolume)")
             return
-        } //else if keyPath == "status", let playerItem = object as? AVPlayerItem {
-        //            switch playerItem.status {
-        //            case .readyToPlay:
-        //                print("Video is ready to play")
-        //            case .failed:
-        //                print("Failed to load video: \(playerItem.error?.localizedDescription ?? "unknown error")")
-        //            default:
-        //                print("Video loading...")
-        //            }
-        //            return
-        //        }
+        }
         super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
     }
 }
@@ -1747,8 +1614,8 @@ extension CreateViewController {
     private func updateTrimTime() {
         for (index, player) in players.enumerated() {
             if let currentItem = player.currentItem {
-                let startTime = videoTrim.startTime
-                let endTime = videoTrim.endTime
+                let startTime = trimView.videoTrim.startTime
+                let endTime = trimView.videoTrim.endTime
                 let timeRange = CMTimeRange(start: startTime, end: endTime)
                 currentItem.seek(to: startTime, completionHandler: nil)
                 print("更新第 \(index) 個播放器的播放範圍為 \(timeRange)")
@@ -1859,11 +1726,7 @@ extension CreateViewController: VideoTrimDelegate {
         }
         print("=====status of replayButton isHidden: \(replayButton.isHidden)==========")
         if let tapGesture = videoViews[index].gestureRecognizers?.first(where: { $0 is UITapGestureRecognizer }) {
-//            if index == 0 {
                 videoViews[index].removeGestureRecognizer(tapGesture)
-//            } else if index == 1 {
-//                videoViews[index].removeGestureRecognizer(tapGesture)
-//            }
         }
         let player = players[index]
         stopAllVideos()
@@ -1929,10 +1792,6 @@ extension CreateViewController: VideoTrimDelegate {
 
 extension CreateViewController: PHPickerViewControllerDelegate {
     @IBAction func selectVideo(_ sender: Any) {
-        //        if videoURLs.count == 0 && currentRecordingIndex == 1 {
-        //            CustomFunc.customAlert(title: "請先完成左側錄影", message: "", vc: self, actionHandler: nil)
-        //        } else {
-        //            recordingTopView.isHidden = true
         stopCountdownTimer()
         disableGestureRecognition()
         var configuration = PHPickerConfiguration()
@@ -1940,7 +1799,6 @@ extension CreateViewController: PHPickerViewControllerDelegate {
         let picker = PHPickerViewController(configuration: configuration)
         picker.delegate = self
         present(picker, animated: true)
-        //        }
     }
     
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
@@ -1955,15 +1813,6 @@ extension CreateViewController: PHPickerViewControllerDelegate {
                     print("Error: \(error?.localizedDescription ?? "Unknown error")")
                     return
                 }
-                //                let asset = AVAsset(url: url)
-                //                let durationInSeconds = CMTimeGetSeconds(asset.duration)
-                // TODO: 修正-有時因為還沒得到 duration，先跳出警告
-                //                if durationInSeconds < 1 {
-                //                    DispatchQueue.main.async {
-                //                        self.alertUserForShortVideo(picker: picker)
-                //                    }
-                //                    return
-                //                }
             }
         } else {
             picker.dismiss(animated: true)
@@ -1986,10 +1835,6 @@ extension CreateViewController: PHPickerViewControllerDelegate {
                     } else {
                         self.video1URL = sandboxURL
                     }
-                    //                    self.setupPlayer(with: sandboxURL)
-                    //                    self.playAllVideos() // 打開這個會播放不出來
-                    //                    self.recordingTopView.isHidden = false
-                    //                    self.launchTrimTopView()
                     picker.dismiss(animated: true) {
                         self.playAllVideos()
                         self.launchTrimTopView()
@@ -2003,14 +1848,6 @@ extension CreateViewController: PHPickerViewControllerDelegate {
             }
         }
     }
-    //    func alertUserForShortVideo(picker: PHPickerViewController) {
-    //        let alert = UIAlertController(title: "影片時長過短", message: "請選擇時長超過1秒的影片。", preferredStyle: .alert)
-    //        alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in
-    //            picker.dismiss(animated: true) {
-    //            }
-    //        })
-    //        picker.present(alert, animated: true)
-    //    }
     // 設定相簿輸入影片的播放器
     func setupPlayer(with url: URL) {
         recordingTopView.isHidden = false
@@ -2052,8 +1889,6 @@ extension CreateViewController: PHPickerViewControllerDelegate {
             videoViews[currentRecordingIndex].layer.addSublayer(playerLayers[currentRecordingIndex])
             playerLayers[currentRecordingIndex].videoGravity = .resizeAspectFill
         }
-        //        let playerItem = AVPlayerItem(url: url) // --
-        //        setupObserversForPlayerItem(playerItem, with: players[currentRecordingIndex]) // --
         
         launchTrimTopView()
         for player in self.players {

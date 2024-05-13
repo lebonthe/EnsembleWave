@@ -25,7 +25,7 @@ class FirebaseManager {
         let docRef = db.collection("Users").document(userID)
         docRef.getDocument { document, error in
             if let document = document, document.exists {
-                let userName = document.data()?["name"] as? String ?? "Unknown User"
+                let userName = document.data()?["name"] as? String ?? "🥹"
                 completion(userName, nil)
             } else {
                 completion(nil, error)
