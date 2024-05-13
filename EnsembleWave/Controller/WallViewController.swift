@@ -35,6 +35,7 @@ class WallViewController: UIViewController {
         tableView.register(OptionsCell.self, forCellReuseIdentifier: "\(OptionsCell.self)")
         tableView.register(LikesCountCell.self, forCellReuseIdentifier: "\(LikesCountCell.self)")
         tableView.register(ContentCell.self, forCellReuseIdentifier: "\(ContentCell.self)")
+        tableView.register(TitleCell.self, forCellReuseIdentifier: "\(TitleCell.self)")
         tableView.register(TagsCell.self, forCellReuseIdentifier: "\(TagsCell.self)")
         tableView.register(RepliesCell.self, forCellReuseIdentifier: "\(RepliesCell.self)")
         tableView.sectionHeaderHeight = 25
@@ -275,7 +276,7 @@ extension WallViewController: UITableViewDataSource {
         return posts.count
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        6
+        7
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let post = posts[indexPath.section]
@@ -313,21 +314,27 @@ extension WallViewController: UITableViewDataSource {
             cell.setupUI()
             return cell
         case 3:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(ContentCell.self)", for: indexPath) as? ContentCell else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(TitleCell.self)", for: indexPath) as? TitleCell else {
                 fatalError("error when building OptionsCell")
             }
             cell.title = post.title
-            cell.contentText = post.content
             cell.setupUI()
             return cell
         case 4:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(ContentCell.self)", for: indexPath) as? ContentCell else {
+                fatalError("error when building OptionsCell")
+            }
+            cell.contentText = post.content
+            cell.setupUI()
+            return cell
+        case 5:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(TagsCell.self)", for: indexPath) as? TagsCell else {
                 fatalError("error when building OptionsCell")
             }
             cell.tagsText = post.tag
             cell.setupUI()
             return cell
-        case 5:
+        case 6:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(RepliesCell.self)", for: indexPath) as? RepliesCell else {
                 fatalError("error when building OptionsCell")
             }

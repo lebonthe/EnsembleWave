@@ -290,10 +290,10 @@ class CreateViewController: UIViewController {
                         }
                         if self.currentRecordingIndex == 0 {
                             self.videoViews[self.currentRecordingIndex].addGestureRecognizer(self.tapGesture00)
-                            self.videoViews[1].isUserInteractionEnabled = true
+                            self.videoViews[0].isUserInteractionEnabled = true
                         } else if self.currentRecordingIndex == 1 {
                             self.videoViews[self.currentRecordingIndex].addGestureRecognizer(self.tapGesture01)
-                            self.videoViews[0].isUserInteractionEnabled = true
+                            self.videoViews[1].isUserInteractionEnabled = true
                         }
                         print("videoViews[0].subviews:\(self.videoViews[0].subviews)")
                         let durationInSeconds = CMTimeGetSeconds(asset.duration)
