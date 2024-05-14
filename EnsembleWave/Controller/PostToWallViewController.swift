@@ -53,6 +53,7 @@ class PostToWallViewController: UIViewController {
             configure(url: url)
             setupReplayButton()
         }
+        updateUI()
     }
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -67,6 +68,18 @@ class PostToWallViewController: UIViewController {
         setupObserversForPlayerItem(playerItem, with: player)
         player.play()
         IQKeyboardManager.shared.keyboardDistanceFromTextField = 200
+        
+    }
+    func updateUI() {
+        contentTextView.layer.cornerRadius = 10
+        contentTextView.layer.borderWidth = 1
+        contentTextView.layer.borderColor = CustomColor.gray2?.cgColor
+        titleTextField.layer.cornerRadius = 8
+        titleTextField.layer.borderWidth = 1
+        titleTextField.layer.borderColor = CustomColor.gray2?.cgColor
+        tagTextField.layer.cornerRadius = 8
+        tagTextField.layer.borderWidth = 1
+        tagTextField.layer.borderColor = CustomColor.gray2?.cgColor
     }
     @IBAction func postButtonTapped(_ sender: UIButton) {
         if titleTextField.text == "" || contentTextView.text == "" || tagTextField.text == "" {
