@@ -21,6 +21,8 @@ class ChooseLengthTableViewController: UITableViewController {
         tableView.backgroundColor = .black
         pickerView.delegate = self
         pickerView.dataSource = self
+        pickerView.selectRow(0, inComponent: 0, animated: false)  // 選擇 0 分鐘
+        pickerView.selectRow(5, inComponent: 1, animated: false) 
         tabBarController?.tabBar.isHidden = true
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "LengthCell")
         if let index = lengths.firstIndex(of: length) {
