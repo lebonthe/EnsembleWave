@@ -80,6 +80,8 @@ class PostToWallViewController: UIViewController {
         tagTextField.layer.cornerRadius = 8
         tagTextField.layer.borderWidth = 1
         tagTextField.layer.borderColor = CustomColor.gray2?.cgColor
+        contentTextView.text = "Ensemble for "
+        tagTextField.text = "# "
     }
     @IBAction func postButtonTapped(_ sender: UIButton) {
         if titleTextField.text == "" || contentTextView.text == "" || tagTextField.text == "" {
