@@ -1283,7 +1283,9 @@ extension CreateViewController {
         }
         chooseViewButtons[viewIndex].isHidden = true
         let otherIndex = viewIndex == 0 ? 1 : 0
-        videoViews[otherIndex].isUserInteractionEnabled = false
+        if style > 0 {
+            videoViews[otherIndex].isUserInteractionEnabled = false
+        }
         // 如果是 style 1
         if players.count > 1 && players.count > style {
             if let currentItemOfOtherIndex = players[otherIndex].currentItem {
