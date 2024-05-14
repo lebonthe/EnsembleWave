@@ -34,6 +34,26 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>PINCache-PINCache.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>PINCache.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>PINOperation-PINOperation.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>PINOperation.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-EnsembleWave-EnsembleWaveUITests.xcscheme</key>
 		<dict>
 			<key>isShown</key>

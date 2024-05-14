@@ -14,7 +14,7 @@ protocol OptionsCellDelegate: AnyObject {
     
     func showReplyPage(from cell: UITableViewCell, cellIndex: Int, postID: String)
     
-    func presentRecordingPage(postID: String/*, localVideoURL: URL*/)
+    func presentRecordingPage(postID: String, localVideoURL: URL)
     
     func viewControllerForPresentation() -> UIViewController?
     
@@ -57,6 +57,16 @@ class OptionsCell: UITableViewCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+    var onURLUpdate: ((URL) -> Void)?
+    
+    var localVideoURL: URL? {
+        didSet {
+            print("OptionsCell localVideoURL:\(localVideoURL)")
+            if let url = localVideoURL {
+                onURLUpdate?(url)
+            }
+        }
+    }
     func setupUI() {
         contentView.backgroundColor = .black
         contentView.addSubview(heartButton)
@@ -73,7 +83,6 @@ class OptionsCell: UITableViewCell {
         goToReplyButton.addTarget(self, action: #selector(reply), for: .touchUpInside)
         ensembleButton.tintColor = .white
         ensembleButton.setImage(UIImage(systemName: "music.mic"), for: .normal)
-//        ensembleButton.setTitle("Co-Play", for: .normal)
         ensembleButton.setAttributedTitle(attributedTextForm(content: "Co-Play", size: 16, kern: 0, color: UIColor.white), for: .normal)
         ensembleButton.setTitleColor(.white, for: .normal)
         ensembleButton.addTarget(self, action: #selector(checkForEnsemble), for: .touchUpInside)
@@ -81,7 +90,6 @@ class OptionsCell: UITableViewCell {
         ensembleButton.layer.cornerRadius = 8
         contentView.addSubview(ensembleButton)
         reportButton.setImage(UIImage(systemName: "ellipsis"), for: .normal)
-//        reportButton.backgroundColor = .red
         reportButton.tintColor = CustomColor.gray2
         reportButton.addTarget(self, action: #selector(showReportSheet), for: .touchUpInside)
         contentView.addSubview(reportButton)
@@ -91,17 +99,14 @@ class OptionsCell: UITableViewCell {
             heartButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             heartButton.widthAnchor.constraint(equalToConstant: buttonSize),
             heartButton.heightAnchor.constraint(equalToConstant: buttonSize),
-//            heartButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6),
             goToReplyButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
             goToReplyButton.leadingAnchor.constraint(equalTo: heartButton.trailingAnchor, constant: 16),
             goToReplyButton.widthAnchor.constraint(equalToConstant: buttonSize),
             goToReplyButton.heightAnchor.constraint(equalToConstant: buttonSize),
-//            goToReplyButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6),
             ensembleButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
             ensembleButton.leadingAnchor.constraint(equalTo: goToReplyButton.trailingAnchor, constant: 16),
             ensembleButton.widthAnchor.constraint(equalToConstant: 150),
             ensembleButton.heightAnchor.constraint(equalToConstant: buttonSize),
-//            ensembleButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6)
             reportButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
             reportButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -6),
             reportButton.widthAnchor.constraint(equalToConstant: buttonSize),
@@ -174,15 +179,26 @@ class OptionsCell: UITableViewCell {
             delegate?.presentLoginViewController()
             return
             }
+        guard let localVideoURL = self.localVideoURL else {
+                print("Local video URL not available")
+                return
+            }
+        print("localVideoURL sent to Recording Page: \(localVideoURL)")
         let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
        
         let actionImport = UIAlertAction(title: "輸入創作", style: .default) {_ in
+            if let localVideoURL = self.localVideoURL {
+                print("localVideoURL sent to Recording Page: \(localVideoURL)")
+                self.delegate?.presentRecordingPage(postID: self.postID, localVideoURL: localVideoURL)
+            } else {
+                print("Local video URL not available")
+            }
 //            if let localVideoURL = self.delegate?.getLocalVideoURL(postID: self.postID) {
 //                self.delegate?.presentRecordingPage(postID: self.postID, localVideoURL: localVideoURL)
 //            } else {
 //                print("Local video URL not available")
 //            }
-            self.delegate?.presentRecordingPage(postID: self.postID/*, localVideoURL: localVideoURL*/)
+//            self.delegate?.presentRecordingPage(postID: self.postID/*, localVideoURL: localVideoURL*/)
         }
         controller.addAction(actionImport)
         let cancelAction = UIAlertAction(title: "取消", style: .cancel)

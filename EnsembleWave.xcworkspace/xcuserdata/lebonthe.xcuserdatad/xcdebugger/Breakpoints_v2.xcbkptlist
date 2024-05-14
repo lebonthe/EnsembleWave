@@ -7,121 +7,49 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "44E3594C-0661-41E3-AF2A-8F263631F5BB"
+            uuid = "68901AB2-A701-47CC-801A-24811ABDC89F"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "EnsembleWave/Controller/CreateViewController.swift"
+            filePath = "EnsembleWave/Controller/WallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1411"
-            endingLineNumber = "1411"
-            landmarkName = "configurePlayersAndAddObservers()"
+            startingLineNumber = "298"
+            endingLineNumber = "298"
+            landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "44E3594C-0661-41E3-AF2A-8F263631F5BB - 9ad0accd5d94d479"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "EnsembleWave.CreateViewController.configurePlayersAndAddObservers() -&gt; ()"
-                  moduleName = "EnsembleWave"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lebonthe/Documents/ios/School/Solo%20Project/EnsembleWave/EnsembleWave/Controller/CreateViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1412"
-                  endingLineNumber = "1412">
-               </Location>
-               <Location
-                  uuid = "44E3594C-0661-41E3-AF2A-8F263631F5BB - 390802c05bb8aef"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 @Sendable (Foundation.Notification) -&gt; () in EnsembleWave.CreateViewController.configurePlayersAndAddObservers() -&gt; ()"
-                  moduleName = "EnsembleWave"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lebonthe/Documents/ios/School/Solo%20Project/EnsembleWave/EnsembleWave/Controller/CreateViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1412"
-                  endingLineNumber = "1412">
-               </Location>
-               <Location
-                  uuid = "44E3594C-0661-41E3-AF2A-8F263631F5BB - 9ad0accd5d94d479"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "EnsembleWave.CreateViewController.configurePlayersAndAddObservers() -&gt; ()"
-                  moduleName = "EnsembleWave"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lebonthe/Documents/ios/School/Solo%20Project/EnsembleWave/EnsembleWave/Controller/CreateViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1412"
-                  endingLineNumber = "1412">
-               </Location>
-               <Location
-                  uuid = "44E3594C-0661-41E3-AF2A-8F263631F5BB - 9ad0accd5d94d479"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "EnsembleWave.CreateViewController.configurePlayersAndAddObservers() -&gt; ()"
-                  moduleName = "EnsembleWave"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lebonthe/Documents/ios/School/Solo%20Project/EnsembleWave/EnsembleWave/Controller/CreateViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1412"
-                  endingLineNumber = "1412">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "2EEBFD5D-61D0-498D-9F57-EE50D7E06D87"
+            uuid = "7AB56803-F4C8-403B-826F-5738265ED1E6"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "EnsembleWave/Controller/CreateViewController.swift"
+            filePath = "EnsembleWave/Controller/OptionsCell.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1724"
-            endingLineNumber = "1724"
-            landmarkName = "clearVideoView(for:)"
+            startingLineNumber = "194"
+            endingLineNumber = "194"
+            landmarkName = "checkForEnsemble()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "2EEBFD5D-61D0-498D-9F57-EE50D7E06D87 - a8285c9c480b6e42"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "EnsembleWave.CreateViewController.clearVideoView(for: Swift.Int) -&gt; ()"
-                  moduleName = "EnsembleWave"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lebonthe/Documents/ios/School/Solo%20Project/EnsembleWave/EnsembleWave/Controller/CreateViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1725"
-                  endingLineNumber = "1725">
-               </Location>
-               <Location
-                  uuid = "2EEBFD5D-61D0-498D-9F57-EE50D7E06D87 - a8285c9c480b6e6d"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "EnsembleWave.CreateViewController.clearVideoView(for: Swift.Int) -&gt; ()"
-                  moduleName = "EnsembleWave"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lebonthe/Documents/ios/School/Solo%20Project/EnsembleWave/EnsembleWave/Controller/CreateViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1724"
-                  endingLineNumber = "1724">
-               </Location>
-            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FF44352A-01E7-4535-B56D-EB5D4547059D"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "EnsembleWave/Controller/OptionsCell.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "192"
+            endingLineNumber = "192"
+            landmarkName = "checkForEnsemble()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

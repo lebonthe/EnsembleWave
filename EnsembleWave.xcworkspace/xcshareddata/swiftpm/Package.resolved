@@ -1,5 +1,5 @@
 {
-  "originHash" : "2b6a8b2bc474e156dba613bde33b6ad96182adc531422fe66b19f4db2152844f",
+  "originHash" : "c59adef26e66f390ec4cf62a033430261d342afc34161892ac7ff497eee5b3f5",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -125,6 +125,15 @@
       "state" : {
         "revision" : "9f0c76544701845ad98716f3f6a774a892152bcb",
         "version" : "1.26.0"
+      }
+    },
+    {
+      "identity" : "zplayercacher?source=post_page-----6ce488898003--------------------------------",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ZhgChgLi/ZPlayerCacher?source=post_page-----6ce488898003--------------------------------",
+      "state" : {
+        "branch" : "main",
+        "revision" : "80ef1fd963c021dc1dd30c200c187a432ead0fd2"
       }
     }
   ],

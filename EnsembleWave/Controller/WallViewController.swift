@@ -292,10 +292,19 @@ extension WallViewController: UITableViewDataSource {
             print("====post.videoURL: \(post.videoURL)")
             cell.urlString = post.videoURL
             cell.setupUI()
+            cell.onURLUpdate = { [weak self] url in
+                if let optionCell = tableView.cellForRow(at: IndexPath(row: 1, section: indexPath.section)) as? OptionsCell {
+                    print("optionCell url: \(url)")
+                    optionCell.localVideoURL = url
+                }
+            }
             return cell
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(OptionsCell.self)", for: indexPath) as? OptionsCell else {
                 fatalError("error when building OptionsCell")
+            }
+            if let videoCell = tableView.cellForRow(at: IndexPath(row: 0, section: indexPath.section)) as? VideoCell {
+                cell.localVideoURL = videoCell.localVideoURL
             }
             cell.delegate = self
             cell.isUserLiked = self.postLikesStatus[post.id] ?? false
@@ -444,7 +453,7 @@ extension WallViewController: OptionsCellDelegate {
     func viewControllerForPresentation() -> UIViewController? {
             return self
         }
-    func presentRecordingPage(postID: String/*, localVideoURL: URL*/) {
+    func presentRecordingPage(postID: String, localVideoURL: URL) {
         animView = AnimationManager.shared.playAnimation(view: self.view, animationName: "Animation02", loopMode: .loop)
         
         Task {
@@ -456,7 +465,7 @@ extension WallViewController: OptionsCellDelegate {
                         print("Unable to instantiate CreateViewController from storyboard.")
                         return
                     }
-                    controller.ensembleVideoURL = videoURL//"\(localVideoURL)" // TODO: 回來改成本地檔案
+                    controller.ensembleVideoURL = "\(localVideoURL)"// videoURL// TODO: 回來改成本地檔案
                     controller.ensembleUserID = userID
                     controller.style = 1
                     controller.length = length

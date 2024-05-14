@@ -92,6 +92,9 @@
 		9FAD77072BDC08D500BF7163 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD77062BDC08D500BF7163 /* ProfileViewController.swift */; };
 		9FAD77092BDDE95F00BF7163 /* CryptoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD77082BDDE95F00BF7163 /* CryptoUtils.swift */; };
 		9FC29A922BE0F540009E776C /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC29A912BE0F540009E776C /* SettingViewController.swift */; };
+		9FD085862BF3B12200C3E87A /* ZPlayerCacher in Frameworks */ = {isa = PBXBuildFile; productRef = 9FD085852BF3B12200C3E87A /* ZPlayerCacher */; };
+		9FD085882BF3B4B900C3E87A /* PinCacher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD085872BF3B4B900C3E87A /* PinCacher.swift */; };
+		9FD0858A2BF3B4F700C3E87A /* DefaultPlayerCacherLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD085892BF3B4F700C3E87A /* DefaultPlayerCacherLogger.swift */; };
 		9FD319E92BF09E4E0068E08E /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD319E82BF09E4E0068E08E /* NavigationController.swift */; };
 		9FD319EB2BF0A1280068E08E /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD319EA2BF0A1280068E08E /* BaseViewController.swift */; };
 		B8472009B49679B5671FB722 /* Pods_EnsembleWave.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF8A4210E4C6EB1AE602BBB5 /* Pods_EnsembleWave.framework */; };
@@ -205,6 +208,8 @@
 		9FAD77062BDC08D500BF7163 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		9FAD77082BDDE95F00BF7163 /* CryptoUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CryptoUtils.swift; path = ../Controller/CryptoUtils.swift; sourceTree = "<group>"; };
 		9FC29A912BE0F540009E776C /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		9FD085872BF3B4B900C3E87A /* PinCacher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCacher.swift; sourceTree = "<group>"; };
+		9FD085892BF3B4F700C3E87A /* DefaultPlayerCacherLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPlayerCacherLogger.swift; sourceTree = "<group>"; };
 		9FD319E82BF09E4E0068E08E /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		9FD319EA2BF0A1280068E08E /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		AF8A4210E4C6EB1AE602BBB5 /* Pods_EnsembleWave.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EnsembleWave.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -218,6 +223,7 @@
 			files = (
 				9F428EAA2BEB7A9B00F359C9 /* FirebaseAnalyticsSwift in Frameworks */,
 				9F26D0662BD746E800C69465 /* Lottie in Frameworks */,
+				9FD085862BF3B12200C3E87A /* ZPlayerCacher in Frameworks */,
 				B8472009B49679B5671FB722 /* Pods_EnsembleWave.framework in Frameworks */,
 				9F428EAC2BEB7A9B00F359C9 /* FirebaseCrashlytics in Frameworks */,
 				9F99AFB62BC79857003671BF /* FirebaseStorage in Frameworks */,
@@ -402,6 +408,8 @@
 				9FAA99372BE483B5004615EE /* FirebaseManager.swift */,
 				9FAD4F552BE7CC7700142EBE /* PlayManager.swift */,
 				9F077B3B2BEE3EEC00153125 /* AnimationManager.swift */,
+				9FD085872BF3B4B900C3E87A /* PinCacher.swift */,
+				9FD085892BF3B4F700C3E87A /* DefaultPlayerCacherLogger.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -460,6 +468,7 @@
 				9F26D0652BD746E800C69465 /* Lottie */,
 				9F428EA92BEB7A9B00F359C9 /* FirebaseAnalyticsSwift */,
 				9F428EAB2BEB7A9B00F359C9 /* FirebaseCrashlytics */,
+				9FD085852BF3B12200C3E87A /* ZPlayerCacher */,
 			);
 			productName = EnsembleWave;
 			productReference = 9F007E632BC5107C00C22E5E /* EnsembleWave.app */;
@@ -539,6 +548,7 @@
 			packageReferences = (
 				9F99AFB02BC79857003671BF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				9F26D0642BD746E800C69465 /* XCRemoteSwiftPackageReference "lottie-spm" */,
+				9FD085842BF3B12200C3E87A /* XCRemoteSwiftPackageReference "ZPlayerCacher" */,
 			);
 			productRefGroup = 9F007E642BC5107C00C22E5E /* Products */;
 			projectDirPath = "";
@@ -773,8 +783,10 @@
 				9FAA99302BE3810B004615EE /* ImageCell.swift in Sources */,
 				9FAA993E2BE4C095004615EE /* ProfileEditingViewViewController.swift in Sources */,
 				9F96B8C82BEB945100FF13AA /* String+Extension.swift in Sources */,
+				9FD085882BF3B4B900C3E87A /* PinCacher.swift in Sources */,
 				9FD319EB2BF0A1280068E08E /* BaseViewController.swift in Sources */,
 				9F9FDA482BF1C31300AA3160 /* TitleCell.swift in Sources */,
+				9FD0858A2BF3B4F700C3E87A /* DefaultPlayerCacherLogger.swift in Sources */,
 				9FAD76FF2BDB9EAA00BF7163 /* LoginViewController.swift in Sources */,
 				9F5A51C12BCFC2C300070186 /* PostToWallViewController.swift in Sources */,
 				9F6B5D642BCD383A00509F5F /* VideoView.swift in Sources */,
@@ -1189,6 +1201,14 @@
 				minimumVersion = 10.24.0;
 			};
 		};
+		9FD085842BF3B12200C3E87A /* XCRemoteSwiftPackageReference "ZPlayerCacher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ZhgChgLi/ZPlayerCacher?source=post_page-----6ce488898003--------------------------------";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1221,6 +1241,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9F99AFB02BC79857003671BF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		9FD085852BF3B12200C3E87A /* ZPlayerCacher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9FD085842BF3B12200C3E87A /* XCRemoteSwiftPackageReference "ZPlayerCacher" */;
+			productName = ZPlayerCacher;
 		};
 /* End XCSwiftPackageProductDependency section */
 

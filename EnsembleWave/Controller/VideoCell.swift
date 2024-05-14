@@ -8,6 +8,8 @@
 import UIKit
 import AVFoundation
 import Kingfisher
+import ZPlayerCacher
+import PINCache
 class VideoCell: UITableViewCell {
     var urlString: String? {
         didSet {
@@ -20,7 +22,23 @@ class VideoCell: UITableViewCell {
         }
     }
     
-    var localVideoURL: URL?
+    var onURLUpdate: ((URL) -> Void)?
+
+    var localVideoURL: URL? {
+        didSet {
+            print("VideoCell localVideoURL:\(localVideoURL)")
+            if let _ = localVideoURL {
+                DispatchQueue.main.async {
+                    if let tableView = self.superview as? UITableView,
+                       let indexPath = tableView.indexPath(for: self) {
+                        let sectionIndex = IndexSet(integer: indexPath.section)
+                        tableView.reloadSections(sectionIndex, with: .fade)
+                    }
+                }
+            }
+        }
+    }
+
     let videoView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -121,29 +139,40 @@ class VideoCell: UITableViewCell {
 //            let playerItem = AVPlayerItem(asset: asset)
 //            player.replaceCurrentItem(with: playerItem)
 //            setupObserversForPlayerItem(playerItem, with: player)
-//                }
+        //                }
         guard let urlString = urlString, let url = URL(string: urlString) else {
-                print("Invalid URL string")
-                return
-            }
-
-            let localURL = CachingPlayerItem.localFileURL(for: url)
-        print("url:\(url)")
-        print("localURL:\(localURL)")
+            print("Invalid URL string")
+            return
+        }
+        // Setup the Cacher and Logger
+        let cacher: Cacher = PINCacher()
+        let logger = DefaultPlayerCacherLogger()
         
-            if CachingPlayerItem.isDownloaded(for: url) {
-                let cachedAsset = AVURLAsset(url: localURL, options: nil)
-                let playerItem = AVPlayerItem(asset: cachedAsset)
-                player.replaceCurrentItem(with: playerItem)
-                setupObserversForPlayerItem(playerItem, with: player)
-            } else {
-                let asset = AVURLAsset(url: url, options: nil)
-                startDownload(asset: asset)
-                let playerItem = AVPlayerItem(asset: asset)
-                player.replaceCurrentItem(with: playerItem)
-                setupObserversForPlayerItem(playerItem, with: player)
-            }
-//        guard let localVideoURL = self.localVideoURL else {
+        // Create a cacheable asset if supported
+        let factory = CacheableAVURLAssetFactory(cacher: cacher, logger: logger)
+        let asset = factory.makeCacheableAVURLAssetIfSupported(url: url)  // 直接分配，因為我們知道這不會是 nil
+        self.localVideoURL = asset.url
+        let playerItem = AVPlayerItem(asset: asset)
+        self.player = AVPlayer(playerItem: playerItem)
+        setupPlayerLayer()
+//        print("url:\(url)")
+//        let localURL = CachingPlayerItem.localFileURL(for: url)
+//        print("localURL:\(localURL)")
+//        if CachingPlayerItem.isDownloaded(for: localURL/*url*/) {
+//            let cachedAsset = AVURLAsset(url: localURL, options: nil)
+//            let playerItem = AVPlayerItem(asset: cachedAsset)
+//            player.replaceCurrentItem(with: playerItem)
+//            setupObserversForPlayerItem(playerItem, with: player)
+//            localVideoURL = localURL
+//        } else {
+//            let asset = AVURLAsset(url: url, options: nil)
+//            startDownload(asset: asset)
+//            let playerItem = AVPlayerItem(asset: asset)
+//            player.replaceCurrentItem(with: playerItem)
+//            setupObserversForPlayerItem(playerItem, with: player)
+//            localVideoURL = url
+//        }
+        //        guard let localVideoURL = self.localVideoURL else {
 //            print("no localVideoURL")
 //            return
 //        }
@@ -151,25 +180,32 @@ class VideoCell: UITableViewCell {
 //        let playerItem = AVPlayerItem(asset: cachedAsset)
 //        player.replaceCurrentItem(with: playerItem)
 //        setupObserversForPlayerItem(playerItem, with: player)
-        if playerLayer == nil {
-            playerLayer = AVPlayerLayer(player: player)
-        }
-        playerLayer?.frame = videoView.bounds
-        playerLayer?.videoGravity = .resizeAspectFill
-        
-        if let layer = playerLayer {
-            videoView.layer.addSublayer(layer)
-            layer.masksToBounds = true
-        }
-        
-        if let currentTime = currentTime {
-            player.seek(to: currentTime, completionHandler: { _ in
-                if self.isPlaying {
-                    self.player.play()
-                }
-            })
-        }
+//        if playerLayer == nil {
+//            playerLayer = AVPlayerLayer(player: player)
+//        }
+//        playerLayer?.frame = videoView.bounds
+//        playerLayer?.videoGravity = .resizeAspectFill
+//        
+//        if let layer = playerLayer {
+//            videoView.layer.addSublayer(layer)
+//            layer.masksToBounds = true
+//        }
+//        
+//        if let currentTime = currentTime {
+//            player.seek(to: currentTime, completionHandler: { _ in
+//                if self.isPlaying {
+//                    self.player.play()
+//                }
+//            })
+//        }
     }
+    private func setupPlayerLayer() {
+            playerLayer = AVPlayerLayer(player: player)
+            playerLayer?.frame = videoView.bounds
+            playerLayer?.videoGravity = .resizeAspectFill
+            videoView.layer.addSublayer(playerLayer!)
+            player.play()
+        }
     @objc func togglePlayPause() {
         if player.timeControlStatus == .paused {
             player.play()
@@ -282,13 +318,26 @@ class VideoCell: UITableViewCell {
 //
 //}
 class CachingPlayerItem {
+//    static func localFileURL(for url: URL) -> URL {
+//        let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+//        let fileName = url.absoluteString.md5 + ".mov"
+//        return documentsPath.appendingPathComponent(fileName)
+//    }
     static func localFileURL(for url: URL) -> URL {
+        print("localFileURL url: \(url)")
         let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let fileName = url.absoluteString.md5 + ".mov"
-        return documentsPath.appendingPathComponent(fileName)
-    }
-
+        let videoID = extractVideoID(from: url)
+        print("videoID:\(videoID)")
+        //            let fileName = "\(videoID)"
+        print("return: \(documentsPath.appendingPathComponent(videoID))")
+            return documentsPath.appendingPathComponent(videoID)
+        }
+    static func extractVideoID(from url: URL) -> String {
+            // 你的邏輯來從 URL 提取影片 ID
+            return url.lastPathComponent  // 假設影片 ID 是 URL 的最後一部分
+        }
     static func isDownloaded(for url: URL) -> Bool {
+        print("url: \(url) isDownloaded: \(FileManager.default.fileExists(atPath: localFileURL(for: url).path))")
         return FileManager.default.fileExists(atPath: localFileURL(for: url).path)
     }
 }
