@@ -33,8 +33,8 @@ class ChooseLengthTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
             if segue.identifier == "LengthChosen" {
                 if let destinationVC = segue.destination as? CreateViewController {
-                    destinationVC.style = style
-                    destinationVC.length = length
+                    destinationVC.recSettings.style = style
+                    destinationVC.recSettings.length = length
                 }
             }
         }

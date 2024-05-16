@@ -10,7 +10,7 @@ class TabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.selectedIndex = 0
+        self.selectedIndex = 1
         self.delegate = self
     }
     func presentLoginViewController() {

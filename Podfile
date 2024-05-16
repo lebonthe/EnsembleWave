@@ -13,8 +13,8 @@ target 'EnsembleWave' do
 	pod 'VideoTrim'
 	pod 'IQKeyboardManagerSwift'
 	pod 'Kingfisher'
-	pod 'SwiftEntryKit'
 	pod 'MJRefresh'
+	pod 'SwiftEntryKit'
   target 'EnsembleWaveTests' do
     inherit! :search_paths
     # Pods for testing

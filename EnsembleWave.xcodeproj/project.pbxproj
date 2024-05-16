@@ -21,9 +21,28 @@
 		9F007E9F2BC51AAD00C22E5E /* ChooseLengthTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F007E9E2BC51AAD00C22E5E /* ChooseLengthTableViewController.swift */; };
 		9F007EA22BC51BFC00C22E5E /* RecordingStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F007EA12BC51BFC00C22E5E /* RecordingStoryboard.storyboard */; };
 		9F007EA42BC51F7600C22E5E /* CreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F007EA32BC51F7500C22E5E /* CreateViewController.swift */; };
-		9F007EA72BC520DA00C22E5E /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F007EA62BC520DA00C22E5E /* Style.swift */; };
 		9F007EA92BC5978700C22E5E /* RecordingHomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F007EA82BC5978700C22E5E /* RecordingHomePageViewController.swift */; };
 		9F077B3C2BEE3EEC00153125 /* AnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F077B3B2BEE3EEC00153125 /* AnimationManager.swift */; };
+		9F092AC22BF5F971001661C9 /* RecordingSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F092AC12BF5F971001661C9 /* RecordingSettings.swift */; };
+		9F092AC62BF60A12001661C9 /* CreateVideoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F092AC52BF60A12001661C9 /* CreateVideoManager.swift */; };
+		9F092AC92BF6176D001661C9 /* CryptoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F092AC82BF6176D001661C9 /* CryptoUtils.swift */; };
+		9F092ACB2BF6177C001661C9 /* CustomFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F092ACA2BF6177C001661C9 /* CustomFunc.swift */; };
+		9F092ACD2BF61C4A001661C9 /* RecordingTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F092ACC2BF61C4A001661C9 /* RecordingTopView.swift */; };
+		9F092AD32BF629C9001661C9 /* TimeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F092AD22BF629C9001661C9 /* TimeFormatter.swift */; };
+		9F092AE22BF62B94001661C9 /* MPVolumeView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F092AD42BF62B93001661C9 /* MPVolumeView+Extension.swift */; };
+		9F092AE32BF62B94001661C9 /* CreateViewController+Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F092AD52BF62B93001661C9 /* CreateViewController+Camera.swift */; };
+		9F092AE42BF62B94001661C9 /* CreateViewController+UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F092AD62BF62B93001661C9 /* CreateViewController+UI.swift */; };
+		9F092AE52BF62B94001661C9 /* AVAsset+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F092AD72BF62B93001661C9 /* AVAsset+Extension.swift */; };
+		9F092AE62BF62B94001661C9 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F092AD82BF62B93001661C9 /* UIView+Extension.swift */; };
+		9F092AE72BF62B94001661C9 /* CreateViewController+MusicSelectionDelegate .swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F092AD92BF62B93001661C9 /* CreateViewController+MusicSelectionDelegate .swift */; };
+		9F092AE82BF62B94001661C9 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F092ADA2BF62B93001661C9 /* UIImage+Extension.swift */; };
+		9F092AE92BF62B94001661C9 /* CreateViewController+PHPickerViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F092ADB2BF62B93001661C9 /* CreateViewController+PHPickerViewControllerDelegate.swift */; };
+		9F092AEA2BF62B94001661C9 /* CreateViewController+Audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F092ADC2BF62B93001661C9 /* CreateViewController+Audio.swift */; };
+		9F092AEB2BF62B94001661C9 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F092ADD2BF62B93001661C9 /* String+Extension.swift */; };
+		9F092AEC2BF62B94001661C9 /* CreateViewController+Recording.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F092ADE2BF62B93001661C9 /* CreateViewController+Recording.swift */; };
+		9F092AED2BF62B94001661C9 /* UIViewController+attributedTextForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F092ADF2BF62B93001661C9 /* UIViewController+attributedTextForm.swift */; };
+		9F092AEE2BF62B94001661C9 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F092AE02BF62B93001661C9 /* UIColor+Extension.swift */; };
+		9F092AEF2BF62B94001661C9 /* CreateViewController+VideoTrimDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F092AE12BF62B93001661C9 /* CreateViewController+VideoTrimDelegate.swift */; };
 		9F26D0662BD746E800C69465 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 9F26D0652BD746E800C69465 /* Lottie */; };
 		9F26D0692BD74E6C00C69465 /* Animation00.json in Resources */ = {isa = PBXBuildFile; fileRef = 9F26D0682BD74E6C00C69465 /* Animation00.json */; };
 		9F3FD9F82BD12C0000A03E22 /* LengthCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3FD9F72BD12C0000A03E22 /* LengthCell.swift */; };
@@ -34,7 +53,6 @@
 		9F4462BA2BD503BB00462C44 /* ReplyDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4462B92BD503BB00462C44 /* ReplyDetailTableViewCell.swift */; };
 		9F4463262BD65E4900462C44 /* MusicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4463252BD65E4900462C44 /* MusicViewController.swift */; };
 		9F4463282BD6653B00462C44 /* MusicType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4463272BD6653B00462C44 /* MusicType.swift */; };
-		9F5A51B92BCE1D0A00070186 /* AVAsset+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5A51B82BCE1D0A00070186 /* AVAsset+Extension.swift */; };
 		9F5A51BB2BCEC68900070186 /* ExportError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5A51BA2BCEC68900070186 /* ExportError.swift */; };
 		9F5A51BD2BCF9A4700070186 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5A51BC2BCF9A4700070186 /* Data.swift */; };
 		9F5A51C02BCFC2C300070186 /* PostToWallViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F5A51BF2BCFC2C300070186 /* PostToWallViewController.xib */; };
@@ -48,15 +66,11 @@
 		9F5A51CF2BD01B9900070186 /* RepliesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5A51CE2BD01B9900070186 /* RepliesCell.swift */; };
 		9F6B5D602BC804FD00509F5F /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6B5D5F2BC804FD00509F5F /* ShareViewController.swift */; };
 		9F6B5D642BCD383A00509F5F /* VideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6B5D632BCD383A00509F5F /* VideoView.swift */; };
-		9F6FDA902BD7C2E700315B13 /* ViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6FDA8F2BD7C2E700315B13 /* ViewController+Extension.swift */; };
 		9F6FDABA2BD8F96900315B13 /* CustomColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6FDAB92BD8F96900315B13 /* CustomColor.swift */; };
-		9F6FDABC2BD8FA8400315B13 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6FDABB2BD8FA8400315B13 /* UIColor+Extension.swift */; };
 		9F6FDABE2BD90B9D00315B13 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6FDABD2BD90B9C00315B13 /* CustomButton.swift */; };
-		9F77C1BF2BE945A8002706F8 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F77C1BE2BE945A8002706F8 /* UIImage+Extension.swift */; };
 		9F77C1C12BE9DB13002706F8 /* Animation01.json in Resources */ = {isa = PBXBuildFile; fileRef = 9F77C1C02BE9DB13002706F8 /* Animation01.json */; };
 		9F77C1C32BE9DDA4002706F8 /* Animation02.json in Resources */ = {isa = PBXBuildFile; fileRef = 9F77C1C22BE9DDA4002706F8 /* Animation02.json */; };
 		9F77C1C72BEA13DE002706F8 /* ReportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F77C1C62BEA13DE002706F8 /* ReportTableViewController.swift */; };
-		9F96B8C82BEB945100FF13AA /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F96B8C72BEB945100FF13AA /* String+Extension.swift */; };
 		9F99AFB22BC79857003671BF /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 9F99AFB12BC79857003671BF /* FirebaseAuth */; };
 		9F99AFB42BC79857003671BF /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9F99AFB32BC79857003671BF /* FirebaseFirestoreSwift */; };
 		9F99AFB62BC79857003671BF /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 9F99AFB52BC79857003671BF /* FirebaseStorage */; };
@@ -84,13 +98,10 @@
 		9FAD4F802BE88AFA00142EBE /* NotoSansTC-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAD4F772BE88AFA00142EBE /* NotoSansTC-Regular.ttf */; };
 		9FAD4F812BE88AFA00142EBE /* NotoSansTC-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAD4F782BE88AFA00142EBE /* NotoSansTC-Thin.ttf */; };
 		9FAD4F822BE88AFA00142EBE /* NotoSansTC-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAD4F792BE88AFA00142EBE /* NotoSansTC-SemiBold.ttf */; };
-		9FAD4F842BE8A2F600142EBE /* UIViewController+attributedTextForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD4F832BE8A2F600142EBE /* UIViewController+attributedTextForm.swift */; };
 		9FAD76FF2BDB9EAA00BF7163 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD76FE2BDB9EAA00BF7163 /* LoginViewController.swift */; };
 		9FAD77012BDB9ED500BF7163 /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD77002BDB9ED500BF7163 /* KeychainItem.swift */; };
-		9FAD77032BDBA13200BF7163 /* CustomFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD77022BDBA13200BF7163 /* CustomFunc.swift */; };
 		9FAD77052BDBB23700BF7163 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD77042BDBB23700BF7163 /* TabBarController.swift */; };
 		9FAD77072BDC08D500BF7163 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD77062BDC08D500BF7163 /* ProfileViewController.swift */; };
-		9FAD77092BDDE95F00BF7163 /* CryptoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD77082BDDE95F00BF7163 /* CryptoUtils.swift */; };
 		9FC29A922BE0F540009E776C /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC29A912BE0F540009E776C /* SettingViewController.swift */; };
 		9FD319E92BF09E4E0068E08E /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD319E82BF09E4E0068E08E /* NavigationController.swift */; };
 		9FD319EB2BF0A1280068E08E /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD319EA2BF0A1280068E08E /* BaseViewController.swift */; };
@@ -140,9 +151,28 @@
 		9F007E9E2BC51AAD00C22E5E /* ChooseLengthTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseLengthTableViewController.swift; sourceTree = "<group>"; };
 		9F007EA12BC51BFC00C22E5E /* RecordingStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = RecordingStoryboard.storyboard; sourceTree = "<group>"; };
 		9F007EA32BC51F7500C22E5E /* CreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateViewController.swift; sourceTree = "<group>"; };
-		9F007EA62BC520DA00C22E5E /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		9F007EA82BC5978700C22E5E /* RecordingHomePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingHomePageViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		9F077B3B2BEE3EEC00153125 /* AnimationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationManager.swift; sourceTree = "<group>"; };
+		9F092AC12BF5F971001661C9 /* RecordingSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingSettings.swift; sourceTree = "<group>"; };
+		9F092AC52BF60A12001661C9 /* CreateVideoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVideoManager.swift; sourceTree = "<group>"; };
+		9F092AC82BF6176D001661C9 /* CryptoUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoUtils.swift; sourceTree = "<group>"; };
+		9F092ACA2BF6177C001661C9 /* CustomFunc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomFunc.swift; sourceTree = "<group>"; };
+		9F092ACC2BF61C4A001661C9 /* RecordingTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingTopView.swift; sourceTree = "<group>"; };
+		9F092AD22BF629C9001661C9 /* TimeFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeFormatter.swift; sourceTree = "<group>"; };
+		9F092AD42BF62B93001661C9 /* MPVolumeView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "MPVolumeView+Extension.swift"; path = "EnsembleWave/Extensions/MPVolumeView+Extension.swift"; sourceTree = SOURCE_ROOT; };
+		9F092AD52BF62B93001661C9 /* CreateViewController+Camera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CreateViewController+Camera.swift"; path = "EnsembleWave/Extensions/CreateViewController+Camera.swift"; sourceTree = SOURCE_ROOT; };
+		9F092AD62BF62B93001661C9 /* CreateViewController+UI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CreateViewController+UI.swift"; path = "EnsembleWave/Extensions/CreateViewController+UI.swift"; sourceTree = SOURCE_ROOT; };
+		9F092AD72BF62B93001661C9 /* AVAsset+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "AVAsset+Extension.swift"; path = "EnsembleWave/Extensions/AVAsset+Extension.swift"; sourceTree = SOURCE_ROOT; };
+		9F092AD82BF62B93001661C9 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIView+Extension.swift"; path = "EnsembleWave/Extensions/UIView+Extension.swift"; sourceTree = SOURCE_ROOT; };
+		9F092AD92BF62B93001661C9 /* CreateViewController+MusicSelectionDelegate .swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CreateViewController+MusicSelectionDelegate .swift"; path = "EnsembleWave/Extensions/CreateViewController+MusicSelectionDelegate .swift"; sourceTree = SOURCE_ROOT; };
+		9F092ADA2BF62B93001661C9 /* UIImage+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIImage+Extension.swift"; path = "EnsembleWave/Extensions/UIImage+Extension.swift"; sourceTree = SOURCE_ROOT; };
+		9F092ADB2BF62B93001661C9 /* CreateViewController+PHPickerViewControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CreateViewController+PHPickerViewControllerDelegate.swift"; path = "EnsembleWave/Extensions/CreateViewController+PHPickerViewControllerDelegate.swift"; sourceTree = SOURCE_ROOT; };
+		9F092ADC2BF62B93001661C9 /* CreateViewController+Audio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CreateViewController+Audio.swift"; path = "EnsembleWave/Extensions/CreateViewController+Audio.swift"; sourceTree = SOURCE_ROOT; };
+		9F092ADD2BF62B93001661C9 /* String+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+Extension.swift"; path = "EnsembleWave/Extensions/String+Extension.swift"; sourceTree = SOURCE_ROOT; };
+		9F092ADE2BF62B93001661C9 /* CreateViewController+Recording.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CreateViewController+Recording.swift"; path = "EnsembleWave/Extensions/CreateViewController+Recording.swift"; sourceTree = SOURCE_ROOT; };
+		9F092ADF2BF62B93001661C9 /* UIViewController+attributedTextForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIViewController+attributedTextForm.swift"; path = "EnsembleWave/Extensions/UIViewController+attributedTextForm.swift"; sourceTree = SOURCE_ROOT; };
+		9F092AE02BF62B93001661C9 /* UIColor+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIColor+Extension.swift"; path = "EnsembleWave/Extensions/UIColor+Extension.swift"; sourceTree = SOURCE_ROOT; };
+		9F092AE12BF62B93001661C9 /* CreateViewController+VideoTrimDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CreateViewController+VideoTrimDelegate.swift"; path = "EnsembleWave/Extensions/CreateViewController+VideoTrimDelegate.swift"; sourceTree = SOURCE_ROOT; };
 		9F26D0682BD74E6C00C69465 /* Animation00.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Animation00.json; sourceTree = "<group>"; };
 		9F3FD9F72BD12C0000A03E22 /* LengthCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LengthCell.swift; sourceTree = "<group>"; };
 		9F4462B52BD39FBB00462C44 /* AVCaptureVideoDataOutputSampleBufferDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVCaptureVideoDataOutputSampleBufferDelegate.swift; sourceTree = "<group>"; };
@@ -150,7 +180,6 @@
 		9F4462B92BD503BB00462C44 /* ReplyDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyDetailTableViewCell.swift; sourceTree = "<group>"; };
 		9F4463252BD65E4900462C44 /* MusicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicViewController.swift; sourceTree = "<group>"; };
 		9F4463272BD6653B00462C44 /* MusicType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicType.swift; sourceTree = "<group>"; };
-		9F5A51B82BCE1D0A00070186 /* AVAsset+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVAsset+Extension.swift"; sourceTree = "<group>"; };
 		9F5A51BA2BCEC68900070186 /* ExportError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportError.swift; sourceTree = "<group>"; };
 		9F5A51BC2BCF9A4700070186 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		9F5A51BE2BCFC2C300070186 /* PostToWallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostToWallViewController.swift; sourceTree = "<group>"; };
@@ -164,15 +193,11 @@
 		9F5A51CE2BD01B9900070186 /* RepliesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepliesCell.swift; sourceTree = "<group>"; };
 		9F6B5D5F2BC804FD00509F5F /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		9F6B5D632BCD383A00509F5F /* VideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoView.swift; sourceTree = "<group>"; };
-		9F6FDA8F2BD7C2E700315B13 /* ViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Extension.swift"; sourceTree = "<group>"; };
 		9F6FDAB92BD8F96900315B13 /* CustomColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColor.swift; sourceTree = "<group>"; };
-		9F6FDABB2BD8FA8400315B13 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		9F6FDABD2BD90B9C00315B13 /* CustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
-		9F77C1BE2BE945A8002706F8 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		9F77C1C02BE9DB13002706F8 /* Animation01.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Animation01.json; sourceTree = "<group>"; };
 		9F77C1C22BE9DDA4002706F8 /* Animation02.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Animation02.json; sourceTree = "<group>"; };
 		9F77C1C62BEA13DE002706F8 /* ReportTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTableViewController.swift; sourceTree = "<group>"; };
-		9F96B8C72BEB945100FF13AA /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		9F9FDA472BF1C31300AA3160 /* TitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleCell.swift; sourceTree = "<group>"; };
 		9F9FDA492BF1E88400AA3160 /* TrimView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrimView.swift; sourceTree = "<group>"; };
 		9FAA99232BE23308004615EE /* CustomAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertController.swift; sourceTree = "<group>"; };
@@ -196,14 +221,11 @@
 		9FAD4F772BE88AFA00142EBE /* NotoSansTC-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansTC-Regular.ttf"; sourceTree = "<group>"; };
 		9FAD4F782BE88AFA00142EBE /* NotoSansTC-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansTC-Thin.ttf"; sourceTree = "<group>"; };
 		9FAD4F792BE88AFA00142EBE /* NotoSansTC-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansTC-SemiBold.ttf"; sourceTree = "<group>"; };
-		9FAD4F832BE8A2F600142EBE /* UIViewController+attributedTextForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+attributedTextForm.swift"; sourceTree = "<group>"; };
 		9FAD76FB2BDB99B400BF7163 /* EnsembleWave.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EnsembleWave.entitlements; sourceTree = "<group>"; };
 		9FAD76FE2BDB9EAA00BF7163 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		9FAD77002BDB9ED500BF7163 /* KeychainItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItem.swift; sourceTree = "<group>"; };
-		9FAD77022BDBA13200BF7163 /* CustomFunc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CustomFunc.swift; path = ../Controller/CustomFunc.swift; sourceTree = "<group>"; };
 		9FAD77042BDBB23700BF7163 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		9FAD77062BDC08D500BF7163 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
-		9FAD77082BDDE95F00BF7163 /* CryptoUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CryptoUtils.swift; path = ../Controller/CryptoUtils.swift; sourceTree = "<group>"; };
 		9FC29A912BE0F540009E776C /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		9FD319E82BF09E4E0068E08E /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		9FD319EA2BF0A1280068E08E /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
@@ -280,24 +302,18 @@
 		9F007E652BC5107C00C22E5E /* EnsembleWave */ = {
 			isa = PBXGroup;
 			children = (
+				9F092AD12BF629B9001661C9 /* Helpers */,
 				9FAD76FB2BDB99B400BF7163 /* EnsembleWave.entitlements */,
 				9F007E662BC5107C00C22E5E /* AppDelegate.swift */,
 				9F007E682BC5107C00C22E5E /* SceneDelegate.swift */,
-				9F4462BB2BD5260400462C44 /* Manager */,
-				9F007EA52BC5205400C22E5E /* Model */,
-				9F007E9B2BC51A6200C22E5E /* Controller */,
-				9F007EA02BC51BB500C22E5E /* View */,
+				9F4462BB2BD5260400462C44 /* Managers */,
+				9F092AD02BF62984001661C9 /* ViewModels */,
+				9F007EA52BC5205400C22E5E /* Models */,
+				9F007EA02BC51BB500C22E5E /* Views */,
 				9F6B5D662BCE1B0400509F5F /* Extensions */,
+				9F007E9B2BC51A6200C22E5E /* Controllers */,
 				9F007E722BC5107E00C22E5E /* Assets.xcassets */,
-				9FAD4F752BE88AFA00142EBE /* NotoSansTC-Black.ttf */,
-				9FAD4F722BE88AF900142EBE /* NotoSansTC-Bold.ttf */,
-				9FAD4F712BE88AF900142EBE /* NotoSansTC-ExtraBold.ttf */,
-				9FAD4F762BE88AFA00142EBE /* NotoSansTC-ExtraLight.ttf */,
-				9FAD4F742BE88AFA00142EBE /* NotoSansTC-Light.ttf */,
-				9FAD4F732BE88AFA00142EBE /* NotoSansTC-Medium.ttf */,
-				9FAD4F772BE88AFA00142EBE /* NotoSansTC-Regular.ttf */,
-				9FAD4F792BE88AFA00142EBE /* NotoSansTC-SemiBold.ttf */,
-				9FAD4F782BE88AFA00142EBE /* NotoSansTC-Thin.ttf */,
+				9F092AC72BF613D4001661C9 /* Fonts */,
 				9F007E742BC5107E00C22E5E /* LaunchScreen.storyboard */,
 				9F26D0682BD74E6C00C69465 /* Animation00.json */,
 				9F77C1C02BE9DB13002706F8 /* Animation01.json */,
@@ -326,7 +342,7 @@
 			path = EnsembleWaveUITests;
 			sourceTree = "<group>";
 		};
-		9F007E9B2BC51A6200C22E5E /* Controller */ = {
+		9F007E9B2BC51A6200C22E5E /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
 				9F007EA82BC5978700C22E5E /* RecordingHomePageViewController.swift */,
@@ -360,10 +376,10 @@
 				9FD319E82BF09E4E0068E08E /* NavigationController.swift */,
 				9FD319EA2BF0A1280068E08E /* BaseViewController.swift */,
 			);
-			path = Controller;
+			path = Controllers;
 			sourceTree = "<group>";
 		};
-		9F007EA02BC51BB500C22E5E /* View */ = {
+		9F007EA02BC51BB500C22E5E /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				9F007E6C2BC5107C00C22E5E /* Main.storyboard */,
@@ -375,46 +391,87 @@
 				9FAA99292BE2BE8B004615EE /* ProfileView.swift */,
 				9FAA99352BE39506004615EE /* UserVideoPlayerView.swift */,
 				9F9FDA492BF1E88400AA3160 /* TrimView.swift */,
+				9F092ACC2BF61C4A001661C9 /* RecordingTopView.swift */,
 			);
-			path = View;
+			path = Views;
 			sourceTree = "<group>";
 		};
-		9F007EA52BC5205400C22E5E /* Model */ = {
+		9F007EA52BC5205400C22E5E /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				9F007EA62BC520DA00C22E5E /* Style.swift */,
 				9F5A51BA2BCEC68900070186 /* ExportError.swift */,
 				9F5A51BC2BCF9A4700070186 /* Data.swift */,
 				9F4463272BD6653B00462C44 /* MusicType.swift */,
 				9F6FDAB92BD8F96900315B13 /* CustomColor.swift */,
 				9FAD77002BDB9ED500BF7163 /* KeychainItem.swift */,
-				9FAD77022BDBA13200BF7163 /* CustomFunc.swift */,
+				9F092ACA2BF6177C001661C9 /* CustomFunc.swift */,
 				9FAA99232BE23308004615EE /* CustomAlertController.swift */,
-				9FAD77082BDDE95F00BF7163 /* CryptoUtils.swift */,
+				9F092AC82BF6176D001661C9 /* CryptoUtils.swift */,
 				9FAA993F2BE4EB21004615EE /* Section.swift */,
+				9F092AC12BF5F971001661C9 /* RecordingSettings.swift */,
 			);
-			path = Model;
+			path = Models;
 			sourceTree = "<group>";
 		};
-		9F4462BB2BD5260400462C44 /* Manager */ = {
+		9F092AC72BF613D4001661C9 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				9FAD4F752BE88AFA00142EBE /* NotoSansTC-Black.ttf */,
+				9FAD4F722BE88AF900142EBE /* NotoSansTC-Bold.ttf */,
+				9FAD4F712BE88AF900142EBE /* NotoSansTC-ExtraBold.ttf */,
+				9FAD4F762BE88AFA00142EBE /* NotoSansTC-ExtraLight.ttf */,
+				9FAD4F742BE88AFA00142EBE /* NotoSansTC-Light.ttf */,
+				9FAD4F732BE88AFA00142EBE /* NotoSansTC-Medium.ttf */,
+				9FAD4F772BE88AFA00142EBE /* NotoSansTC-Regular.ttf */,
+				9FAD4F792BE88AFA00142EBE /* NotoSansTC-SemiBold.ttf */,
+				9FAD4F782BE88AFA00142EBE /* NotoSansTC-Thin.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		9F092AD02BF62984001661C9 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		9F092AD12BF629B9001661C9 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				9F092AD22BF629C9001661C9 /* TimeFormatter.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		9F4462BB2BD5260400462C44 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
 				9FAA99372BE483B5004615EE /* FirebaseManager.swift */,
 				9FAD4F552BE7CC7700142EBE /* PlayManager.swift */,
 				9F077B3B2BEE3EEC00153125 /* AnimationManager.swift */,
+				9F092AC52BF60A12001661C9 /* CreateVideoManager.swift */,
 			);
-			path = Manager;
+			path = Managers;
 			sourceTree = "<group>";
 		};
 		9F6B5D662BCE1B0400509F5F /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				9F5A51B82BCE1D0A00070186 /* AVAsset+Extension.swift */,
-				9F6FDA8F2BD7C2E700315B13 /* ViewController+Extension.swift */,
-				9FAD4F832BE8A2F600142EBE /* UIViewController+attributedTextForm.swift */,
-				9F6FDABB2BD8FA8400315B13 /* UIColor+Extension.swift */,
-				9F77C1BE2BE945A8002706F8 /* UIImage+Extension.swift */,
-				9F96B8C72BEB945100FF13AA /* String+Extension.swift */,
+				9F092AD72BF62B93001661C9 /* AVAsset+Extension.swift */,
+				9F092ADC2BF62B93001661C9 /* CreateViewController+Audio.swift */,
+				9F092AD52BF62B93001661C9 /* CreateViewController+Camera.swift */,
+				9F092AD92BF62B93001661C9 /* CreateViewController+MusicSelectionDelegate .swift */,
+				9F092ADB2BF62B93001661C9 /* CreateViewController+PHPickerViewControllerDelegate.swift */,
+				9F092ADE2BF62B93001661C9 /* CreateViewController+Recording.swift */,
+				9F092AD62BF62B93001661C9 /* CreateViewController+UI.swift */,
+				9F092AE12BF62B93001661C9 /* CreateViewController+VideoTrimDelegate.swift */,
+				9F092AD42BF62B93001661C9 /* MPVolumeView+Extension.swift */,
+				9F092ADD2BF62B93001661C9 /* String+Extension.swift */,
+				9F092AE02BF62B93001661C9 /* UIColor+Extension.swift */,
+				9F092ADA2BF62B93001661C9 /* UIImage+Extension.swift */,
+				9F092AD82BF62B93001661C9 /* UIView+Extension.swift */,
+				9F092ADF2BF62B93001661C9 /* UIViewController+attributedTextForm.swift */,
 			);
 			name = Extensions;
 			path = View;
@@ -740,60 +797,71 @@
 			files = (
 				9F007E9A2BC519D100C22E5E /* ChooseStyleViewController.swift in Sources */,
 				9F4463282BD6653B00462C44 /* MusicType.swift in Sources */,
+				9F092AED2BF62B94001661C9 /* UIViewController+attributedTextForm.swift in Sources */,
 				9F077B3C2BEE3EEC00153125 /* AnimationManager.swift in Sources */,
+				9F092AC92BF6176D001661C9 /* CryptoUtils.swift in Sources */,
 				9F5A51C52BD018C900070186 /* VideoCell.swift in Sources */,
 				9F007E672BC5107C00C22E5E /* AppDelegate.swift in Sources */,
+				9F092AC62BF60A12001661C9 /* CreateVideoManager.swift in Sources */,
+				9F092AE22BF62B94001661C9 /* MPVolumeView+Extension.swift in Sources */,
 				9F6FDABE2BD90B9D00315B13 /* CustomButton.swift in Sources */,
 				9FAD4F522BE7863800142EBE /* UserWallViewController.swift in Sources */,
 				9FAA99242BE23308004615EE /* CustomAlertController.swift in Sources */,
 				9F007EA92BC5978700C22E5E /* RecordingHomePageViewController.swift in Sources */,
+				9F092AE32BF62B94001661C9 /* CreateViewController+Camera.swift in Sources */,
 				9F5A51C92BD01AFD00070186 /* LikesCountCell.swift in Sources */,
 				9F007EA42BC51F7600C22E5E /* CreateViewController.swift in Sources */,
-				9FAD77092BDDE95F00BF7163 /* CryptoUtils.swift in Sources */,
 				9F4463262BD65E4900462C44 /* MusicViewController.swift in Sources */,
 				9FD319E92BF09E4E0068E08E /* NavigationController.swift in Sources */,
 				9F4462B62BD39FBB00462C44 /* AVCaptureVideoDataOutputSampleBufferDelegate.swift in Sources */,
+				9F092ACD2BF61C4A001661C9 /* RecordingTopView.swift in Sources */,
 				9F4462B82BD4434200462C44 /* ReplyViewController.swift in Sources */,
+				9F092AE72BF62B94001661C9 /* CreateViewController+MusicSelectionDelegate .swift in Sources */,
 				9FAA992A2BE2BE8B004615EE /* ProfileView.swift in Sources */,
-				9F6FDA902BD7C2E700315B13 /* ViewController+Extension.swift in Sources */,
+				9F092AEA2BF62B94001661C9 /* CreateViewController+Audio.swift in Sources */,
+				9F092ACB2BF6177C001661C9 /* CustomFunc.swift in Sources */,
+				9F092AD32BF629C9001661C9 /* TimeFormatter.swift in Sources */,
 				9FAA99402BE4EB21004615EE /* Section.swift in Sources */,
-				9F77C1BF2BE945A8002706F8 /* UIImage+Extension.swift in Sources */,
+				9F092AE62BF62B94001661C9 /* UIView+Extension.swift in Sources */,
+				9F092AEF2BF62B94001661C9 /* CreateViewController+VideoTrimDelegate.swift in Sources */,
 				9F5A51C72BD01A8100070186 /* OptionsCell.swift in Sources */,
-				9FAD77032BDBA13200BF7163 /* CustomFunc.swift in Sources */,
 				9F007E692BC5107C00C22E5E /* SceneDelegate.swift in Sources */,
+				9F092AE82BF62B94001661C9 /* UIImage+Extension.swift in Sources */,
 				9F007E9F2BC51AAD00C22E5E /* ChooseLengthTableViewController.swift in Sources */,
+				9F092AE92BF62B94001661C9 /* CreateViewController+PHPickerViewControllerDelegate.swift in Sources */,
 				9F5A51CB2BD01B3300070186 /* ContentCell.swift in Sources */,
 				9FAA99382BE483B5004615EE /* FirebaseManager.swift in Sources */,
+				9F092AE42BF62B94001661C9 /* CreateViewController+UI.swift in Sources */,
+				9F092AEB2BF62B94001661C9 /* String+Extension.swift in Sources */,
+				9F092AC22BF5F971001661C9 /* RecordingSettings.swift in Sources */,
 				9F5A51C32BD004C100070186 /* WallViewController.swift in Sources */,
 				9F3FD9F82BD12C0000A03E22 /* LengthCell.swift in Sources */,
 				9FAA99362BE39506004615EE /* UserVideoPlayerView.swift in Sources */,
-				9F5A51B92BCE1D0A00070186 /* AVAsset+Extension.swift in Sources */,
 				9F5A51CD2BD01B7600070186 /* TagsCell.swift in Sources */,
 				9FAD77052BDBB23700BF7163 /* TabBarController.swift in Sources */,
 				9FAA99302BE3810B004615EE /* ImageCell.swift in Sources */,
 				9FAA993E2BE4C095004615EE /* ProfileEditingViewViewController.swift in Sources */,
-				9F96B8C82BEB945100FF13AA /* String+Extension.swift in Sources */,
+				9F092AEE2BF62B94001661C9 /* UIColor+Extension.swift in Sources */,
 				9FD319EB2BF0A1280068E08E /* BaseViewController.swift in Sources */,
 				9F9FDA482BF1C31300AA3160 /* TitleCell.swift in Sources */,
 				9FAD76FF2BDB9EAA00BF7163 /* LoginViewController.swift in Sources */,
 				9F5A51C12BCFC2C300070186 /* PostToWallViewController.swift in Sources */,
 				9F6B5D642BCD383A00509F5F /* VideoView.swift in Sources */,
+				9F092AEC2BF62B94001661C9 /* CreateViewController+Recording.swift in Sources */,
 				9F9FDA4A2BF1E88400AA3160 /* TrimView.swift in Sources */,
 				9FAD77012BDB9ED500BF7163 /* KeychainItem.swift in Sources */,
-				9F6FDABC2BD8FA8400315B13 /* UIColor+Extension.swift in Sources */,
 				9F77C1C72BEA13DE002706F8 /* ReportTableViewController.swift in Sources */,
 				9FC29A922BE0F540009E776C /* SettingViewController.swift in Sources */,
 				9F5A51BD2BCF9A4700070186 /* Data.swift in Sources */,
 				9F5A51BB2BCEC68900070186 /* ExportError.swift in Sources */,
 				9F6B5D602BC804FD00509F5F /* ShareViewController.swift in Sources */,
-				9FAD4F842BE8A2F600142EBE /* UIViewController+attributedTextForm.swift in Sources */,
 				9F5A51CF2BD01B9900070186 /* RepliesCell.swift in Sources */,
 				9F4462BA2BD503BB00462C44 /* ReplyDetailTableViewCell.swift in Sources */,
-				9F007EA72BC520DA00C22E5E /* Style.swift in Sources */,
 				9FAD77072BDC08D500BF7163 /* ProfileViewController.swift in Sources */,
 				9FAA99342BE39228004615EE /* UserVideoCell.swift in Sources */,
 				9FAD4F562BE7CC7700142EBE /* PlayManager.swift in Sources */,
 				9F007E712BC5107C00C22E5E /* EnsembleWave.xcdatamodeld in Sources */,
+				9F092AE52BF62B94001661C9 /* AVAsset+Extension.swift in Sources */,
 				9F6FDABA2BD8F96900315B13 /* CustomColor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

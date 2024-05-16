@@ -458,8 +458,8 @@ extension WallViewController: OptionsCellDelegate {
                     }
                     controller.ensembleVideoURL = videoURL//"\(localVideoURL)" // TODO: 回來改成本地檔案
                     controller.ensembleUserID = userID
-                    controller.style = 1
-                    controller.length = length
+                    controller.recSettings.style = 1
+                    controller.recSettings.length = length
                     if let animView = self?.animView {
                         AnimationManager.shared.stopAnimation(animView: animView)
                     }
