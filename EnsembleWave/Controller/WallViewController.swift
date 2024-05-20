@@ -15,7 +15,7 @@ import Kingfisher
 import MJRefresh
 class WallViewController: UIViewController {
     var listenerRegistration: ListenerRegistration?
-    let db = Firestore.firestore()
+    var db = Firestore.firestore()
     var posts = [Post]()
     var userInfo: User?
     var usersNames: [String: String] = [:]
