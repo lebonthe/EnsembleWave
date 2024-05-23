@@ -15,8 +15,6 @@
 		9F007E732BC5107E00C22E5E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9F007E722BC5107E00C22E5E /* Assets.xcassets */; };
 		9F007E762BC5107E00C22E5E /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 9F007E752BC5107E00C22E5E /* Base */; };
 		9F007E812BC5107E00C22E5E /* EnsembleWaveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F007E802BC5107E00C22E5E /* EnsembleWaveTests.swift */; };
-		9F007E8B2BC5107E00C22E5E /* EnsembleWaveUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F007E8A2BC5107E00C22E5E /* EnsembleWaveUITests.swift */; };
-		9F007E8D2BC5107E00C22E5E /* EnsembleWaveUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F007E8C2BC5107E00C22E5E /* EnsembleWaveUITestsLaunchTests.swift */; };
 		9F007E9A2BC519D100C22E5E /* ChooseStyleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F007E992BC519D100C22E5E /* ChooseStyleViewController.swift */; };
 		9F007E9F2BC51AAD00C22E5E /* ChooseLengthTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F007E9E2BC51AAD00C22E5E /* ChooseLengthTableViewController.swift */; };
 		9F007EA22BC51BFC00C22E5E /* RecordingStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F007EA12BC51BFC00C22E5E /* RecordingStoryboard.storyboard */; };
@@ -43,6 +41,8 @@
 		9F092AED2BF62B94001661C9 /* UIViewController+attributedTextForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F092ADF2BF62B93001661C9 /* UIViewController+attributedTextForm.swift */; };
 		9F092AEE2BF62B94001661C9 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F092AE02BF62B93001661C9 /* UIColor+Extension.swift */; };
 		9F092AEF2BF62B94001661C9 /* CreateViewController+VideoTrimDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F092AE12BF62B93001661C9 /* CreateViewController+VideoTrimDelegate.swift */; };
+		9F092B192BFAED62001661C9 /* ChooseLengthTableViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F092B182BFAED62001661C9 /* ChooseLengthTableViewControllerTests.swift */; };
+		9F092B1C2BFAFDAC001661C9 /* EnsembleWaveUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F092B1B2BFAFDAC001661C9 /* EnsembleWaveUITests.swift */; };
 		9F26D0662BD746E800C69465 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 9F26D0652BD746E800C69465 /* Lottie */; };
 		9F26D0692BD74E6C00C69465 /* Animation00.json in Resources */ = {isa = PBXBuildFile; fileRef = 9F26D0682BD74E6C00C69465 /* Animation00.json */; };
 		9F3FD9F82BD12C0000A03E22 /* LengthCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3FD9F72BD12C0000A03E22 /* LengthCell.swift */; };
@@ -145,8 +145,6 @@
 		9F007E7C2BC5107E00C22E5E /* EnsembleWaveTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EnsembleWaveTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F007E802BC5107E00C22E5E /* EnsembleWaveTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnsembleWaveTests.swift; sourceTree = "<group>"; };
 		9F007E862BC5107E00C22E5E /* EnsembleWaveUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EnsembleWaveUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		9F007E8A2BC5107E00C22E5E /* EnsembleWaveUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnsembleWaveUITests.swift; sourceTree = "<group>"; };
-		9F007E8C2BC5107E00C22E5E /* EnsembleWaveUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnsembleWaveUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		9F007E992BC519D100C22E5E /* ChooseStyleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseStyleViewController.swift; sourceTree = "<group>"; };
 		9F007E9E2BC51AAD00C22E5E /* ChooseLengthTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseLengthTableViewController.swift; sourceTree = "<group>"; };
 		9F007EA12BC51BFC00C22E5E /* RecordingStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = RecordingStoryboard.storyboard; sourceTree = "<group>"; };
@@ -173,6 +171,8 @@
 		9F092ADF2BF62B93001661C9 /* UIViewController+attributedTextForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIViewController+attributedTextForm.swift"; path = "EnsembleWave/Extensions/UIViewController+attributedTextForm.swift"; sourceTree = SOURCE_ROOT; };
 		9F092AE02BF62B93001661C9 /* UIColor+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIColor+Extension.swift"; path = "EnsembleWave/Extensions/UIColor+Extension.swift"; sourceTree = SOURCE_ROOT; };
 		9F092AE12BF62B93001661C9 /* CreateViewController+VideoTrimDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CreateViewController+VideoTrimDelegate.swift"; path = "EnsembleWave/Extensions/CreateViewController+VideoTrimDelegate.swift"; sourceTree = SOURCE_ROOT; };
+		9F092B182BFAED62001661C9 /* ChooseLengthTableViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseLengthTableViewControllerTests.swift; sourceTree = "<group>"; };
+		9F092B1B2BFAFDAC001661C9 /* EnsembleWaveUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnsembleWaveUITests.swift; sourceTree = "<group>"; };
 		9F26D0682BD74E6C00C69465 /* Animation00.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Animation00.json; sourceTree = "<group>"; };
 		9F3FD9F72BD12C0000A03E22 /* LengthCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LengthCell.swift; sourceTree = "<group>"; };
 		9F4462B52BD39FBB00462C44 /* AVCaptureVideoDataOutputSampleBufferDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVCaptureVideoDataOutputSampleBufferDelegate.swift; sourceTree = "<group>"; };
@@ -282,7 +282,7 @@
 			children = (
 				9F007E652BC5107C00C22E5E /* EnsembleWave */,
 				9F007E7F2BC5107E00C22E5E /* EnsembleWaveTests */,
-				9F007E892BC5107E00C22E5E /* EnsembleWaveUITests */,
+				9F092B1A2BFAFD92001661C9 /* EnsembleWaveUITests */,
 				9F007E642BC5107C00C22E5E /* Products */,
 				B0EBC735E7BBF093FF054D28 /* Pods */,
 				07EEF3A6AAD2C4B849B882B5 /* Frameworks */,
@@ -328,6 +328,7 @@
 		9F007E7F2BC5107E00C22E5E /* EnsembleWaveTests */ = {
 			isa = PBXGroup;
 			children = (
+				9F092B182BFAED62001661C9 /* ChooseLengthTableViewControllerTests.swift */,
 				9F007E802BC5107E00C22E5E /* EnsembleWaveTests.swift */,
 			);
 			path = EnsembleWaveTests;
@@ -444,7 +445,15 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
-		9F4462BB2BD5260400462C44 /* Managers */ = {
+		9F092B1A2BFAFD92001661C9 /* EnsembleWaveUITests */ = {
+			isa = PBXGroup;
+			children = (
+				9F092B1B2BFAFDAC001661C9 /* EnsembleWaveUITests.swift */,
+			);
+			path = EnsembleWaveUITests;
+			sourceTree = "<group>";
+		};
+		9F4462BB2BD5260400462C44 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
 				9FAA99372BE483B5004615EE /* FirebaseManager.swift */,
@@ -580,6 +589,7 @@
 					};
 					9F007E852BC5107E00C22E5E = {
 						CreatedOnToolsVersion = 15.3;
+						LastSwiftMigration = 1540;
 						TestTargetID = 9F007E622BC5107C00C22E5E;
 					};
 				};
@@ -870,6 +880,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9F092B192BFAED62001661C9 /* ChooseLengthTableViewControllerTests.swift in Sources */,
 				9F007E812BC5107E00C22E5E /* EnsembleWaveTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -878,8 +889,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9F007E8D2BC5107E00C22E5E /* EnsembleWaveUITestsLaunchTests.swift in Sources */,
-				9F007E8B2BC5107E00C22E5E /* EnsembleWaveUITests.swift in Sources */,
+				9F092B1C2BFAFDAC001661C9 /* EnsembleWaveUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -955,7 +965,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1018,7 +1028,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -1166,6 +1176,7 @@
 			baseConfigurationReference = 4C818374A5D02083E8C79A73 /* Pods-EnsembleWave-EnsembleWaveUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = T4VR973TMF;
@@ -1174,6 +1185,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = MinsWorks.EnsembleWaveUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = EnsembleWave;
@@ -1185,6 +1197,7 @@
 			baseConfigurationReference = 063D12577E3963929A1EE67B /* Pods-EnsembleWave-EnsembleWaveUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = T4VR973TMF;
