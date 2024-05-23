@@ -28,19 +28,45 @@ final class ChooseLengthTableViewControllerTests: XCTestCase {
         XCTAssertEqual(numberOfRows, sut.lengths.count)
     }
     
-    func testPickerViewSelectionMoreThan10Minutes() {
-        sut.pickerView.selectRow(9, inComponent: 0, animated: false)
-        sut.pickerView.selectRow(55, inComponent: 1, animated: false)
+    func testPickerViewSelectioncCommonTime() {
+        let rowMin = 4
+        let rowSec = 33
+        
+        sut.pickerView.selectRow(rowMin, inComponent: 0, animated: false)
+        sut.pickerView.selectRow(rowSec, inComponent: 1, animated: false)
+        
+        sut.pickerView(sut.pickerView, didSelectRow: rowMin, inComponent: 0)
+        sut.pickerView(sut.pickerView, didSelectRow: rowSec, inComponent: 1)
 
-        XCTAssertEqual(sut.minuteRow, 9)
-        XCTAssertEqual(sut.secondRow, 55)
+        XCTAssertEqual(sut.minuteRow, 4)
+        XCTAssertEqual(sut.secondRow, 33)
     }
     
-        func testPickerViewSelectionLessThan5Seconds() {
-            sut.pickerView(sut.pickerView, didSelectRow: 0, inComponent: 0)
-            sut.pickerView(sut.pickerView, didSelectRow: 2, inComponent: 1)
+    func testPickerViewSelectionMoreThan10Minutes() {
+        let rowMin = 10
+        let rowSec = 55
+        
+        sut.pickerView.selectRow(rowMin, inComponent: 0, animated: false)
+        sut.pickerView.selectRow(rowSec, inComponent: 1, animated: false)
+        
+        sut.pickerView(sut.pickerView, didSelectRow: rowMin, inComponent: 0)
+        sut.pickerView(sut.pickerView, didSelectRow: rowSec, inComponent: 1)
+
+        XCTAssertEqual(sut.minuteRow, 10)
+        XCTAssertEqual(sut.secondRow, 0)
+    }
     
-            XCTAssertEqual(sut.minuteRow, 0)
-            XCTAssertEqual(sut.secondRow, 5)
-        }
+    func testPickerViewSelectionLessThan5Seconds() {
+        let rowMin = 0
+        let rowSec = 2
+        
+        sut.pickerView.selectRow(rowMin, inComponent: 0, animated: false)
+        sut.pickerView.selectRow(rowSec, inComponent: 1, animated: false)
+        
+        sut.pickerView(sut.pickerView, didSelectRow: rowMin, inComponent: 0)
+        sut.pickerView(sut.pickerView, didSelectRow: rowSec, inComponent: 1)
+        
+        XCTAssertEqual(sut.minuteRow, 0)
+        XCTAssertEqual(sut.secondRow, 5)
+    }
 }
