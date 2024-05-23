@@ -46,15 +46,11 @@ class ChooseLengthTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "LengthCell", for: indexPath)
         cell.backgroundColor = .clear
-//        cell.textLabel?.textColor = .white
         if indexPath.row < 3 {
-//            cell.textLabel?.text = "\(lengths[indexPath.row]) sec"
             cell.textLabel?.attributedText = attributedTextForm(content: "\(lengths[indexPath.row]) sec", size: 18, kern: 0, color: .white)
         } else if indexPath.row == lengths.count - 1 {
-//            cell.textLabel?.text = "Custom Length： \(minuteRow) min \(secondRow) sec"
             cell.textLabel?.attributedText = attributedTextForm(content: "Custom Length： \(minuteRow) min \(secondRow) sec", size: 18, kern: 0, color: .white)
         } else {
-//            cell.textLabel?.text = "\(lengths[indexPath.row] / 60) min"
             cell.textLabel?.attributedText = attributedTextForm(content: "\(lengths[indexPath.row] / 60) min", size: 18, kern: 0, color: .white)
         }
 
@@ -109,13 +105,6 @@ extension ChooseLengthTableViewController: UIPickerViewDelegate, UIPickerViewDat
         }
         
     }
-//    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-//        if component == 0 {
-//            return "\(row) 分鐘"
-//        } else {
-//            return "\(row) 秒"
-//        }
-//    }
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
         var label: UILabel
         if let view = view as? UILabel {

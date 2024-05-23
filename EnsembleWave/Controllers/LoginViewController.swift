@@ -37,17 +37,8 @@ class LoginViewController: UIViewController {
         signInWithAppleButton.cornerRadius = 25
         signInWithAppleButton.addTarget(self, action: #selector(signInWithApple), for: .touchUpInside)
         signInWithAppleButton.translatesAutoresizingMaskIntoConstraints = false
-        
-//        label.text = "登入以使用 EnsembleWave 全部功能"
-//        label.textColor = .white
         label.attributedText = attributedTextForm(content: "登入以使用 EnsembleWave 全部功能", size: 18, kern: 0, color: .white)
         view.addSubview(label)
-//        let goBackHomeButton = UIButton()
-//        goBackHomeButton.translatesAutoresizingMaskIntoConstraints = false
-//        goBackHomeButton.setTitle("Back to What's New", for: .normal)
-//        goBackHomeButton.setTitleColor(.white, for: .normal)
-//        goBackHomeButton.addTarget(self, action: #selector(dismissAndSwitchTab), for: .touchUpInside)
-//        view.addSubview(goBackHomeButton)
         NSLayoutConstraint.activate([
             signInWithAppleButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             signInWithAppleButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
@@ -55,21 +46,10 @@ class LoginViewController: UIViewController {
             signInWithAppleButton.widthAnchor.constraint(equalToConstant: 280),
             label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             label.bottomAnchor.constraint(equalTo: signInWithAppleButton.topAnchor, constant: -100),
-//            goBackHomeButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//            goBackHomeButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 100),
         ])
         print("登入按鈕設定完成")
     }
-//    @IBAction func dismissAndSwitchTab(_ sender: Any) {
-//        dismiss(animated: true) {
-//            guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-//                         let sceneDelegate = scene.delegate as? SceneDelegate,
-//                         let tabBarController = sceneDelegate.window?.rootViewController as? UITabBarController else {
-//                           return
-//                   }
-//                   tabBarController.selectedIndex = 0
-//        }
-//    }    
+ 
     func chooseAppleButtonStyle() -> ASAuthorizationAppleIDButton.Style {
         return .white
     }
@@ -181,7 +161,6 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
 
                 Auth.auth().signIn(with: credential) { [weak self] (authResult, error) in
                     if let error = error {
-                        // Error handling
                         print(error.localizedDescription)
                         return
                     }
@@ -229,59 +208,3 @@ extension LoginViewController: ASAuthorizationControllerPresentationContextProvi
         return view.window!
     }
 }
-//extension LoginViewController {
-//    // MARK: - 透過 Credential 與 Firebase Auth 串接
-//    func firebaseSignInWithApple(appleIDCredential: ASAuthorizationAppleIDCredential) {
-//        guard let nonce = currentNonce else {
-//            fatalError("Invalid state: A login callback was received, but no login request was sent.")
-//        }
-//        guard let appleIDToken = appleIDCredential.identityToken else {
-//            print("Unable to fetch identity token")
-//            return
-//        }
-//        guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
-//            print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
-//            return
-//        }
-//
-//        let credential = OAuthProvider.appleCredential(withIDToken: idTokenString, rawNonce: nonce, fullName: appleIDCredential.fullName)
-//
-//        Auth.auth().signIn(with: credential) { [weak self] (authResult, error) in
-//            if let error = error {
-//                // Error handling
-//                print(error.localizedDescription)
-//                return
-//            }
-//            // User is signed in to Firebase with Apple.
-//            // Delegate callback or other actions
-//            Task {
-//                guard let self = self else {
-//                    fatalError("no self")
-//                }
-//                let success = await self.postToUser()
-//                if success {
-//                    self.delegate?.didCompleteLogin()
-//                } else {
-//                    print("上傳使用者 email 失敗")
-//                }
-//            }
-//            
-//        }
-//    }
-//
-//    
-//    // MARK: - Firebase 取得登入使用者的資訊
-//    func getFirebaseUserInfo() {
-//        let currentUser = Auth.auth().currentUser
-//        guard let user = currentUser else {
-//            CustomFunc.customAlert(title: "無法取得使用者資料！", message: "", vc: self, actionHandler: nil)
-//            return
-//        }
-//        let uid = user.uid
-//        let email = user.email
-//        CustomFunc.customAlert(title: "使用者資訊", message: "UID：\(uid)\nEmail：\(email!)", vc: self) {
-//            self.dismiss(animated: true)
-//        }
-//        
-//    }
-//}

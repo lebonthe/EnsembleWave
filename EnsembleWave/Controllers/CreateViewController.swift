@@ -16,23 +16,11 @@ import Lottie // 動畫
 
 class CreateViewController: UIViewController {
     var recSettings = RecordingSettings()
+    var cameraViewModel: CameraViewModel!
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var cameraButton: UIButton!
     @IBOutlet weak var stretchScreenButton: UIButton!
     @IBOutlet weak var shrinkScreenButton: UIButton!
-    var devices = [AVCaptureDevice]()
-    var isFrontCamera: Bool = true {
-        didSet {
-            currentDevice = isFrontCamera ? devices[0] : devices[1]
-            guard let newInput = try? AVCaptureDeviceInput(device: currentDevice) else {
-                print("Unable to create input from the device.")
-                return
-            }
-            configureSessionWithNewInput(newInput)
-        }
-    }
-    let captureSession = AVCaptureSession()
-    var currentDevice: AVCaptureDevice!
     var videoFileOutput: AVCaptureMovieFileOutput!
     var cameraPreviewLayer: AVCaptureVideoPreviewLayer?
     var players: [AVPlayer] = []
@@ -45,8 +33,6 @@ class CreateViewController: UIViewController {
     var videoViews: [UIView] = []
     let line = UIView()
     var chooseViewButtons = [UIButton]()
-//    let countdownButton = UIButton() // 開始前的倒數計時
-//    let cameraPositionButton = UIButton()
     @IBOutlet weak var postProductionView: UIView!
     var outputFileURL: URL?
     var videoURLs: [URL] = []
@@ -55,20 +41,7 @@ class CreateViewController: UIViewController {
     var previousVolume: Float = 0.5
     @IBOutlet weak var trimView: TrimView!
     var endTimeObservers: [AVPlayer: Any] = [:]
-//    var isPlaying = false
-//    private var preset: String?
-//    var endTimeObserver: Any?
-//    let recordingTopView: UIView = {
-//        let view = UIView()
-//        view.translatesAutoresizingMaskIntoConstraints = false
-//        return view
-//    }()
     let recordingTopView = RecordingTopView()
-//    let countdownLabel: UILabel = {
-//        let label = UILabel()
-//        label.translatesAutoresizingMaskIntoConstraints = false
-//        return label
-//    }()
     var countdownTimer: Timer?
     var videoViewHasContent: [Int: Bool] = [:]
     lazy var tapGesture00 = UITapGestureRecognizer(target: self, action: #selector(videoViewTapped(_:)))
@@ -99,7 +72,6 @@ class CreateViewController: UIViewController {
     var ensembleVideoURL: String?
     var ensembleUserID: String?
     var duration: Int?
-    lazy var handPoseButton = UIButton()
     var restingHand = true
     @IBOutlet weak var cameraBottomView: UIView!
     var video0URL: URL?
@@ -115,6 +87,8 @@ class CreateViewController: UIViewController {
         bookEarphoneState()
         configurePlayersAndAddObservers()
         clearTemporaryVideos()
+        cameraViewModel = CameraViewModel(cameraSessionManager: DefaultCameraSessionManager(), recordingManager: DefaultRecordingManager())
+        cameraViewModel.isFrontCamera = true
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -352,14 +326,15 @@ class CreateViewController: UIViewController {
         setupTrimView()
     }
     @objc func changeHandPoseMode(_ sender: UIButton) {
-        if handPoseButton.title(for: .normal) == "🙅‍♀️" {
-            handPoseButton.setTitle("🤘", for: .normal)
+        if sender.title(for: .normal) == "🙅‍♀️" {
+            sender.setTitle("🤘", for: .normal)
             addGestureRecognitionToSession()
             
         } else {
-            handPoseButton.setTitle("🙅‍♀️", for: .normal)
+            sender.setTitle("🙅‍♀️", for: .normal)
             disableGestureRecognition()
         }
+        print("Updated Hand Pose Button Title: \(sender.title(for: .normal) ?? "nil")")
         useHandPoseStartRecording.toggle()
     }
     
@@ -397,7 +372,7 @@ class CreateViewController: UIViewController {
         albumButton.isHidden = recSettings.isRecording
         recordingTopView.countdownButton.isHidden = recSettings.isRecording
         recordingTopView.cameraPositionButton.isHidden = recSettings.isRecording
-        handPoseButton.isHidden = recSettings.isRecording
+        recordingTopView.handPoseButton.isHidden = recSettings.isRecording
     }
     @objc func updateImage() {
         print("currentImageIndex:\(currentImageIndex)")
@@ -485,6 +460,11 @@ extension CreateViewController {
         let viewIndex = sender == chooseViewButtons[0] ? 0 : 1
         print("viewIndex:\(viewIndex)")
         recSettings.currentRecordingIndex = viewIndex
+        if cameraViewModel.isFrontCamera {
+                cameraViewModel.isFrontCamera = true
+            } else {
+                cameraViewModel.isFrontCamera = false
+            }
         if let cameraPreviewLayer = cameraPreviewLayer {
             videoViews[viewIndex].layer.addSublayer(cameraPreviewLayer)
             cameraPreviewLayer.frame = videoViews[viewIndex].bounds
@@ -498,7 +478,7 @@ extension CreateViewController {
         }
         // 如果是 style 1
         if players.count > 1 && players.count > recSettings.style {
-            if let currentItemOfOtherIndex = players[otherIndex].currentItem {
+            if videoViewHasContent[otherIndex] == true  {
                 if let hasContent = videoViewHasContent[otherIndex], hasContent {
                     self.chooseViewButtons[otherIndex].isHidden = hasContent
                 } else {

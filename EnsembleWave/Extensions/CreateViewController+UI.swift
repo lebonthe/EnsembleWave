@@ -10,7 +10,7 @@ import AVFoundation
 import Lottie
 extension CreateViewController {
     func setupUI(_ style: Int) {
-        let headphoneText = "Headphones are not detected, sound cannot be played during recording!"
+        let headphoneText = "未偵測到耳機，播放時不會播放聲音"/*"Headphones are not detected, sound cannot be played during recording!"*/
         headphoneAlertLabel.attributedText = attributedTextForm(content: headphoneText, size: 15, kern: 0, color: CustomColor.red ?? .red)
         headphoneAlertLabel.numberOfLines = 0
         cameraButton.tintColor = CustomColor.red
@@ -317,77 +317,24 @@ extension CreateViewController {
             print("There is no navigation controller")
             return
         }
-        countBeforeRecording = true
+//        countBeforeRecording = true
         useHandPoseStartRecording = false
         if let navigationController = self.navigationController, !navigationController.view.subviews.contains(recordingTopView) {
             navigationController.view.addSubview(recordingTopView)
         }
-        //        navigationController.view.addSubview(recordingTopView)
         recordingTopView.isHidden = false
-//        cameraPositionButton.setBackgroundImage(UIImage(systemName: "arrow.triangle.2.circlepath.camera"), for: .normal)
-//        cameraPositionButton.tintColor = .white
-//        cameraPositionButton.addTarget(self, action: #selector(toggleCameraPosition), for: .touchDown)
-//        let cancelButton = UIButton()
-//        cancelButton.setBackgroundImage(UIImage(systemName: "xmark"), for: .normal)
-//        cancelButton.tintColor = .white
-//        cancelButton.addTarget(self, action: #selector(cancelRecording), for: .touchDown)
-//        cameraPositionButton.translatesAutoresizingMaskIntoConstraints = false
-//        cancelButton.translatesAutoresizingMaskIntoConstraints = false
         recordingTopView.translatesAutoresizingMaskIntoConstraints = false
-//        recordingTopView.addSubview(cameraPositionButton)
-//        recordingTopView.addSubview(cancelButton)
-//        recordingTopView.addSubview(countdownLabel)
-//        recordingTopView.backgroundColor = .black
         recordingTopView.updateCountdownLabel(recSettings.length)
-//        let buttonSize = 28.0
         NSLayoutConstraint.activate([
             recordingTopView.topAnchor.constraint(equalTo: navigationController.view.topAnchor, constant: 30),
             recordingTopView.leadingAnchor.constraint(equalTo: navigationController.view.leadingAnchor),
             recordingTopView.trailingAnchor.constraint(equalTo: navigationController.view.trailingAnchor),
             recordingTopView.heightAnchor.constraint(equalToConstant: 50)
-//            countdownLabel.centerXAnchor.constraint(equalTo: recordingTopView.centerXAnchor),
-//            countdownLabel.centerYAnchor.constraint(equalTo: recordingTopView.centerYAnchor),
-//            countdownLabel.heightAnchor.constraint(equalToConstant: buttonSize),
-//            cameraPositionButton.centerYAnchor.constraint(equalTo: recordingTopView.centerYAnchor),
-//            cameraPositionButton.trailingAnchor.constraint(equalTo: recordingTopView.trailingAnchor, constant: -16),
-//            cameraPositionButton.heightAnchor.constraint(equalToConstant: buttonSize),
-//            cameraPositionButton.widthAnchor.constraint(equalToConstant: buttonSize),
-//            cancelButton.centerYAnchor.constraint(equalTo: recordingTopView.centerYAnchor),
-//            cancelButton.leadingAnchor.constraint(equalTo: recordingTopView.leadingAnchor, constant: 16),
-//            cancelButton.heightAnchor.constraint(equalToConstant: buttonSize),
-//            cancelButton.widthAnchor.constraint(equalToConstant: buttonSize)
         ])
-        // 開始前的倒數計時
-//        countdownButton.translatesAutoresizingMaskIntoConstraints = false
-//        countdownButton.setBackgroundImage(UIImage(systemName: "clock.badge.checkmark"), for: .normal)
-//        countdownButton.setBackgroundImage(UIImage(systemName: "clock.badge.xmark"), for: .selected)
-//        countdownButton.tintColor = .white
         recordingTopView.countdownButton.isSelected = !countBeforeRecording
-//        recordingTopView.addSubview(countdownButton)
-//        countdownButton.addTarget(self, action: #selector(changeCountdownMode(_:)), for: .touchDown)
-//        NSLayoutConstraint.activate([
-//            countdownButton.centerYAnchor.constraint(equalTo: recordingTopView.centerYAnchor),
-//            countdownButton.trailingAnchor.constraint(equalTo: cameraPositionButton.leadingAnchor, constant: -16),
-//            countdownButton.heightAnchor.constraint(equalToConstant: buttonSize),
-//            countdownButton.widthAnchor.constraint(equalToConstant: buttonSize)
-//        ])
-        
-//        handPoseButton.translatesAutoresizingMaskIntoConstraints = false
-        //        handPoseButton.setTitle("🤘", for: .normal)
-//        handPoseButton.setTitle("🙅‍♀️", for: .normal)
-        //        handPoseButton.isSelected = !useHandPoseStartRecording
-//        recordingTopView.addSubview(handPoseButton)
-//        handPoseButton.addTarget(self, action: #selector(changeHandPoseMode(_:)), for: .touchDown)
-//        NSLayoutConstraint.activate([
-//            handPoseButton.centerYAnchor.constraint(equalTo: recordingTopView.centerYAnchor),
-//            handPoseButton.trailingAnchor.constraint(equalTo: countdownButton.leadingAnchor, constant: -16),
-//            handPoseButton.heightAnchor.constraint(equalToConstant: buttonSize),
-//            handPoseButton.widthAnchor.constraint(equalToConstant: buttonSize)
-//        ])
+        setupActions()
     }
-//    func updateCountdownLabel(_ remainingTime: Int) {
-//        countdownLabel.attributedText = attributedTextForm(content: timeFormatter(sec: remainingTime), size: 22, kern: 0, color: CustomColor.red ?? .red)
-//    }
+
     func mergingAnimation() {
         
         if animView == nil {
@@ -411,9 +358,13 @@ extension CreateViewController {
     }
     
     func setupActions() {
+        print("RecordingTopView: \(recordingTopView)")
+        print("HandPoseButton: \(recordingTopView.handPoseButton)")
         recordingTopView.cameraPositionButton.addTarget(self, action: #selector(toggleCameraPosition(_:)), for: .touchUpInside)
         recordingTopView.cancelButton.addTarget(self, action: #selector(cancelRecording), for: .touchUpInside)
         recordingTopView.handPoseButton.addTarget(self, action: #selector(changeHandPoseMode(_:)), for: .touchUpInside)
+        recordingTopView.handPoseButton.setTitle("🙅‍♀️", for: .normal)
+        print("Hand Pose Button Title: \(recordingTopView.handPoseButton.title(for: .normal) ?? "nil")")
         recordingTopView.countdownButton.addTarget(self, action: #selector(changeCountdownMode(_:)), for: .touchDown)
         }
     

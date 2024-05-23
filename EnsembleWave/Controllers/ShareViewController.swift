@@ -180,61 +180,7 @@ class ShareViewController: UIViewController {
             }
         }
     }
-//    func saveImageToFirebase(completion: @escaping (URL?) -> Void) {
-//        guard let url = url else {
-//            print("saveVideoToFirebase - 沒有 url")
-//            completion(nil)
-//            return
-//        }
-//        let asset = AVURLAsset(url: url, options: nil)
-//        var imageData: Data?
-//        let dispatchGroup = DispatchGroup()
-//        dispatchGroup.enter()
-//        generateThumbnail(for: asset, at: CMTime(seconds: 0.5, preferredTimescale: 600)) { [weak self] image in
-//            guard let image = image,
-//                  let thumbnailData = image.jpegData(compressionQuality: 0.75) else {
-//                print("Failed to convert UIImage to Data")
-//                return
-//            }
-//            imageData = thumbnailData
-//            print("imageData:\(imageData!)")
-//            dispatchGroup.enter()
-//            let storage = Storage.storage()
-//            let storageRef = storage.reference()
-//            let imageRef = storageRef.child("images/\(UUID().uuidString).png")
-//            
-//            guard let imageData = imageData else {
-//                print("no imageData")
-//                return
-//            }
-//            let uploadTask = imageRef.putData(imageData, metadata: nil) { metadata, error in
-//                if let error = error {
-//                    print("Error uploading image: \(error.localizedDescription)")
-//                } else {
-//                    print("Upload successful, metadata: \(String(describing: metadata))")
-//                }
-//            }
-//            imageRef.downloadURL { url, error in
-//                defer { dispatchGroup.leave() }
-//                guard error == nil else {
-//                    print("downloadURL error:\(error?.localizedDescription ?? "error")")
-//                    completion(nil)
-//                    return
-//                }
-//                guard let url = url else {
-//                    print("saveImageToFirebase - downloadURL 失敗")
-//                    completion(nil)
-//                    return
-//                }
-//                print("saveImageToFirebase - downloadURL:\(url)")
-//                completion(url)
-//            }
-//        }
-//       
-//        dispatchGroup.notify(queue: .main) {
-//            
-//        }
-//    }
+
     func saveImageToFirebase(completion: @escaping (URL?) -> Void) {
         guard let videoUrl = self.url else {
             print("saveVideoToFirebase - 沒有 url")

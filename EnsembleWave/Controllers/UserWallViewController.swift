@@ -49,15 +49,7 @@ class UserWallViewController: UIViewController {
             }
         }
     }
-//    func listenUserInfo() {
-//        guard let user = user else {
-//            print("無法取得 user")
-//            return
-//        }
-//        FirebaseManager.shared.fetchUserDetails(userID: user.uid) { userData in
-//            self.userInfo = userData
-//        }
-//    }
+
     func getUserInfo() {
         guard let userID = userID else {
             print("無法取得 user")

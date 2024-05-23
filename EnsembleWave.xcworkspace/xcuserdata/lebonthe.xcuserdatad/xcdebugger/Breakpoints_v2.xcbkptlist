@@ -1,67 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Bucket
-   uuid = "A9F3838F-CCA6-4360-B337-0303E57C7BAE"
+   uuid = "B772223F-3203-4068-B2A7-A442A0D4110B"
    type = "0"
    version = "2.0">
    <Breakpoints>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-<<<<<<< HEAD
-            uuid = "44E3594C-0661-41E3-AF2A-8F263631F5BB"
-            shouldBeEnabled = "No"
-=======
-            uuid = "C89157CB-9E27-42AC-9DDD-59EAE631D578"
-            shouldBeEnabled = "Yes"
->>>>>>> develop
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "EnsembleWave/Controller/ChooseLengthTableViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-<<<<<<< HEAD
-            startingLineNumber = "581"
-            endingLineNumber = "581"
-            landmarkName = "configurePlayersAndAddObservers()"
-            landmarkType = "7">
-=======
-            startingLineNumber = "150"
-            endingLineNumber = "150"
-            landmarkName = "pickerView(_:didSelectRow:inComponent:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "1F9887B3-14BF-4873-8A43-493E8BDADF85"
+            uuid = "1D61381B-6FC1-49B2-8402-BE7DFCC380F2"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "EnsembleWave/Controller/ChooseLengthTableViewController.swift"
+            filePath = "EnsembleWave/Managers/CameraSessionManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "142"
-            endingLineNumber = "142"
-            landmarkName = "pickerView(_:didSelectRow:inComponent:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "62248681-779D-43C6-97F0-A5D2C0425C7B"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "EnsembleWaveTests/ChooseLengthTableViewControllerTests.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "53"
-            endingLineNumber = "53"
-            landmarkName = "testPickerViewSelectionMoreThan10Minutes()"
-            landmarkType = "7">
->>>>>>> develop
+            startingLineNumber = "27"
+            endingLineNumber = "27"
+            landmarkName = "isFrontCamera"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

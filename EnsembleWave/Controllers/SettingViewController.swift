@@ -48,7 +48,6 @@ class SettingViewController: UIViewController {
             authorizationController.presentationContextProvider = self
             authorizationController.performRequests()
         } catch {
-            // In the unlikely case that nonce generation fails, show error view.
             displayError(error)
         }
     }

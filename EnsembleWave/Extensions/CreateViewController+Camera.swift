@@ -14,27 +14,12 @@ extension CreateViewController {
             print("錄製中，無法切換鏡頭")
             return
         }
-        isFrontCamera.toggle()
-    }
-    func configureSessionWithNewInput(_ newInput: AVCaptureDeviceInput) {
-        captureSession.beginConfiguration()
-        
-        for input in captureSession.inputs {
-            if let deviceInput = input as? AVCaptureDeviceInput, deviceInput.device.hasMediaType(.video) {
-                captureSession.removeInput(deviceInput)
-            }
-        }
-        
-        if captureSession.canAddInput(newInput) {
-            captureSession.addInput(newInput)
+        print("切換鏡頭")
+        if cameraViewModel.isFrontCamera == true {
+            cameraViewModel.isFrontCamera = false
         } else {
-            print("Can't add new video input to the session.")
+            cameraViewModel.isFrontCamera = true
         }
-        
-        captureSession.commitConfiguration()
-        
-        if !captureSession.isRunning {
-            captureSession.startRunning()
-        }
+        print("isFrontCamera? \(cameraViewModel.isFrontCamera)")
     }
 }

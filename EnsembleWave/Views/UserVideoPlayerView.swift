@@ -89,7 +89,7 @@ class UserVideoPlayerView: UIView {
 }
 extension UserVideoPlayerView: PlayerManagerDelegate {
     func playerDidPause() {
-            playPauseButton.setImage(UIImage(systemName: "play"), for: .normal)
+        playPauseButton.setImage(UIImage(systemName: "play"), for: .normal)
         print("playerDidPause")
         }
     

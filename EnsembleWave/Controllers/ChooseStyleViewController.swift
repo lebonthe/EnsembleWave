@@ -44,12 +44,10 @@ class ChooseStyleViewController: UIViewController {
         button01.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             styleView00.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32),
-//            styleView00.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             styleView00.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             styleView00.widthAnchor.constraint(equalToConstant: (screenBounds?.width ?? 198) / 2),
             styleView00.heightAnchor.constraint(equalTo: styleView00.widthAnchor),
             styleView01.topAnchor.constraint(equalTo: styleView00.bottomAnchor, constant: 32),
-//            styleView01.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             styleView01.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             styleView01.widthAnchor.constraint(equalToConstant: (screenBounds?.width ?? 198) / 2),
             styleView01.heightAnchor.constraint(equalTo: styleView01.widthAnchor),
@@ -66,8 +64,7 @@ class ChooseStyleViewController: UIViewController {
             button01.trailingAnchor.constraint(equalTo: styleView01.trailingAnchor),
             button01.bottomAnchor.constraint(equalTo: styleView01.bottomAnchor),
             
-        ])
-        
+        ])        
         
     }
     func setupLayoutUI() {

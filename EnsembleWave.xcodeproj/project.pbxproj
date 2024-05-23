@@ -14,7 +14,6 @@
 		9F007E712BC5107C00C22E5E /* EnsembleWave.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9F007E6F2BC5107C00C22E5E /* EnsembleWave.xcdatamodeld */; };
 		9F007E732BC5107E00C22E5E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9F007E722BC5107E00C22E5E /* Assets.xcassets */; };
 		9F007E762BC5107E00C22E5E /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 9F007E752BC5107E00C22E5E /* Base */; };
-		9F007E812BC5107E00C22E5E /* EnsembleWaveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F007E802BC5107E00C22E5E /* EnsembleWaveTests.swift */; };
 		9F007E9A2BC519D100C22E5E /* ChooseStyleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F007E992BC519D100C22E5E /* ChooseStyleViewController.swift */; };
 		9F007E9F2BC51AAD00C22E5E /* ChooseLengthTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F007E9E2BC51AAD00C22E5E /* ChooseLengthTableViewController.swift */; };
 		9F007EA22BC51BFC00C22E5E /* RecordingStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F007EA12BC51BFC00C22E5E /* RecordingStoryboard.storyboard */; };
@@ -42,9 +41,10 @@
 		9F092AEE2BF62B94001661C9 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F092AE02BF62B93001661C9 /* UIColor+Extension.swift */; };
 		9F092AEF2BF62B94001661C9 /* CreateViewController+VideoTrimDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F092AE12BF62B93001661C9 /* CreateViewController+VideoTrimDelegate.swift */; };
 		9F092B192BFAED62001661C9 /* ChooseLengthTableViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F092B182BFAED62001661C9 /* ChooseLengthTableViewControllerTests.swift */; };
-		9F092B1C2BFAFDAC001661C9 /* EnsembleWaveUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F092B1B2BFAFDAC001661C9 /* EnsembleWaveUITests.swift */; };
+		9F092B242BFEDD40001661C9 /* CameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F092B232BFEDD40001661C9 /* CameraViewModel.swift */; };
+		9F092B262BFEF6A9001661C9 /* CameraSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F092B252BFEF6A9001661C9 /* CameraSessionManager.swift */; };
+		9F092B282BFEF6BD001661C9 /* RecordingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F092B272BFEF6BD001661C9 /* RecordingManager.swift */; };
 		9F26D0662BD746E800C69465 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 9F26D0652BD746E800C69465 /* Lottie */; };
-		9F26D0692BD74E6C00C69465 /* Animation00.json in Resources */ = {isa = PBXBuildFile; fileRef = 9F26D0682BD74E6C00C69465 /* Animation00.json */; };
 		9F3FD9F82BD12C0000A03E22 /* LengthCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3FD9F72BD12C0000A03E22 /* LengthCell.swift */; };
 		9F428EAA2BEB7A9B00F359C9 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9F428EA92BEB7A9B00F359C9 /* FirebaseAnalyticsSwift */; };
 		9F428EAC2BEB7A9B00F359C9 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 9F428EAB2BEB7A9B00F359C9 /* FirebaseCrashlytics */; };
@@ -68,7 +68,6 @@
 		9F6B5D642BCD383A00509F5F /* VideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6B5D632BCD383A00509F5F /* VideoView.swift */; };
 		9F6FDABA2BD8F96900315B13 /* CustomColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6FDAB92BD8F96900315B13 /* CustomColor.swift */; };
 		9F6FDABE2BD90B9D00315B13 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6FDABD2BD90B9C00315B13 /* CustomButton.swift */; };
-		9F77C1C12BE9DB13002706F8 /* Animation01.json in Resources */ = {isa = PBXBuildFile; fileRef = 9F77C1C02BE9DB13002706F8 /* Animation01.json */; };
 		9F77C1C32BE9DDA4002706F8 /* Animation02.json in Resources */ = {isa = PBXBuildFile; fileRef = 9F77C1C22BE9DDA4002706F8 /* Animation02.json */; };
 		9F77C1C72BEA13DE002706F8 /* ReportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F77C1C62BEA13DE002706F8 /* ReportTableViewController.swift */; };
 		9F99AFB22BC79857003671BF /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 9F99AFB12BC79857003671BF /* FirebaseAuth */; };
@@ -80,7 +79,6 @@
 		9FAA99242BE23308004615EE /* CustomAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAA99232BE23308004615EE /* CustomAlertController.swift */; };
 		9FAA99282BE2B8FE004615EE /* ProfileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FAA99272BE2B8FE004615EE /* ProfileView.xib */; };
 		9FAA992A2BE2BE8B004615EE /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAA99292BE2BE8B004615EE /* ProfileView.swift */; };
-		9FAA99302BE3810B004615EE /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAA992F2BE3810B004615EE /* ImageCell.swift */; };
 		9FAA99342BE39228004615EE /* UserVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAA99332BE39228004615EE /* UserVideoCell.swift */; };
 		9FAA99362BE39506004615EE /* UserVideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAA99352BE39506004615EE /* UserVideoPlayerView.swift */; };
 		9FAA99382BE483B5004615EE /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAA99372BE483B5004615EE /* FirebaseManager.swift */; };
@@ -143,7 +141,6 @@
 		9F007E752BC5107E00C22E5E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9F007E772BC5107E00C22E5E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9F007E7C2BC5107E00C22E5E /* EnsembleWaveTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EnsembleWaveTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		9F007E802BC5107E00C22E5E /* EnsembleWaveTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnsembleWaveTests.swift; sourceTree = "<group>"; };
 		9F007E862BC5107E00C22E5E /* EnsembleWaveUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EnsembleWaveUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F007E992BC519D100C22E5E /* ChooseStyleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseStyleViewController.swift; sourceTree = "<group>"; };
 		9F007E9E2BC51AAD00C22E5E /* ChooseLengthTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseLengthTableViewController.swift; sourceTree = "<group>"; };
@@ -172,8 +169,9 @@
 		9F092AE02BF62B93001661C9 /* UIColor+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIColor+Extension.swift"; path = "EnsembleWave/Extensions/UIColor+Extension.swift"; sourceTree = SOURCE_ROOT; };
 		9F092AE12BF62B93001661C9 /* CreateViewController+VideoTrimDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CreateViewController+VideoTrimDelegate.swift"; path = "EnsembleWave/Extensions/CreateViewController+VideoTrimDelegate.swift"; sourceTree = SOURCE_ROOT; };
 		9F092B182BFAED62001661C9 /* ChooseLengthTableViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseLengthTableViewControllerTests.swift; sourceTree = "<group>"; };
-		9F092B1B2BFAFDAC001661C9 /* EnsembleWaveUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnsembleWaveUITests.swift; sourceTree = "<group>"; };
-		9F26D0682BD74E6C00C69465 /* Animation00.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Animation00.json; sourceTree = "<group>"; };
+		9F092B232BFEDD40001661C9 /* CameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CameraViewModel.swift; path = EnsembleWave/Models/CameraViewModel.swift; sourceTree = SOURCE_ROOT; };
+		9F092B252BFEF6A9001661C9 /* CameraSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraSessionManager.swift; sourceTree = "<group>"; };
+		9F092B272BFEF6BD001661C9 /* RecordingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingManager.swift; sourceTree = "<group>"; };
 		9F3FD9F72BD12C0000A03E22 /* LengthCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LengthCell.swift; sourceTree = "<group>"; };
 		9F4462B52BD39FBB00462C44 /* AVCaptureVideoDataOutputSampleBufferDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVCaptureVideoDataOutputSampleBufferDelegate.swift; sourceTree = "<group>"; };
 		9F4462B72BD4434200462C44 /* ReplyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyViewController.swift; sourceTree = "<group>"; };
@@ -195,7 +193,6 @@
 		9F6B5D632BCD383A00509F5F /* VideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoView.swift; sourceTree = "<group>"; };
 		9F6FDAB92BD8F96900315B13 /* CustomColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColor.swift; sourceTree = "<group>"; };
 		9F6FDABD2BD90B9C00315B13 /* CustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
-		9F77C1C02BE9DB13002706F8 /* Animation01.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Animation01.json; sourceTree = "<group>"; };
 		9F77C1C22BE9DDA4002706F8 /* Animation02.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Animation02.json; sourceTree = "<group>"; };
 		9F77C1C62BEA13DE002706F8 /* ReportTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTableViewController.swift; sourceTree = "<group>"; };
 		9F9FDA472BF1C31300AA3160 /* TitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleCell.swift; sourceTree = "<group>"; };
@@ -203,7 +200,6 @@
 		9FAA99232BE23308004615EE /* CustomAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertController.swift; sourceTree = "<group>"; };
 		9FAA99272BE2B8FE004615EE /* ProfileView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileView.xib; sourceTree = "<group>"; };
 		9FAA99292BE2BE8B004615EE /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
-		9FAA992F2BE3810B004615EE /* ImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
 		9FAA99332BE39228004615EE /* UserVideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserVideoCell.swift; sourceTree = "<group>"; };
 		9FAA99352BE39506004615EE /* UserVideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserVideoPlayerView.swift; sourceTree = "<group>"; };
 		9FAA99372BE483B5004615EE /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
@@ -282,7 +278,6 @@
 			children = (
 				9F007E652BC5107C00C22E5E /* EnsembleWave */,
 				9F007E7F2BC5107E00C22E5E /* EnsembleWaveTests */,
-				9F092B1A2BFAFD92001661C9 /* EnsembleWaveUITests */,
 				9F007E642BC5107C00C22E5E /* Products */,
 				B0EBC735E7BBF093FF054D28 /* Pods */,
 				07EEF3A6AAD2C4B849B882B5 /* Frameworks */,
@@ -315,8 +310,6 @@
 				9F007E722BC5107E00C22E5E /* Assets.xcassets */,
 				9F092AC72BF613D4001661C9 /* Fonts */,
 				9F007E742BC5107E00C22E5E /* LaunchScreen.storyboard */,
-				9F26D0682BD74E6C00C69465 /* Animation00.json */,
-				9F77C1C02BE9DB13002706F8 /* Animation01.json */,
 				9F77C1C22BE9DDA4002706F8 /* Animation02.json */,
 				9F007E772BC5107E00C22E5E /* Info.plist */,
 				9FAD4F532BE7956F00142EBE /* GoogleService-Info.plist */,
@@ -329,18 +322,8 @@
 			isa = PBXGroup;
 			children = (
 				9F092B182BFAED62001661C9 /* ChooseLengthTableViewControllerTests.swift */,
-				9F007E802BC5107E00C22E5E /* EnsembleWaveTests.swift */,
 			);
 			path = EnsembleWaveTests;
-			sourceTree = "<group>";
-		};
-		9F007E892BC5107E00C22E5E /* EnsembleWaveUITests */ = {
-			isa = PBXGroup;
-			children = (
-				9F007E8A2BC5107E00C22E5E /* EnsembleWaveUITests.swift */,
-				9F007E8C2BC5107E00C22E5E /* EnsembleWaveUITestsLaunchTests.swift */,
-			);
-			path = EnsembleWaveUITests;
 			sourceTree = "<group>";
 		};
 		9F007E9B2BC51A6200C22E5E /* Controllers */ = {
@@ -368,7 +351,6 @@
 				9FAD76FE2BDB9EAA00BF7163 /* LoginViewController.swift */,
 				9FAD77062BDC08D500BF7163 /* ProfileViewController.swift */,
 				9FC29A912BE0F540009E776C /* SettingViewController.swift */,
-				9FAA992F2BE3810B004615EE /* ImageCell.swift */,
 				9FAA99332BE39228004615EE /* UserVideoCell.swift */,
 				9FAA993D2BE4C095004615EE /* ProfileEditingViewViewController.swift */,
 				9FAD4F512BE7863800142EBE /* UserWallViewController.swift */,
@@ -405,8 +387,6 @@
 				9F4463272BD6653B00462C44 /* MusicType.swift */,
 				9F6FDAB92BD8F96900315B13 /* CustomColor.swift */,
 				9FAD77002BDB9ED500BF7163 /* KeychainItem.swift */,
-				9F092ACA2BF6177C001661C9 /* CustomFunc.swift */,
-				9FAA99232BE23308004615EE /* CustomAlertController.swift */,
 				9F092AC82BF6176D001661C9 /* CryptoUtils.swift */,
 				9FAA993F2BE4EB21004615EE /* Section.swift */,
 				9F092AC12BF5F971001661C9 /* RecordingSettings.swift */,
@@ -433,6 +413,7 @@
 		9F092AD02BF62984001661C9 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				9F092B232BFEDD40001661C9 /* CameraViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -440,26 +421,22 @@
 		9F092AD12BF629B9001661C9 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				9FAA99232BE23308004615EE /* CustomAlertController.swift */,
+				9F092ACA2BF6177C001661C9 /* CustomFunc.swift */,
 				9F092AD22BF629C9001661C9 /* TimeFormatter.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
 		};
-		9F092B1A2BFAFD92001661C9 /* EnsembleWaveUITests */ = {
-			isa = PBXGroup;
-			children = (
-				9F092B1B2BFAFDAC001661C9 /* EnsembleWaveUITests.swift */,
-			);
-			path = EnsembleWaveUITests;
-			sourceTree = "<group>";
-		};
-		9F4462BB2BD5260400462C44 /* Manager */ = {
+		9F4462BB2BD5260400462C44 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
 				9FAA99372BE483B5004615EE /* FirebaseManager.swift */,
 				9FAD4F552BE7CC7700142EBE /* PlayManager.swift */,
 				9F077B3B2BEE3EEC00153125 /* AnimationManager.swift */,
 				9F092AC52BF60A12001661C9 /* CreateVideoManager.swift */,
+				9F092B252BFEF6A9001661C9 /* CameraSessionManager.swift */,
+				9F092B272BFEF6BD001661C9 /* RecordingManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -624,10 +601,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				9FAD4F7D2BE88AFA00142EBE /* NotoSansTC-Light.ttf in Resources */,
-				9F26D0692BD74E6C00C69465 /* Animation00.json in Resources */,
 				9F007E732BC5107E00C22E5E /* Assets.xcassets in Resources */,
 				9FAD4F542BE7956F00142EBE /* GoogleService-Info.plist in Resources */,
-				9F77C1C12BE9DB13002706F8 /* Animation01.json in Resources */,
 				9FAD4F7E2BE88AFA00142EBE /* NotoSansTC-Black.ttf in Resources */,
 				9FAD4F812BE88AFA00142EBE /* NotoSansTC-Thin.ttf in Resources */,
 				9F77C1C32BE9DDA4002706F8 /* Animation02.json in Resources */,
@@ -806,11 +781,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				9F007E9A2BC519D100C22E5E /* ChooseStyleViewController.swift in Sources */,
+				9F092B282BFEF6BD001661C9 /* RecordingManager.swift in Sources */,
 				9F4463282BD6653B00462C44 /* MusicType.swift in Sources */,
 				9F092AED2BF62B94001661C9 /* UIViewController+attributedTextForm.swift in Sources */,
 				9F077B3C2BEE3EEC00153125 /* AnimationManager.swift in Sources */,
 				9F092AC92BF6176D001661C9 /* CryptoUtils.swift in Sources */,
 				9F5A51C52BD018C900070186 /* VideoCell.swift in Sources */,
+				9F092B262BFEF6A9001661C9 /* CameraSessionManager.swift in Sources */,
 				9F007E672BC5107C00C22E5E /* AppDelegate.swift in Sources */,
 				9F092AC62BF60A12001661C9 /* CreateVideoManager.swift in Sources */,
 				9F092AE22BF62B94001661C9 /* MPVolumeView+Extension.swift in Sources */,
@@ -849,7 +826,6 @@
 				9FAA99362BE39506004615EE /* UserVideoPlayerView.swift in Sources */,
 				9F5A51CD2BD01B7600070186 /* TagsCell.swift in Sources */,
 				9FAD77052BDBB23700BF7163 /* TabBarController.swift in Sources */,
-				9FAA99302BE3810B004615EE /* ImageCell.swift in Sources */,
 				9FAA993E2BE4C095004615EE /* ProfileEditingViewViewController.swift in Sources */,
 				9F092AEE2BF62B94001661C9 /* UIColor+Extension.swift in Sources */,
 				9FD319EB2BF0A1280068E08E /* BaseViewController.swift in Sources */,
@@ -857,6 +833,7 @@
 				9FAD76FF2BDB9EAA00BF7163 /* LoginViewController.swift in Sources */,
 				9F5A51C12BCFC2C300070186 /* PostToWallViewController.swift in Sources */,
 				9F6B5D642BCD383A00509F5F /* VideoView.swift in Sources */,
+				9F092B242BFEDD40001661C9 /* CameraViewModel.swift in Sources */,
 				9F092AEC2BF62B94001661C9 /* CreateViewController+Recording.swift in Sources */,
 				9F9FDA4A2BF1E88400AA3160 /* TrimView.swift in Sources */,
 				9FAD77012BDB9ED500BF7163 /* KeychainItem.swift in Sources */,
@@ -881,7 +858,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9F092B192BFAED62001661C9 /* ChooseLengthTableViewControllerTests.swift in Sources */,
-				9F007E812BC5107E00C22E5E /* EnsembleWaveTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -889,7 +865,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9F092B1C2BFAFDAC001661C9 /* EnsembleWaveUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

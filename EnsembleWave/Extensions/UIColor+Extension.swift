@@ -7,7 +7,6 @@
 
 import UIKit
 extension UIColor {
-    // Initializes a new UIColor instance from a hex string
     convenience init?(hex: String) {
         var hexString = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
         if hexString.hasPrefix("#") {
@@ -40,7 +39,6 @@ extension UIColor {
         self.init(red: CGFloat(red) / 255, green: CGFloat(green) / 255, blue: CGFloat(blue) / 255, alpha: CGFloat(alpha) / 255)
     }
 
-    // Returns a hex string representation of the UIColor instance
     func toHexString(includeAlpha: Bool = false) -> String? {
         guard let components = self.cgColor.components else {
             return nil

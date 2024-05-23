@@ -36,10 +36,6 @@ struct KeychainItem {
     // MARK: Keychain access
     
     func readItem() throws -> String {
-        /*
-         Build a query to find the item that matches the service, account and
-         access group.
-         */
         var query = KeychainItem.keychainQuery(withService: service, account: account, accessGroup: accessGroup)
         query[kSecMatchLimit as String] = kSecMatchLimitOne
         query[kSecReturnAttributes as String] = kCFBooleanTrue

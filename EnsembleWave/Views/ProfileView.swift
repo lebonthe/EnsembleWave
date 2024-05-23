@@ -21,21 +21,16 @@ class ProfileView: UIView {
     var userID: String?
     override init(frame: CGRect) {
         super.init(frame: frame)
-//        commonInit()
+
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-//        commonInit()
+
     }
     override func awakeFromNib() {
         super.awakeFromNib()
-//        updateUserPosts()
-//        configureImageView()
-//        collectionView.collectionViewLayout = configureCollectionViewLayout()
-//        collectionView.register(UserVideoCell.self, forCellWithReuseIdentifier: "UserVideoCell")
-//        configureDataSource()
-//        collectionView.backgroundColor = CustomColor.black
+        
     }
     func configureWithUserID(userID: String) {
           self.userID = userID
@@ -65,19 +60,10 @@ class ProfileView: UIView {
             }
         }
     }
-    private func commonInit() {
-//        if let view = Bundle.main.loadNibNamed("ProfileView", owner: self, options: nil)?.first as? UIView {
-//            view.frame = self.bounds
-//            addSubview(view)
-//            
-//        }
-    }
     func configure(with userInfo: User) {
         if userInfo.name == "" {
-//            userNameLabel.text = "Change name in settings."
             userNameLabel.attributedText = attributedTextForm(content: "Change name in settings.", size: 18, kern: 0, color: .white)
         } else {
-//            userNameLabel.text = userInfo.name
             userNameLabel.attributedText = attributedTextForm(content: userInfo.name, size: 18, kern: 0, color: .white)
         }
         print("userInfo.name:\(userInfo.name)")

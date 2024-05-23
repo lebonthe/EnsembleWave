@@ -10,14 +10,6 @@ import Firebase
 class FirebaseManager {
     static let shared = FirebaseManager()
     private let db = Firestore.firestore()
-//    var posts = [Post]() {
-//        didSet {
-//            onPostsUpdated?(posts)
-//        }
-//    }
-//    var onPostsUpdated: (([Post]) -> Void)?
-//    private var postLikesStatus = [String: Bool]()
-//    private var postReplies = [String: Int]()
     
     private init() {}
 

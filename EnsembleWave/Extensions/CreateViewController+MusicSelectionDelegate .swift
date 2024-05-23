@@ -14,7 +14,6 @@ extension CreateViewController: MusicSelectionDelegate {
         stopCountdownTimer()
         disableGestureRecognition()
         let controller = MusicViewController()
-        //        controller.modalPresentationStyle = .fullScreen
         controller.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         controller.modalPresentationStyle = .overCurrentContext
         controller.delegate = self

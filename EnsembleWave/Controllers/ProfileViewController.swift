@@ -85,19 +85,11 @@ class ProfileViewController: UIViewController {
                 }
             }
             getUserInfo()
-//                       let profileView = ProfileView()
-//                       profileView.frame = view.bounds
-//                       view.addSubview(profileView)
-//                       profileView.userNameLabel.text = "Min"  // TODO: 回來改使用者名稱 user name
-//                       profileView.likesCountLabel.text = "8" // TODO: 回來改
-//                       profileView.ensembleCountLabel.text = "5" // TODO: 回來改
-//                       profileView.userImageView.image = UIImage(named: "snoopy")
         }
     }
     @objc func presentLoginViewController() {
         let loginViewController = LoginViewController()
         loginViewController.delegate = self
-//        loginViewController.modalPresentationStyle = .fullScreen
         present(loginViewController, animated: true)
     }
     func updateProfileView(with userInfo: User) {
@@ -108,15 +100,7 @@ class ProfileViewController: UIViewController {
             }
         }
     }
-//    func listenUserInfo() {
-//        guard let user = user else {
-//            print("無法取得 user")
-//            return
-//        }
-//        FirebaseManager.shared.fetchUserDetails(userID: user.uid) { userData in
-//            self.userInfo = userData
-//        }
-//    }
+
     func getUserInfo() {
         guard let user = user else {
             print("無法取得 user")

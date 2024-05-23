@@ -10,133 +10,133 @@ import AVFoundation
 import MediaPlayer
 extension CreateViewController: AVCaptureFileOutputRecordingDelegate {
     func configure(for style: Int) {
-        do {
-            let audioSession = AVAudioSession.sharedInstance()
-            try audioSession.setCategory(.playAndRecord, mode: .default, options: [.mixWithOthers, .allowBluetooth, .defaultToSpeaker])
-            try audioSession.setActive(true)
-            print("Audio session is set to allow mixing with other apps.")
-        } catch {
-            print("Failed to set audio session category: \(error)")
-        }
-        if captureSession.isRunning {
-            captureSession.stopRunning()
-        }
-        if style == 1 && players.count > 2 {
-            players = Array(players.prefix(2))
-        }
-        
-        for index in 0...style {
-            if index == 1 && ensembleVideoURL != nil {
-                guard let url = URL(string: ensembleVideoURL!) else {
-                    print("no ensembleVideoURL")
-                    return
-                }
-                print("ensembleVideoURL:\(url)")
-                let player = AVPlayer(url: url)
-                if players.count <= index {
-                    players.append(player)
-                } else {
-                    players[index] = player
-                }
-                if let currentItem = player.currentItem {
-                    setupObserversForPlayerItem(currentItem, with: player)
-                }
-                let playerLayer = AVPlayerLayer(player: player)
-                playerLayer.frame = videoViews[index].bounds
-                playerLayer.videoGravity = .resizeAspectFill
-                videoViews[index].layer.addSublayer(playerLayer)
-                if playerLayers.count <= index {
-                    playerLayers.append(playerLayer)
-                } else {
-                    playerLayers[index] = playerLayer
-                }
-                //                let playerItem = AVPlayerItem(url: URL(string: url)!)
-                //                players[index].replaceCurrentItem(with: playerItem)
-                player.play()
-            } else if index < players.count {
-                if let videoURL = getVideoURL(for: index) {
-                    let playerItem = AVPlayerItem(url: videoURL)
-                    players[index].replaceCurrentItem(with: playerItem)
-                    setupObserversForPlayerItem(playerItem, with: players[index])
-                    print("In configure, players[\(players[index])] playerItem:\(playerItem)")
-                }
-            } else {
-                let player = AVPlayer()
-                players.append(player)
-                if let currentItem = player.currentItem {
-                    setupObserversForPlayerItem(currentItem, with: player)
-                }
-                let playerLayer = AVPlayerLayer(player: player)
-                playerLayer.frame = videoViews[index].bounds
-                playerLayer.videoGravity = .resizeAspectFill
-                videoViews[index].layer.addSublayer(playerLayer)
-                playerLayers.append(playerLayer)
-            }
-            print("playerLayer count:\(playerLayers.count)")
-        }
-        
-        captureSession.sessionPreset = AVCaptureSession.Preset.hd1280x720
-        guard let frontDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front),
-              let backDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) else {
-            print("Failed to get the camera device")
-            return
-        }
-        
-        devices.append(frontDevice)
-        devices.append(backDevice)
-        currentDevice = devices[0]
-        guard let captureDeviceInput = try? AVCaptureDeviceInput(device: currentDevice) else {
-            print("Failed to set the camera input")
-            return
-        }
-        
-        for input in captureSession.inputs {
-            captureSession.removeInput(input)
-        }
-        if captureSession.canAddInput(captureDeviceInput) {
-            captureSession.addInput(captureDeviceInput)
-        }
-        
-        guard let audioDevice = AVCaptureDevice.default(for: .audio) else {
-            print("Failed to get the audio device")
-            return
-        }
-        
-        guard let audioInput = try? AVCaptureDeviceInput(device: audioDevice) else {
-            print("Failed to create audio input")
-            return
-        }
-        
-        if captureSession.canAddInput(audioInput) {
-            captureSession.addInput(audioInput)
-        }
-        
-        if videoFileOutput == nil {
-            videoFileOutput = AVCaptureMovieFileOutput()
-            if captureSession.canAddOutput(videoFileOutput) {
-                captureSession.addOutput(videoFileOutput)
-            }
-        }
-        cameraPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-        if style == 0 {
-            postProductionView.isHidden = true
-            if let cameraPreviewLayer = cameraPreviewLayer {
-                containerView.layer.addSublayer(cameraPreviewLayer)
-                cameraPreviewLayer.frame = containerView.layer.bounds
-            } else {
-                print("no cameraPreviewLayer")
-            }
-        } else if style == 1 {
-            // 在 chooseView() 畫 cameraPreviewLayer
-            postProductionView.isHidden = false
-        }
-        containerView.clipsToBounds = true
-        cameraPreviewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
-        
-        DispatchQueue.global(qos: .background).async {
-            self.captureSession.startRunning()
-        }
-    }
+           do {
+               let audioSession = AVAudioSession.sharedInstance()
+               try audioSession.setCategory(.playAndRecord, mode: .default, options: [.mixWithOthers, .allowBluetooth, .defaultToSpeaker])
+               try audioSession.setActive(true)
+               print("Audio session is set to allow mixing with other apps.")
+           } catch {
+               print("Failed to set audio session category: \(error)")
+           }
+           
+           if cameraViewModel.captureSession.isRunning {
+               cameraViewModel.captureSession.stopRunning()
+           }
+           if style == 1 && players.count > 2 {
+               players = Array(players.prefix(2))
+           }
+           
+           for index in 0...style {
+               if index == 1 && ensembleVideoURL != nil {
+                   guard let url = URL(string: ensembleVideoURL!) else {
+                       print("no ensembleVideoURL")
+                       return
+                   }
+                   print("ensembleVideoURL:\(url)")
+                   let player = AVPlayer(url: url)
+                   if players.count <= index {
+                       players.append(player)
+                   } else {
+                       players[index] = player
+                   }
+                   if let currentItem = player.currentItem {
+                       setupObserversForPlayerItem(currentItem, with: player)
+                   }
+                   let playerLayer = AVPlayerLayer(player: player)
+                   playerLayer.frame = videoViews[index].bounds
+                   playerLayer.videoGravity = .resizeAspectFill
+                   videoViews[index].layer.addSublayer(playerLayer)
+                   if playerLayers.count <= index {
+                       playerLayers.append(playerLayer)
+                   } else {
+                       playerLayers[index] = playerLayer
+                   }
+                   player.play()
+               } else if index < players.count {
+                   if let videoURL = getVideoURL(for: index) {
+                       let playerItem = AVPlayerItem(url: videoURL)
+                       players[index].replaceCurrentItem(with: playerItem)
+                       setupObserversForPlayerItem(playerItem, with: players[index])
+                       print("In configure, players[\(players[index])] playerItem:\(playerItem)")
+                   }
+               } else {
+                   let player = AVPlayer()
+                   players.append(player)
+                   if let currentItem = player.currentItem {
+                       setupObserversForPlayerItem(currentItem, with: player)
+                   }
+                   let playerLayer = AVPlayerLayer(player: player)
+                   playerLayer.frame = videoViews[index].bounds
+                   playerLayer.videoGravity = .resizeAspectFill
+                   videoViews[index].layer.addSublayer(playerLayer)
+                   playerLayers.append(playerLayer)
+               }
+               print("playerLayer count:\(playerLayers.count)")
+           }
+           
+           cameraViewModel.captureSession.sessionPreset = AVCaptureSession.Preset.hd1280x720
+           guard let frontDevice = cameraViewModel.devices.first,
+                 let backDevice = cameraViewModel.devices.last else {
+               print("Failed to get the camera device")
+               return
+           }
+           
+           cameraViewModel.devices = [frontDevice, backDevice]
+           cameraViewModel.currentDevice = cameraViewModel.devices[0]
+           guard let captureDeviceInput = try? AVCaptureDeviceInput(device: cameraViewModel.currentDevice!) else {
+               print("Failed to set the camera input")
+               return
+           }
+           
+           for input in cameraViewModel.captureSession.inputs {
+               cameraViewModel.captureSession.removeInput(input)
+           }
+           if cameraViewModel.captureSession.canAddInput(captureDeviceInput) {
+               cameraViewModel.captureSession.addInput(captureDeviceInput)
+           }
+           
+           guard let audioDevice = AVCaptureDevice.default(for: .audio) else {
+               print("Failed to get the audio device")
+               return
+           }
+           
+           guard let audioInput = try? AVCaptureDeviceInput(device: audioDevice) else {
+               print("Failed to create audio input")
+               return
+           }
+           
+           if cameraViewModel.captureSession.canAddInput(audioInput) {
+               cameraViewModel.captureSession.addInput(audioInput)
+           }
+           
+           if videoFileOutput == nil {
+               videoFileOutput = AVCaptureMovieFileOutput()
+               if cameraViewModel.captureSession.canAddOutput(videoFileOutput) {
+                   cameraViewModel.captureSession.addOutput(videoFileOutput)
+               }
+           }
+           cameraPreviewLayer = AVCaptureVideoPreviewLayer(session: cameraViewModel.captureSession)
+           if style == 0 {
+               postProductionView.isHidden = true
+               if let cameraPreviewLayer = cameraPreviewLayer {
+                   containerView.layer.addSublayer(cameraPreviewLayer)
+                   cameraPreviewLayer.frame = containerView.layer.bounds
+               } else {
+                   print("no cameraPreviewLayer")
+               }
+           } else if style == 1 {
+               postProductionView.isHidden = false
+           }
+           containerView.clipsToBounds = true
+           cameraPreviewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
+           
+           DispatchQueue.global(qos: .background).async {
+               self.cameraViewModel.captureSession.startRunning()
+               if !self.cameraViewModel.captureSession.isRunning {
+                   self.cameraViewModel.captureSession.startRunning()
+               }
+           }
+       }
 
     func startRecording() {
         recSettings.isRecording = true
@@ -193,8 +193,8 @@ extension CreateViewController: AVCaptureFileOutputRecordingDelegate {
             print(error ?? "")
             return
         }
-        if captureSession.isRunning {
-            captureSession.stopRunning()
+        if cameraViewModel.captureSession.isRunning {
+            cameraViewModel.captureSession.stopRunning()
         }
         playerVolume = previousVolume
         musicPlayer?.pause()
@@ -360,4 +360,3 @@ extension CreateViewController: AVCaptureFileOutputRecordingDelegate {
         audioPlayer?.pause()
     }
 }
-

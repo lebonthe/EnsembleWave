@@ -43,14 +43,12 @@ class ProfileEditingViewViewController: UIViewController {
         }
         let choosePhotoButton = UIButton()
         choosePhotoButton.translatesAutoresizingMaskIntoConstraints = false
-//        choosePhotoButton.setTitle("從相簿選擇", for: .normal)
         choosePhotoButton.setAttributedTitle(attributedTextForm(content: "Select from album", size: 18, kern: 0, color: UIColor.white), for: .normal)
         choosePhotoButton.addTarget(self, action: #selector(selectPhoto), for: .touchUpInside)
         choosePhotoButton.setTitleColor(.white, for: .normal)
         view.addSubview(choosePhotoButton)
         let takePhotoButton = UIButton()
         takePhotoButton.translatesAutoresizingMaskIntoConstraints = false
-//        takePhotoButton.setTitle("拍照", for: .normal)
         takePhotoButton.setAttributedTitle(attributedTextForm(content: "Take a photo", size: 18, kern: 0, color: UIColor.white), for: .normal)
         takePhotoButton.addTarget(self, action: #selector(takePhoto), for: .touchUpInside)
         takePhotoButton.setTitleColor(.white, for: .normal)

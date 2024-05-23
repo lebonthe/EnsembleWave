@@ -13,7 +13,6 @@ class RecordingHomePageViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-//        checkFonts()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -26,14 +25,4 @@ class RecordingHomePageViewController: BaseViewController {
         newRecordButton.tintColor = CustomColor.red
         newRecordButton.setAttributedTitle(attributedTextForm(content: "New Record", size: 18, kern: 0, color: UIColor.white), for: .normal)
     }
-//    func checkFonts() {
-//        
-//        for family in UIFont.familyNames {
-//            print("\(family)")
-//            for name in UIFont.fontNames(forFamilyName: family) {
-//                print("== \(name)")
-//            }
-//        }
-//
-//    }
 }
