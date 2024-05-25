@@ -84,8 +84,8 @@
 		9FAA99382BE483B5004615EE /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAA99372BE483B5004615EE /* FirebaseManager.swift */; };
 		9FAA993E2BE4C095004615EE /* ProfileEditingViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAA993D2BE4C095004615EE /* ProfileEditingViewViewController.swift */; };
 		9FAA99402BE4EB21004615EE /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAA993F2BE4EB21004615EE /* Section.swift */; };
+		9FAB45A32C024BB4007DDE05 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9FAB45A22C024BB4007DDE05 /* GoogleService-Info.plist */; };
 		9FAD4F522BE7863800142EBE /* UserWallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD4F512BE7863800142EBE /* UserWallViewController.swift */; };
-		9FAD4F542BE7956F00142EBE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9FAD4F532BE7956F00142EBE /* GoogleService-Info.plist */; };
 		9FAD4F562BE7CC7700142EBE /* PlayManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAD4F552BE7CC7700142EBE /* PlayManager.swift */; };
 		9FAD4F7A2BE88AFA00142EBE /* NotoSansTC-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAD4F712BE88AF900142EBE /* NotoSansTC-ExtraBold.ttf */; };
 		9FAD4F7B2BE88AFA00142EBE /* NotoSansTC-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAD4F722BE88AF900142EBE /* NotoSansTC-Bold.ttf */; };
@@ -205,8 +205,8 @@
 		9FAA99372BE483B5004615EE /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		9FAA993D2BE4C095004615EE /* ProfileEditingViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditingViewViewController.swift; sourceTree = "<group>"; };
 		9FAA993F2BE4EB21004615EE /* Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
+		9FAB45A22C024BB4007DDE05 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9FAD4F512BE7863800142EBE /* UserWallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserWallViewController.swift; sourceTree = "<group>"; };
-		9FAD4F532BE7956F00142EBE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9FAD4F552BE7CC7700142EBE /* PlayManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayManager.swift; sourceTree = "<group>"; };
 		9FAD4F712BE88AF900142EBE /* NotoSansTC-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansTC-ExtraBold.ttf"; sourceTree = "<group>"; };
 		9FAD4F722BE88AF900142EBE /* NotoSansTC-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansTC-Bold.ttf"; sourceTree = "<group>"; };
@@ -312,7 +312,7 @@
 				9F007E742BC5107E00C22E5E /* LaunchScreen.storyboard */,
 				9F77C1C22BE9DDA4002706F8 /* Animation02.json */,
 				9F007E772BC5107E00C22E5E /* Info.plist */,
-				9FAD4F532BE7956F00142EBE /* GoogleService-Info.plist */,
+				9FAB45A22C024BB4007DDE05 /* GoogleService-Info.plist */,
 				9F007E6F2BC5107C00C22E5E /* EnsembleWave.xcdatamodeld */,
 			);
 			path = EnsembleWave;
@@ -602,7 +602,6 @@
 			files = (
 				9FAD4F7D2BE88AFA00142EBE /* NotoSansTC-Light.ttf in Resources */,
 				9F007E732BC5107E00C22E5E /* Assets.xcassets in Resources */,
-				9FAD4F542BE7956F00142EBE /* GoogleService-Info.plist in Resources */,
 				9FAD4F7E2BE88AFA00142EBE /* NotoSansTC-Black.ttf in Resources */,
 				9FAD4F812BE88AFA00142EBE /* NotoSansTC-Thin.ttf in Resources */,
 				9F77C1C32BE9DDA4002706F8 /* Animation02.json in Resources */,
@@ -612,6 +611,7 @@
 				9FAD4F822BE88AFA00142EBE /* NotoSansTC-SemiBold.ttf in Resources */,
 				9F99AFB82BC7B160003671BF /* (null) in Resources */,
 				9F5A51C02BCFC2C300070186 /* PostToWallViewController.xib in Resources */,
+				9FAB45A32C024BB4007DDE05 /* GoogleService-Info.plist in Resources */,
 				9FAD4F7A2BE88AFA00142EBE /* NotoSansTC-ExtraBold.ttf in Resources */,
 				9FAA99282BE2B8FE004615EE /* ProfileView.xib in Resources */,
 				9F007E6E2BC5107C00C22E5E /* Base in Resources */,
